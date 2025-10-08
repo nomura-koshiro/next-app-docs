@@ -1,175 +1,211 @@
-# CAMP プロジェクトドキュメント
+# アプリ 開発者ドキュメント
 
-このドキュメントは、CAMP（キャンプ管理システム）プロジェクトの開発者向けガイドです。
+本プロジェクトの開発者向けドキュメントです。bulletproof-reactアーキテクチャに基づいて設計されています。
 
 ## 📚 ドキュメント構成
 
-### 🚀 1. はじめに
+### 01. Getting Started
 
-プロジェクトを始める方はこちらから！
+プロジェクトを始めるための基本情報
 
-- **[環境構築ガイド](./01-getting-started/01-setup.md)**
-  開発環境のセットアップ手順（Windows対応）
+- [01. セットアップガイド](./01-getting-started/01-setup.md) - 開発環境の構築手順
+- [02. クイックスタート](./01-getting-started/02-quick-start.md) - 最速で起動するガイド
 
-- **[クイックスタート](./01-getting-started/02-quick-start.md)**
-  5分で始めるCAMPプロジェクト
+### 02. Architecture
 
----
+プロジェクトのアーキテクチャと設計原則
 
-### 📚 2. 基本概念
+- [01. プロジェクト構造](./02-architecture/01-project-structure.md) - ディレクトリ構成とbulletproof-react原則
+- [02. bulletproof-react適用指針](./02-architecture/02-bulletproof-react.md) - アーキテクチャの実践ガイド
 
-プロジェクトの全体像を理解する
+### 03. Core Concepts
 
-- **[プロジェクト構成](./02-core-concepts/01-project-structure.md)**
-  ディレクトリ構造とアーキテクチャの詳細
+技術スタックと主要概念
 
-- **[使用ライブラリ一覧](./02-core-concepts/02-libraries.md)**
-  採用している技術スタックの解説
+- [01. 技術スタック](./03-core-concepts/01-tech-stack.md) - 使用技術とライブラリ
+- [02. 状態管理](./03-core-concepts/02-state-management.md) - Zustand + TanStack Query
+- [03. API統合](./03-core-concepts/03-api-integration.md) - Axios + TanStack Query
+- [04. ルーティング](./03-core-concepts/04-routing.md) - Next.js App Router
+- [05. スタイリング](./03-core-concepts/05-styling.md) - Tailwind CSS v4 + CVA
 
-- **[設定管理](./02-core-concepts/03-config.md)**
-  環境変数と定数の管理方法
+### 04. Implementation
 
----
+実装ガイドとベストプラクティス
 
-### 📝 3. 実装ガイド
+- [01. コンポーネント設計](./04-implementation/01-component-design.md) - コンポーネント設計原則
+- [02. フォーム・バリデーション](./04-implementation/02-forms-validation.md) - React Hook Form + Zod
 
-日々の開発作業で参照するガイド
+### 05. Development
 
-- **[状態管理戦略](./03-guides/01-state-management.md)**
-  useState / Zustand / TanStack Query の使い分け
+開発プロセスとツール
 
-- **[REST API通信](./03-guides/02-api-client.md)**
-  Axios + TanStack Query によるデータ取得
+- [01. コーディング規約](./05-development/01-coding-standards.md) - ESLint + Prettier設定
+- [02. Storybook](./05-development/02-storybook.md) - UIコンポーネント開発
+- [03. MSW](./05-development/03-msw.md) - Mock Service Worker
+- [04. テスト](./05-development/04-testing.md) - Vitest + Playwright
 
-- **[フォーム実装](./03-guides/03-forms.md)**
-  React Hook Form + Zod によるバリデーション
+### 06. Reference
 
-- **[コンポーネント設計原則](./03-guides/04-component-design.md)**
-  Presentational/Container パターンの実践
+参考資料とリンク集
 
-- **[スタイリングガイド](./03-guides/05-styling.md)**
-  MUI + Tailwind CSS の使い方
-
----
-
-### ✨ 4. ベストプラクティス
-
-コード品質を高めるための指針
-
-- **[コード品質管理](./04-best-practices/01-code-quality.md)**
-  ESLint + Prettier の設定と使用方法
+- [01. リソース](./06-reference/01-resources.md) - 外部リンク・学習リソース
 
 ---
 
-### 📖 5. リファレンス
+## 🚀 クイックスタート
 
-困ったときに参照する情報
-
-- **[トラブルシューティング](./07-reference/01-troubleshooting.md)**
-  よくあるエラーと解決方法
-
----
-
-## 🎯 レベル別おすすめ読み順
-
-### 🔰 初心者向け
-
-1. **[環境構築ガイド](./01-getting-started/01-setup.md)** - 開発環境を準備
-2. **[クイックスタート](./01-getting-started/02-quick-start.md)** - 実際に動かしてみる
-3. **[プロジェクト構成](./02-core-concepts/01-project-structure.md)** - ディレクトリ構造を理解
-4. **[使用ライブラリ一覧](./02-core-concepts/02-libraries.md)** - 使っている技術を把握
-5. **[トラブルシューティング](./07-reference/01-troubleshooting.md)** - エラーが出たら参照
-
-### 💪 中級者向け
-
-1. **[状態管理戦略](./03-guides/01-state-management.md)** - 状態管理の使い分けを理解
-2. **[コンポーネント設計原則](./03-guides/04-component-design.md)** - 良いコンポーネントの書き方
-3. **[REST API通信](./03-guides/02-api-client.md)** - API通信の実装パターン
-4. **[フォーム実装](./03-guides/03-forms.md)** - フォームのベストプラクティス
-5. **[コード品質管理](./04-best-practices/01-code-quality.md)** - ESLint/Prettierの設定
-
-### 🚀 上級者向け
-
-すべてのドキュメントを読んで、プロジェクトのアーキテクチャを深く理解しましょう。
-
----
-
-## 🔍 キーワード検索
-
-### 技術スタックで探す
-
-| 技術 | ドキュメント |
-|-----|------------|
-| **Next.js 15** | [プロジェクト構成](./02-core-concepts/01-project-structure.md) |
-| **React 19** | [コンポーネント設計](./03-guides/04-component-design.md) |
-| **TypeScript** | [コード品質管理](./04-best-practices/01-code-quality.md) |
-| **TanStack Query** | [REST API通信](./03-guides/02-api-client.md), [状態管理](./03-guides/01-state-management.md) |
-| **Zustand** | [状態管理戦略](./03-guides/01-state-management.md) |
-| **React Hook Form + Zod** | [フォーム実装](./03-guides/03-forms.md) |
-| **Material-UI** | [スタイリング](./03-guides/05-styling.md) |
-| **Tailwind CSS** | [スタイリング](./03-guides/05-styling.md) |
-| **ESLint + Prettier** | [コード品質管理](./04-best-practices/01-code-quality.md) |
-
-### 目的で探す
-
-| やりたいこと | ドキュメント |
-|------------|------------|
-| 開発環境をセットアップしたい | [環境構築ガイド](./01-getting-started/01-setup.md) |
-| すぐに動かしてみたい | [クイックスタート](./01-getting-started/02-quick-start.md) |
-| ディレクトリ構造を知りたい | [プロジェクト構成](./02-core-concepts/01-project-structure.md) |
-| 状態管理の使い分けを知りたい | [状態管理戦略](./03-guides/01-state-management.md) |
-| APIからデータを取得したい | [REST API通信](./03-guides/02-api-client.md) |
-| フォームを実装したい | [フォーム実装](./03-guides/03-forms.md) |
-| コンポーネントを作りたい | [コンポーネント設計](./03-guides/04-component-design.md) |
-| スタイルを適用したい | [スタイリング](./03-guides/05-styling.md) |
-| エラーを解決したい | [トラブルシューティング](./07-reference/01-troubleshooting.md) |
-
----
-
-## 📌 よく使うコマンド
+### 1. 環境構築
 
 ```bash
+# 依存関係インストール
+pnpm install
+
 # 開発サーバー起動
-pnpm run dev
-
-# ビルド
-pnpm run build
-
-# 型チェック
-pnpm run typecheck
-
-# Lintチェック
-pnpm run lint
-
-# Lint自動修正
-pnpm run lint:fix
-
-# コード整形
-pnpm run format
-
-# CI（型・lint・format・build）
-pnpm run ci
+pnpm dev
 ```
 
+詳細は [セットアップガイド](./01-getting-started/01-setup.md) を参照
+
+### 2. コード品質管理
+
+```bash
+# リント + フォーマット
+pnpm lint
+pnpm format
+
+# 型チェック
+pnpm typecheck
+
+# すべてのチェック実行
+pnpm ci
+```
+
+詳細は [コーディング規約](./05-development/01-coding-standards.md) を参照
+
 ---
 
-## 🤝 コントリビューション
+## 🏗️ アーキテクチャ原則
 
-ドキュメントに不足や誤りを見つけた場合は、プルリクエストを送ってください。
+アプリは[bulletproof-react](https://github.com/alan2207/bulletproof-react)アーキテクチャを採用しています。
+
+### 主要原則
+
+1. **Feature-Based Organization** - 機能ごとにコードを分離
+2. **Unidirectional Codebase Flow** - 単一方向のコードフロー
+3. **Separation of Concerns** - 関心の分離
+4. **No Cross-Feature Imports** - Feature間の直接インポート禁止
+
+### コードフローの方向性
+
+```
+共通コード (components, hooks, lib, utils)
+    ↓
+features (各機能モジュール)
+    ↓
+app (Next.js App Router)
+```
+
+詳細は [プロジェクト構造](./02-architecture/01-project-structure.md) を参照
 
 ---
 
-## 📞 サポート
+## 🛠️ 技術スタック
 
-質問や問題がある場合は、以下を参照してください：
+### フロントエンド
 
-1. **[トラブルシューティング](./07-reference/01-troubleshooting.md)** - よくあるエラー集
-2. チーム内のSlackチャンネルで質問
-3. GitHub Issuesで報告
+| カテゴリ | 技術 |
+|---------|------|
+| **フレームワーク** | Next.js 15, React 19, TypeScript 5.5+ |
+| **スタイリング** | Tailwind CSS v4, CVA |
+| **状態管理** | Zustand (クライアント), TanStack Query (サーバー) |
+| **フォーム** | React Hook Form, Zod |
+| **テスト** | Vitest, Playwright |
+| **開発ツール** | ESLint, Prettier, Storybook, MSW |
+
+詳細は [技術スタック](./03-core-concepts/01-tech-stack.md) を参照
 
 ---
 
-## 📝 ドキュメント更新履歴
+## 📁 プロジェクト構造
 
-- 2025-01-XX: ドキュメント構成を初心者向けに再構築
-- 2025-01-XX: 初版作成
+```
+CAMP_front/src/
+├── app/                    # Next.js App Router
+│   ├── (group-a)/          # ルートグループA
+│   └── (group-b)/          # ルートグループB
+│
+├── features/              # 機能モジュール
+│   ├── {feature-a}/       # 機能A
+│   ├── {feature-b}/       # 機能B
+│   ├── {feature-c}/       # 機能C
+│   └── {feature-d}/       # 機能D
+│
+├── components/            # 共通コンポーネント
+│   ├── ui/                # 基本UIコンポーネント
+│   ├── layouts/           # レイアウト
+│   └── form/              # フォーム関連
+│
+├── lib/                   # 外部ライブラリ設定
+│   ├── api-client.ts      # APIクライアント
+│   └── react-query.ts     # TanStack Query設定
+│
+├── stores/                # グローバルストア
+├── hooks/                 # 共通カスタムフック
+├── types/                 # 共通型定義
+└── utils/                 # ユーティリティ
+```
+
+詳細は [プロジェクト構造](./02-architecture/01-project-structure.md) を参照
+
+---
+
+## 📝 コーディング規約
+
+### 命名規則
+
+| タイプ | 形式 | 例 |
+|--------|------|------|
+| **コンポーネント** | kebab-case | `{feature}-form.tsx` |
+| **フック** | kebab-case, `use-`プレフィックス | `use-{feature}.ts` |
+| **ストア** | kebab-case, `-store`サフィックス | `{feature}-store.ts` |
+
+### インポートルール
+
+```typescript
+// ✅ Good: 正しい依存方向
+// app からfeaturesをインポート
+import { FeatureList } from '@/features/{feature-name}'
+
+// featuresから共通コードをインポート
+import { Button } from '@/components/ui/button'
+
+// ❌ Bad: 逆方向のインポート
+// 共通コードからfeaturesをインポート
+import { FeatureForm } from '@/features/{feature-name}'
+```
+
+詳細は [コーディング規約](./05-development/01-coding-standards.md) を参照
+
+---
+
+## 🔗 関連リンク
+
+### 外部ドキュメント
+
+- [bulletproof-react](https://github.com/alan2207/bulletproof-react)
+- [Next.js App Router](https://nextjs.org/docs/app)
+- [React 19](https://react.dev/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Tailwind CSS v4](https://tailwindcss.com/)
+- [TanStack Query](https://tanstack.com/query/latest)
+- [Zustand](https://zustand-demo.pmnd.rs/)
+
+### プロジェクトリポジトリ
+
+- [アプリ GitHub](https://github.com/your-org/training-tracker)
+
+---
+
+## 📄 ライセンス
+
+このドキュメントは本プロジェクトの一部です。
