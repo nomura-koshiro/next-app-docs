@@ -35,12 +35,12 @@ git --version
 
 ```bash
 # HTTPSでクローン
-git clone https://github.com/your-org/training-tracker.git
-cd training-tracker
+git clone https://CMO203934-PJ925@dev.azure.com/CMO203934-PJ925/PJ925/_git/CAMP_front
+cd CAMP_front
 
 # または SSHでクローン
-git clone git@github.com:your-org/training-tracker.git
-cd training-tracker
+git clone git@ssh.dev.azure.com:v3/CMO203934-PJ925/PJ925/CAMP_front
+cd CAMP_front
 ```
 
 ### 2. 依存関係のインストール
@@ -136,7 +136,7 @@ pnpm start
 ## ディレクトリ構造
 
 ```
-training-tracker/
+CAMP_front/
 ├── apps/
 │   └── frontend/          # Next.js フロントエンド
 │       ├── src/
@@ -147,8 +147,7 @@ training-tracker/
 │       │   └── stores/    # グローバルストア
 │       └── public/        # 静的ファイル
 │
-├── docs2/                 # 開発者ドキュメント
-└── .claude/              # Claude Code設定
+└── docs/                 # 開発者ドキュメント
 ```
 
 詳細は[プロジェクト構造](../02-architecture/01-project-structure.md)を参照

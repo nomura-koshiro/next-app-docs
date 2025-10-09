@@ -1,0 +1,45 @@
+{
+  "recommendations": [
+    // ========== 必須 ==========
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+
+    // ========== スタイリング ==========
+    "bradlc.vscode-tailwindcss",
+    "stylelint.vscode-stylelint",
+
+    // ========== React/TypeScript開発 ==========
+    "dsznajder.es7-react-js-snippets",
+    "yoavbls.pretty-ts-errors",
+    "visualstudioexptteam.vscodeintellicode",
+    "visualstudioexptteam.intellicode-api-usage-examples",
+
+    // ========== コード補完・ナビゲーション ==========
+    "christian-kohler.npm-intellisense",
+    "christian-kohler.path-intellisense",
+    "ionutvmi.path-autocomplete",
+
+    // ========== コード品質・視覚化 ==========
+    "usernamehw.errorlens",
+    "oderwat.indent-rainbow",
+    "formulahendry.auto-rename-tag",
+
+    // ========== Git関連 ==========
+    "eamodio.gitlens",
+    "github.vscode-pull-request-github",
+
+    // ========== マークダウン ==========
+    "davidanson.vscode-markdownlint",
+
+    // ========== その他便利ツール ==========
+    "editorconfig.editorconfig",
+    "gruntfuggly.todo-tree",
+    "natqe.reload",
+
+    // ========== テーマ・アイコン ==========
+    "vscode-icons-team.vscode-icons",
+
+    // ========== 言語パック ==========
+    "ms-ceintl.vscode-language-pack-ja"
+  ]
+}
