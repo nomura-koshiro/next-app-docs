@@ -2,10 +2,19 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useUser, useUpdateUser } from "@/features/users";
+import {
+  userFormSchema,
+  type UserFormValues,
+} from "@/features/users/schemas/user-form.schema";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { InputField, SelectField } from "@/components/ui/form-field";
+import {
+  ControlledInputField,
+  ControlledSelectField,
+} from "@/components/ui/form-field/controlled-form-field";
 import { ErrorMessage } from "@/components/ui/error-message";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
 import { PageLayout } from "@/components/layout/page-layout";
@@ -18,9 +27,20 @@ export default function EditUserPage({
 }) {
   const router = useRouter();
   const [userId, setUserId] = useState<string | null>(null);
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [role, setRole] = useState("user");
+
+  const {
+    control,
+    handleSubmit,
+    reset,
+    formState: { errors: _errors },
+  } = useForm<UserFormValues>({
+    resolver: zodResolver(userFormSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      role: "user",
+    },
+  });
 
   useEffect(() => {
     params
@@ -49,21 +69,22 @@ export default function EditUserPage({
 
   useEffect(() => {
     if (data?.data !== null && data?.data !== undefined) {
-      setName(data.data.name);
-      setEmail(data.data.email);
-      setRole(data.data.role);
+      reset({
+        name: data.data.name,
+        email: data.data.email,
+        role: data.data.role,
+      });
     }
-  }, [data]);
+  }, [data, reset]);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const onSubmit = (formData: UserFormValues) => {
     if (userId === null) {
       return;
     }
 
     updateUserMutation.mutate({
       userId,
-      data: { name, email, role },
+      data: formData,
     });
   };
 
@@ -86,29 +107,26 @@ export default function EditUserPage({
 
       <Card>
         <CardContent className="pt-6">
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <InputField
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+            <ControlledInputField
+              control={control}
+              name="name"
               label="名前"
-              id="name"
-              value={name}
-              onChange={setName}
               required
             />
 
-            <InputField
+            <ControlledInputField
+              control={control}
+              name="email"
               label="メールアドレス"
-              id="email"
               type="email"
-              value={email}
-              onChange={setEmail}
               required
             />
 
-            <SelectField
+            <ControlledSelectField
+              control={control}
+              name="role"
               label="ロール"
-              id="role"
-              value={role}
-              onChange={setRole}
               options={[
                 { value: "user", label: "User" },
                 { value: "admin", label: "Admin" },

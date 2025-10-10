@@ -102,52 +102,89 @@ echo "public/mockServiceWorker.js" >> .gitignore
 
 ```typescript
 // src/mocks/handlers.ts
-import { http, HttpResponse } from 'msw'
+import { authHandlers } from './handlers/api/v1/auth-handlers'
+import { userHandlers } from './handlers/api/v1/user-handlers'
 
+/**
+ * MSW (Mock Service Worker) リクエストハンドラー
+ *
+ * 機能ごとにファイルを分割し、ここで統合します。
+ * 各ハンドラーファイルでは /api/v1 プレフィックスを含めたパスを定義しています。
+ */
 export const handlers = [
-  // GET /api/trainings
-  http.get('/api/trainings', () => {
-    return HttpResponse.json([
-      {
-        id: 1,
-        name: '胸トレ',
-        date: '2024-01-15',
-        exercises: [
-          {
-            id: 101,
-            name: 'ベンチプレス',
-            sets: [
-              { reps: 10, weight: 80, rpe: 8 },
-              { reps: 8, weight: 85, rpe: 9 },
-            ],
-          },
-        ],
-      },
-    ])
+  ...authHandlers, // 認証関連 (/api/v1/auth/*)
+  ...userHandlers, // ユーザー管理 (/api/v1/users/*)
+]
+```
+
+```typescript
+// src/mocks/handlers/api/v1/user-handlers.ts
+import { http, HttpResponse, delay } from 'msw'
+
+export const userHandlers = [
+  // GET /api/v1/users - ユーザー一覧取得
+  http.get('/api/v1/users', async () => {
+    await delay(500) // 遅延シミュレーション
+
+    return HttpResponse.json({
+      data: [
+        { id: '1', name: 'John Doe', email: 'john@example.com' },
+        { id: '2', name: 'Jane Smith', email: 'jane@example.com' },
+      ],
+    })
   }),
 
-  // POST /api/trainings
-  http.post('/api/trainings', async ({ request }) => {
+  // GET /api/v1/users/:id - 特定ユーザー取得
+  http.get('/api/v1/users/:id', ({ params }) => {
+    const { id } = params
+
+    if (id === '999') {
+      return HttpResponse.json(
+        { message: 'User not found' },
+        { status: 404 }
+      )
+    }
+
+    return HttpResponse.json({
+      data: {
+        id,
+        name: 'John Doe',
+        email: 'john@example.com',
+      },
+    })
+  }),
+
+  // POST /api/v1/users - ユーザー作成
+  http.post('/api/v1/users', async ({ request }) => {
     const body = await request.json()
+
     return HttpResponse.json(
-      { id: Date.now(), ...body },
+      {
+        data: {
+          id: String(Date.now()),
+          ...body,
+        },
+      },
       { status: 201 }
     )
   }),
 
-  // エラーレスポンス例
-  http.get('/api/trainings/:id', ({ params }) => {
+  // PATCH /api/v1/users/:id - ユーザー更新
+  http.patch('/api/v1/users/:id', async ({ params, request }) => {
     const { id } = params
-    if (id === '999') {
-      return HttpResponse.json(
-        { error: 'Training not found' },
-        { status: 404 }
-      )
-    }
+    const body = await request.json()
+
     return HttpResponse.json({
-      id: Number(id),
-      name: 'サンプルトレーニング',
+      data: {
+        id,
+        ...body,
+      },
     })
+  }),
+
+  // DELETE /api/v1/users/:id - ユーザー削除
+  http.delete('/api/v1/users/:id', () => {
+    return new HttpResponse(null, { status: 204 })
   }),
 ]
 ```
@@ -162,56 +199,88 @@ import { handlers } from './handlers'
 export const worker = setupWorker(...handlers)
 ```
 
-**Next.js 15での起動:**
+**MSWProvider (src/lib/msw.tsx):**
 
 ```typescript
-// src/app/providers.tsx
+// src/lib/msw.tsx
 'use client'
 
 import { useEffect, useState } from 'react'
+import { env } from '@/config/env'
 
-export function Providers({ children }: { children: React.ReactNode }) {
-  const [mswReady, setMswReady] = useState(false)
+export const MSWProvider = ({
+  children,
+}: {
+  children: React.ReactNode
+}): React.ReactElement | null => {
+  const [isReady, setIsReady] = useState(false)
 
   useEffect(() => {
-    const initMSW = async () => {
-      if (process.env.NODE_ENV === 'development') {
+    const initMSW = async (): Promise<void> => {
+      if (typeof window !== 'undefined' && env.ENABLE_API_MOCKING === true) {
         const { worker } = await import('@/mocks/browser')
+
         await worker.start({
-          onUnhandledRequest: 'bypass', // モックなしリクエストはそのまま通す
+          serviceWorker: {
+            url: '/mockServiceWorker.js',
+          },
+          onUnhandledRequest: (req) => {
+            // APIリクエスト以外は警告を出さない
+            if (!req.url.includes('/api/')) {
+              return
+            }
+            console.warn('[MSW] Unhandled request:', req.method, req.url)
+          },
         })
-        setMswReady(true)
-      } else {
-        setMswReady(true)
+
+        console.log('[MSW] Mock Service Worker initialized')
+        console.log('[MSW] Registered handlers:', worker.listHandlers().length)
       }
+
+      setIsReady(true)
     }
 
-    initMSW()
+    void initMSW()
   }, [])
 
-  if (!mswReady) {
-    return <div>Loading...</div>
+  // MSWが有効で初期化未完了の場合は何も表示しない
+  if (!isReady && env.ENABLE_API_MOCKING === true) {
+    return null
   }
 
   return <>{children}</>
 }
 ```
 
-```typescript
-// src/app/layout.tsx
-import { Providers } from './providers'
+**AppProviderに統合 (src/app/provider.tsx):**
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+```typescript
+// src/app/provider.tsx
+'use client'
+
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import * as React from 'react'
+import { ErrorBoundary } from 'react-error-boundary'
+
+import { MainErrorFallback } from '@/components/errors/main'
+import { queryConfig } from '@/lib/tanstack-query'
+import { MSWProvider } from '@/lib/msw'
+
+export const AppProvider = ({ children }: { children: React.ReactNode }) => {
+  const [queryClient] = React.useState(
+    () => new QueryClient({ defaultOptions: queryConfig })
+  )
+
   return (
-    <html lang="ja">
-      <body>
-        <Providers>{children}</Providers>
-      </body>
-    </html>
+    <MSWProvider>
+      <ErrorBoundary FallbackComponent={MainErrorFallback}>
+        <QueryClientProvider client={queryClient}>
+          {process.env.NODE_ENV === 'development' && <ReactQueryDevtools />}
+          {children}
+        </QueryClientProvider>
+      </ErrorBoundary>
+    </MSWProvider>
   )
 }
 ```
@@ -396,6 +465,7 @@ export const handlers = [
 // .storybook/preview.ts
 import type { Preview } from '@storybook/nextjs-vite'
 import { AppProvider } from '../src/app/provider'
+import '../src/app/globals.css'
 
 const preview: Preview = {
   parameters: {
@@ -404,6 +474,9 @@ const preview: Preview = {
         color: /(background|color)$/i,
         date: /Date$/i,
       },
+    },
+    backgrounds: {
+      default: 'light',
     },
   },
   decorators: [

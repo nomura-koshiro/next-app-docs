@@ -2,6 +2,7 @@ import type { Preview, Decorator } from '@storybook/nextjs-vite'
 import { initialize, mswLoader } from 'msw-storybook-addon'
 import { AppProvider } from '../src/app/provider'
 import { handlers } from '../src/mocks/handlers'
+import '../src/styles/globals.css'
 
 /**
  * MSW Storybook Addon の初期化

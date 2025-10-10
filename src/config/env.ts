@@ -14,8 +14,8 @@ const createEnv = () => {
   let apiUrl = process.env.NEXT_PUBLIC_API_URL;
   if (storybookPort) {
     apiUrl = `http://localhost:${storybookPort}/api/v1`;
-    console.log('[env] Storybook port detected:', storybookPort);
-    console.log('[env] API_URL overridden to:', apiUrl);
+    console.log("[env] Storybook port detected:", storybookPort);
+    console.log("[env] API_URL overridden to:", apiUrl);
   }
 
   // 環境変数のスキーマ定義

@@ -1,20 +1,38 @@
 "use client";
 
-import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useCreateUser } from "@/features/users";
+import {
+  userFormSchema,
+  type UserFormValues,
+} from "@/features/users/schemas/user-form.schema";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { InputField, SelectField } from "@/components/ui/form-field";
+import {
+  ControlledInputField,
+  ControlledSelectField,
+} from "@/components/ui/form-field/controlled-form-field";
 import { ErrorMessage } from "@/components/ui/error-message";
 import { PageLayout } from "@/components/layout/page-layout";
 import { PageHeader } from "@/components/layout/page-header";
 
 export default function NewUserPage() {
   const router = useRouter();
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [role, setRole] = useState("user");
+
+  const {
+    control,
+    handleSubmit,
+    formState: { errors: _errors },
+  } = useForm<UserFormValues>({
+    resolver: zodResolver(userFormSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      role: "user",
+    },
+  });
 
   const createUserMutation = useCreateUser({
     mutationConfig: {
@@ -24,9 +42,8 @@ export default function NewUserPage() {
     },
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    createUserMutation.mutate({ name, email, role });
+  const onSubmit = (data: UserFormValues) => {
+    createUserMutation.mutate(data);
   };
 
   return (
@@ -38,31 +55,28 @@ export default function NewUserPage() {
 
       <Card>
         <CardContent className="pt-6">
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <InputField
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+            <ControlledInputField
+              control={control}
+              name="name"
               label="名前"
-              id="name"
-              value={name}
-              onChange={setName}
               placeholder="山田太郎"
               required
             />
 
-            <InputField
+            <ControlledInputField
+              control={control}
+              name="email"
               label="メールアドレス"
-              id="email"
               type="email"
-              value={email}
-              onChange={setEmail}
               placeholder="yamada@example.com"
               required
             />
 
-            <SelectField
+            <ControlledSelectField
+              control={control}
+              name="role"
               label="ロール"
-              id="role"
-              value={role}
-              onChange={setRole}
               options={[
                 { value: "user", label: "User" },
                 { value: "admin", label: "Admin" },

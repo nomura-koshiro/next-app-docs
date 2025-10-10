@@ -1,108 +1,81 @@
 # プロジェクト構成
 
-アプリのプロジェクト構成とディレクトリ構造について説明します。
-
-## 目次
-
-1. [ディレクトリ構成](#ディレクトリ構成)
-2. [アーキテクチャ原則](#アーキテクチャ原則)
-3. [Feature構成](#feature構成)
-4. [ファイル命名規則](#ファイル命名規則)
-
----
-
 ## ディレクトリ構成
 
 ```
-CAMP_front/src/
+src/
 ├── app/                    # App Router (Next.js 15+)
-│   ├── (group-a)/          # ルートグループA
-│   │   ├── page-a/
-│   │   └── page-b/
-│   ├── (group-b)/          # ルートグループB
-│   │   ├── page-c/
-│   │   ├── page-d/
-│   │   └── page-e/
+│   ├── (sample)/           # ルートグループ（サンプル実装）
+│   │   ├── login/          # ログインページ
+│   │   └── users/          # ユーザー管理ページ
 │   ├── layout.tsx          # ルートレイアウト
 │   ├── page.tsx            # ホームページ
 │   ├── not-found.tsx       # 404ページ
-│   └── provider.tsx        # グローバルプロバイダー
+│   ├── provider.tsx        # AppProvider（MSW, ErrorBoundary, ReactQuery）
+│   └── globals.css         # グローバルスタイル
 │
 ├── features/              # 機能モジュール（bulletproof-react）
-│   ├── {feature-a}/       # 機能A（例: auth, dashboard等）
-│   ├── {feature-b}/       # 機能B
-│   └── {feature-c}/       # 機能C
+│   ├── auth/               # 認証機能
+│   └── users/              # ユーザー管理機能
 │
 ├── components/            # 共通コンポーネント
-│   ├── ui/                # 基本UIコンポーネント (shadcn/ui)
-│   │   ├── button.tsx
-│   │   ├── input.tsx
-│   │   └── card.tsx
-│   ├── errors/            # エラー表示コンポーネント
-│   │   └── main.tsx
-│   └── layouts/           # レイアウトコンポーネント
-│       ├── header.tsx
-│       ├── sidebar.tsx
-│       └── footer.tsx
+│   ├── ui/                # 基本UI（shadcn/ui風）
+│   │   ├── button/         # Button
+│   │   ├── input/          # Input
+│   │   ├── select/         # Select
+│   │   ├── alert/          # Alert
+│   │   ├── card/           # Card
+│   │   ├── label/          # Label
+│   │   ├── form-field/     # FormField
+│   │   ├── error-message/  # ErrorMessage
+│   │   ├── loading-spinner/ # LoadingSpinner
+│   │   └── index.ts        # バレルエクスポート
+│   ├── layout/            # レイアウトコンポーネント
+│   │   ├── page-header.tsx
+│   │   └── page-layout.tsx
+│   └── errors/            # エラー表示
+│       └── main.tsx        # MainErrorFallback
 │
 ├── lib/                   # 外部ライブラリ設定
-│   ├── api-client.ts      # Axios APIクライアント設定
+│   ├── api-client.ts      # Axios設定（インターセプター含む）
 │   ├── tanstack-query.ts  # TanStack Query設定
-│   ├── msw.tsx            # Mock Service Worker設定
-│   └── utils.ts           # ユーティリティ関数 (cn等)
-│
-├── mocks/                 # MSWモックハンドラー
-│   ├── browser.ts         # ブラウザ用MSW設定
-│   └── handlers.ts        # APIモックハンドラー
-│
-├── hooks/                 # 共通カスタムフック
-│   ├── use-debounce.ts
-│   ├── use-local-storage.ts
-│   └── use-media-query.ts
-│
-├── types/                 # 共通型定義
-│   ├── api.ts
-│   └── global.d.ts
+│   └── msw.tsx            # MSWProvider
 │
 ├── utils/                 # ユーティリティ関数
-│   ├── format.ts
-│   └── cn.ts              # Tailwindクラス名結合
+│   └── cn.ts              # clsx + tailwind-merge
 │
 ├── config/                # 設定
-│   ├── env.ts             # 環境変数（Zod検証付き）
-│   └── paths.ts           # ルーティングパス定義
+│   ├── env.ts             # 環境変数（Zod検証）
+│   ├── paths.ts           # ルーティングパス定義
+│   └── constants.ts       # 定数定義
 │
-└── stories/               # Storybookストーリー
-    ├── Button.stories.ts
-    └── ...
+├── types/                 # 共通型定義
+│   └── global.d.ts        # グローバル型定義
+│
+└── mocks/                 # MSW設定
+    ├── browser.ts          # ブラウザ用worker
+    ├── handlers.ts         # ハンドラー統合
+    └── handlers/           # 機能別ハンドラー
+        └── api/v1/
+            ├── auth-handlers.ts
+            └── user-handlers.ts
 ```
 
 ---
 
-## アーキテクチャ原則
+## bulletproof-reactアーキテクチャ
 
-### 1. bulletproof-react準拠
-
-アプリは[bulletproof-react](https://github.com/alan2207/bulletproof-react)アーキテクチャを採用しています。
-
-#### 主要な原則
-
-- **Feature-Based Organization** - 機能ごとにコードを分離
-- **Unidirectional Codebase Flow** - 単一方向のコードフロー
-- **Separation of Concerns** - 関心の分離
-- **No Cross-Feature Imports** - Feature間の直接インポート禁止
-
-#### コードフローの方向性
+### コードフローの方向性
 
 ```
 共通コード (components, hooks, lib, utils)
     ↓
-features (各機能モジュール)
+features (機能モジュール)
     ↓
 app (Next.js App Router)
 ```
 
-### 2. インポートルール
+### インポートルール
 
 | レイヤー | インポート可能 | インポート不可 |
 |---------|--------------|--------------|
@@ -114,188 +87,109 @@ app (Next.js App Router)
 
 ```typescript
 // ✅ Good
-// features/{feature-name}/components/{feature}-form.tsx
 import { Button } from '@/components/ui/button'
 import { useFeature } from './hooks/use-feature'
 
-// ❌ Bad
-// features/{feature-a}/components/{feature}-form.tsx
-import { FeatureBCard } from '@/features/{feature-b}/components/{feature-b}-card'
+// ❌ Bad: feature間でインポート
+import { FeatureBCard } from '@/features/feature-b/components/card'
 ```
 
 ---
 
 ## Feature構成
 
-各Featureは以下の構造を持ちます：
+### 実際の構成例（users feature）
 
 ```
-features/{feature-name}/
-├── api/                   # API通信
-│   ├── get-{api-name}.ts  # GET API（TanStack Query）
-│   ├── post-{api-name}.ts # POST API（TanStack Query）
-│   ├── put-{api-name}.ts  # PUT API（TanStack Query）
-│   ├── delete-{api-name}.ts # DELETE API（TanStack Query）
-│   └── types.ts           # API型定義
+features/users/
+├── api/                        # API通信
+│   ├── get-users.ts            # GET /api/v1/users
+│   ├── get-user.ts             # GET /api/v1/users/:id
+│   ├── create-user.ts          # POST /api/v1/users
+│   ├── update-user.ts          # PATCH /api/v1/users/:id
+│   ├── delete-user.ts          # DELETE /api/v1/users/:id
+│   └── index.ts                # エクスポート
 │
-├── components/            # Featureのコンポーネント
-│   ├── {feature}-list.tsx
-│   ├── {feature}-detail.tsx
-│   └── {feature}-form.tsx
+├── components/                 # コンポーネント
+│   ├── users-page/             # 一覧ページ
+│   │   ├── users-page.tsx
+│   │   ├── users-page.stories.tsx
+│   │   └── index.ts
+│   ├── new-user-page/          # 作成ページ
+│   │   ├── new-user-page.tsx
+│   │   ├── new-user-page.stories.tsx
+│   │   └── index.ts
+│   ├── edit-user-page/         # 編集ページ
+│   │   ├── edit-user-page.tsx
+│   │   ├── edit-user-page.stories.tsx
+│   │   └── index.ts
+│   └── delete-user-page/       # 削除ページ
+│       ├── delete-user-page.tsx
+│       ├── delete-user-page.stories.tsx
+│       └── index.ts
 │
-├── hooks/                 # カスタムフック
-│   └── use-{feature}.ts
-│
-├── stores/                # ローカルストア（必要時のみ）
-│   └── {feature}-store.ts
-│
-├── types/                 # 型定義
+├── types/                      # 型定義
 │   └── index.ts
 │
-├── utils/                 # ユーティリティ
-│   └── {feature}-helpers.ts
-│
-└── index.ts               # エクスポート
+└── index.ts                    # エクスポート
 ```
 
-### Feature例
+### 最小構成（auth feature）
 
 ```
-features/{feature-name}/
-├── api/
-│   ├── get-items.ts       # 一覧取得API
-│   ├── get-item.ts        # 詳細取得API
-│   ├── post-item.ts       # 作成API
-│   ├── put-item.ts        # 更新API
-│   ├── delete-item.ts     # 削除API
-│   └── types.ts           # API型定義
+features/auth/
+├── api/                        # API通信
+│   ├── login.ts
+│   ├── logout.ts
+│   ├── get-user.ts
+│   └── index.ts
 │
-├── components/
-│   ├── {feature}-list.tsx
-│   ├── {feature}-detail.tsx
-│   └── {feature}-form.tsx
+├── components/                 # コンポーネント
+│   └── login-page.tsx
 │
-├── hooks/
-│   └── use-{feature}.ts
+├── stores/                     # Zustandストア
+│   └── auth-store.ts
 │
-├── types/
+├── types/                      # 型定義
 │   └── index.ts
 │
 └── index.ts
 ```
 
+### ディレクトリ作成の方針
+
+- **必要なディレクトリのみ作成** - hooksやschemasは必要になったら追加
+- **コンポーネントは用途ごとにディレクトリ化** - Storybookファイルも一緒に管理
+- **storesは認証など必要な場合のみ** - サーバーステートはTanStack Queryで管理
+
 ---
 
 ## ファイル命名規則
 
-### 基本ルール
-
 | タイプ | 形式 | 例 |
 |--------|------|---|
-| **コンポーネント** | kebab-case | `{feature}-form.tsx` |
-| **フック** | kebab-case, `use-`プレフィックス | `use-{feature}.ts` |
-| **ストア** | kebab-case, `-store`サフィックス | `{feature}-store.ts` |
+| **コンポーネント** | kebab-case | `user-form.tsx` |
+| **フック** | kebab-case, `use-`プレフィックス | `use-users.ts` |
+| **ストア** | kebab-case, `-store`サフィックス | `user-store.ts` |
 | **ユーティリティ** | kebab-case | `format-date.ts` |
-| **型定義** | kebab-case | `{feature}-types.ts` |
 
-### コンポーネント命名
-
-```typescript
-// ファイル名: {feature}-form.tsx
-export const FeatureForm = () => { ... }
-
-// ファイル名: use-{feature}.ts
-export const useFeature = () => { ... }
-
-// ファイル名: {feature}-store.ts
-export const useFeatureStore = create(() => { ... })
-```
-
----
-
-## 依存関係の方向性
-
-### レイヤー構造
-
-```mermaid
-graph TD
-    A[共通コード<br/>components, hooks, lib, utils] --> B[features<br/>機能モジュール]
-    B --> C[app<br/>Next.js App Router]
-
-    style A fill:#e1f5fe
-    style B fill:#fff3e0
-    style C fill:#f3e5f5
-```
-
-**依存の方向:**
-- 共通コード（最下層）← features（中間層）← app（最上層）
-- 下層から上層へのインポートのみ許可
-
-### インポートの例
+**コンポーネント命名例:**
 
 ```typescript
-// ✅ Good: app からfeaturesをインポート
-// app/(dashboard)/page.tsx
-import { FeatureList } from '@/features/{feature-name}'
+// ファイル名: user-form.tsx
+export const UserForm = () => { ... }
 
-// ✅ Good: featuresから共通コードをインポート
-// features/{feature-name}/components/{feature}-form.tsx
-import { Button } from '@/components/ui/button'
-import { useForm } from '@/hooks/use-form'
-
-// ✅ Good: 同じfeature内でインポート
-// features/{feature-name}/components/{feature}-form.tsx
-import { useFeature } from '../hooks/use-feature'
-
-// ❌ Bad: 共通コードからfeaturesをインポート
-// components/ui/button.tsx
-import { FeatureForm } from '@/features/{feature-name}'
-
-// ❌ Bad: feature間でインポート
-// features/{feature-a}/components/feature-a.tsx
-import { FeatureBList } from '@/features/{feature-b}'
+// ファイル名: use-users.ts
+export const useUsers = () => { ... }
 ```
 
 ---
 
 ## ベストプラクティス
 
-### 1. 必要なディレクトリのみ作成
-
-すべてのFeatureが全ディレクトリを持つ必要はありません。
-
-```
-// シンプルなFeature
-features/{feature-name}/
-├── components/
-│   └── {feature}.tsx
-└── hooks/
-    └── use-{feature}.ts
-```
-
-### 2. barrel exportsを避ける
+### 1. Path Aliasを活用
 
 ```typescript
-// ❌ Bad: index.tsでまとめてエクスポート
-export * from './{feature}-list'
-export * from './{feature}-form'
-
-// ✅ Good: 直接インポート
-import { FeatureList } from '@/features/{feature-name}/components/{feature}-list'
-```
-
-### 3. TypeScriptのPath Aliasを活用
-
-```typescript
-// tsconfig.json
-{
-  "compilerOptions": {
-    "paths": {
-      "@/*": ["./src/*"]
-    }
-  }
-}
-
 // ✅ Good
 import { Button } from '@/components/ui/button'
 
@@ -303,18 +197,20 @@ import { Button } from '@/components/ui/button'
 import { Button } from '../../../components/ui/button'
 ```
 
+### 2. barrel exportsを避ける
+
+```typescript
+// ❌ Bad
+export * from './user-list'
+export * from './user-form'
+
+// ✅ Good: 直接インポート
+import { UserList } from '@/features/users/components/user-list'
+```
+
 ---
 
 ## 参考リンク
 
-### 内部ドキュメント
-
-- [bulletproof-react適用指針](./02-bulletproof-react.md)
-- [Feature構成詳細](./03-feature-architecture.md)
-- [技術スタック](../03-core-concepts/01-tech-stack.md)
-
-### 外部リンク
-
 - [bulletproof-react](https://github.com/alan2207/bulletproof-react)
 - [Next.js App Router](https://nextjs.org/docs/app)
-- [Feature-Sliced Design](https://feature-sliced.design/)
