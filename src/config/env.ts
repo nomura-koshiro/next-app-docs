@@ -21,8 +21,6 @@ const createEnv = () => {
     APP_URL: z.string().optional().default("http://localhost:3000"),
     // モックAPIポート番号（オプション、デフォルト: 8080）
     APP_MOCK_API_PORT: z.string().optional().default("8080"),
-    // Storybookポート番号（オプション、デフォルト: 6006）
-    STORYBOOK_PORT: z.string().optional().default("6006"),
   });
 
   // Next.jsの環境変数から値を取得
@@ -31,7 +29,6 @@ const createEnv = () => {
     ENABLE_API_MOCKING: process.env.NEXT_PUBLIC_ENABLE_API_MOCKING,
     APP_URL: process.env.NEXT_PUBLIC_URL,
     APP_MOCK_API_PORT: process.env.NEXT_PUBLIC_MOCK_API_PORT,
-    STORYBOOK_PORT: process.env.NEXT_PUBLIC_STORYBOOK_PORT,
   };
 
   // スキーマで検証
