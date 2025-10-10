@@ -5,7 +5,11 @@
       "Bash(pnpm lint:*)",
       "WebFetch(domain:github.com)",
       "Bash(pnpm remove:*)",
-      "Bash(pnpm add:*)"
+      "Bash(pnpm add:*)",
+      "Bash(pnpm check:*)",
+      "Bash(pnpm run:*)",
+      "Bash(pnpm eslint:*)",
+      "Bash(pnpm prettier:*)"
     ],
     "deny": [],
     "ask": []

@@ -61,9 +61,16 @@ const eslintConfig = [...compat.extends("next/core-web-vitals", "next/typescript
     "@typescript-eslint/strict-boolean-expressions": [
       "error",
       {
-        "allowNullableObject": true
+        "allowNullableObject": true,
+        "allowNullableString": true
       }
     ],
+  },
+}, {
+  files: ["src/components/ui/**/*.{ts,tsx}", "src/components/layout/**/*.{ts,tsx}"],
+  rules: {
+    // UIコンポーネントでは関数宣言を許可
+    "func-style": "off",
   },
 }, ...storybook.configs["flat/recommended"]];
 

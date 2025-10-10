@@ -8,7 +8,7 @@ import { Button } from "./button";
  * 複数のバリエーションとサイズをサポートします。
  */
 const meta = {
-  title: "UI/Button",
+  title: "components/ui/Button",
   component: Button,
   parameters: {
     layout: "centered",
