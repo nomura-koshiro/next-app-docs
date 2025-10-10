@@ -8,9 +8,10 @@ Next.js 15のApp Routerを使用したルーティングとナビゲーション
 2. [ルート構成](#ルート構成)
 3. [ルートグループ](#ルートグループ)
 4. [動的ルート](#動的ルート)
-5. [ナビゲーション](#ナビゲーション)
-6. [ローディングとエラー処理](#ローディングとエラー処理)
-7. [メタデータ](#メタデータ)
+5. [型安全なパス管理 (paths.ts)](#型安全なパス管理-pathsts)
+6. [ナビゲーション](#ナビゲーション)
+7. [ローディングとエラー処理](#ローディングとエラー処理)
+8. [メタデータ](#メタデータ)
 
 ---
 
@@ -201,6 +202,285 @@ export default async function ShopPage({ params }: ShopPageProps) {
   const { slug } = await params
   // slug = ['a', 'b', 'c']
 }
+```
+
+---
+
+## 型安全なパス管理 (paths.ts)
+
+### paths.tsとは
+
+`src/config/paths.ts`は、アプリケーション全体のルーティングパスを一元管理し、型安全なURL生成を提供します。
+
+**主なメリット:**
+
+✅ **ハードコーディング防止** - パス文字列の直接記述を避ける
+✅ **IDE補完** - エディタの自動補完でタイポを防ぐ
+✅ **一元管理** - パス変更時の修正箇所を最小化
+✅ **型安全** - パラメータの型チェック
+
+### 実装
+
+```typescript
+// src/config/paths.ts
+/**
+ * アプリケーション全体のルーティングパスを集中管理
+ *
+ * 型安全なURL生成を提供し、ハードコーディングされたパスを防ぎます。
+ * 各ルートは`getHref()`メソッドを持ち、必要に応じてパラメータを受け取ります。
+ */
+export const paths = {
+  /**
+   * ホームページ
+   */
+  home: {
+    getHref: () => '/',
+  },
+
+  /**
+   * 認証関連のパス
+   */
+  auth: {
+    /**
+     * ユーザー登録ページ
+     * @param redirectTo - 登録後のリダイレクト先URL
+     */
+    register: {
+      getHref: (redirectTo?: string | null | undefined) =>
+        `/auth/register${redirectTo ? `?redirectTo=${encodeURIComponent(redirectTo)}` : ''}`,
+    },
+
+    /**
+     * ログインページ
+     * @param redirectTo - ログイン後のリダイレクト先URL
+     */
+    login: {
+      getHref: (redirectTo?: string | null | undefined) =>
+        `/auth/login${redirectTo ? `?redirectTo=${encodeURIComponent(redirectTo)}` : ''}`,
+    },
+
+    /**
+     * ログアウト処理
+     */
+    logout: {
+      getHref: () => '/auth/logout',
+    },
+  },
+
+  /**
+   * アプリケーション内のパス（認証が必要なエリア）
+   */
+  app: {
+    /**
+     * アプリケーションルート
+     */
+    root: {
+      getHref: () => '/app',
+    },
+
+    /**
+     * ダッシュボード
+     */
+    dashboard: {
+      getHref: () => '/app/dashboard',
+    },
+
+    /**
+     * プロフィールページ
+     */
+    profile: {
+      getHref: () => '/app/profile',
+    },
+
+    /**
+     * 設定ページ
+     */
+    settings: {
+      getHref: () => '/app/settings',
+    },
+  },
+} as const
+```
+
+### 基本的な使い方
+
+#### Linkコンポーネント
+
+```typescript
+import Link from 'next/link'
+import { paths } from '@/config/paths'
+
+export const Navigation = () => {
+  return (
+    <nav>
+      {/* 基本的なパス */}
+      <Link href={paths.home.getHref()}>ホーム</Link>
+      <Link href={paths.app.dashboard.getHref()}>ダッシュボード</Link>
+      <Link href={paths.app.profile.getHref()}>プロフィール</Link>
+    </nav>
+  )
+}
+```
+
+#### useRouterフック
+
+```typescript
+'use client'
+
+import { useRouter } from 'next/navigation'
+import { paths } from '@/config/paths'
+
+export const LoginButton = () => {
+  const router = useRouter()
+
+  const handleLogin = () => {
+    // ログインページへ遷移
+    router.push(paths.auth.login.getHref())
+  }
+
+  return <button onClick={handleLogin}>ログイン</button>
+}
+```
+
+### リダイレクト機能付きパス
+
+認証後のリダイレクト先を指定できます。
+
+```typescript
+import Link from 'next/link'
+import { paths } from '@/config/paths'
+
+export const ProtectedLink = () => {
+  return (
+    <div>
+      {/* ログイン後にダッシュボードへリダイレクト */}
+      <Link href={paths.auth.login.getHref('/app/dashboard')}>
+        ログイン
+      </Link>
+
+      {/* 登録後にプロフィールページへリダイレクト */}
+      <Link href={paths.auth.register.getHref('/app/profile')}>
+        新規登録
+      </Link>
+    </div>
+  )
+}
+```
+
+### Server Componentでの使用
+
+```typescript
+import { redirect } from 'next/navigation'
+import { paths } from '@/config/paths'
+
+export default async function ProtectedPage() {
+  const session = await getSession()
+
+  if (!session) {
+    // 未認証の場合、ログインページへリダイレクト
+    redirect(paths.auth.login.getHref('/app/dashboard'))
+  }
+
+  return <div>保護されたページ</div>
+}
+```
+
+### 動的パスの追加例
+
+プロジェクト固有の動的ルートを追加する場合:
+
+```typescript
+export const paths = {
+  // ... 既存のパス
+
+  /**
+   * アイテム関連のパス
+   */
+  items: {
+    /**
+     * アイテム一覧
+     */
+    list: {
+      getHref: () => '/items',
+    },
+
+    /**
+     * アイテム詳細
+     * @param id - アイテムID
+     */
+    detail: {
+      getHref: (id: string) => `/items/${id}`,
+    },
+
+    /**
+     * アイテム編集
+     * @param id - アイテムID
+     */
+    edit: {
+      getHref: (id: string) => `/items/${id}/edit`,
+    },
+
+    /**
+     * 新規作成
+     */
+    new: {
+      getHref: () => '/items/new',
+    },
+  },
+} as const
+```
+
+### 使用例
+
+```typescript
+import Link from 'next/link'
+import { paths } from '@/config/paths'
+
+export const ItemList = ({ items }: { items: Item[] }) => {
+  return (
+    <div>
+      {/* 新規作成リンク */}
+      <Link href={paths.items.new.getHref()}>
+        新規作成
+      </Link>
+
+      {/* アイテム一覧 */}
+      <ul>
+        {items.map((item) => (
+          <li key={item.id}>
+            {/* 詳細ページへのリンク */}
+            <Link href={paths.items.detail.getHref(item.id)}>
+              {item.name}
+            </Link>
+
+            {/* 編集ページへのリンク */}
+            <Link href={paths.items.edit.getHref(item.id)}>
+              編集
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </div>
+  )
+}
+```
+
+### ベストプラクティス
+
+#### ✅ Good: paths.tsを使用
+
+```typescript
+import { paths } from '@/config/paths'
+
+// 型安全で補完が効く
+<Link href={paths.app.dashboard.getHref()}>ダッシュボード</Link>
+```
+
+#### ❌ Bad: ハードコーディング
+
+```typescript
+// タイポのリスク、変更時に全箇所修正が必要
+<Link href="/app/dashboard">ダッシュボード</Link>
 ```
 
 ---
