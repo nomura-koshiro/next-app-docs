@@ -17,7 +17,7 @@ export const Header = ({
   onLogin,
   onLogout,
   onCreateAccount,
-}: HeaderProps) => (
+}: HeaderProps): React.ReactElement => (
   <header>
     <div className="storybook-header">
       <div>
