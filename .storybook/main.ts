@@ -18,6 +18,16 @@ const config: StorybookConfig = {
   },
   "staticDirs": [
     "..\\public"
-  ]
+  ],
+  async viteFinal(config) {
+    // Storybook用の環境変数を追加
+    // NEXT_PUBLIC_STORYBOOK_PORTを設定して、env.tsで検出できるようにする
+    config.define = {
+      ...config.define,
+      'process.env.NEXT_PUBLIC_STORYBOOK_PORT': JSON.stringify('6006'),
+    };
+
+    return config;
+  },
 };
 export default config;
