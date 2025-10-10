@@ -1,5 +1,5 @@
-import { setupWorker } from 'msw/browser'
-import { handlers } from './handlers'
+import { setupWorker } from "msw/browser";
+import { handlers } from "./handlers";
 
 /**
  * MSW Browser Worker
@@ -10,4 +10,4 @@ import { handlers } from './handlers'
  *
  * @see https://mswjs.io/docs/api/setup-worker
  */
-export const worker = setupWorker(...handlers)
+export const worker = setupWorker(...handlers);

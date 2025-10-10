@@ -1,6 +1,7 @@
 /** @type {import('stylelint').Config} */
 const config = {
   plugins: ['@stylistic/stylelint-plugin', 'stylelint-plugin-logical-css'],
+  ignoreFiles: ['src/stories/**/*.css'],
   rules: {
     // Tailwind CSS v4用の基本ルール
     'at-rule-no-unknown': [
@@ -27,11 +28,11 @@ const config = {
       },
     ],
 
-    // カスタムプロパティの命名規則
+    // カスタムプロパティの命名規則（shadcn/ui対応）
     'custom-property-pattern': [
-      '^(color|font|spacing|size|radius|shadow)-[a-z0-9-]+$',
+      '^(color|font|spacing|size|shadow)-[a-z0-9-]+$|^radius$',
       {
-        message: 'カスタムプロパティは "color-", "font-", "spacing-", "size-", "radius-", "shadow-" で始める必要があります',
+        message: 'カスタムプロパティは "color-", "font-", "spacing-", "size-", "shadow-" で始めるか、"radius" である必要があります',
       },
     ],
 

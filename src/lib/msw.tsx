@@ -1,7 +1,7 @@
-'use client'
+"use client";
 
-import { useEffect, useState } from 'react'
-import { env } from '@/config/env'
+import { useEffect, useState } from "react";
+import { env } from "@/config/env";
 
 /**
  * MSW (Mock Service Worker) Provider
@@ -17,9 +17,13 @@ import { env } from '@/config/env'
  * </MSWProvider>
  * ```
  */
-export const MSWProvider = ({ children }: { children: React.ReactNode }): React.ReactElement | null => {
+export const MSWProvider = ({
+  children,
+}: {
+  children: React.ReactNode;
+}): React.ReactElement | null => {
   // MSWの初期化が完了したかどうかを管理
-  const [isReady, setIsReady] = useState(false)
+  const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
     /**
@@ -28,31 +32,31 @@ export const MSWProvider = ({ children }: { children: React.ReactNode }): React.
      * - env.ENABLE_API_MOCKING=trueの場合のみService Workerを起動
      */
     const initMSW = async (): Promise<void> => {
-      if (typeof window !== 'undefined' && env.ENABLE_API_MOCKING === true) {
+      if (typeof window !== "undefined" && env.ENABLE_API_MOCKING === true) {
         // MSW workerを動的にインポート（本番環境でのバンドルサイズ削減）
-        const { worker } = await import('@/mocks/browser')
+        const { worker } = await import("@/mocks/browser");
 
         // Service Workerを起動
         // onUnhandledRequest: 'bypass' - モックされていないリクエストは通常通り処理
         await worker.start({
-          onUnhandledRequest: 'bypass',
-        })
+          onUnhandledRequest: "bypass",
+        });
 
-        console.log('[MSW] Mock Service Worker initialized')
+        console.log("[MSW] Mock Service Worker initialized");
       }
 
       // 初期化完了をマーク（モッキング無効時も即座に完了）
-      setIsReady(true)
+      setIsReady(true);
     };
 
-    void initMSW()
-  }, [])
+    void initMSW();
+  }, []);
 
   // MSWが有効で初期化未完了の場合は何も表示しない
   // これにより、MSW起動前のAPIリクエストを防ぐ
   if (!isReady && env.ENABLE_API_MOCKING === true) {
-    return null
+    return null;
   }
 
-  return <>{children}</>
-}
+  return <>{children}</>;
+};

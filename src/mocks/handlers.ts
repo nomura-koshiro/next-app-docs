@@ -1,4 +1,4 @@
-import { http, HttpResponse } from 'msw'
+import { http, HttpResponse } from "msw";
 
 /**
  * MSW (Mock Service Worker) リクエストハンドラー
@@ -15,11 +15,11 @@ export const handlers = [
    *
    * @returns メッセージとタイムスタンプを含むJSONレスポンス
    */
-  http.get('/api/example', () => {
+  http.get("/api/example", () => {
     return HttpResponse.json({
-      message: 'Hello from MSW!',
+      message: "Hello from MSW!",
       timestamp: new Date().toISOString(),
-    })
+    });
   }),
 
   /**
@@ -29,17 +29,17 @@ export const handlers = [
    * @param request - リクエストオブジェクト（リクエストボディを含む）
    * @returns 成功フラグと送信されたデータを含むJSONレスポンス
    */
-  http.post('/api/example', async ({ request }) => {
-    const body = await request.json()
+  http.post("/api/example", async ({ request }) => {
+    const body = await request.json();
 
     return HttpResponse.json({
       success: true,
       data: body,
-    })
+    });
   }),
 
   // 以下に必要なAPIハンドラーを追加してください
   // 例:
   // http.get('/api/users', () => { ... }),
   // http.post('/api/users', async ({ request }) => { ... }),
-]
+];
