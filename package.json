@@ -69,6 +69,7 @@
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-storybook": "9.1.10",
     "msw": "^2.11.3",
+    "msw-storybook-addon": "^2.0.5",
     "playwright": "^1.56.0",
     "postcss": "^8.5.6",
     "prettier": "^3.6.2",
