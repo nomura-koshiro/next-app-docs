@@ -12,7 +12,8 @@ import { MutationConfig } from "@/lib/tanstack-query";
 /**
  * ログアウトAPI呼び出し
  *
- * TODO: バックエンドでセッション管理している場合、'/auth/logout' エンドポイントを実装してください
+ * エンドポイント: POST /api/v1/auth/logout
+ * TODO: バックエンドでセッション管理している場合、エンドポイントを実装してください
  * TODO: JWTのみの場合、クライアント側でトークン削除のみで十分な場合もあります
  */
 export const logout = (): Promise<void> => {

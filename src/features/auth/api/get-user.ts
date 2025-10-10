@@ -13,7 +13,7 @@ import type { User } from "../types";
 /**
  * 現在のユーザー情報を取得
  *
- * TODO: 実際のAPIエンドポイント '/auth/me' または '/users/me' を実装してください
+ * エンドポイント: GET /api/v1/auth/me
  * TODO: JWTトークンがヘッダーに自動的に含まれることを確認してください（api-client.tsで設定）
  */
 export const getUser = (): Promise<{ data: User }> => {

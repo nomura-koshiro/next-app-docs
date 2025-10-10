@@ -36,7 +36,7 @@ export type LoginResponse = {
 /**
  * ログインAPI呼び出し
  *
- * TODO: 実際のAPIエンドポイント '/auth/login' を実装してください
+ * エンドポイント: POST /api/v1/auth/login
  * TODO: バックエンドから返されるレスポンス形式に合わせて修正してください
  */
 export const login = (data: LoginInput): Promise<LoginResponse> => {

@@ -39,10 +39,20 @@ export const MSWProvider = ({
         // Service Workerを起動
         // onUnhandledRequest: 'bypass' - モックされていないリクエストは通常通り処理
         await worker.start({
-          onUnhandledRequest: "bypass",
+          serviceWorker: {
+            url: "/mockServiceWorker.js",
+          },
+          onUnhandledRequest: (req) => {
+            // APIリクエスト以外は警告を出さない
+            if (!req.url.includes("/api/")) {
+              return;
+            }
+            console.warn("[MSW] Unhandled request:", req.method, req.url);
+          },
         });
 
         console.log("[MSW] Mock Service Worker initialized");
+        console.log("[MSW] Registered handlers:", worker.listHandlers().length);
       }
 
       // 初期化完了をマーク（モッキング無効時も即座に完了）
