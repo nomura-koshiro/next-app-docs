@@ -103,6 +103,36 @@
 
 ---
 
+### shadcn/ui
+
+**公式サイト:** https://ui.shadcn.com/
+
+**用途:** 再利用可能なコンポーネントライブラリ
+
+**主な機能:**
+
+- Radix UIベースのアクセシブルなコンポーネント
+- Tailwind CSSによるスタイリング
+- コピー&ペーストで追加（依存関係が少ない）
+- 完全にカスタマイズ可能
+
+**特徴:**
+
+- npmパッケージではなく、コードをコピーして使用
+- プロジェクトに合わせて自由にカスタマイズ可能
+- TypeScript完全サポート
+- ダークモード対応
+
+**インストール:**
+
+```bash
+npx shadcn@latest add button
+npx shadcn@latest add card
+npx shadcn@latest add input
+```
+
+---
+
 ### CVA (Class Variance Authority)
 
 **公式サイト:** https://cva.style/
@@ -114,26 +144,57 @@
 - Tailwindクラスのバリアント管理
 - 型安全なPropsバリアント
 - 条件付きクラスの組み合わせ
+- shadcn/uiで標準採用
 
 **使用例:**
 
 ```typescript
 import { cva } from 'class-variance-authority'
 
-const button = cva('rounded font-semibold', {
+const buttonVariants = cva('rounded font-semibold', {
   variants: {
-    intent: {
-      primary: 'bg-blue-500 text-white',
-      secondary: 'bg-gray-200 text-gray-900',
+    variant: {
+      default: 'bg-primary text-primary-foreground',
+      destructive: 'bg-destructive text-destructive-foreground',
+      outline: 'border border-input hover:bg-accent',
     },
     size: {
-      sm: 'px-3 py-1',
-      md: 'px-4 py-2',
-      lg: 'px-6 py-3',
+      default: 'h-10 px-4 py-2',
+      sm: 'h-9 px-3',
+      lg: 'h-11 px-8',
     },
+  },
+  defaultVariants: {
+    variant: 'default',
+    size: 'default',
   },
 })
 ```
+
+---
+
+### Radix UI
+
+**公式サイト:** https://www.radix-ui.com/
+
+**用途:** アクセシブルなUIプリミティブ
+
+**主な機能:**
+
+- WAI-ARIA準拠
+- キーボードナビゲーション対応
+- フォーカス管理
+- スタイルなし（Tailwindで自由にスタイリング可能）
+
+**shadcn/uiとの関係:**
+
+shadcn/uiはRadix UIをベースにしており、以下のようなコンポーネントで使用されています：
+
+- Dialog
+- Dropdown Menu
+- Tooltip
+- Select
+- Tabs
 
 ---
 

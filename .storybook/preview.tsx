@@ -1,5 +1,11 @@
-import type { Preview } from '@storybook/nextjs-vite'
+import type { Preview, Decorator } from '@storybook/nextjs-vite'
 import { AppProvider } from '../src/app/provider'
+
+const withAppProvider: Decorator = (Story): React.ReactElement => (
+  <AppProvider>
+    <Story />
+  </AppProvider>
+)
 
 const preview: Preview = {
   parameters: {
@@ -17,13 +23,7 @@ const preview: Preview = {
       test: 'todo',
     },
   },
-  decorators: [
-    (Story) => (
-      <AppProvider>
-        <Story />
-      </AppProvider>
-    ),
-  ],
+  decorators: [withAppProvider],
 }
 
 export default preview

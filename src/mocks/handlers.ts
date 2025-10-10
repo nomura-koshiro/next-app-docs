@@ -1,4 +1,5 @@
 import { http, HttpResponse } from "msw";
+import { authHandlers } from "./handlers/auth-handlers";
 
 /**
  * MSW (Mock Service Worker) リクエストハンドラー
@@ -8,7 +9,9 @@ import { http, HttpResponse } from "msw";
  *
  * @see https://mswjs.io/docs/basics/request-handler
  */
-export const handlers = [
+
+// サンプルハンドラー
+const exampleHandlers = [
   /**
    * GET /api/example
    * サンプルGETリクエストのモック
@@ -37,9 +40,26 @@ export const handlers = [
       data: body,
     });
   }),
+];
+
+/**
+ * 全てのハンドラーを統合
+ *
+ * 機能ごとにファイルを分割し、ここで統合します。
+ * 新しいハンドラーを追加する場合は、対応するファイルを作成してインポートしてください。
+ *
+ * @example
+ * ```ts
+ * import { userHandlers } from './user-handlers'
+ * export const handlers = [...authHandlers, ...userHandlers, ...]
+ * ```
+ */
+export const handlers = [
+  ...authHandlers, // 認証関連
+  ...exampleHandlers, // サンプル
 
   // 以下に必要なAPIハンドラーを追加してください
   // 例:
-  // http.get('/api/users', () => { ... }),
-  // http.post('/api/users', async ({ request }) => { ... }),
+  // ...userHandlers,    // ユーザー管理
+  // ...postHandlers,    // 投稿管理
 ];

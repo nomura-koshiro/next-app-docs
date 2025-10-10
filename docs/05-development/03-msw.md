@@ -61,23 +61,6 @@ describe('TrainingList', () => {
 })
 ```
 
-### 3. Storybook活用
-
-```typescript
-// UIコンポーネント単体でAPIモック使用可能
-export const Default: Story = {
-  parameters: {
-    msw: {
-      handlers: [
-        http.get('/trainings', () =>
-          HttpResponse.json(mockTrainings)
-        ),
-      ],
-    },
-  },
-}
-```
-
 ---
 
 ## インストール
@@ -87,16 +70,13 @@ export const Default: Story = {
 ```bash
 # MSW本体
 pnpm add -D msw@latest
-
-# Storybook統合用
-pnpm add -D msw-storybook-addon
 ```
 
 ### 2. Service Workerファイル生成
 
 ```bash
 # publicディレクトリにService Worker生成
-npx msw init ./public --save
+npx msw init public/ --save
 ```
 
 **生成されるファイル:**
@@ -408,59 +388,55 @@ export const handlers = [
 
 ## Storybookとの統合
 
-### 1. Storybook Addonインストール
+このプロジェクトでは、Storybook内でMSWを**AppProvider経由**で使用します。
 
-```bash
-pnpm add -D msw-storybook-addon
-```
-
-### 2. main.tsでの設定
-
-```typescript
-// .storybook/main.ts
-import type { StorybookConfig } from '@storybook/nextjs'
-
-const config: StorybookConfig = {
-  framework: {
-    name: '@storybook/nextjs',
-    options: {},
-  },
-  stories: ['../src/**/*.stories.@(js|jsx|ts|tsx)'],
-  addons: [
-    '@storybook/addon-essentials',
-    '@storybook/addon-interactions',
-  ],
-  staticDirs: ['../public'], // MSW用のService Workerファイルを配信
-}
-
-export default config
-```
-
-### 3. preview.tsでの初期化
+### preview.tsでの設定
 
 ```typescript
 // .storybook/preview.ts
-import { initialize, mswLoader } from 'msw-storybook-addon'
-import { handlers } from '../src/mocks/handlers'
+import type { Preview } from '@storybook/nextjs-vite'
+import { AppProvider } from '../src/app/provider'
 
-// MSW初期化
-initialize({
-  onUnhandledRequest: 'bypass',
-})
-
-const preview = {
-  loaders: [mswLoader],
+const preview: Preview = {
   parameters: {
-    msw: {
-      handlers: [...handlers], // グローバルハンドラー設定
+    controls: {
+      matchers: {
+        color: /(background|color)$/i,
+        date: /Date$/i,
+      },
     },
   },
+  decorators: [
+    (Story) => (
+      <AppProvider>
+        <Story />
+      </AppProvider>
+    ),
+  ],
 }
 
 export default preview
 ```
 
-これで、すべてのStoryで自動的にMSWが有効になります。個別のStory内でハンドラーをオーバーライドする必要はありません。
+### 仕組み
+
+1. **AppProviderにMSWProviderが含まれている**
+   - `src/app/provider.tsx`でMSWProviderをラップ
+   - 環境変数`NEXT_PUBLIC_API_MOCKING=true`でMSWが有効化
+
+2. **すべてのStoryで自動的にMSWが動作**
+   - Story単位でハンドラーをオーバーライドする必要なし
+   - `src/mocks/handlers.ts`で定義したグローバルハンドラーを使用
+
+3. **統一された動作**
+   - アプリケーション本体とStorybookで同じMSW設定
+   - 一貫したモックデータと動作
+
+### 利点
+
+- **設定がシンプル**: `msw-storybook-addon`不要
+- **保守性が高い**: AppProviderの変更がStorybookにも自動反映
+- **動作が統一**: アプリとStorybookで同じ挙動
 
 ---
 
@@ -645,7 +621,7 @@ NEXT_PUBLIC_USE_MSW=true  # MSW有効化
 **解決策:**
 ```bash
 # Service Workerファイルを再生成
-npx msw init ./public --save
+npx msw init public/ --save
 
 # HTTPSでないとService Workerは動作しない
 # ローカル開発はlocalhostならOK
@@ -687,17 +663,23 @@ export function Providers({ children }: { children: React.ReactNode }) {
 実際のAPIリクエストが発生してしまう
 
 **解決策:**
+```bash
+# .env.localでMSWを有効化
+NEXT_PUBLIC_API_MOCKING=true
+```
+
 ```typescript
-// .storybook/preview.ts
-import { initialize, mswLoader } from 'msw-storybook-addon'
+// .storybook/preview.tsでAppProviderを使用していることを確認
+import { AppProvider } from '../src/app/provider'
 
-// 必ず呼び出す
-initialize({
-  onUnhandledRequest: 'warn', // 未処理リクエストを警告
-})
-
-const preview = {
-  loaders: [mswLoader], // ← 必須
+const preview: Preview = {
+  decorators: [
+    (Story) => (
+      <AppProvider>
+        <Story />
+      </AppProvider>
+    ),
+  ],
 }
 ```
 
@@ -746,13 +728,14 @@ worker.start({
 
 ### セットアップ時
 
-- [ ] `pnpm add -D msw msw-storybook-addon`
-- [ ] `npx msw init ./public --save`
+- [ ] `pnpm add -D msw`
+- [ ] `npx msw init public/ --save`
 - [ ] `src/mocks/handlers.ts`作成
 - [ ] `src/mocks/browser.ts`作成（ブラウザ用）
 - [ ] `src/mocks/server.ts`作成（Node.js用）
-- [ ] Next.js Providers設定
+- [ ] Next.js AppProvider設定（MSWProvider含む）
 - [ ] Vitest setup設定
+- [ ] `.env.local`に`NEXT_PUBLIC_API_MOCKING=true`設定
 
 ### 開発時
 
@@ -763,9 +746,8 @@ worker.start({
 
 ### Storybook
 
-- [ ] `initialize()`呼び出し
-- [ ] `mswLoader`追加
-- [ ] Story内で`parameters.msw`設定
+- [ ] `.storybook/preview.ts`でAppProviderを使用
+- [ ] 環境変数`NEXT_PUBLIC_API_MOCKING=true`を設定
 
 ### テスト
 

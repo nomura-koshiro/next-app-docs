@@ -144,7 +144,7 @@ export const env = createEnv();
 NEXT_PUBLIC_API_URL=http://localhost:3000/api
 
 # MSW (Mock Service Worker) 設定
-NEXT_PUBLIC_API_MOCKING=true
+NEXT_PUBLIC_ENABLE_API_MOCKING=true
 
 # アプリケーション設定
 NEXT_PUBLIC_URL=http://localhost:3000

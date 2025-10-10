@@ -13,7 +13,7 @@ const config = {
 
     // スタイリスティックルール
     '@stylistic/indentation': 2,
-    '@stylistic/string-quotes': 'single',
+    '@stylistic/string-quotes': 'double',
     '@stylistic/color-hex-case': 'lower',
     '@stylistic/declaration-colon-space-after': 'always',
     '@stylistic/declaration-colon-space-before': 'never',

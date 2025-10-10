@@ -27,7 +27,7 @@ export const AppProvider = ({
     <MSWProvider>
       <ErrorBoundary FallbackComponent={MainErrorFallback}>
         <QueryClientProvider client={queryClient}>
-          {process.env.DEV === "true" && <ReactQueryDevtools />}
+          {process.env.NODE_ENV === "development" && <ReactQueryDevtools />}
           {children}
         </QueryClientProvider>
       </ErrorBoundary>

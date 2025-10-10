@@ -25,33 +25,35 @@ CAMP_front/src/
 │   │   └── page-e/
 │   ├── layout.tsx          # ルートレイアウト
 │   ├── page.tsx            # ホームページ
-│   └── providers.tsx       # グローバルプロバイダー
+│   ├── not-found.tsx       # 404ページ
+│   └── provider.tsx        # グローバルプロバイダー
 │
 ├── features/              # 機能モジュール（bulletproof-react）
-│   ├── {feature-a}/       # 機能A
+│   ├── {feature-a}/       # 機能A（例: auth, dashboard等）
 │   ├── {feature-b}/       # 機能B
 │   └── {feature-c}/       # 機能C
 │
 ├── components/            # 共通コンポーネント
-│   ├── ui/                # 基本UIコンポーネント
+│   ├── ui/                # 基本UIコンポーネント (shadcn/ui)
 │   │   ├── button.tsx
 │   │   ├── input.tsx
 │   │   └── card.tsx
-│   ├── layouts/           # レイアウトコンポーネント
-│   │   ├── header.tsx
-│   │   ├── sidebar.tsx
-│   │   └── footer.tsx
-│   └── form/              # フォーム関連
+│   ├── errors/            # エラー表示コンポーネント
+│   │   └── main.tsx
+│   └── layouts/           # レイアウトコンポーネント
+│       ├── header.tsx
+│       ├── sidebar.tsx
+│       └── footer.tsx
 │
 ├── lib/                   # 外部ライブラリ設定
-│   ├── api-client.ts      # APIクライアント
-│   ├── react-query.ts     # TanStack Query設定
-│   └── auth.tsx           # 認証設定
+│   ├── api-client.ts      # Axios APIクライアント設定
+│   ├── tanstack-query.ts  # TanStack Query設定
+│   ├── msw.tsx            # Mock Service Worker設定
+│   └── utils.ts           # ユーティリティ関数 (cn等)
 │
-├── stores/                # グローバルストア（Zustand）
-│   ├── {feature-a}-store.ts
-│   ├── {feature-b}-store.ts
-│   └── theme-store.ts
+├── mocks/                 # MSWモックハンドラー
+│   ├── browser.ts         # ブラウザ用MSW設定
+│   └── handlers.ts        # APIモックハンドラー
 │
 ├── hooks/                 # 共通カスタムフック
 │   ├── use-debounce.ts
@@ -60,18 +62,19 @@ CAMP_front/src/
 │
 ├── types/                 # 共通型定義
 │   ├── api.ts
-│   └── index.ts
+│   └── global.d.ts
 │
 ├── utils/                 # ユーティリティ関数
 │   ├── format.ts
-│   └── cn.ts              # クラス名結合
+│   └── cn.ts              # Tailwindクラス名結合
 │
 ├── config/                # 設定
-│   ├── env.ts             # 環境変数
-│   └── constants.ts       # 定数
+│   ├── env.ts             # 環境変数（Zod検証付き）
+│   └── paths.ts           # ルーティングパス定義
 │
-└── providers/             # コンテキストプロバイダー
-    └── query-provider.tsx
+└── stories/               # Storybookストーリー
+    ├── Button.stories.ts
+    └── ...
 ```
 
 ---

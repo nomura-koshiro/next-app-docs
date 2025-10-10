@@ -42,8 +42,6 @@ const eslintConfig = [...compat.extends("next/core-web-vitals", "next/typescript
         "next": "return"
       }
     ],
-    // エクスポートされる関数の戻り値の型を明示
-    "@typescript-eslint/explicit-module-boundary-types": ["error"],
     // 未使用変数をエラー（_で始まる変数は除外）
     "@typescript-eslint/no-unused-vars": [
       "error",

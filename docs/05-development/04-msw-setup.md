@@ -176,7 +176,7 @@ await worker.start({
 
 # MSW (Mock Service Worker) 設定
 # 開発環境でMSWを有効にする場合は'true'に設定
-NEXT_PUBLIC_API_MOCKING=true
+NEXT_PUBLIC_ENABLE_API_MOCKING=true
 ```
 
 ### env.tsでの検証
@@ -196,10 +196,10 @@ const EnvSchema = z.object({
 
 ```bash
 # MSWを有効化
-NEXT_PUBLIC_API_MOCKING=true
+NEXT_PUBLIC_ENABLE_API_MOCKING=true
 
 # MSWを無効化
-NEXT_PUBLIC_API_MOCKING=false
+NEXT_PUBLIC_ENABLE_API_MOCKING=false
 ```
 
 ---
@@ -590,7 +590,7 @@ test('エラー時のメッセージを表示', async () => {
 1. **環境変数が設定されていない**
    ```bash
    # .env.local
-   NEXT_PUBLIC_API_MOCKING=true
+   NEXT_PUBLIC_ENABLE_API_MOCKING=true
    ```
 
 2. **開発サーバーを再起動していない**

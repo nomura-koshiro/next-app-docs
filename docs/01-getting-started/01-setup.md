@@ -291,7 +291,7 @@ pnpm dev -- -p 3001
 
 - **[プロジェクト構成](../02-architecture/01-project-structure.md)** - ディレクトリ構造とアーキテクチャの理解
 - **[技術スタック](../03-core-concepts/01-tech-stack.md)** - 使用している技術スタックの把握
-- **[クイックスタート](./03-quick-start.md)** - すぐに開発を始める
+- **[クイックスタート](./02-quick-start.md)** - すぐに開発を始める
 
 ---
 

@@ -12,6 +12,13 @@
     "stylelint:fix": "stylelint \"src/**/*.css\" --fix",
     "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json,css,scss,md}\"",
     "format:check": "prettier --check \"src/**/*.{ts,tsx,js,jsx,json,css,scss,md}\"",
+    "check": "pnpm run format:check && pnpm run lint && pnpm run stylelint",
+    "check:fix": "pnpm run format && pnpm run lint:fix && pnpm run stylelint:fix",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "e2e": "playwright test",
+    "ci": "pnpm run check && pnpm run typecheck && pnpm run build",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },

@@ -645,6 +645,73 @@ const preview: Preview = {
 export default preview
 ```
 
+### AppProviderの設定
+
+アプリケーションと同じ環境を再現するため、`AppProvider` を Storybook の全体的なデコレーターとして設定します。
+これにより、MSW、React Query、ErrorBoundary などがすべてのStoryで利用可能になります。
+
+```typescript
+// .storybook/preview.ts
+import type { Preview } from '@storybook/nextjs-vite'
+import { AppProvider } from '../src/app/provider'
+import '../src/app/globals.css'
+
+const preview: Preview = {
+  parameters: {
+    controls: {
+      matchers: {
+        color: /(background|color)$/i,
+        date: /Date$/i,
+      },
+    },
+    a11y: {
+      test: 'todo',
+    },
+  },
+  decorators: [
+    (Story) => (
+      <AppProvider>
+        <Story />
+      </AppProvider>
+    ),
+  ],
+}
+
+export default preview
+```
+
+#### AppProviderに含まれる機能
+
+`AppProvider` には以下のプロバイダーが含まれています：
+
+| プロバイダー | 機能 |
+|------------|------|
+| **MSWProvider** | APIモックの自動初期化 |
+| **ErrorBoundary** | エラーハンドリング |
+| **QueryClientProvider** | React Query による状態管理 |
+| **ReactQueryDevtools** | 開発時のデバッグツール |
+
+#### MSWの有効化
+
+Storybook でMSWを有効にするには、環境変数を設定します：
+
+```bash
+# .env.local
+NEXT_PUBLIC_ENABLE_API_MOCKING=true
+```
+
+MSWが有効な場合、すべてのStoryで `src/mocks/handlers` で定義したモックAPIが自動的に使用されます。
+
+**メリット:**
+- ✅ アプリケーションと完全に同じプロバイダー構成
+- ✅ MSWによるAPI モック が自動的に有効
+- ✅ React Query のキャッシュ動作を再現
+- ✅ エラーハンドリングの動作確認が可能
+
+**注意:**
+- MSWを無効にしたい場合は `NEXT_PUBLIC_ENABLE_API_MOCKING=false` に設定
+- Storybook起動時に環境変数の変更を反映するには再起動が必要
+
 ---
 
 ## ベストプラクティス

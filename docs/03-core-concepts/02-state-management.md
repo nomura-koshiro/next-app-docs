@@ -403,6 +403,8 @@ export const useUserStore = create<UserState>()(
 
 ```typescript
 // ❌ 従来のアプローチ（アンチパターン）
+import { api } from '@/lib/api-client'
+
 const useUserStore = create((set) => ({
   users: [],
   isLoading: false,
@@ -411,7 +413,7 @@ const useUserStore = create((set) => ({
   fetchUsers: async () => {
     set({ isLoading: true, error: null })
     try {
-      const response = await axios.get('/api/users')
+      const response = await api.get('/api/users')
       set({ users: response.data, isLoading: false })
     } catch (error) {
       set({ error, isLoading: false })
@@ -450,7 +452,7 @@ const Component = () => {
 ```typescript
 // src/api/queries/userQueries.ts
 import { useQuery } from '@tanstack/react-query'
-import { axios } from '@/api/axios'
+import { api } from '@/lib/api-client'
 
 interface User {
   id: string
@@ -460,7 +462,7 @@ interface User {
 
 // APIクライアント
 const fetchUsers = async (): Promise<User[]> => {
-  const { data } = await axios.get('/api/users')
+  const { data } = await api.get('/api/users')
 
   return data
 }
@@ -501,8 +503,10 @@ export const UserList = () => {
 
 ```typescript
 // src/api/queries/userQueries.ts
+import { api } from '@/lib/api-client'
+
 const fetchUser = async (userId: string): Promise<User> => {
-  const { data } = await axios.get(`/api/users/${userId}`)
+  const { data } = await api.get(`/api/users/${userId}`)
 
   return data
 }
@@ -521,7 +525,7 @@ export const useUser = (userId: string) => {
 ```typescript
 // src/api/mutations/userMutations.ts
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { axios } from '@/api/axios'
+import { api } from '@/lib/api-client'
 
 interface CreateUserInput {
   name: string
@@ -529,7 +533,7 @@ interface CreateUserInput {
 }
 
 const createUser = async (input: CreateUserInput): Promise<User> => {
-  const { data } = await axios.post('/api/users', input)
+  const { data } = await api.post('/api/users', input)
 
   return data
 }

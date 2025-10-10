@@ -707,10 +707,10 @@ Tailwind CSS v4のディレクティブを許可します。
 |---------|--------|------|
 | **Tailwind対応** | `at-rule-no-unknown` | `@tailwind`, `@apply`, `@layer`等を許可 |
 | **スタイリング** | `@stylistic/indentation` | インデント2スペース |
-| **スタイリング** | `@stylistic/string-quotes` | シングルクォート使用 |
+| **スタイリング** | `@stylistic/string-quotes` | ダブルクォート使用（Prettier互換） |
 | **スタイリング** | `@stylistic/color-hex-case` | 16進数カラーは小文字 |
 | **論理プロパティ** | `plugin/use-logical-properties-and-values` | 物理プロパティの使用時に警告 |
-| **命名規則** | `custom-property-pattern` | カスタムプロパティは特定のプレフィックス必須 |
+| **命名規則** | `custom-property-pattern` | カスタムプロパティは特定のプレフィックス必須（shadcn/ui対応） |
 | **品質** | `no-duplicate-selectors` | 重複セレクタ禁止 |
 | **品質** | `block-no-empty` | 空のブロック禁止 |
 
@@ -722,48 +722,66 @@ Tailwind CSS v4のディレクティブを許可します。
 
 ```bash
 # 開発サーバー起動（Turbopack使用）
-npm run dev
+pnpm dev
 
 # 本番ビルド
-npm run build
+pnpm build
 
 # 本番サーバー起動
-npm run start
+pnpm start
 
 # Storybookサーバー起動
-npm run storybook
+pnpm storybook
 ```
 
 ### コード品質管理
 
 ```bash
 # ESLintチェック
-npm run lint
+pnpm lint
 
 # ESLint自動修正
-npm run lint:fix
+pnpm lint:fix
 
 # StyleLintチェック
-npm run stylelint
+pnpm stylelint
 
 # StyleLint自動修正
-npm run stylelint:fix
+pnpm stylelint:fix
 
 # Prettierで整形
-npm run format
+pnpm format
 
 # Prettierチェックのみ（CI用）
-npm run format:check
+pnpm format:check
+
+# すべてのチェックを一括実行（Prettier + ESLint + StyleLint）
+pnpm check
+
+# すべてのチェックと自動修正を一括実行
+pnpm check:fix
 ```
 
-### CI用の推奨フロー
+### 推奨フロー
+
+#### コミット前（手動実行）
 
 ```bash
-# コミット前に以下を実行することを推奨
-npm run format        # コード整形
-npm run lint:fix      # ESLintエラー修正
-npm run stylelint:fix # StyleLintエラー修正
-npm run build         # ビルド確認
+# すべてのチェックと自動修正を実行
+pnpm check:fix
+
+# ビルド確認
+pnpm build
+```
+
+#### CI/CD用
+
+```bash
+# すべてのチェックを実行（自動修正なし）
+pnpm check
+
+# ビルド確認
+pnpm build
 ```
 
 ---
@@ -850,11 +868,20 @@ npm run build         # ビルド確認
 ### 1. コミット前チェック
 
 ```bash
-# 必ず実行（推奨）
-npm run format        # コード整形
-npm run lint:fix      # ESLintエラー修正
-npm run stylelint:fix # StyleLintエラー修正
-npm run build         # ビルド確認
+# すべてのチェックと自動修正を一括実行（推奨）
+pnpm check:fix
+
+# ビルド確認
+pnpm build
+```
+
+**または個別に実行:**
+
+```bash
+pnpm format        # コード整形
+pnpm lint:fix      # ESLintエラー修正
+pnpm stylelint:fix # StyleLintエラー修正
+pnpm build         # ビルド確認
 ```
 
 ### 2. エラーを無視しない

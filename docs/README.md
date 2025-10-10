@@ -128,31 +128,36 @@ app (Next.js App Router)
 
 ## 📁 プロジェクト構造
 
+> **📝 注意:** 以下は目標とするプロジェクト構造です。`features/`、`stores/`、`hooks/`、`utils/`などは現在空のディレクトリとして存在し、実装は進行中です。
+
 ```
 CAMP_front/src/
 ├── app/                    # Next.js App Router
 │   ├── (group-a)/          # ルートグループA
 │   └── (group-b)/          # ルートグループB
 │
-├── features/              # 機能モジュール
+├── features/              # 機能モジュール（将来実装予定）
 │   ├── {feature-a}/       # 機能A
 │   ├── {feature-b}/       # 機能B
 │   ├── {feature-c}/       # 機能C
 │   └── {feature-d}/       # 機能D
 │
 ├── components/            # 共通コンポーネント
-│   ├── ui/                # 基本UIコンポーネント
-│   ├── layouts/           # レイアウト
-│   └── form/              # フォーム関連
+│   ├── ui/                # 基本UIコンポーネント (shadcn/ui)
+│   ├── errors/            # エラー表示コンポーネント
+│   └── layouts/           # レイアウト
 │
 ├── lib/                   # 外部ライブラリ設定
-│   ├── api-client.ts      # APIクライアント
-│   └── react-query.ts     # TanStack Query設定
+│   ├── api-client.ts      # Axios APIクライアント
+│   ├── tanstack-query.ts  # TanStack Query設定
+│   ├── msw.tsx            # Mock Service Worker設定
+│   └── utils.ts           # ユーティリティ関数
 │
-├── stores/                # グローバルストア
-├── hooks/                 # 共通カスタムフック
+├── mocks/                 # MSWモックハンドラー
+├── config/                # 設定ファイル (env.ts, paths.ts, constants.ts)
+├── hooks/                 # 共通カスタムフック（将来実装予定）
 ├── types/                 # 共通型定義
-└── utils/                 # ユーティリティ
+└── utils/                 # ユーティリティ（将来実装予定）
 ```
 
 詳細は [プロジェクト構造](./02-architecture/01-project-structure.md) を参照

@@ -59,6 +59,8 @@
 
 ```typescript
 // ❌ Bad: 複数の責任を持つコンポーネント
+import { api } from '@/lib/api-client'
+
 export const UserPage = () => {
   // データ取得
   const [users, setUsers] = useState([])
@@ -67,7 +69,7 @@ export const UserPage = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       setLoading(true)
-      const res = await axios.get('/api/users')
+      const res = await api.get('/api/users')
       setUsers(res.data)
       setLoading(false)
     }
@@ -86,7 +88,7 @@ export const UserPage = () => {
 
   // 削除処理
   const handleDelete = async (id: string) => {
-    await axios.delete(`/api/users/${id}`)
+    await api.delete(`/api/users/${id}`)
     setUsers(users.filter((u) => u.id !== id))
   }
 
@@ -278,6 +280,10 @@ export const UserTableRow = ({ user, onDelete }: UserTableRowProps) => {
 
 ```typescript
 // ✅ Presentational Component の例
+import { Button } from '@/components/ui/button'
+import { Card } from '@/components/ui/card'
+import { Avatar } from '@/components/ui/avatar'
+
 interface UserCardProps {
   user: User
   onEdit: (user: User) => void
@@ -286,16 +292,16 @@ interface UserCardProps {
 
 export const UserCard = ({ user, onEdit, onDelete }: UserCardProps) => {
   return (
-    <Card>
-      <Avatar src={user.avatar} alt={user.name} />
-      <Typography variant="h6">{user.name}</Typography>
-      <Typography variant="body2">{user.email}</Typography>
-      <Box sx={{ mt: 2 }}>
+    <Card className="p-6">
+      <Avatar src={user.avatar} alt={user.name} className="w-16 h-16" />
+      <h3 className="text-xl font-semibold mt-4">{user.name}</h3>
+      <p className="text-sm text-muted-foreground">{user.email}</p>
+      <div className="mt-4 flex gap-2">
         <Button onClick={() => onEdit(user)}>編集</Button>
-        <Button onClick={() => onDelete(user.id)} color="error">
+        <Button onClick={() => onDelete(user.id)} variant="destructive">
           削除
         </Button>
-      </Box>
+      </div>
     </Card>
   )
 }
@@ -342,7 +348,7 @@ export const UserCardContainer = ({ userId }: { userId: string }) => {
     setIsEditDialogOpen(false)
   }
 
-  if (isLoading) return <Skeleton variant="rectangular" height={200} />
+  if (isLoading) return <div className="h-48 w-full animate-pulse bg-muted rounded-lg" />
   if (!user) return <div>ユーザーが見つかりません</div>
 
   return (
@@ -557,10 +563,10 @@ export const UserList = ({ users, onDelete, isDeleting }: UserListProps) => {
 ```typescript
 // src/features/users/api/delete-user.ts
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { axios } from '@/lib/axios'
+import { api } from '@/lib/api-client'
 
 const deleteUser = async (userId: string): Promise<void> => {
-  await axios.delete(`/api/users/${userId}`)
+  await api.delete(`/api/users/${userId}`)
 }
 
 export const useDeleteUser = () => {
@@ -619,9 +625,23 @@ export const UserEditForm = ({ user, onSubmit, isSubmitting }: UserEditFormProps
   })
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <TextField {...register('name')} label="名前" error={!!errors.name} />
-      <TextField {...register('email')} label="メール" error={!!errors.email} />
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+      <div>
+        <label className="text-sm font-medium">名前</label>
+        <input
+          {...register('name')}
+          className="w-full rounded-md border px-3 py-2"
+        />
+        {errors.name && <p className="text-sm text-destructive">{errors.name.message}</p>}
+      </div>
+      <div>
+        <label className="text-sm font-medium">メール</label>
+        <input
+          {...register('email')}
+          className="w-full rounded-md border px-3 py-2"
+        />
+        {errors.email && <p className="text-sm text-destructive">{errors.email.message}</p>}
+      </div>
       <Button type="submit" disabled={isSubmitting}>
         {isSubmitting ? '更新中...' : '更新'}
       </Button>
@@ -635,7 +655,7 @@ export const UserEditForm = ({ user, onSubmit, isSubmitting }: UserEditFormProps
 ```typescript
 // src/features/users/api/update-user.ts
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { axios } from '@/lib/axios'
+import { api } from '@/lib/api-client'
 
 interface UpdateUserParams {
   userId: string
@@ -643,7 +663,7 @@ interface UpdateUserParams {
 }
 
 const updateUser = async ({ userId, data }: UpdateUserParams): Promise<User> => {
-  const response = await axios.put(`/api/users/${userId}`, data)
+  const response = await api.put(`/api/users/${userId}`, data)
 
   return response.data
 }
@@ -718,9 +738,23 @@ export const UserCreateForm = ({ onSubmit, isSubmitting }: UserCreateFormProps) 
   const { register, handleSubmit, formState: { errors } } = useForm()
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <TextField {...register('name')} label="名前" error={!!errors.name} />
-      <TextField {...register('email')} label="メール" error={!!errors.email} />
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+      <div>
+        <label className="text-sm font-medium">名前</label>
+        <input
+          {...register('name')}
+          className="w-full rounded-md border px-3 py-2"
+        />
+        {errors.name && <p className="text-sm text-destructive">{errors.name.message}</p>}
+      </div>
+      <div>
+        <label className="text-sm font-medium">メール</label>
+        <input
+          {...register('email')}
+          className="w-full rounded-md border px-3 py-2"
+        />
+        {errors.email && <p className="text-sm text-destructive">{errors.email.message}</p>}
+      </div>
       <Button type="submit" disabled={isSubmitting}>
         {isSubmitting ? '作成中...' : '作成'}
       </Button>
@@ -734,10 +768,10 @@ export const UserCreateForm = ({ onSubmit, isSubmitting }: UserCreateFormProps) 
 ```typescript
 // src/features/users/api/create-user.ts
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { axios } from '@/lib/axios'
+import { api } from '@/lib/api-client'
 
 const createUser = async (data: CreateUserInput): Promise<User> => {
-  const response = await axios.post('/api/users', data)
+  const response = await api.post('/api/users', data)
 
   return response.data
 }
