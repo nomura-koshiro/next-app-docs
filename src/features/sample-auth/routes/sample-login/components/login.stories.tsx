@@ -52,6 +52,7 @@ export const Default: Story = {
         errors={form.formState.errors}
         isLoading={false}
         error={null}
+        idPrefix="default"
       />
     );
   },
@@ -86,6 +87,7 @@ export const Loading: Story = {
         errors={form.formState.errors}
         isLoading={true}
         error={null}
+        idPrefix="loading"
       />
     );
   },
@@ -121,6 +123,7 @@ export const WithError: Story = {
         errors={form.formState.errors}
         isLoading={false}
         error="ログインに失敗しました。メールアドレスとパスワードを確認してください。"
+        idPrefix="error"
       />
     );
   },

@@ -22,6 +22,8 @@ type ControlledInputFieldProps<TFieldValues extends FieldValues> = {
   type?: string;
   placeholder?: string;
   required?: boolean;
+  autoComplete?: string;
+  id?: string;
 };
 
 /**
@@ -34,22 +36,26 @@ export function ControlledInputField<TFieldValues extends FieldValues>({
   type = "text",
   placeholder,
   required = false,
+  autoComplete,
+  id,
 }: ControlledInputFieldProps<TFieldValues>) {
+  const fieldId = id ?? name;
   return (
     <Controller
       control={control}
       name={name}
       render={({ field, fieldState }) => (
         <div className="space-y-2">
-          <Label htmlFor={name}>
+          <Label htmlFor={fieldId}>
             {label}
             {required && <span className="text-red-500 ml-1">*</span>}
           </Label>
           <Input
             {...field}
-            id={name}
+            id={fieldId}
             type={type}
             placeholder={placeholder}
+            autoComplete={autoComplete}
             aria-invalid={fieldState.error ? "true" : "false"}
           />
           {fieldState.error && (

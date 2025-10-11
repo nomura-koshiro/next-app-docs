@@ -35,7 +35,7 @@ export const WithError: Story = {
   parameters: {
     msw: {
       handlers: [
-        http.post("/api/v1/users", async () => {
+        http.post("/api/v1/sample/users", async () => {
           await delay(500);
 
           return HttpResponse.json(

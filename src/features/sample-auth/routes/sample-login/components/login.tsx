@@ -1,3 +1,4 @@
+import { useId } from "react";
 import { Control, FieldErrors } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import {
@@ -22,6 +23,8 @@ type LoginFormProps = {
   isLoading: boolean;
   /** エラーメッセージ */
   error: string | null;
+  /** IDプレフィックス（Storybook等でIDを一意にする場合に使用） */
+  idPrefix?: string;
 };
 
 /**
@@ -46,7 +49,12 @@ export const LoginForm = ({
   errors: _errors,
   isLoading,
   error,
+  idPrefix = "",
 }: LoginFormProps) => {
+  const uniqueId = useId();
+  const emailId = idPrefix ? `${idPrefix}-email-${uniqueId}` : `email-${uniqueId}`;
+  const passwordId = idPrefix ? `${idPrefix}-password-${uniqueId}` : `password-${uniqueId}`;
+
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-50">
       <Card className="w-full max-w-md">
@@ -63,6 +71,8 @@ export const LoginForm = ({
                 label="メールアドレス"
                 type="email"
                 placeholder="user@example.com"
+                autoComplete="email"
+                id={emailId}
                 required
               />
 
@@ -72,6 +82,8 @@ export const LoginForm = ({
                 label="パスワード"
                 type="password"
                 placeholder="パスワードを入力"
+                autoComplete="current-password"
+                id={passwordId}
                 required
               />
             </div>
