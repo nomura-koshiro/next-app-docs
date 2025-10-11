@@ -1,12 +1,27 @@
-# フォーム作成手順（React Hook Form + Zod）
+# フォーム作成手順(React Hook Form + Zod)
 
-このガイドでは、React Hook FormとZodを使ったフォームの作成手順を説明します。
+このガイドでは、React Hook FormとZodを使用したフォームの作成手順を説明します。バリデーションスキーマの定義から、Controlled/非Controlledコンポーネントの使い分け、エラーハンドリングまで、フォーム開発に必要なすべてを網羅します。
+
+## 目次
+
+1. [作成するもの](#作成するもの)
+2. [ステップ1: バリデーションスキーマを作成](#ステップ1-バリデーションスキーマを作成)
+3. [ステップ2: フォームコンポーネントを作成](#ステップ2-フォームコンポーネントを作成)
+4. [ステップ3: Controlled Fieldコンポーネントの実装](#ステップ3-controlled-fieldコンポーネントの実装)
+5. [ステップ4: 編集フォームの場合](#ステップ4-編集フォームの場合)
+6. [Zodバリデーションパターン集](#zodバリデーションパターン集)
+7. [エラーハンドリングパターン](#エラーハンドリングパターン)
+8. [チェックリスト](#チェックリスト)
+9. [Tips](#tips)
+
+---
 
 ## 📋 作成するもの
 
-- バリデーションスキーマ（`{resource}-form.schema.ts`）
-- フォームコンポーネント（`new-{resource}-page.tsx` など）
-- API Mutation（`create-{resource}.ts` など）
+- バリデーションスキーマ(`{resource}-form.schema.ts`)
+- ルートコンポーネント(`routes/new-{resource}/new-{resource}.tsx` など)
+- カスタムフック(`routes/new-{resource}/new-{resource}.hook.ts`)
+- API Mutation(`create-{resource}.ts` など)
 
 ---
 
@@ -48,17 +63,12 @@ export type UserFormValues = z.infer<typeof userFormSchema>
 
 ## ステップ2: フォームコンポーネントを作成
 
-### 基本パターン（Controlled Components）
+### 基本パターン(Controlled Components)
 
 ```typescript
-// src/features/users/components/new-user-page/new-user-page.tsx
+// src/features/users/routes/new-user/new-user.tsx
 'use client'
 
-import { useRouter } from 'next/navigation'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useCreateUser } from '@/features/users/api/create-user'
-import { userFormSchema, type UserFormValues } from '@/features/users/schemas/user-form.schema'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import {
@@ -68,14 +78,101 @@ import {
 import { ErrorMessage } from '@/components/ui/error-message'
 import { PageLayout } from '@/components/layout/page-layout'
 import { PageHeader } from '@/components/layout/page-header'
+import { useNewUser } from './new-user.hook'
 
 export default function NewUserPage() {
+  const {
+    control,
+    handleSubmit,
+    createUserMutation,
+    handleCancel,
+  } = useNewUser()
+
+  return (
+    <PageLayout maxWidth="2xl">
+      <PageHeader
+        title="新規ユーザー作成"
+        description="新しいユーザーの情報を入力してください"
+      />
+
+      <Card>
+        <CardContent className="pt-6">
+          <form onSubmit={handleSubmit} className="space-y-6">
+            {/* フィールド */}
+            <ControlledInputField
+              control={control}
+              name="name"
+              label="名前"
+              placeholder="山田太郎"
+              required
+            />
+
+            <ControlledInputField
+              control={control}
+              name="email"
+              label="メールアドレス"
+              type="email"
+              placeholder="yamada@example.com"
+              required
+            />
+
+            <ControlledSelectField
+              control={control}
+              name="role"
+              label="ロール"
+              options={[
+                { value: 'user', label: 'User' },
+                { value: 'admin', label: 'Admin' },
+              ]}
+              required
+            />
+
+            {/* エラー表示 */}
+            {createUserMutation.isError && (
+              <ErrorMessage message="ユーザーの作成に失敗しました" />
+            )}
+
+            {/* ボタン */}
+            <div className="flex gap-4">
+              <Button
+                type="submit"
+                disabled={createUserMutation.isPending}
+                className="flex-1"
+              >
+                {createUserMutation.isPending ? '作成中...' : '作成'}
+              </Button>
+              <Button
+                type="button"
+                variant="outline"
+                onClick={handleCancel}
+                className="flex-1"
+              >
+                キャンセル
+              </Button>
+            </div>
+          </form>
+        </CardContent>
+      </Card>
+    </PageLayout>
+  )
+}
+```
+
+```typescript
+// src/features/users/routes/new-user/new-user.hook.ts
+import { useRouter } from 'next/navigation'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useCreateUser } from '@/features/users/api/create-user'
+import { userFormSchema, type UserFormValues } from '@/features/users/schemas/user-form.schema'
+
+export const useNewUser = () => {
   const router = useRouter()
 
   // 1. useFormの設定
   const {
     control,
-    handleSubmit,
+    handleSubmit: handleFormSubmit,
     formState: { errors },
   } = useForm<UserFormValues>({
     resolver: zodResolver(userFormSchema),
@@ -229,7 +326,7 @@ export const ControlledInputField = <TFieldValues extends FieldValues>({
 ### SelectField
 
 ```typescript
-// src/components/ui/form-field/controlled-form-field.tsx（続き）
+// src/components/ui/form-field/controlled-form-field.tsx(続き)
 import {
   Select,
   SelectContent,
@@ -290,23 +387,114 @@ export const ControlledSelectField = <TFieldValues extends FieldValues>({
 ## ステップ4: 編集フォームの場合
 
 ```typescript
-// src/features/users/components/edit-user-page/edit-user-page.tsx
+// src/features/users/routes/edit-user/edit-user.tsx
 'use client'
 
-import { useRouter } from 'next/navigation'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useUser } from '@/features/users/api/get-user'
-import { useUpdateUser } from '@/features/users/api/update-user'
-import { userFormSchema, type UserFormValues } from '@/features/users/schemas/user-form.schema'
 import { LoadingSpinner } from '@/components/ui/loading-spinner'
 import { ErrorMessage } from '@/components/ui/error-message'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent } from '@/components/ui/card'
+import {
+  ControlledInputField,
+  ControlledSelectField,
+} from '@/components/ui/form-field/controlled-form-field'
+import { PageLayout } from '@/components/layout/page-layout'
+import { PageHeader } from '@/components/layout/page-header'
+import { useEditUser } from './edit-user.hook'
 
 type Props = {
   userId: string
 }
 
 export default function EditUserPage({ userId }: Props) {
+  const {
+    control,
+    handleSubmit,
+    isLoading,
+    error,
+    updateUserMutation,
+    handleCancel,
+  } = useEditUser(userId)
+
+  // ローディング・エラー処理
+  if (isLoading) return <LoadingSpinner fullScreen />
+  if (error) return <ErrorMessage message={error.message} fullScreen />
+
+  return (
+    <PageLayout maxWidth="2xl">
+      <PageHeader
+        title="ユーザー編集"
+        description="ユーザー情報を更新してください"
+      />
+
+      <Card>
+        <CardContent className="pt-6">
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <ControlledInputField
+              control={control}
+              name="name"
+              label="名前"
+              required
+            />
+
+            <ControlledInputField
+              control={control}
+              name="email"
+              label="メールアドレス"
+              type="email"
+              required
+            />
+
+            <ControlledSelectField
+              control={control}
+              name="role"
+              label="ロール"
+              options={[
+                { value: 'user', label: 'User' },
+                { value: 'admin', label: 'Admin' },
+              ]}
+              required
+            />
+
+            {updateUserMutation.isError && (
+              <ErrorMessage message="ユーザーの更新に失敗しました" />
+            )}
+
+            <div className="flex gap-4">
+              <Button
+                type="submit"
+                disabled={updateUserMutation.isPending}
+                className="flex-1"
+              >
+                {updateUserMutation.isPending ? '更新中...' : '更新'}
+              </Button>
+              <Button
+                type="button"
+                variant="outline"
+                onClick={handleCancel}
+                className="flex-1"
+              >
+                キャンセル
+              </Button>
+            </div>
+          </form>
+        </CardContent>
+      </Card>
+    </PageLayout>
+  )
+}
+```
+
+```typescript
+// src/features/users/routes/edit-user/edit-user.hook.ts
+import { useRouter } from 'next/navigation'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useUser } from '@/features/users/api/get-user'
+import { useUpdateUser } from '@/features/users/api/update-user'
+import { userFormSchema, type UserFormValues } from '@/features/users/schemas/user-form.schema'
+
+export const useEditUser = (userId: string) => {
   const router = useRouter()
 
   // 1. データ取得
@@ -315,11 +503,11 @@ export default function EditUserPage({ userId }: Props) {
   // 2. フォーム設定
   const {
     control,
-    handleSubmit,
+    handleSubmit: handleFormSubmit,
     formState: { errors },
   } = useForm<UserFormValues>({
     resolver: zodResolver(userFormSchema),
-    // 既存データをdefaultValuesに設定
+    // 既存データを設定
     values: data?.data
       ? {
           name: data.data.name,
@@ -338,22 +526,25 @@ export default function EditUserPage({ userId }: Props) {
     },
   })
 
-  const onSubmit = (formData: UserFormValues) => {
+  const handleSubmit = handleFormSubmit((formData: UserFormValues) => {
     updateUserMutation.mutate({
       userId,
       data: formData,
     })
+  })
+
+  const handleCancel = () => {
+    router.back()
   }
 
-  // ローディング・エラー処理
-  if (isLoading) return <LoadingSpinner />
-  if (error) return <ErrorMessage message={error.message} />
-
-  return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-      {/* フィールド定義は新規作成と同じ */}
-    </form>
-  )
+  return {
+    control,
+    handleSubmit,
+    isLoading,
+    error,
+    updateUserMutation,
+    handleCancel,
+  }
 }
 ```
 
@@ -424,10 +615,10 @@ role: z.enum(['user', 'admin'], {
 ### オプショナル・Nullable
 
 ```typescript
-// オプション（undefined許可）
+// オプション(undefined許可)
 bio: z.string().optional()
 
-// nullable（null許可）
+// nullable(null許可)
 middleName: z.string().nullable()
 
 // 両方許可
@@ -542,7 +733,7 @@ const onSubmit = async (data: FormValues) => {
 ### バリデーションスキーマ
 
 - [ ] `schemas/` ディレクトリを作成
-- [ ] Zodスキーマを定義（`{resource}-form.schema.ts`）
+- [ ] Zodスキーマを定義(`{resource}-form.schema.ts`)
 - [ ] 型を `z.infer` で生成
 - [ ] エラーメッセージを日本語化
 
@@ -552,16 +743,16 @@ const onSubmit = async (data: FormValues) => {
 - [ ] `useForm` を設定
   - [ ] `resolver: zodResolver(schema)`
   - [ ] `defaultValues` を設定
-- [ ] Mutationフックを設定（`useCreate*`, `useUpdate*`）
+- [ ] Mutationフックを設定(`useCreate*`, `useUpdate*`)
 - [ ] `handleSubmit` で送信処理
 - [ ] Controlled Fieldコンポーネントを使用
 - [ ] エラー表示を実装
-- [ ] ローディング状態を表示（`isPending`）
+- [ ] ローディング状態を表示(`isPending`)
 
 ### 編集フォームの場合
 
-- [ ] データ取得フック（`useGet*`）を追加
-- [ ] `values` にデータを設定（`defaultValues` の代わり）
+- [ ] データ取得フック(`useGet*`)を追加
+- [ ] `values` にデータを設定(`defaultValues` の代わり)
 - [ ] ローディング・エラー処理を追加
 
 ---
@@ -590,18 +781,18 @@ useForm({
 
 ### 非Controlled vs Controlled
 
-| 項目 | 非Controlled（`register`） | Controlled（`Controller`） |
+| 項目 | 非Controlled(`register`) | Controlled(`Controller`) |
 |------|--------------------------|---------------------------|
 | **実装** | シンプル | やや複雑 |
 | **パフォーマンス** | 良い | やや劣る |
 | **使用場面** | Input, Textarea | Select, Checkbox, Custom |
 
 ```typescript
-// 非Controlled（推奨: シンプルなInput）
+// 非Controlled(推奨: シンプルなInput)
 const { register } = useForm()
 <Input {...register('name')} />
 
-// Controlled（推奨: Select, CustomUI）
+// Controlled(推奨: Select, CustomUI)
 const { control } = useForm()
 <Controller
   control={control}
@@ -632,7 +823,7 @@ const onSubmit = async (data) => {
 
 ## 参考リンク
 
-- [フォームとバリデーション](../04-implementation/02-forms-validation.md)
+- [フォームとバリデーション](../04-development/04-forms-validation.md)
 - [API作成](./02-create-api.md)
 - [React Hook Form公式ドキュメント](https://react-hook-form.com/)
 - [Zod公式ドキュメント](https://zod.dev/)

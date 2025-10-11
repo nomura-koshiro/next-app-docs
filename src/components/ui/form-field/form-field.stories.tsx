@@ -19,6 +19,11 @@ type Story = StoryObj<typeof meta>;
  * 基本的なFormField
  */
 export const Default: Story = {
+  args: {
+    label: "ラベル",
+    id: "field1",
+    children: <Input placeholder="入力してください" />,
+  },
   render: () => (
     <FormField label="ラベル" id="field1">
       <Input placeholder="入力してください" />
@@ -30,6 +35,12 @@ export const Default: Story = {
  * 必須フィールド
  */
 export const Required: Story = {
+  args: {
+    label: "名前",
+    id: "name",
+    required: true,
+    children: <Input placeholder="山田太郎" required />,
+  },
   render: () => (
     <FormField label="名前" id="name" required>
       <Input placeholder="山田太郎" required />
@@ -41,6 +52,15 @@ export const Required: Story = {
  * エラー付きフィールド
  */
 export const WithError: Story = {
+  args: {
+    label: "メールアドレス",
+    id: "email",
+    required: true,
+    error: "有効なメールアドレスを入力してください",
+    children: (
+      <Input type="email" placeholder="user@example.com" aria-invalid="true" />
+    ),
+  },
   render: () => (
     <FormField
       label="メールアドレス"
@@ -57,6 +77,11 @@ export const WithError: Story = {
  * InputField コンポーネント
  */
 export const InputFieldExample: Story = {
+  args: {
+    label: "ユーザー名",
+    id: "username",
+    children: <Input />,
+  },
   render: () => {
     const [value, setValue] = useState("");
 
@@ -77,6 +102,11 @@ export const InputFieldExample: Story = {
  * SelectField コンポーネント
  */
 export const SelectFieldExample: Story = {
+  args: {
+    label: "ロール",
+    id: "role",
+    children: <Input />,
+  },
   render: () => {
     const [value, setValue] = useState("");
 
@@ -101,6 +131,11 @@ export const SelectFieldExample: Story = {
  * フォームの例
  */
 export const CompleteForm: Story = {
+  args: {
+    label: "フォーム",
+    id: "form",
+    children: <Input />,
+  },
   render: () => {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
@@ -145,6 +180,11 @@ export const CompleteForm: Story = {
  * エラー状態のフォーム
  */
 export const FormWithErrors: Story = {
+  args: {
+    label: "フォーム",
+    id: "form",
+    children: <Input />,
+  },
   render: () => {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("invalid-email");
@@ -179,6 +219,11 @@ export const FormWithErrors: Story = {
  * 様々な入力タイプ
  */
 export const AllInputTypes: Story = {
+  args: {
+    label: "フォーム",
+    id: "form",
+    children: <Input />,
+  },
   render: () => {
     const [text, setText] = useState("");
     const [email, setEmail] = useState("");

@@ -8,7 +8,6 @@ const meta = {
   component: Textarea,
   parameters: {
     layout: "centered",
-    fileName: __filename,
   },
   tags: ["autodocs"],
 } satisfies Meta<typeof Textarea>;

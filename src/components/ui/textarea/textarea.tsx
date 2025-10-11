@@ -2,6 +2,23 @@ import * as React from "react";
 
 import { cn } from "@/utils/cn";
 
+/**
+ * テキストエリアコンポーネント
+ *
+ * shadcn/uiベースの複数行テキスト入力フィールド。
+ * 長文入力に適したテキストエリアコンポーネントです。
+ *
+ * 機能:
+ * - 最小高さ80px
+ * - フォーカス時のリングスタイル
+ * - プレースホルダースタイル
+ * - 無効化状態のスタイル
+ *
+ * @example
+ * ```tsx
+ * <Textarea placeholder="コメントを入力してください" rows={5} />
+ * ```
+ */
 const Textarea = React.forwardRef<
   HTMLTextAreaElement,
   React.ComponentProps<"textarea">

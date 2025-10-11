@@ -1,6 +1,17 @@
 # 状態管理戦略
 
-このプロジェクトでは、状態を**3つのカテゴリ**に分けて管理します。
+このドキュメントでは、プロジェクトにおける状態管理の考え方と実装方法を説明します。ローカルステート、グローバルステート、サーバーステートの3つのカテゴリに分けて管理し、それぞれに適したツールを使用する戦略を採用しています。
+
+## 目次
+
+1. [状態の分類](#状態の分類)
+2. [使い分けフローチャート](#使い分けフローチャート)
+3. [ローカルステート (useState)](#1-ローカルステート-usestate)
+4. [グローバルステート (Zustand)](#2-グローバルステート-zustand)
+5. [サーバーステート (TanStack Query)](#3-サーバーステート-tanstack-query)
+6. [ベストプラクティス](#ベストプラクティス)
+
+---
 
 ## 状態の分類
 
@@ -146,16 +157,16 @@ export const selectIsAuthenticated = (state: AuthStore) => state.isAuthenticated
 ### 使用方法
 
 ```typescript
-import { useUserStore } from '@/stores/user-store'
+import { useAuthStore } from '@/features/auth/stores/auth-store'
 
 export const Header = () => {
   // 必要な状態だけを取得（再レンダリング最適化）
-  const currentUser = useUserStore((state) => state.currentUser)
-  const logout = useUserStore((state) => state.logout)
+  const user = useAuthStore((state) => state.user)
+  const logout = useAuthStore((state) => state.logout)
 
   return (
     <div>
-      <span>ようこそ、{currentUser?.name}さん</span>
+      <span>ようこそ、{user?.name}さん</span>
       <button onClick={logout}>ログアウト</button>
     </div>
   )
@@ -279,7 +290,7 @@ export const CreateUserForm = () => {
 const [isOpen, setIsOpen] = useState(false)
 
 // グローバルステート: アプリ全体で共有
-const currentUser = useUserStore((state) => state.currentUser)
+const user = useAuthStore((state) => state.user)
 
 // サーバーステート: APIから取得
 const { data: users } = useUsers()

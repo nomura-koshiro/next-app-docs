@@ -1,6 +1,6 @@
 # 参考リソース
 
-アプリ開発に役立つ外部リソースとリンク集です。
+アプリ開発に役立つ外部リソースとリンク集です。公式ドキュメント、アーキテクチャパターン、学習リソース、開発ツール、コミュニティ情報など、Next.js/React開発に必要な情報を一箇所に集約しています。
 
 ## 目次
 
@@ -9,6 +9,10 @@
 3. [学習リソース](#学習リソース)
 4. [ツール・ライブラリ](#ツールライブラリ)
 5. [コミュニティ](#コミュニティ)
+6. [問題解決](#問題解決)
+7. [Newsletter](#newsletter)
+8. [YouTube チャンネル](#youtube-チャンネル)
+9. [内部ドキュメント](#内部ドキュメント)
 
 ---
 
@@ -234,18 +238,27 @@
 
 - [技術スタック](../03-core-concepts/01-tech-stack.md)
 - [状態管理](../03-core-concepts/02-state-management.md)
-- [API統合](../03-core-concepts/03-api-integration.md)
-- [ルーティング](../03-core-concepts/04-routing.md)
-- [スタイリング](../03-core-concepts/05-styling.md)
+- [ルーティング](../03-core-concepts/03-routing.md)
+- [スタイリング](../03-core-concepts/04-styling.md)
+- [環境変数](../03-core-concepts/05-environment-variables.md)
+- [APIクライアント](../03-core-concepts/06-api-client.md)
+- [TanStack Query](../03-core-concepts/07-tanstack-query.md)
 
-### Implementation
+### Guides
 
-- [コンポーネント設計](../04-implementation/01-component-design.md)
-- [フォーム・バリデーション](../04-implementation/02-forms-validation.md)
+- [UIコンポーネント作成](../06-guides/01-create-component.md)
+- [API関数作成](../06-guides/02-create-api.md)
+- [新しいFeature作成](../06-guides/03-create-feature.md)
+- [ページ追加](../06-guides/04-add-page.md)
+- [フォーム作成](../06-guides/05-add-form.md)
+- [トラブルシューティング](../06-guides/06-troubleshooting.md)
 
 ### Development
 
-- [コーディング規約](../05-development/01-coding-standards.md)
-- [Storybook](../05-development/02-storybook.md)
-- [MSW](../05-development/03-msw.md)
-- [テスト](../05-development/04-testing.md)
+- [コーディング規約](../04-development/01-coding-standards.md)
+- [Linter/Formatter](../04-development/02-linter-formatter.md)
+- [コンポーネント設計](../04-development/03-component-design.md)
+- [フォーム・バリデーション](../04-development/04-forms-validation.md)
+- [API統合](../04-development/05-api-integration.md)
+- [Storybook](../04-development/06-storybook.md)
+- [MSW](../04-development/07-msw.md)

@@ -4,6 +4,24 @@ import { Check } from "lucide-react";
 
 import { cn } from "@/utils/cn";
 
+/**
+ * チェックボックスコンポーネント
+ *
+ * Radix UIのCheckboxプリミティブをベースにしたチェックボックス。
+ * アクセシブルなチェックボックスUIを提供します。
+ *
+ * 機能:
+ * - Radix UIによるアクセシビリティサポート
+ * - チェック状態の視覚的フィードバック
+ * - フォーカス時のリングスタイル
+ * - 無効化状態のスタイル
+ *
+ * @example
+ * ```tsx
+ * <Checkbox id="terms" />
+ * <Label htmlFor="terms">利用規約に同意する</Label>
+ * ```
+ */
 const Checkbox = React.forwardRef<
   React.ElementRef<typeof CheckboxPrimitive.Root>,
   React.ComponentPropsWithoutRef<typeof CheckboxPrimitive.Root>

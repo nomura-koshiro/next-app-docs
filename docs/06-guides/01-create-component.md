@@ -1,6 +1,22 @@
 # UIコンポーネント作成手順
 
-このガイドでは、新しいUIコンポーネントを作成する手順を説明します。
+このガイドでは、新しいUIコンポーネントを作成する手順を説明します。共通UIコンポーネントとFeature固有コンポーネントの両方のパターンを網羅し、Storybookとの統合方法まで解説します。
+
+## 目次
+
+1. [作成するもの](#作成するもの)
+2. [ステップ1: コンポーネントディレクトリを作成](#ステップ1-コンポーネントディレクトリを作成)
+3. [ステップ2: コンポーネントファイルを作成](#ステップ2-コンポーネントファイルを作成)
+4. [ステップ3: Storybookファイルを作成](#ステップ3-storybookファイルを作成)
+5. [ステップ4: バレルエクスポートを作成](#ステップ4-バレルエクスポートを作成)
+6. [ステップ5: 共通UIの場合は components/ui/index.ts に追加](#ステップ5-共通uiの場合は-componentsuiindexts-に追加)
+7. [ステップ6: Storybookで確認](#ステップ6-storybookで確認)
+8. [ステップ7: 実際のコンポーネントで使用](#ステップ7-実際のコンポーネントで使用)
+9. [チェックリスト](#チェックリスト)
+10. [実例: 完全なファイル構成](#実例-完全なファイル構成)
+11. [Tips](#tips)
+
+---
 
 ## 📋 作成するもの
 
@@ -91,7 +107,7 @@ type BadgeProps = React.HTMLAttributes<HTMLDivElement> &
 
 ```typescript
 // src/components/ui/badge/badge.stories.tsx
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/nextjs-vite'
 import { Badge } from './badge'
 
 const meta = {
@@ -260,6 +276,6 @@ src/components/ui/badge/
 
 ## 参考リンク
 
-- [コンポーネント設計](../04-implementation/01-component-design.md)
-- [Storybook](../05-development/02-storybook.md)
+- [コンポーネント設計](../04-development/03-component-design.md)
+- [Storybook](../04-development/06-storybook.md)
 - [スタイリング](../03-core-concepts/04-styling.md)

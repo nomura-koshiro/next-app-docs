@@ -24,31 +24,57 @@
 
 - [01. 技術スタック](./03-core-concepts/01-tech-stack.md) - 使用技術とライブラリ
 - [02. 状態管理](./03-core-concepts/02-state-management.md) - Zustand + TanStack Query
-- [03. API統合](./03-core-concepts/03-api-integration.md) - Axios + TanStack Query
-- [04. ルーティング](./03-core-concepts/04-routing.md) - Next.js App Router
-- [05. スタイリング](./03-core-concepts/05-styling.md) - Tailwind CSS v4 + CVA
+- [03. ルーティング](./03-core-concepts/03-routing.md) - Next.js App Router
+- [04. スタイリング](./03-core-concepts/04-styling.md) - Tailwind CSS v4 + CVA
+- [05. 環境変数](./03-core-concepts/05-environment-variables.md) - 環境変数管理
+- [06. APIクライアント](./03-core-concepts/06-api-client.md) - Axios設定
+- [07. TanStack Query](./03-core-concepts/07-tanstack-query.md) - サーバーステート管理
 
-### 04. Implementation
+### 04. Development
 
-実装ガイドとベストプラクティス
+開発ガイドとツール
 
-- [01. コンポーネント設計](./04-implementation/01-component-design.md) - コンポーネント設計原則
-- [02. フォーム・バリデーション](./04-implementation/02-forms-validation.md) - React Hook Form + Zod
+- [01. コーディング規約](./04-development/01-coding-standards.md) - コーディング規約とベストプラクティス
+- [02. Linter・Formatter設定](./04-development/02-linter-formatter.md) - ESLint・Prettier・Stylelint詳細
+- [03. コンポーネント設計](./04-development/03-component-design.md) - コンポーネント設計原則
+- [04. フォーム・バリデーション](./04-development/04-forms-validation.md) - React Hook Form + Zod
+- [05. API統合](./04-development/05-api-integration.md) - API統合の実装パターン
+- [06. Storybook](./04-development/06-storybook.md) - UIコンポーネント開発
+- [07. MSW](./04-development/07-msw.md) - Mock Service Worker
 
-### 05. Development
+### 05. Testing
 
-開発プロセスとツール
+テスト戦略と実装方法
 
-- [01. コーディング規約](./05-development/01-coding-standards.md) - ESLint + Prettier設定
-- [02. Storybook](./05-development/02-storybook.md) - UIコンポーネント開発
-- [03. MSW](./05-development/03-msw.md) - Mock Service Worker
-- [04. テスト](./05-development/04-testing.md) - Vitest + Playwright
+テストピラミッド、カバレッジ目標、ユニット・コンポーネント・E2Eテストの実践ガイド
 
-### 06. Reference
+- [01. テスト戦略](./05-testing/01-testing-strategy.md) - テストピラミッドとカバレッジ目標
+- [02. ユニットテスト](./05-testing/02-unit-testing.md) - Vitestによる関数・フックのテスト
+- [03. コンポーネントテスト](./05-testing/03-component-testing.md) - React Testing Libraryの使い方
+- [04. Storybookインタラクション](./05-testing/04-storybook-interaction.md) - play関数によるUIテスト
+- [05. E2Eテスト](./05-testing/05-e2e-testing.md) - Playwrightによるエンドツーエンドテスト
+- [06. ベストプラクティス](./05-testing/06-best-practices.md) - 効果的なテストの書き方
+
+### 06. Guides
+
+実装ガイド
+
+コンポーネント、API、機能の作成方法とトラブルシューティング
+
+- [01. コンポーネント作成](./06-guides/01-create-component.md) - コンポーネント作成手順
+- [02. API作成](./06-guides/02-create-api.md) - API統合手順
+- [03. Feature作成](./06-guides/03-create-feature.md) - 機能モジュール作成
+- [04. ページ追加](./06-guides/04-add-page.md) - 新規ページ追加
+- [05. フォーム追加](./06-guides/05-add-form.md) - フォーム実装手順
+- [06. トラブルシューティング](./06-guides/06-troubleshooting.md) - よくある問題と解決方法
+
+### 07. Reference
 
 参考資料とリンク集
 
-- [01. リソース](./06-reference/01-resources.md) - 外部リンク・学習リソース
+外部ドキュメント、公式リソース、学習教材へのリンク集
+
+- [01. リソース](./07-reference/01-resources.md) - 外部リンク・学習リソース
 
 ---
 
@@ -76,11 +102,18 @@ pnpm format
 # 型チェック
 pnpm typecheck
 
+# テスト実行
+pnpm test
+pnpm test:ui
+
+# E2Eテスト
+pnpm e2e
+
 # すべてのチェック実行
 pnpm ci
 ```
 
-詳細は [コーディング規約](./05-development/01-coding-standards.md) を参照
+詳細は [コーディング規約](./04-development/01-coding-standards.md) と [テスト戦略](./05-testing/01-testing-strategy.md) を参照
 
 ---
 
@@ -119,7 +152,7 @@ app (Next.js App Router)
 | **スタイリング** | Tailwind CSS v4, CVA |
 | **状態管理** | Zustand (クライアント), TanStack Query (サーバー) |
 | **フォーム** | React Hook Form, Zod |
-| **テスト** | Vitest, Playwright |
+| **テスト** | Vitest (ユニット), React Testing Library (コンポーネント), Playwright (E2E), Storybook (インタラクション) |
 | **開発ツール** | ESLint, Prettier, Storybook, MSW |
 
 詳細は [技術スタック](./03-core-concepts/01-tech-stack.md) を参照
@@ -128,19 +161,18 @@ app (Next.js App Router)
 
 ## 📁 プロジェクト構造
 
-> **📝 注意:** 以下は目標とするプロジェクト構造です。`features/`、`stores/`、`hooks/`、`utils/`などは現在空のディレクトリとして存在し、実装は進行中です。
+> **📝 注意:** 以下はプロジェクトの標準構造です。`features/`には現在`auth`と`users`が実装されています。新しい機能は同様の構造で追加してください。
 
 ```
 CAMP_front/src/
 ├── app/                    # Next.js App Router
-│   ├── (group-a)/          # ルートグループA
-│   └── (group-b)/          # ルートグループB
+│   ├── (auth)/            # 認証関連ルート
+│   └── (main)/            # メイン機能ルート
 │
-├── features/              # 機能モジュール（将来実装予定）
-│   ├── {feature-a}/       # 機能A
-│   ├── {feature-b}/       # 機能B
-│   ├── {feature-c}/       # 機能C
-│   └── {feature-d}/       # 機能D
+├── features/              # 機能モジュール
+│   ├── auth/              # 認証機能
+│   ├── users/             # ユーザー管理機能
+│   └── {new-feature}/     # 新規機能（このパターンで追加）
 │
 ├── components/            # 共通コンポーネント
 │   ├── ui/                # 基本UIコンポーネント (shadcn/ui)
@@ -189,7 +221,7 @@ import { Button } from '@/components/ui/button'
 import { FeatureForm } from '@/features/{feature-name}'
 ```
 
-詳細は [コーディング規約](./05-development/01-coding-standards.md) を参照
+詳細は [コーディング規約](./04-development/01-coding-standards.md) を参照
 
 ---
 

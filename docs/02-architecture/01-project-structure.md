@@ -1,5 +1,18 @@
 # プロジェクト構成
 
+プロジェクトのディレクトリ構造とbulletproof-reactアーキテクチャの適用方法を説明します。feature-basedな構成とコードフローの方向性について解説します。
+
+## 目次
+
+1. [ディレクトリ構成](#ディレクトリ構成)
+2. [bulletproof-reactアーキテクチャ](#bulletproof-reactアーキテクチャ)
+3. [Feature構成](#feature構成)
+4. [ファイル命名規則](#ファイル命名規則)
+5. [ベストプラクティス](#ベストプラクティス)
+6. [参考リンク](#参考リンク)
+
+---
+
 ## ディレクトリ構成
 
 ```
@@ -22,11 +35,15 @@ src/
 │   ├── ui/                # 基本UI（shadcn/ui風）
 │   │   ├── button/         # Button
 │   │   ├── input/          # Input
+│   │   ├── textarea/       # Textarea
 │   │   ├── select/         # Select
+│   │   ├── checkbox/       # Checkbox
+│   │   ├── radio-group/    # RadioGroup
+│   │   ├── switch/         # Switch
 │   │   ├── alert/          # Alert
 │   │   ├── card/           # Card
 │   │   ├── label/          # Label
-│   │   ├── form-field/     # FormField
+│   │   ├── form-field/     # FormField, ControlledFormField
 │   │   ├── error-message/  # ErrorMessage
 │   │   ├── loading-spinner/ # LoadingSpinner
 │   │   └── index.ts        # バレルエクスポート
@@ -110,23 +127,39 @@ features/users/
 │   ├── delete-user.ts          # DELETE /api/v1/users/:id
 │   └── index.ts                # エクスポート
 │
-├── components/                 # コンポーネント
-│   ├── users-page/             # 一覧ページ
-│   │   ├── users-page.tsx
-│   │   ├── users-page.stories.tsx
+├── routes/                     # ルート（ページ）コンポーネント
+│   ├── users/                  # 一覧ページ
+│   │   ├── users.tsx           # ページコンポーネント
+│   │   ├── users.hook.ts       # カスタムフック
+│   │   ├── users.stories.tsx   # Storybook
+│   │   ├── components/         # ページ固有コンポーネント
+│   │   │   └── users-list.tsx
 │   │   └── index.ts
-│   ├── new-user-page/          # 作成ページ
-│   │   ├── new-user-page.tsx
-│   │   ├── new-user-page.stories.tsx
+│   ├── new-user/               # 作成ページ
+│   │   ├── new-user.tsx
+│   │   ├── new-user.hook.ts
+│   │   ├── new-user.stories.tsx
 │   │   └── index.ts
-│   ├── edit-user-page/         # 編集ページ
-│   │   ├── edit-user-page.tsx
-│   │   ├── edit-user-page.stories.tsx
+│   ├── edit-user/              # 編集ページ
+│   │   ├── edit-user.tsx
+│   │   ├── edit-user.hook.ts
+│   │   ├── edit-user.stories.tsx
 │   │   └── index.ts
-│   └── delete-user-page/       # 削除ページ
-│       ├── delete-user-page.tsx
-│       ├── delete-user-page.stories.tsx
+│   └── delete-user/            # 削除ページ
+│       ├── delete-user.tsx
+│       ├── delete-user.hook.ts
+│       ├── delete-user.stories.tsx
+│       ├── components/         # ページ固有コンポーネント
+│       │   ├── delete-user-confirmation.tsx
+│       │   └── delete-user-confirmation.stories.tsx
 │       └── index.ts
+│
+├── components/                 # 共有コンポーネント
+│   ├── user-form.tsx           # ユーザーフォーム
+│   └── user-form.stories.tsx
+│
+├── schemas/                    # Zodバリデーションスキーマ
+│   └── user-form.schema.ts     # ユーザーフォームスキーマ
 │
 ├── types/                      # 型定義
 │   └── index.ts
@@ -144,8 +177,17 @@ features/auth/
 │   ├── get-user.ts
 │   └── index.ts
 │
-├── components/                 # コンポーネント
-│   └── login-page.tsx
+├── routes/                     # ルート（ページ）コンポーネント
+│   └── login/
+│       ├── login.tsx           # ページコンポーネント
+│       ├── login.hook.ts       # カスタムフック
+│       ├── components/         # ページ固有コンポーネント
+│       │   ├── login.tsx       # ログインフォーム
+│       │   └── login.stories.tsx
+│       └── index.ts
+│
+├── schemas/                    # Zodバリデーションスキーマ
+│   └── login-form.schema.ts    # ログインフォームスキーマ
 │
 ├── stores/                     # Zustandストア
 │   └── auth-store.ts
@@ -159,7 +201,9 @@ features/auth/
 ### ディレクトリ作成の方針
 
 - **必要なディレクトリのみ作成** - hooksやschemasは必要になったら追加
-- **コンポーネントは用途ごとにディレクトリ化** - Storybookファイルも一緒に管理
+- **routesディレクトリ** - 各ルート（ページ）ごとにディレクトリを作成し、ページコンポーネント、フック、Storybookを一緒に管理
+- **ページ固有コンポーネント** - ルート内でのみ使用するコンポーネントは`routes/*/components/`に配置
+- **共有コンポーネント** - 複数のルートで使用するコンポーネントは`components/`に配置
 - **storesは認証など必要な場合のみ** - サーバーステートはTanStack Queryで管理
 
 ---

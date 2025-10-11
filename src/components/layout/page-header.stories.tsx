@@ -58,6 +58,10 @@ export const WithAction: Story = {
  * 複数のアクションボタン
  */
 export const WithMultipleActions: Story = {
+  args: {
+    title: "設定",
+    description: "アプリケーションの設定を管理",
+  },
   render: () => (
     <PageHeader
       title="設定"
@@ -87,6 +91,10 @@ export const LongText: Story = {
  * アイコン付きアクション
  */
 export const WithIconAction: Story = {
+  args: {
+    title: "ダッシュボード",
+    description: "システムの概要と統計情報",
+  },
   render: () => (
     <PageHeader
       title="ダッシュボード"
@@ -118,6 +126,9 @@ export const WithIconAction: Story = {
  * 様々なバリエーション
  */
 export const AllVariations: Story = {
+  args: {
+    title: "タイトルのみ",
+  },
   render: () => (
     <div className="space-y-8">
       <PageHeader title="タイトルのみ" />

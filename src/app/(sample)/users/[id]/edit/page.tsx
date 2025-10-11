@@ -1,3 +1,1 @@
-import EditUserPage from "@/features/users/components/edit-user-page";
-
-export default EditUserPage;
+export { default } from "@/features/users/routes/edit-user";

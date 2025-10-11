@@ -528,7 +528,7 @@ import { useItems } from '@/features/{feature-name}/api/get-items'
 ### 内部ドキュメント
 
 - [プロジェクト構造](./01-project-structure.md)
-- [コンポーネント設計](../04-implementation/01-component-design.md)
+- [コンポーネント設計](../04-development/03-component-design.md)
 - [状態管理](../03-core-concepts/02-state-management.md)
 
 ### 外部リンク

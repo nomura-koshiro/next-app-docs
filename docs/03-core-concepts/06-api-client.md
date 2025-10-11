@@ -1,6 +1,16 @@
 # APIクライアント (api-client.ts)
 
-Axiosを使用してAPI通信を一元管理します。
+このドキュメントでは、Axiosを使用したAPIクライアントの実装について説明します。リクエスト/レスポンスインターセプター、Cookie認証、TanStack Queryとの連携など、API通信を一元管理する方法を理解できます。
+
+## 目次
+
+1. [実装](#実装)
+2. [インターセプターの役割](#インターセプターの役割)
+3. [基本的な使用方法](#基本的な使用方法)
+4. [TanStack Queryとの連携](#tanstack-queryとの連携)
+5. [Cookie認証](#cookie認証)
+
+---
 
 ## 実装
 
@@ -227,7 +237,7 @@ export const UserList = () => {
 }
 ```
 
-詳しくは [TanStack Query](./07-tanstack-query.md) と [API統合](./08-api-integration.md) を参照してください。
+詳しくは [TanStack Query](./07-tanstack-query.md) と [API統合](../04-development/05-api-integration.md) を参照してください。
 
 ---
 
@@ -245,4 +255,4 @@ config.withCredentials = true
 
 - [Axios公式ドキュメント](https://axios-http.com/)
 - [TanStack Query](./07-tanstack-query.md)
-- [API統合](./08-api-integration.md)
+- [API統合](../04-development/05-api-integration.md)

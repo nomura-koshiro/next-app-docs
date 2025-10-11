@@ -94,6 +94,9 @@ export const FullScreen: Story = {
  * フォーム内での使用例
  */
 export const InForm: Story = {
+  args: {
+    message: "有効なメールアドレスを入力してください",
+  },
   render: () => (
     <div className="w-96 space-y-4">
       <div className="space-y-2">
@@ -116,6 +119,9 @@ export const InForm: Story = {
  * 複数のエラーメッセージ
  */
 export const MultipleErrors: Story = {
+  args: {
+    message: "サーバーに接続できませんでした。",
+  },
   render: () => (
     <div className="space-y-4 w-96">
       <ErrorMessage

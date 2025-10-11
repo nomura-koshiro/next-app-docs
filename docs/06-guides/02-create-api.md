@@ -1,16 +1,30 @@
-# API関数作成手順（TanStack Query）
+# API関数作成手順(TanStack Query)
 
-このガイドでは、新しいAPI関数を作成する手順を説明します。
+このガイドでは、TanStack Queryを使用した新しいAPI関数の作成手順を説明します。データ取得(Query)とデータ更新(Mutation)の両方のパターンを網羅し、キャッシュ管理の最適な方法まで解説します。
+
+## 目次
+
+1. [作成するもの](#作成するもの)
+2. [パターン1: データ取得(Query)](#パターン1-データ取得query)
+3. [パターン2: データ作成(Mutation - POST)](#パターン2-データ作成mutation---post)
+4. [パターン3: データ更新(Mutation - PATCH)](#パターン3-データ更新mutation---patch)
+5. [パターン4: データ削除(Mutation - DELETE)](#パターン4-データ削除mutation---delete)
+6. [ステップ2: index.tsでエクスポート](#ステップ2-indextsでエクスポート)
+7. [ステップ3: コンポーネントで使用](#ステップ3-コンポーネントで使用)
+8. [チェックリスト](#チェックリスト)
+9. [Tips](#tips)
+
+---
 
 ## 📋 作成するもの
 
-- API関数（Query または Mutation）
-- queryOptions（Queryの場合）
+- API関数(Query または Mutation)
+- queryOptions(Queryの場合)
 - カスタムフック
 
 ---
 
-## パターン1: データ取得（Query）
+## パターン1: データ取得(Query)
 
 ### ステップ1: API関数ファイルを作成
 
@@ -88,7 +102,7 @@ export const useUser = ({ userId, queryConfig }: UseUserOptions) => {
 
 ---
 
-## パターン2: データ作成（Mutation - POST）
+## パターン2: データ作成(Mutation - POST)
 
 ```typescript
 // src/features/users/api/create-user.ts
@@ -132,7 +146,7 @@ export const useCreateUser = ({ mutationConfig }: UseCreateUserOptions = {}) => 
 
 ---
 
-## パターン3: データ更新（Mutation - PATCH）
+## パターン3: データ更新(Mutation - PATCH)
 
 ```typescript
 // src/features/users/api/update-user.ts
@@ -188,7 +202,7 @@ export const useUpdateUser = ({ mutationConfig }: UseUpdateUserOptions = {}) => 
 
 ---
 
-## パターン4: データ削除（Mutation - DELETE）
+## パターン4: データ削除(Mutation - DELETE)
 
 ```typescript
 // src/features/users/api/delete-user.ts
@@ -244,21 +258,21 @@ export * from './delete-user'
 
 ## ステップ3: コンポーネントで使用
 
-### Query（データ取得）の使用
+### Query(データ取得)の使用
 
 ```typescript
-// src/features/users/components/users-page/users-page.tsx
+// src/features/users/routes/users/users.tsx
 'use client'
 
-import { useUsers } from '@/features/users/api/get-users'
 import { LoadingSpinner } from '@/components/ui/loading-spinner'
 import { ErrorMessage } from '@/components/ui/error-message'
+import { useUsers } from './users.hook'
 
-export const UsersPage = () => {
+export default function UsersPage() {
   const { data, isLoading, error } = useUsers()
 
-  if (isLoading) return <LoadingSpinner />
-  if (error) return <ErrorMessage message={error.message} />
+  if (isLoading) return <LoadingSpinner fullScreen />
+  if (error) return <ErrorMessage message={error.message} fullScreen />
 
   return (
     <div>
@@ -273,16 +287,43 @@ export const UsersPage = () => {
 }
 ```
 
-### Mutation（データ作成）の使用
+```typescript
+// src/features/users/routes/users/users.hook.ts
+import { useUsers as useUsersQuery } from '@/features/users/api/get-users'
+
+export const useUsers = () => {
+  const usersQuery = useUsersQuery()
+
+  return {
+    data: usersQuery.data,
+    isLoading: usersQuery.isLoading,
+    error: usersQuery.error,
+  }
+}
+```
+
+### Mutation(データ作成)の使用
 
 ```typescript
-// src/features/users/components/new-user-page/new-user-page.tsx
+// src/features/users/routes/new-user/new-user.tsx
 'use client'
 
-import { useRouter } from 'next/navigation'
-import { useCreateUser } from '@/features/users/api/create-user'
+import { UserForm } from '@/features/users/components/user-form'
+import { useNewUser } from './new-user.hook'
 
-export const NewUserPage = () => {
+export default function NewUserPage() {
+  const { handleSubmit, isPending } = useNewUser()
+
+  return <UserForm onSubmit={handleSubmit} isSubmitting={isPending} />
+}
+```
+
+```typescript
+// src/features/users/routes/new-user/new-user.hook.ts
+import { useRouter } from 'next/navigation'
+import { useCreateUser, type CreateUserInput } from '@/features/users/api/create-user'
+
+export const useNewUser = () => {
   const router = useRouter()
   const createUser = useCreateUser({
     mutationConfig: {
@@ -300,7 +341,10 @@ export const NewUserPage = () => {
     }
   }
 
-  return <UserForm onSubmit={handleSubmit} isSubmitting={createUser.isPending} />
+  return {
+    handleSubmit,
+    isPending: createUser.isPending,
+  }
 }
 ```
 
@@ -308,22 +352,22 @@ export const NewUserPage = () => {
 
 ## 🎯 チェックリスト
 
-### Query（データ取得）
+### Query(データ取得)
 
-- [ ] API関数を作成（`getXxx`）
-- [ ] queryOptionsを作成（`getXxxQueryOptions`）
-- [ ] カスタムフックを作成（`useXxx`）
+- [ ] API関数を作成(`getXxx`)
+- [ ] queryOptionsを作成(`getXxxQueryOptions`)
+- [ ] カスタムフックを作成(`useXxx`)
 - [ ] `queryKey`を適切に設定
   - [ ] 一覧: `['resource']`
   - [ ] 個別: `['resource', id]`
 - [ ] 型定義を追加
 - [ ] `index.ts`でエクスポート
 
-### Mutation（データ更新）
+### Mutation(データ更新)
 
-- [ ] API関数を作成（`createXxx`, `updateXxx`, `deleteXxx`）
-- [ ] 入力型を定義（`CreateXxxInput`, `UpdateXxxInput`）
-- [ ] カスタムフックを作成（`useCreateXxx`, `useUpdateXxx`, `useDeleteXxx`）
+- [ ] API関数を作成(`createXxx`, `updateXxx`, `deleteXxx`)
+- [ ] 入力型を定義(`CreateXxxInput`, `UpdateXxxInput`)
+- [ ] カスタムフックを作成(`useCreateXxx`, `useUpdateXxx`, `useDeleteXxx`)
 - [ ] `onSuccess`でキャッシュを更新
   - [ ] `invalidateQueries`: リストを再取得
   - [ ] `setQueryData`: 個別データを直接更新
@@ -374,6 +418,6 @@ export const useCreateUser = () => {
 
 ## 参考リンク
 
-- [API統合](../03-core-concepts/08-api-integration.md)
-- [TanStack Query設定](../03-core-concepts/07-tanstack-query.md)
+- [API統合](../04-development/05-api-integration.md)
+- [TanStack Query](../03-core-concepts/07-tanstack-query.md)
 - [APIクライアント](../03-core-concepts/06-api-client.md)

@@ -2,6 +2,7 @@ import { z } from "zod";
 
 /**
  * ユーザーフォームのバリデーションスキーマ
+ * 新規作成・編集フォームで使用
  */
 export const userFormSchema = z.object({
   name: z
@@ -13,7 +14,7 @@ export const userFormSchema = z.object({
     .min(1, { message: "メールアドレスは必須です" })
     .email({ message: "有効なメールアドレスを入力してください" }),
   role: z.enum(["user", "admin"], {
-    errorMap: () => ({ message: "ロールを選択してください" }),
+    message: "ロールを選択してください",
   }),
 });
 

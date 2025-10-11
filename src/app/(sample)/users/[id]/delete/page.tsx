@@ -1,3 +1,1 @@
-import DeleteUserPage from "@/features/users/components/delete-user-page";
-
-export default DeleteUserPage;
+export { default } from "@/features/users/routes/delete-user";

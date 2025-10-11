@@ -1,6 +1,15 @@
 # TanStack Query設定 (tanstack-query.ts)
 
-`src/lib/tanstack-query.ts` の設定と型ユーティリティについて説明します。
+このドキュメントでは、TanStack Queryのデフォルト設定と型ユーティリティについて説明します。クエリ設定のカスタマイズ、型安全なAPI関数の定義、プロバイダーの設定など、TanStack Queryを効果的に使用する方法を理解できます。
+
+## 目次
+
+1. [デフォルト設定](#デフォルト設定)
+2. [型ユーティリティ](#型ユーティリティ)
+3. [プロバイダー設定](#プロバイダー設定)
+4. [設定のカスタマイズ](#設定のカスタマイズ)
+
+---
 
 ## デフォルト設定
 
@@ -202,5 +211,5 @@ const { data } = useQuery({
 ## 参考リンク
 
 - [TanStack Query公式](https://tanstack.com/query/latest)
-- [API統合](./08-api-integration.md)
+- [API統合](../04-development/05-api-integration.md)
 - [APIクライアント](./06-api-client.md)

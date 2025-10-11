@@ -9,22 +9,22 @@ import type { User } from "@/features/users/types";
 let mockUsers: User[] = [
   {
     id: "1",
-    name: "山田太郎",
-    email: "yamada@example.com",
-    role: "admin",
+    name: "John Doe",
+    email: "john@example.com",
+    role: "user",
     createdAt: "2024-01-15",
   },
   {
     id: "2",
-    name: "佐藤花子",
-    email: "sato@example.com",
-    role: "user",
+    name: "Jane Smith",
+    email: "jane@example.com",
+    role: "admin",
     createdAt: "2024-02-20",
   },
   {
     id: "3",
-    name: "鈴木一郎",
-    email: "suzuki@example.com",
+    name: "Bob Johnson",
+    email: "bob@example.com",
     role: "user",
     createdAt: "2024-03-10",
   },
@@ -35,7 +35,7 @@ export const userHandlers = [
    * GET /api/v1/users
    * ユーザー一覧取得
    */
-  http.get("/api/v1/users", () => {
+  http.get("*/api/v1/users", () => {
     return HttpResponse.json({
       data: mockUsers,
     });
@@ -45,7 +45,7 @@ export const userHandlers = [
    * GET /api/v1/users/:id
    * ユーザー詳細取得
    */
-  http.get("/api/v1/users/:id", ({ params }) => {
+  http.get("*/api/v1/users/:id", ({ params }) => {
     const { id } = params;
     const user = mockUsers.find((u) => u.id === id);
 
@@ -67,7 +67,7 @@ export const userHandlers = [
    * POST /api/v1/users
    * ユーザー作成
    */
-  http.post("/api/v1/users", async ({ request }) => {
+  http.post("*/api/v1/users", async ({ request }) => {
     const body = (await request.json()) as {
       name: string;
       email: string;
@@ -91,7 +91,7 @@ export const userHandlers = [
    * PUT /api/v1/users/:id
    * ユーザー更新
    */
-  http.put("/api/v1/users/:id", async ({ params, request }) => {
+  http.put("*/api/v1/users/:id", async ({ params, request }) => {
     const { id } = params;
     const body = (await request.json()) as {
       name: string;
@@ -117,14 +117,45 @@ export const userHandlers = [
       role: body.role,
     };
 
-    return HttpResponse.json(mockUsers[userIndex]);
+    return HttpResponse.json({ data: mockUsers[userIndex] });
+  }),
+
+  /**
+   * PATCH /api/v1/users/:id
+   * ユーザー部分更新
+   */
+  http.patch("*/api/v1/users/:id", async ({ params, request }) => {
+    const { id } = params;
+    const body = (await request.json()) as Partial<{
+      name: string;
+      email: string;
+      role: string;
+    }>;
+
+    const userIndex = mockUsers.findIndex((u) => u.id === id);
+
+    if (userIndex === -1) {
+      return HttpResponse.json(
+        {
+          message: "User not found",
+        },
+        { status: 404 },
+      );
+    }
+
+    mockUsers[userIndex] = {
+      ...mockUsers[userIndex],
+      ...body,
+    };
+
+    return HttpResponse.json({ data: mockUsers[userIndex] });
   }),
 
   /**
    * DELETE /api/v1/users/:id
    * ユーザー削除
    */
-  http.delete("/api/v1/users/:id", ({ params }) => {
+  http.delete("*/api/v1/users/:id", ({ params }) => {
     const { id } = params;
     const userIndex = mockUsers.findIndex((u) => u.id === id);
 
@@ -139,12 +170,6 @@ export const userHandlers = [
 
     mockUsers = mockUsers.filter((u) => u.id !== id);
 
-    return HttpResponse.json(
-      {
-        success: true,
-        message: "User deleted successfully",
-      },
-      { status: 200 },
-    );
+    return new HttpResponse(null, { status: 204 });
   }),
 ];

@@ -6,6 +6,28 @@ import { CheckIcon, ChevronDownIcon, ChevronUpIcon } from "lucide-react";
 
 import { cn } from "@/utils/cn";
 
+/**
+ * セレクトコンポーネント
+ *
+ * Radix UIのSelectプリミティブをベースにしたドロップダウン選択コンポーネント。
+ * アクセシブルな選択UIを提供します。
+ *
+ * @example
+ * ```tsx
+ * <Select>
+ *   <SelectTrigger>
+ *     <SelectValue placeholder="選択してください" />
+ *   </SelectTrigger>
+ *   <SelectContent>
+ *     <SelectItem value="option1">オプション1</SelectItem>
+ *     <SelectItem value="option2">オプション2</SelectItem>
+ *   </SelectContent>
+ * </Select>
+ * ```
+ *
+ * @param props - Radix UI SelectRootコンポーネントのプロパティ
+ * @returns セレクト要素
+ */
 function Select({
   ...props
 }: React.ComponentProps<typeof SelectPrimitive.Root>) {

@@ -1,14 +1,32 @@
-# ページ追加手順（App Router）
+# ページ追加手順(App Router)
 
-このガイドでは、App Routerで新しいページを追加する手順を説明します。
+このガイドでは、Next.js App Routerで新しいページを追加する手順を説明します。基本的なページから動的ルート、メタデータ設定、エラーハンドリングまで、ページ開発に必要なすべてのパターンを網羅します。
+
+## 目次
+
+1. [作成するもの](#作成するもの)
+2. [パターン1: 基本的なページを追加](#パターン1-基本的なページを追加)
+3. [パターン2: メタデータを追加](#パターン2-メタデータを追加)
+4. [パターン3: 動的ルート(Dynamic Routes)](#パターン3-動的ルートdynamic-routes)
+5. [パターン4: ルートグループを使う](#パターン4-ルートグループを使う)
+6. [パターン5: loading.tsxを追加](#パターン5-loadingtsxを追加)
+7. [パターン6: error.tsxを追加](#パターン6-errortsxを追加)
+8. [パターン7: not-found.tsxを追加](#パターン7-not-foundtsxを追加)
+9. [パターン8: Server ComponentとClient Componentの使い分け](#パターン8-server-componentとclient-componentの使い分け)
+10. [パターン9: paths.tsにルートを追加](#パターン9-pathstsにルートを追加)
+11. [チェックリスト](#チェックリスト)
+12. [ファイル構成例](#ファイル構成例)
+13. [Tips](#tips)
+
+---
 
 ## 📋 作成するもの
 
-- ページファイル（`page.tsx`）
-- メタデータ（`metadata`）
-- レイアウト（必要な場合）
-- ローディングUI（必要な場合）
-- エラーUI（必要な場合）
+- ページファイル(`page.tsx`)
+- メタデータ(`metadata`)
+- レイアウト(必要な場合)
+- ローディングUI(必要な場合)
+- エラーUI(必要な場合)
 
 ---
 
@@ -25,7 +43,7 @@ mkdir -p src/app/\(sample\)/posts
 
 ```typescript
 // src/app/(sample)/posts/page.tsx
-import { PostsPage } from '@/features/posts/components/posts-page'
+import PostsPage from '@/features/posts/routes/posts'
 
 export default function Page() {
   return <PostsPage />
@@ -35,7 +53,7 @@ export default function Page() {
 **ポイント:**
 - `page.tsx` という名前が必須
 - デフォルトエクスポートが必須
-- コンポーネントは `features/` からインポート
+- ルートコンポーネントは `features/*/routes/*/` からインポート
 
 ---
 
@@ -44,7 +62,7 @@ export default function Page() {
 ```typescript
 // src/app/(sample)/posts/page.tsx
 import type { Metadata } from 'next'
-import { PostsPage } from '@/features/posts/components/posts-page'
+import PostsPage from '@/features/posts/routes/posts'
 
 export const metadata: Metadata = {
   title: '投稿一覧',
@@ -61,7 +79,7 @@ export default function Page() {
 ```typescript
 // src/app/(sample)/posts/[id]/page.tsx
 import type { Metadata } from 'next'
-import { PostDetailPage } from '@/features/posts/components/post-detail-page'
+import PostDetailPage from '@/features/posts/routes/post-detail'
 
 type Props = {
   params: Promise<{ id: string }>
@@ -88,7 +106,7 @@ export default async function Page({ params }: Props) {
 
 ---
 
-## パターン3: 動的ルート（Dynamic Routes）
+## パターン3: 動的ルート(Dynamic Routes)
 
 ### 単一パラメータ
 
@@ -99,7 +117,7 @@ mkdir -p src/app/\(sample\)/posts/\[id\]
 
 ```typescript
 // src/app/(sample)/posts/[id]/page.tsx
-import { PostDetailPage } from '@/features/posts/components/post-detail-page'
+import PostDetailPage from '@/features/posts/routes/post-detail'
 
 type Props = {
   params: Promise<{ id: string }>
@@ -142,7 +160,7 @@ export default async function Page({ params }: Props) {
 ### (sample) グループ内に追加
 
 ```bash
-# /posts にアクセス可能（グループ名はURLに含まれない）
+# /posts にアクセス可能(グループ名はURLに含まれない)
 mkdir -p src/app/\(sample\)/posts
 ```
 
@@ -274,7 +292,7 @@ export default async function Page({ params }: Props) {
 
 ## パターン8: Server ComponentとClient Componentの使い分け
 
-### Server Component（デフォルト）
+### Server Component(デフォルト)
 
 ```typescript
 // src/app/(sample)/posts/page.tsx
@@ -283,7 +301,7 @@ export default async function Page({ params }: Props) {
 import { getPostsQueryOptions } from '@/features/posts/api/get-posts'
 import { getQueryClient } from '@/lib/get-query-client'
 import { HydrationBoundary, dehydrate } from '@tanstack/react-query'
-import { PostsPage } from '@/features/posts/components/posts-page'
+import PostsPage from '@/features/posts/routes/posts'
 
 export default async function Page() {
   const queryClient = getQueryClient()
@@ -309,7 +327,7 @@ export default async function Page() {
 ```typescript
 // src/app/(sample)/posts/new/page.tsx
 // 'use client' 必要
-import { NewPostPage } from '@/features/posts/components/new-post-page'
+import NewPostPage from '@/features/posts/routes/new-post'
 
 export default function Page() {
   return <NewPostPage />
@@ -318,7 +336,7 @@ export default function Page() {
 
 **必要な場合:**
 - `useState`, `useEffect` などのフックを使う
-- イベントハンドラを使う（`onClick` など）
+- イベントハンドラを使う(`onClick` など)
 - ブラウザAPIを使う
 
 ---
@@ -366,25 +384,25 @@ import { paths } from '@/config/paths'
 
 ### 基本ページ
 
-- [ ] ディレクトリを作成（`src/app/(sample)/...`）
+- [ ] ディレクトリを作成(`src/app/(sample)/...`)
 - [ ] `page.tsx` を作成
   - [ ] デフォルトエクスポート
   - [ ] Featureコンポーネントをインポート
-- [ ] メタデータを追加（`metadata` または `generateMetadata`）
+- [ ] メタデータを追加(`metadata` または `generateMetadata`)
 - [ ] `paths.ts` にルートを追加
 
 ### 動的ルート
 
 - [ ] `[param]` ディレクトリを作成
-- [ ] `params` の型定義（`Promise<{ param: string }>`）
+- [ ] `params` の型定義(`Promise<{ param: string }>`)
 - [ ] `await params` でパラメータ取得
 
 ### オプション
 
-- [ ] `loading.tsx` を追加（必要なら）
-- [ ] `error.tsx` を追加（必要なら）
-- [ ] `not-found.tsx` を追加（必要なら）
-- [ ] `layout.tsx` を追加（グループ単位で共通レイアウトが必要なら）
+- [ ] `loading.tsx` を追加(必要なら)
+- [ ] `error.tsx` を追加(必要なら)
+- [ ] `not-found.tsx` を追加(必要なら)
+- [ ] `layout.tsx` を追加(グループ単位で共通レイアウトが必要なら)
 
 ---
 
@@ -395,7 +413,7 @@ import { paths } from '@/config/paths'
 ```
 src/app/(sample)/posts/
 ├── page.tsx          # ページコンポーネント
-└── loading.tsx       # ローディングUI（オプション）
+└── loading.tsx       # ローディングUI(オプション)
 ```
 
 ### 動的ルート
@@ -413,7 +431,7 @@ src/app/(sample)/posts/
         └── page.tsx  # 削除ページ
 ```
 
-### 完全な構成（すべてのファイル）
+### 完全な構成(すべてのファイル)
 
 ```
 src/app/(sample)/posts/
@@ -460,14 +478,14 @@ export default function Page() {
 
 // ✅ Good: Client Componentに切り出す
 export default function Page() {
-  return <PostsPage /> // PostsPage内でuseQueryを使う
+  return <PostsPage /> // routes/posts/posts.tsx内でuseQueryを使う
 }
 ```
 
-### paramsの型定義（Next.js 15+）
+### paramsの型定義(Next.js 15+)
 
 ```typescript
-// ✅ Good: Promise型を使う（Next.js 15+）
+// ✅ Good: Promise型を使う(Next.js 15+)
 type Props = {
   params: Promise<{ id: string }>
 }
@@ -477,7 +495,7 @@ export default async function Page({ params }: Props) {
   // ...
 }
 
-// ❌ Bad: 古い書き方（Next.js 14以前）
+// ❌ Bad: 古い書き方(Next.js 14以前)
 type Props = {
   params: { id: string } // Promiseなし
 }

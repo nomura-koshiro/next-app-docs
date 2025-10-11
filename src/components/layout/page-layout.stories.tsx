@@ -26,6 +26,9 @@ type Story = StoryObj<typeof meta>;
  * デフォルトのPageLayout
  */
 export const Default: Story = {
+  args: {
+    children: <div>Dummy content</div>,
+  },
   render: () => (
     <PageLayout>
       <div className="rounded-lg border bg-white p-8">
@@ -42,6 +45,9 @@ export const Default: Story = {
  * ヘッダー付きレイアウト
  */
 export const WithHeader: Story = {
+  args: {
+    children: <div>Dummy content</div>,
+  },
   render: () => (
     <PageLayout>
       <PageHeader
@@ -59,6 +65,9 @@ export const WithHeader: Story = {
  * アクション付きヘッダー
  */
 export const WithHeaderAction: Story = {
+  args: {
+    children: <div>Dummy content</div>,
+  },
   render: () => (
     <PageLayout>
       <PageHeader
@@ -77,6 +86,10 @@ export const WithHeaderAction: Story = {
  * 小サイズ (sm)
  */
 export const SmallWidth: Story = {
+  args: {
+    children: <div>Dummy content</div>,
+    maxWidth: "sm",
+  },
   render: () => (
     <PageLayout maxWidth="sm">
       <PageHeader title="小サイズレイアウト" />
@@ -91,6 +104,10 @@ export const SmallWidth: Story = {
  * 中サイズ (md)
  */
 export const MediumWidth: Story = {
+  args: {
+    children: <div>Dummy content</div>,
+    maxWidth: "md",
+  },
   render: () => (
     <PageLayout maxWidth="md">
       <PageHeader title="中サイズレイアウト" />
@@ -105,6 +122,10 @@ export const MediumWidth: Story = {
  * 2XLサイズ (2xl)
  */
 export const TwoXLWidth: Story = {
+  args: {
+    children: <div>Dummy content</div>,
+    maxWidth: "2xl",
+  },
   render: () => (
     <PageLayout maxWidth="2xl">
       <PageHeader title="2XLサイズレイアウト" />
@@ -119,6 +140,10 @@ export const TwoXLWidth: Story = {
  * 6XLサイズ (6xl) - デフォルト
  */
 export const SixXLWidth: Story = {
+  args: {
+    children: <div>Dummy content</div>,
+    maxWidth: "6xl",
+  },
   render: () => (
     <PageLayout maxWidth="6xl">
       <PageHeader title="6XLサイズレイアウト (デフォルト)" />
@@ -133,6 +158,10 @@ export const SixXLWidth: Story = {
  * フルワイド
  */
 export const FullWidth: Story = {
+  args: {
+    children: <div>Dummy content</div>,
+    maxWidth: "full",
+  },
   render: () => (
     <PageLayout maxWidth="full">
       <PageHeader title="フルワイドレイアウト" />
@@ -147,6 +176,9 @@ export const FullWidth: Story = {
  * 複数のセクション
  */
 export const MultipleSections: Story = {
+  args: {
+    children: <div>Dummy content</div>,
+  },
   render: () => (
     <PageLayout>
       <PageHeader
@@ -180,6 +212,9 @@ export const MultipleSections: Story = {
  * すべての幅サイズの比較
  */
 export const AllWidths: Story = {
+  args: {
+    children: <div>Dummy content</div>,
+  },
   render: () => (
     <div className="space-y-8 p-8">
       <div>

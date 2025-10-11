@@ -220,13 +220,13 @@ export const RadioGroupField: StoryObj = {
   render: () => {
     const schema = z.object({
       gender: z.enum(["male", "female", "other"], {
-        errorMap: () => ({ message: "性別を選択してください" }),
+        message: "性別を選択してください",
       }),
     });
 
     const { control, handleSubmit } = useForm({
       resolver: zodResolver(schema),
-      defaultValues: { gender: "male" },
+      defaultValues: { gender: "male" as const },
     });
 
     return (
@@ -374,7 +374,7 @@ export const CompleteForm: StoryObj = {
         message: "利用規約に同意する必要があります",
       }),
       gender: z.enum(["male", "female", "other"], {
-        errorMap: () => ({ message: "性別を選択してください" }),
+        message: "性別を選択してください",
       }),
       notifications: z.boolean(),
       birthdate: z.string().min(1, { message: "生年月日を入力してください" }),
@@ -388,7 +388,7 @@ export const CompleteForm: StoryObj = {
         country: "",
         bio: "",
         terms: false,
-        gender: "male",
+        gender: "male" as const,
         notifications: true,
         birthdate: "",
       },

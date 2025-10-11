@@ -1,6 +1,20 @@
 # 新しいFeature作成手順
 
-このガイドでは、新しいFeature（機能モジュール）を作成する手順を説明します。
+このガイドでは、新しいFeature(機能モジュール)を作成する手順を説明します。型定義からAPI関数、コンポーネント、ルーティング、MSWモックまで、Feature開発に必要なすべての手順を網羅します。
+
+## 目次
+
+1. [完成イメージ](#完成イメージ)
+2. [ステップ1: Featureディレクトリを作成](#ステップ1-featureディレクトリを作成)
+3. [ステップ2: 型定義を作成](#ステップ2-型定義を作成)
+4. [ステップ3: API関数を作成](#ステップ3-api関数を作成)
+5. [ステップ4: コンポーネントを作成](#ステップ4-コンポーネントを作成)
+6. [ステップ5: Feature index.tsでエクスポート](#ステップ5-feature-indextsでエクスポート)
+7. [ステップ6: ルーティングを追加](#ステップ6-ルーティングを追加)
+8. [ステップ7: MSWモックハンドラーを追加](#ステップ7-mswモックハンドラーを追加)
+9. [チェックリスト](#チェックリスト)
+
+---
 
 ## 📋 完成イメージ
 
@@ -13,11 +27,13 @@ src/features/posts/
 │   ├── update-post.ts
 │   ├── delete-post.ts
 │   └── index.ts
-├── components/
-│   ├── posts-page/
-│   ├── new-post-page/
-│   ├── edit-post-page/
-│   └── delete-post-page/
+├── routes/
+│   ├── posts/              # 一覧ページ
+│   ├── new-post/           # 作成ページ
+│   ├── edit-post/          # 編集ページ
+│   └── delete-post/        # 削除ページ
+├── components/             # 共有コンポーネント
+│   └── post-form.tsx       # フォームコンポーネント
 ├── types/
 │   └── index.ts
 └── index.ts
@@ -29,7 +45,7 @@ src/features/posts/
 
 ```bash
 # 新しいFeatureディレクトリを作成
-mkdir -p src/features/posts/{api,components,types}
+mkdir -p src/features/posts/{api,routes,components,types}
 ```
 
 ---
@@ -255,30 +271,30 @@ export * from './delete-post'
 
 ---
 
-## ステップ4: コンポーネントを作成
+## ステップ4: ルート(ページ)コンポーネントを作成
 
 ### 一覧ページ
 
 ```bash
-mkdir -p src/features/posts/components/posts-page
+mkdir -p src/features/posts/routes/posts
 ```
 
 ```typescript
-// src/features/posts/components/posts-page/posts-page.tsx
+// src/features/posts/routes/posts/posts.tsx
 'use client'
 
 import Link from 'next/link'
-import { usePosts } from '@/features/posts/api/get-posts'
-import { LoadingSpinner } from '@/components/ui/loading-spinner'
-import { ErrorMessage } from '@/components/ui/error-message'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
+import { LoadingSpinner } from '@/components/ui/loading-spinner'
+import { ErrorMessage } from '@/components/ui/error-message'
+import { usePosts } from './posts.hook'
 
-export const PostsPage = () => {
+export default function PostsPage() {
   const { data, isLoading, error } = usePosts()
 
-  if (isLoading) return <LoadingSpinner />
-  if (error) return <ErrorMessage message={error.message} />
+  if (isLoading) return <LoadingSpinner fullScreen />
+  if (error) return <ErrorMessage message={error.message} fullScreen />
 
   return (
     <div className="container mx-auto py-8">
@@ -311,63 +327,48 @@ export const PostsPage = () => {
 ```
 
 ```typescript
-// src/features/posts/components/posts-page/index.ts
-export { PostsPage } from './posts-page'
-```
+// src/features/posts/routes/posts/posts.hook.ts
+import { usePosts as usePostsQuery } from '@/features/posts/api/get-posts'
 
-### 作成ページ（フォーム統合）
+export const usePosts = () => {
+  const postsQuery = usePostsQuery()
 
-```bash
-mkdir -p src/features/posts/components/new-post-page
+  return {
+    data: postsQuery.data,
+    isLoading: postsQuery.isLoading,
+    error: postsQuery.error,
+  }
+}
 ```
 
 ```typescript
-// src/features/posts/components/new-post-page/new-post-page.tsx
+// src/features/posts/routes/posts/index.ts
+export { default } from './posts'
+```
+
+### 作成ページ(フォーム統合)
+
+```bash
+mkdir -p src/features/posts/routes/new-post
+```
+
+```typescript
+// src/features/posts/routes/new-post/new-post.tsx
 'use client'
 
-import { useRouter } from 'next/navigation'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from 'zod'
-import { useCreatePost } from '@/features/posts/api/create-post'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { FormField } from '@/components/ui/form-field'
+import { useNewPost } from './new-post.hook'
 
-const postSchema = z.object({
-  title: z.string().min(1, 'タイトルは必須です').max(100),
-  content: z.string().min(1, '内容は必須です'),
-})
-
-type PostFormData = z.infer<typeof postSchema>
-
-export const NewPostPage = () => {
-  const router = useRouter()
-  const createPost = useCreatePost({
-    mutationConfig: {
-      onSuccess: () => {
-        router.push('/posts')
-      },
-    },
-  })
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-  } = useForm<PostFormData>({
-    resolver: zodResolver(postSchema),
-  })
-
-  const onSubmit = async (data: PostFormData) => {
-    await createPost.mutateAsync(data)
-  }
+export default function NewPostPage() {
+  const { register, handleSubmit, errors, isSubmitting, handleCancel } = useNewPost()
 
   return (
     <div className="container mx-auto max-w-2xl py-8">
       <h1 className="mb-6 text-3xl font-bold">新規投稿</h1>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-4">
         <FormField label="タイトル" error={errors.title} required>
           <Input {...register('title')} />
         </FormField>
@@ -384,11 +385,7 @@ export const NewPostPage = () => {
           <Button type="submit" disabled={isSubmitting}>
             {isSubmitting ? '作成中...' : '作成'}
           </Button>
-          <Button
-            type="button"
-            variant="outline"
-            onClick={() => router.back()}
-          >
+          <Button type="button" variant="outline" onClick={handleCancel}>
             キャンセル
           </Button>
         </div>
@@ -399,8 +396,59 @@ export const NewPostPage = () => {
 ```
 
 ```typescript
-// src/features/posts/components/new-post-page/index.ts
-export { NewPostPage } from './new-post-page'
+// src/features/posts/routes/new-post/new-post.hook.ts
+import { useRouter } from 'next/navigation'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { z } from 'zod'
+import { useCreatePost } from '@/features/posts/api/create-post'
+
+const postSchema = z.object({
+  title: z.string().min(1, 'タイトルは必須です').max(100),
+  content: z.string().min(1, '内容は必須です'),
+})
+
+type PostFormData = z.infer<typeof postSchema>
+
+export const useNewPost = () => {
+  const router = useRouter()
+  const createPost = useCreatePost({
+    mutationConfig: {
+      onSuccess: () => {
+        router.push('/posts')
+      },
+    },
+  })
+
+  const {
+    register,
+    handleSubmit: handleFormSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<PostFormData>({
+    resolver: zodResolver(postSchema),
+  })
+
+  const handleSubmit = handleFormSubmit(async (data: PostFormData) => {
+    await createPost.mutateAsync(data)
+  })
+
+  const handleCancel = () => {
+    router.back()
+  }
+
+  return {
+    register,
+    handleSubmit,
+    errors,
+    isSubmitting,
+    handleCancel,
+  }
+}
+```
+
+```typescript
+// src/features/posts/routes/new-post/index.ts
+export { default } from './new-post'
 ```
 
 ---
@@ -449,7 +497,7 @@ mkdir -p src/app/\(sample\)/posts/{new,\[id\]/{edit,delete}}
 
 ```typescript
 // src/app/(sample)/posts/page.tsx
-import { PostsPage } from '@/features/posts/components/posts-page'
+import PostsPage from '@/features/posts/routes/posts'
 
 export default function Page() {
   return <PostsPage />
@@ -458,7 +506,7 @@ export default function Page() {
 
 ```typescript
 // src/app/(sample)/posts/new/page.tsx
-import { NewPostPage } from '@/features/posts/components/new-post-page'
+import NewPostPage from '@/features/posts/routes/new-post'
 
 export default function Page() {
   return <NewPostPage />
@@ -563,19 +611,20 @@ export const handlers = [
 ## 🎯 チェックリスト
 
 - [ ] Featureディレクトリを作成
-- [ ] 型定義を作成（`types/index.ts`）
+- [ ] 型定義を作成(`types/index.ts`)
 - [ ] API関数を作成
-  - [ ] 一覧取得（`get-{resource}s.ts`）
-  - [ ] 個別取得（`get-{resource}.ts`）
-  - [ ] 作成（`create-{resource}.ts`）
-  - [ ] 更新（`update-{resource}.ts`）
-  - [ ] 削除（`delete-{resource}.ts`）
+  - [ ] 一覧取得(`get-{resource}s.ts`)
+  - [ ] 個別取得(`get-{resource}.ts`)
+  - [ ] 作成(`create-{resource}.ts`)
+  - [ ] 更新(`update-{resource}.ts`)
+  - [ ] 削除(`delete-{resource}.ts`)
   - [ ] `api/index.ts`でエクスポート
-- [ ] コンポーネントを作成
-  - [ ] 一覧ページ
-  - [ ] 作成ページ
-  - [ ] 編集ページ（必要なら）
-  - [ ] 削除ページ（必要なら）
+- [ ] ルート(ページ)コンポーネントを作成
+  - [ ] 一覧ページ(`routes/posts/`)
+  - [ ] 作成ページ(`routes/new-post/`)
+  - [ ] 編集ページ(`routes/edit-post/`, 必要なら)
+  - [ ] 削除ページ(`routes/delete-post/`, 必要なら)
+  - [ ] 各ルートにカスタムフック(`.hook.ts`)を作成
 - [ ] `features/{resource}/index.ts`でエクスポート
 - [ ] `paths.ts`にルート追加
 - [ ] App Routerにページ追加

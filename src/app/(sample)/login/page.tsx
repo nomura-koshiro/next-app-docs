@@ -1,3 +1,1 @@
-import LoginPage from "@/features/auth/components/login-page";
-
-export default LoginPage;
+export { default } from "@/features/auth/routes/login";
