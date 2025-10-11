@@ -108,7 +108,7 @@ import { Button } from '@/components/ui/button'
 import { useFeature } from './hooks/use-feature'
 
 // ❌ Bad: feature間でインポート
-import { FeatureBCard } from '@/features/feature-b/components/card'
+import { SampleAuthForm } from '@/features/sample-auth/components/login-form'
 ```
 
 ---
@@ -249,7 +249,7 @@ export * from './user-list'
 export * from './user-form'
 
 // ✅ Good: 直接インポート
-import { UserList } from '@/features/users/components/user-list'
+import { UsersList } from '@/features/sample-users/routes/sample-users/components/users-list'
 ```
 
 ---

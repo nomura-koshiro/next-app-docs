@@ -31,7 +31,7 @@
 #### 一覧取得
 
 ```typescript
-// src/features/users/api/get-users.ts
+// src/features/sample-users/api/get-users.ts
 import { queryOptions, useQuery } from '@tanstack/react-query'
 import { api } from '@/lib/api-client'
 import { QueryConfig } from '@/lib/tanstack-query'
@@ -66,7 +66,7 @@ export const useUsers = ({ queryConfig }: UseUsersOptions = {}) => {
 #### 個別取得
 
 ```typescript
-// src/features/users/api/get-user.ts
+// src/features/sample-users/api/get-user.ts
 import { queryOptions, useQuery } from '@tanstack/react-query'
 import { api } from '@/lib/api-client'
 import { QueryConfig } from '@/lib/tanstack-query'
@@ -105,7 +105,7 @@ export const useUser = ({ userId, queryConfig }: UseUserOptions) => {
 ## パターン2: データ作成(Mutation - POST)
 
 ```typescript
-// src/features/users/api/create-user.ts
+// src/features/sample-users/api/create-user.ts
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { api } from '@/lib/api-client'
 import { MutationConfig } from '@/lib/tanstack-query'
@@ -149,7 +149,7 @@ export const useCreateUser = ({ mutationConfig }: UseCreateUserOptions = {}) => 
 ## パターン3: データ更新(Mutation - PATCH)
 
 ```typescript
-// src/features/users/api/update-user.ts
+// src/features/sample-users/api/update-user.ts
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { api } from '@/lib/api-client'
 import { MutationConfig } from '@/lib/tanstack-query'
@@ -205,7 +205,7 @@ export const useUpdateUser = ({ mutationConfig }: UseUpdateUserOptions = {}) => 
 ## パターン4: データ削除(Mutation - DELETE)
 
 ```typescript
-// src/features/users/api/delete-user.ts
+// src/features/sample-users/api/delete-user.ts
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { api } from '@/lib/api-client'
 import { MutationConfig } from '@/lib/tanstack-query'
@@ -246,7 +246,7 @@ export const useDeleteUser = ({ mutationConfig }: UseDeleteUserOptions = {}) => 
 ## ステップ2: index.tsでエクスポート
 
 ```typescript
-// src/features/users/api/index.ts
+// src/features/sample-users/api/index.ts
 export * from './get-users'
 export * from './get-user'
 export * from './create-user'
@@ -261,7 +261,7 @@ export * from './delete-user'
 ### Query(データ取得)の使用
 
 ```typescript
-// src/features/users/routes/users/users.tsx
+// src/features/sample-users/routes/sample-users/users.tsx
 'use client'
 
 import { LoadingSpinner } from '@/components/ui/loading-spinner'
@@ -288,8 +288,8 @@ export default function UsersPage() {
 ```
 
 ```typescript
-// src/features/users/routes/users/users.hook.ts
-import { useUsers as useUsersQuery } from '@/features/users/api/get-users'
+// src/features/sample-users/routes/sample-users/users.hook.ts
+import { useUsers as useUsersQuery } from '@/features/sample-users/api/get-users'
 
 export const useUsers = () => {
   const usersQuery = useUsersQuery()
@@ -305,10 +305,10 @@ export const useUsers = () => {
 ### Mutation(データ作成)の使用
 
 ```typescript
-// src/features/users/routes/new-user/new-user.tsx
+// src/features/sample-users/routes/sample-new-user/new-user.tsx
 'use client'
 
-import { UserForm } from '@/features/users/components/user-form'
+import { UserForm } from '@/features/sample-users/components/user-form'
 import { useNewUser } from './new-user.hook'
 
 export default function NewUserPage() {
@@ -319,16 +319,16 @@ export default function NewUserPage() {
 ```
 
 ```typescript
-// src/features/users/routes/new-user/new-user.hook.ts
+// src/features/sample-users/routes/sample-new-user/new-user.hook.ts
 import { useRouter } from 'next/navigation'
-import { useCreateUser, type CreateUserInput } from '@/features/users/api/create-user'
+import { useCreateUser, type CreateUserInput } from '@/features/sample-users/api/create-user'
 
 export const useNewUser = () => {
   const router = useRouter()
   const createUser = useCreateUser({
     mutationConfig: {
       onSuccess: () => {
-        router.push('/users')
+        router.push('/sample-users')
       },
     },
   })

@@ -56,8 +56,8 @@ app/
 │       └── page.tsx      → /register
 │
 └── (dashboard)/
-    ├── users/
-    │   └── page.tsx      → /users
+    ├── sample-users/
+    │   └── page.tsx      → /sample-users
     └── settings/
         └── page.tsx      → /settings
 ```
@@ -214,8 +214,8 @@ export const Navigation = () => {
 ```typescript
 import Link from 'next/link'
 
-<Link href="/users">ユーザー一覧</Link>
-<Link href={`/users/${user.id}`}>{user.name}</Link>
+<Link href="/sample-users">ユーザー一覧</Link>
+<Link href={`/sample-users/${user.id}`}>{user.name}</Link>
 ```
 
 ### 2. useRouterフック
@@ -230,7 +230,7 @@ export const CreateUserForm = () => {
 
   const handleSubmit = async () => {
     await createUser()
-    router.push('/users')  // ページ遷移
+    router.push('/sample-users')  // ページ遷移
   }
 
   return <form onSubmit={handleSubmit}>...</form>
@@ -251,7 +251,7 @@ export default async function UserPage({ params }: UserPageProps) {
   }
 
   if (!user.isActive) {
-    redirect('/users')  // リダイレクト
+    redirect('/sample-users')  // リダイレクト
   }
 
   return <div>{user.name}</div>
@@ -265,7 +265,7 @@ export default async function UserPage({ params }: UserPageProps) {
 ### loading.tsx
 
 ```typescript
-// app/users/loading.tsx
+// app/sample-users/loading.tsx
 export default function Loading() {
   return (
     <div className="flex items-center justify-center p-8">
@@ -278,7 +278,7 @@ export default function Loading() {
 ### error.tsx
 
 ```typescript
-// app/users/error.tsx
+// app/sample-users/error.tsx
 'use client'
 
 export default function Error({
@@ -301,14 +301,14 @@ export default function Error({
 ### not-found.tsx
 
 ```typescript
-// app/users/not-found.tsx
+// app/sample-users/not-found.tsx
 import Link from 'next/link'
 
 export default function NotFound() {
   return (
     <div className="p-8">
       <h2>ユーザーが見つかりません</h2>
-      <Link href="/users">一覧に戻る</Link>
+      <Link href="/sample-users">一覧に戻る</Link>
     </div>
   )
 }
@@ -321,7 +321,7 @@ export default function NotFound() {
 ### 静的メタデータ
 
 ```typescript
-// app/users/page.tsx
+// app/sample-users/page.tsx
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -337,7 +337,7 @@ export default function UsersPage() {
 ### 動的メタデータ
 
 ```typescript
-// app/users/[id]/page.tsx
+// app/sample-users/[id]/page.tsx
 export async function generateMetadata({
   params,
 }: {

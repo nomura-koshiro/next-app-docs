@@ -193,7 +193,7 @@ TanStack Queryはこれらを自動的に管理します。
 #### データ取得（Query）
 
 ```typescript
-// src/features/users/api/get-users.ts
+// src/features/sample-users/api/get-users.ts
 import { useQuery } from '@tanstack/react-query'
 import { api } from '@/lib/api-client'
 
@@ -216,7 +216,7 @@ export const useUsers = () => {
 **使用方法:**
 
 ```typescript
-import { useUsers } from '@/features/users/api/get-users'
+import { useUsers } from '@/features/sample-users/api/get-users'
 
 export const UserList = () => {
   const { data, isLoading, error } = useUsers()
@@ -237,7 +237,7 @@ export const UserList = () => {
 #### データ更新（Mutation）
 
 ```typescript
-// src/features/users/api/create-user.ts
+// src/features/sample-users/api/create-user.ts
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { api } from '@/lib/api-client'
 
@@ -261,7 +261,7 @@ export const useCreateUser = () => {
 **使用方法:**
 
 ```typescript
-import { useCreateUser } from '@/features/users/api/create-user'
+import { useCreateUser } from '@/features/sample-users/api/create-user'
 
 export const CreateUserForm = () => {
   const createUser = useCreateUser()

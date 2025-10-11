@@ -942,7 +942,7 @@ export const fetchPeriodicData = async (): Promise<Data[]> => {
 ```typescript
 // ❌ Bad: window.locationを使った遷移
 const navigateToUser = (userId: string) => {
-  window.location.href = `/users/${userId}`;
+  window.location.href = `/sample-users/${userId}`;
 };
 
 // ✅ Good: Next.jsのルーターを使用
@@ -954,7 +954,7 @@ export const UserCard = ({ user }: { user: User }) => {
   const router = useRouter();
 
   const navigateToUser = () => {
-    router.push(`/users/${user.id}`);
+    router.push(`/sample-users/${user.id}`);
   };
 
   return <button onClick={navigateToUser}>詳細を見る</button>;
@@ -965,7 +965,7 @@ import Link from 'next/link';
 
 export const UserCard = ({ user }: { user: User }) => {
   return (
-    <Link href={`/users/${user.id}`} className="button">
+    <Link href={`/sample-users/${user.id}`} className="button">
       詳細を見る
     </Link>
   );
