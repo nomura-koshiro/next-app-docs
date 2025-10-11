@@ -28,6 +28,7 @@ export default meta;
  * ControlledInputField のサンプル
  */
 export const InputField: StoryObj = {
+  name: "入力フィールド",
   render: () => {
     const schema = z.object({
       username: z.string().min(3, { message: "3文字以上で入力してください" }),
@@ -71,6 +72,7 @@ export const InputField: StoryObj = {
  * ControlledSelectField のサンプル
  */
 export const SelectField: StoryObj = {
+  name: "セレクトフィールド",
   render: () => {
     const schema = z.object({
       country: z.string().min(1, { message: "国を選択してください" }),
@@ -119,6 +121,7 @@ export const SelectField: StoryObj = {
  * ControlledTextareaField のサンプル
  */
 export const TextareaField: StoryObj = {
+  name: "テキストエリアフィールド",
   render: () => {
     const schema = z.object({
       bio: z
@@ -166,6 +169,7 @@ export const TextareaField: StoryObj = {
  * ControlledCheckboxField のサンプル
  */
 export const CheckboxField: StoryObj = {
+  name: "チェックボックスフィールド",
   render: () => {
     const schema = z.object({
       terms: z.boolean().refine((val) => val === true, {
@@ -217,6 +221,7 @@ export const CheckboxField: StoryObj = {
  * ControlledRadioGroupField のサンプル
  */
 export const RadioGroupField: StoryObj = {
+  name: "ラジオグループフィールド",
   render: () => {
     const schema = z.object({
       gender: z.enum(["male", "female", "other"], {
@@ -270,6 +275,7 @@ export const RadioGroupField: StoryObj = {
  * ControlledSwitchField のサンプル
  */
 export const SwitchField: StoryObj = {
+  name: "スイッチフィールド",
   render: () => {
     const schema = z.object({
       notifications: z.boolean(),
@@ -319,6 +325,7 @@ export const SwitchField: StoryObj = {
  * ControlledDateField のサンプル
  */
 export const DateField: StoryObj = {
+  name: "日付フィールド",
   render: () => {
     const schema = z.object({
       birthdate: z.string().min(1, { message: "生年月日を入力してください" }),
@@ -361,6 +368,7 @@ export const DateField: StoryObj = {
  * すべてのフィールドを組み合わせた総合サンプル
  */
 export const CompleteForm: StoryObj = {
+  name: "完全なフォーム",
   render: () => {
     const schema = z.object({
       username: z.string().min(3, { message: "3文字以上で入力してください" }),

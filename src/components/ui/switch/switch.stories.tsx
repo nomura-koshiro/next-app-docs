@@ -14,7 +14,11 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+/**
+ * デフォルトのSwitch
+ */
 export const Default: Story = {
+  name: "デフォルト",
   render: () => (
     <div className="flex items-center space-x-2">
       <Switch id="airplane-mode" />
@@ -25,7 +29,11 @@ export const Default: Story = {
   ),
 };
 
+/**
+ * チェック済みの状態
+ */
 export const Checked: Story = {
+  name: "チェック済み",
   render: () => (
     <div className="flex items-center space-x-2">
       <Switch id="checked" defaultChecked />
@@ -36,7 +44,11 @@ export const Checked: Story = {
   ),
 };
 
+/**
+ * 無効化された状態
+ */
 export const Disabled: Story = {
+  name: "無効",
   render: () => (
     <div className="flex items-center space-x-2">
       <Switch id="disabled" disabled />
@@ -47,7 +59,11 @@ export const Disabled: Story = {
   ),
 };
 
-export const DisabledChecked: Story = {
+/**
+ * 無効化されたチェック済み状態
+ */
+export const DisabledAndChecked: Story = {
+  name: "無効かつチェック済み",
   render: () => (
     <div className="flex items-center space-x-2">
       <Switch id="disabled-checked" disabled defaultChecked />
@@ -58,7 +74,11 @@ export const DisabledChecked: Story = {
   ),
 };
 
+/**
+ * 説明文付き
+ */
 export const WithDescription: Story = {
+  name: "説明文付き",
   render: () => (
     <div className="flex items-center justify-between space-x-2 w-[400px]">
       <div className="space-y-0.5">
@@ -74,7 +94,11 @@ export const WithDescription: Story = {
   ),
 };
 
+/**
+ * 設定グループの例
+ */
 export const SettingsGroup: Story = {
+  name: "設定グループ",
   render: () => (
     <div className="w-[500px] space-y-6">
       <div className="flex items-center justify-between space-x-2">
@@ -114,7 +138,11 @@ export const SettingsGroup: Story = {
   ),
 };
 
+/**
+ * ダークモード切り替えの例
+ */
 export const DarkMode: Story = {
+  name: "ダークモード",
   render: () => (
     <div className="flex items-center justify-between space-x-2 w-[350px]">
       <div className="space-y-0.5">
@@ -130,7 +158,11 @@ export const DarkMode: Story = {
   ),
 };
 
+/**
+ * プライバシー設定の例
+ */
 export const PrivacySettings: Story = {
+  name: "プライバシー設定",
   render: () => (
     <div className="w-[500px] space-y-6">
       <div className="flex items-center justify-between space-x-2">

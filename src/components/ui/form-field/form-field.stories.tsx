@@ -19,6 +19,7 @@ type Story = StoryObj<typeof meta>;
  * 基本的なFormField
  */
 export const Default: Story = {
+  name: "デフォルト",
   args: {
     label: "ラベル",
     id: "field1",
@@ -35,6 +36,7 @@ export const Default: Story = {
  * 必須フィールド
  */
 export const Required: Story = {
+  name: "必須",
   args: {
     label: "名前",
     id: "name",
@@ -52,6 +54,7 @@ export const Required: Story = {
  * エラー付きフィールド
  */
 export const WithError: Story = {
+  name: "エラーあり",
   args: {
     label: "メールアドレス",
     id: "email",
@@ -77,6 +80,7 @@ export const WithError: Story = {
  * InputField コンポーネント
  */
 export const InputFieldExample: Story = {
+  name: "入力フィールド",
   args: {
     label: "ユーザー名",
     id: "username",
@@ -102,6 +106,7 @@ export const InputFieldExample: Story = {
  * SelectField コンポーネント
  */
 export const SelectFieldExample: Story = {
+  name: "セレクトフィールド",
   args: {
     label: "ロール",
     id: "role",
@@ -131,6 +136,7 @@ export const SelectFieldExample: Story = {
  * フォームの例
  */
 export const CompleteForm: Story = {
+  name: "完全なフォーム",
   args: {
     label: "フォーム",
     id: "form",
@@ -180,6 +186,7 @@ export const CompleteForm: Story = {
  * エラー状態のフォーム
  */
 export const FormWithErrors: Story = {
+  name: "エラーのあるフォーム",
   args: {
     label: "フォーム",
     id: "form",
@@ -215,55 +222,3 @@ export const FormWithErrors: Story = {
   },
 };
 
-/**
- * 様々な入力タイプ
- */
-export const AllInputTypes: Story = {
-  args: {
-    label: "フォーム",
-    id: "form",
-    children: <Input />,
-  },
-  render: () => {
-    const [text, setText] = useState("");
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [number, setNumber] = useState("");
-
-    return (
-      <div className="w-96 space-y-4">
-        <InputField
-          label="テキスト"
-          id="text"
-          value={text}
-          onChange={setText}
-          placeholder="テキスト入力"
-        />
-        <InputField
-          label="メール"
-          id="email"
-          type="email"
-          value={email}
-          onChange={setEmail}
-          placeholder="user@example.com"
-        />
-        <InputField
-          label="パスワード"
-          id="password"
-          type="password"
-          value={password}
-          onChange={setPassword}
-          placeholder="パスワード"
-        />
-        <InputField
-          label="数値"
-          id="number"
-          type="number"
-          value={number}
-          onChange={setNumber}
-          placeholder="0"
-        />
-      </div>
-    );
-  },
-};

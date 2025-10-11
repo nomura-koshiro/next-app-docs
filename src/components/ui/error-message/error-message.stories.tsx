@@ -31,6 +31,7 @@ type Story = StoryObj<typeof meta>;
  * デフォルトのErrorMessage
  */
 export const Default: Story = {
+  name: "デフォルト",
   args: {
     message: "エラーが発生しました。",
   },
@@ -40,47 +41,19 @@ export const Default: Story = {
  * カスタムタイトル
  */
 export const CustomTitle: Story = {
+  name: "カスタムタイトル",
   args: {
     title: "ログインエラー",
     message: "メールアドレスまたはパスワードが正しくありません。",
   },
 };
 
-/**
- * ネットワークエラー
- */
-export const NetworkError: Story = {
-  args: {
-    title: "ネットワークエラー",
-    message:
-      "サーバーに接続できませんでした。インターネット接続を確認してください。",
-  },
-};
-
-/**
- * バリデーションエラー
- */
-export const ValidationError: Story = {
-  args: {
-    title: "入力エラー",
-    message: "必須項目を全て入力してください。",
-  },
-};
-
-/**
- * 権限エラー
- */
-export const PermissionError: Story = {
-  args: {
-    title: "アクセス拒否",
-    message: "この操作を実行する権限がありません。",
-  },
-};
 
 /**
  * フルスクリーン (Storybookでは表示が制限されます)
  */
 export const FullScreen: Story = {
+  name: "フルスクリーン",
   args: {
     message: "ページの読み込みに失敗しました。",
     fullScreen: true,
@@ -94,6 +67,7 @@ export const FullScreen: Story = {
  * フォーム内での使用例
  */
 export const InForm: Story = {
+  name: "フォーム内",
   args: {
     message: "有効なメールアドレスを入力してください",
   },
@@ -111,31 +85,6 @@ export const InForm: Story = {
         />
       </div>
       <ErrorMessage message="有効なメールアドレスを入力してください" />
-    </div>
-  ),
-};
-
-/**
- * 複数のエラーメッセージ
- */
-export const MultipleErrors: Story = {
-  args: {
-    message: "サーバーに接続できませんでした。",
-  },
-  render: () => (
-    <div className="space-y-4 w-96">
-      <ErrorMessage
-        title="ネットワークエラー"
-        message="サーバーに接続できませんでした。"
-      />
-      <ErrorMessage
-        title="バリデーションエラー"
-        message="入力内容に誤りがあります。"
-      />
-      <ErrorMessage
-        title="権限エラー"
-        message="この操作を実行する権限がありません。"
-      />
     </div>
   ),
 };

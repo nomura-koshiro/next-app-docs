@@ -23,9 +23,10 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 /**
- * デフォルトのPageLayout
+ * デフォルトのページレイアウト
  */
 export const Default: Story = {
+  name: "デフォルト",
   args: {
     children: <div>Dummy content</div>,
   },
@@ -42,9 +43,10 @@ export const Default: Story = {
 };
 
 /**
- * ヘッダー付きレイアウト
+ * ヘッダー付き
  */
 export const WithHeader: Story = {
+  name: "ヘッダー付き",
   args: {
     children: <div>Dummy content</div>,
   },
@@ -64,7 +66,8 @@ export const WithHeader: Story = {
 /**
  * アクション付きヘッダー
  */
-export const WithHeaderAction: Story = {
+export const WithActionHeader: Story = {
+  name: "アクション付きヘッダー",
   args: {
     children: <div>Dummy content</div>,
   },
@@ -83,27 +86,10 @@ export const WithHeaderAction: Story = {
 };
 
 /**
- * 小サイズ (sm)
+ * 幅指定 (中サイズ)
  */
-export const SmallWidth: Story = {
-  args: {
-    children: <div>Dummy content</div>,
-    maxWidth: "sm",
-  },
-  render: () => (
-    <PageLayout maxWidth="sm">
-      <PageHeader title="小サイズレイアウト" />
-      <div className="rounded-lg border bg-white p-8">
-        <p>max-width: sm (24rem)</p>
-      </div>
-    </PageLayout>
-  ),
-};
-
-/**
- * 中サイズ (md)
- */
-export const MediumWidth: Story = {
+export const WithWidth: Story = {
+  name: "幅指定",
   args: {
     children: <div>Dummy content</div>,
     maxWidth: "md",
@@ -119,45 +105,10 @@ export const MediumWidth: Story = {
 };
 
 /**
- * 2XLサイズ (2xl)
- */
-export const TwoXLWidth: Story = {
-  args: {
-    children: <div>Dummy content</div>,
-    maxWidth: "2xl",
-  },
-  render: () => (
-    <PageLayout maxWidth="2xl">
-      <PageHeader title="2XLサイズレイアウト" />
-      <div className="rounded-lg border bg-white p-8">
-        <p>max-width: 2xl (42rem)</p>
-      </div>
-    </PageLayout>
-  ),
-};
-
-/**
- * 6XLサイズ (6xl) - デフォルト
- */
-export const SixXLWidth: Story = {
-  args: {
-    children: <div>Dummy content</div>,
-    maxWidth: "6xl",
-  },
-  render: () => (
-    <PageLayout maxWidth="6xl">
-      <PageHeader title="6XLサイズレイアウト (デフォルト)" />
-      <div className="rounded-lg border bg-white p-8">
-        <p>max-width: 6xl (72rem)</p>
-      </div>
-    </PageLayout>
-  ),
-};
-
-/**
  * フルワイド
  */
 export const FullWidth: Story = {
+  name: "フルワイド",
   args: {
     children: <div>Dummy content</div>,
     maxWidth: "full",
@@ -173,9 +124,10 @@ export const FullWidth: Story = {
 };
 
 /**
- * 複数のセクション
+ * 複数セクション
  */
 export const MultipleSections: Story = {
+  name: "複数セクション",
   args: {
     children: <div>Dummy content</div>,
   },
@@ -206,52 +158,4 @@ export const MultipleSections: Story = {
       </div>
     </PageLayout>
   ),
-};
-
-/**
- * すべての幅サイズの比較
- */
-export const AllWidths: Story = {
-  args: {
-    children: <div>Dummy content</div>,
-  },
-  render: () => (
-    <div className="space-y-8 p-8">
-      <div>
-        <p className="mb-2 text-sm font-medium">Small (sm)</p>
-        <PageLayout maxWidth="sm">
-          <div className="rounded-lg border bg-white p-4">
-            <p className="text-sm">max-width: sm</p>
-          </div>
-        </PageLayout>
-      </div>
-      <div>
-        <p className="mb-2 text-sm font-medium">Medium (md)</p>
-        <PageLayout maxWidth="md">
-          <div className="rounded-lg border bg-white p-4">
-            <p className="text-sm">max-width: md</p>
-          </div>
-        </PageLayout>
-      </div>
-      <div>
-        <p className="mb-2 text-sm font-medium">2XL (2xl)</p>
-        <PageLayout maxWidth="2xl">
-          <div className="rounded-lg border bg-white p-4">
-            <p className="text-sm">max-width: 2xl</p>
-          </div>
-        </PageLayout>
-      </div>
-      <div>
-        <p className="mb-2 text-sm font-medium">6XL (6xl) - Default</p>
-        <PageLayout maxWidth="6xl">
-          <div className="rounded-lg border bg-white p-4">
-            <p className="text-sm">max-width: 6xl</p>
-          </div>
-        </PageLayout>
-      </div>
-    </div>
-  ),
-  parameters: {
-    layout: "fullscreen",
-  },
 };

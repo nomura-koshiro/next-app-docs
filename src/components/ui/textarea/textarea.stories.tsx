@@ -15,7 +15,11 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+/**
+ * デフォルトのTextarea
+ */
 export const Default: Story = {
+  name: "デフォルト",
   render: () => (
     <div className="w-[400px] space-y-2">
       <Label htmlFor="message">メッセージ</Label>
@@ -24,7 +28,11 @@ export const Default: Story = {
   ),
 };
 
+/**
+ * 値が設定された状態
+ */
 export const WithValue: Story = {
+  name: "値あり",
   render: () => (
     <div className="w-[400px] space-y-2">
       <Label htmlFor="bio">自己紹介</Label>
@@ -36,7 +44,11 @@ export const WithValue: Story = {
   ),
 };
 
+/**
+ * 無効化された状態
+ */
 export const Disabled: Story = {
+  name: "無効",
   render: () => (
     <div className="w-[400px] space-y-2">
       <Label htmlFor="disabled">無効化されたテキストエリア</Label>
@@ -50,7 +62,11 @@ export const Disabled: Story = {
   ),
 };
 
+/**
+ * 行数を指定した状態
+ */
 export const WithRows: Story = {
+  name: "行数指定",
   render: () => (
     <div className="w-[400px] space-y-2">
       <Label htmlFor="rows">大きなテキストエリア（10行）</Label>
@@ -63,7 +79,11 @@ export const WithRows: Story = {
   ),
 };
 
+/**
+ * 文字数カウント付き
+ */
 export const WithCharacterCount: Story = {
+  name: "文字数カウント付き",
   render: () => {
     const maxLength = 200;
     const [value, setValue] = React.useState("");
@@ -86,7 +106,11 @@ export const WithCharacterCount: Story = {
   },
 };
 
+/**
+ * エラー状態
+ */
 export const WithError: Story = {
+  name: "エラー",
   render: () => (
     <div className="w-[400px] space-y-2">
       <Label htmlFor="error" className="text-destructive">
@@ -106,7 +130,11 @@ export const WithError: Story = {
   ),
 };
 
+/**
+ * フィードバックフォームの例
+ */
 export const FeedbackForm: Story = {
+  name: "フィードバックフォーム",
   render: () => (
     <div className="w-[500px] space-y-4">
       <div className="space-y-2">

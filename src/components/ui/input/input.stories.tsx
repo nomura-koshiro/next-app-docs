@@ -29,18 +29,20 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 /**
- * デフォルトのInput
+ * デフォルトのテキスト入力
  */
 export const Default: Story = {
+  name: "デフォルト",
   args: {
     placeholder: "テキストを入力してください",
   },
 };
 
 /**
- * メールアドレス用Input
+ * メールアドレス入力
  */
 export const Email: Story = {
+  name: "メール",
   args: {
     type: "email",
     placeholder: "user@example.com",
@@ -48,9 +50,10 @@ export const Email: Story = {
 };
 
 /**
- * パスワード用Input
+ * パスワード入力
  */
 export const Password: Story = {
+  name: "パスワード",
   args: {
     type: "password",
     placeholder: "パスワードを入力",
@@ -58,9 +61,10 @@ export const Password: Story = {
 };
 
 /**
- * 数値用Input
+ * 数値入力
  */
 export const Number: Story = {
+  name: "数値",
   args: {
     type: "number",
     placeholder: "0",
@@ -68,9 +72,10 @@ export const Number: Story = {
 };
 
 /**
- * 無効化されたInput
+ * 無効化状態
  */
 export const Disabled: Story = {
+  name: "無効化",
   args: {
     placeholder: "無効化されています",
     disabled: true,
@@ -78,18 +83,20 @@ export const Disabled: Story = {
 };
 
 /**
- * 値が入力されたInput
+ * 初期値あり
  */
-export const WithValue: Story = {
+export const WithDefaultValue: Story = {
+  name: "初期値あり",
   args: {
     defaultValue: "入力済みの値",
   },
 };
 
 /**
- * ラベル付きInput
+ * ラベルとの組み合わせ
  */
 export const WithLabel: Story = {
+  name: "ラベル付き",
   render: () => (
     <div className="space-y-2">
       <label htmlFor="name" className="text-sm font-medium">
@@ -101,9 +108,10 @@ export const WithLabel: Story = {
 };
 
 /**
- * エラー状態のInput
+ * エラー表示
  */
 export const WithError: Story = {
+  name: "エラー",
   render: () => (
     <div className="space-y-2">
       <label htmlFor="email" className="text-sm font-medium">
@@ -118,40 +126,6 @@ export const WithError: Story = {
       <p className="text-sm text-red-500">
         有効なメールアドレスを入力してください
       </p>
-    </div>
-  ),
-};
-
-/**
- * 様々なタイプのInput
- */
-export const AllTypes: Story = {
-  render: () => (
-    <div className="space-y-4 w-96">
-      <div className="space-y-2">
-        <label className="text-sm font-medium">Text</label>
-        <Input type="text" placeholder="テキスト入力" />
-      </div>
-      <div className="space-y-2">
-        <label className="text-sm font-medium">Email</label>
-        <Input type="email" placeholder="user@example.com" />
-      </div>
-      <div className="space-y-2">
-        <label className="text-sm font-medium">Password</label>
-        <Input type="password" placeholder="パスワード" />
-      </div>
-      <div className="space-y-2">
-        <label className="text-sm font-medium">Number</label>
-        <Input type="number" placeholder="0" />
-      </div>
-      <div className="space-y-2">
-        <label className="text-sm font-medium">Tel</label>
-        <Input type="tel" placeholder="090-1234-5678" />
-      </div>
-      <div className="space-y-2">
-        <label className="text-sm font-medium">URL</label>
-        <Input type="url" placeholder="https://example.com" />
-      </div>
     </div>
   ),
 };

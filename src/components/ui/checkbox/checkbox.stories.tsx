@@ -14,7 +14,11 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+/**
+ * デフォルトのCheckbox
+ */
 export const Default: Story = {
+  name: "デフォルト",
   render: () => (
     <div className="flex items-center space-x-2">
       <Checkbox id="terms" />
@@ -25,7 +29,11 @@ export const Default: Story = {
   ),
 };
 
+/**
+ * チェック済みの状態
+ */
 export const Checked: Story = {
+  name: "チェック済み",
   render: () => (
     <div className="flex items-center space-x-2">
       <Checkbox id="checked" defaultChecked />
@@ -36,7 +44,11 @@ export const Checked: Story = {
   ),
 };
 
+/**
+ * 無効化された状態
+ */
 export const Disabled: Story = {
+  name: "無効",
   render: () => (
     <div className="flex items-center space-x-2">
       <Checkbox id="disabled" disabled />
@@ -47,7 +59,11 @@ export const Disabled: Story = {
   ),
 };
 
-export const DisabledChecked: Story = {
+/**
+ * 無効化されたチェック済み状態
+ */
+export const DisabledAndChecked: Story = {
+  name: "無効かつチェック済み",
   render: () => (
     <div className="flex items-center space-x-2">
       <Checkbox id="disabled-checked" disabled defaultChecked />
@@ -58,7 +74,11 @@ export const DisabledChecked: Story = {
   ),
 };
 
+/**
+ * 説明文付き
+ */
 export const WithDescription: Story = {
+  name: "説明文付き",
   render: () => (
     <div className="flex items-start space-x-2">
       <Checkbox id="with-description" className="mt-1" />
@@ -74,7 +94,11 @@ export const WithDescription: Story = {
   ),
 };
 
+/**
+ * 複数のチェックボックス
+ */
 export const MultipleCheckboxes: Story = {
+  name: "複数のチェックボックス",
   render: () => (
     <div className="space-y-4">
       <div className="flex items-center space-x-2">

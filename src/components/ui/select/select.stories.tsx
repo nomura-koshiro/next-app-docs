@@ -25,6 +25,7 @@ type Story = StoryObj<typeof meta>;
  * デフォルトのSelect
  */
 export const Default: Story = {
+  name: "デフォルト",
   render: () => (
     <Select>
       <SelectTrigger className="w-[180px]">
@@ -43,6 +44,7 @@ export const Default: Story = {
  * グループ付きSelect
  */
 export const WithGroups: Story = {
+  name: "グループ付き",
   render: () => (
     <Select>
       <SelectTrigger className="w-[180px]">
@@ -69,7 +71,8 @@ export const WithGroups: Story = {
 /**
  * 小サイズのSelect
  */
-export const Small: Story = {
+export const SmallSize: Story = {
+  name: "小サイズ",
   render: () => (
     <Select>
       <SelectTrigger className="w-[180px]" size="sm">
@@ -90,6 +93,7 @@ export const Small: Story = {
  * ラベル付きSelect
  */
 export const WithLabel: Story = {
+  name: "ラベル付き",
   render: () => (
     <div className="space-y-2">
       <label htmlFor="role" className="text-sm font-medium">
@@ -113,6 +117,7 @@ export const WithLabel: Story = {
  * 無効化されたSelect
  */
 export const Disabled: Story = {
+  name: "無効",
   render: () => (
     <Select disabled>
       <SelectTrigger className="w-[180px]">
@@ -130,6 +135,7 @@ export const Disabled: Story = {
  * フォームでの使用例
  */
 export const InForm: Story = {
+  name: "フォーム内",
   render: () => (
     <div className="w-96 space-y-4">
       <div className="space-y-2">

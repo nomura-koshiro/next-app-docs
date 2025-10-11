@@ -25,6 +25,7 @@ type Story = StoryObj<typeof meta>;
  * デフォルトのアラート
  */
 export const Default: Story = {
+  name: "デフォルト",
   render: () => (
     <Alert>
       <Info className="h-4 w-4" />
@@ -40,6 +41,7 @@ export const Default: Story = {
  * 破壊的なアクション用のアラート
  */
 export const Destructive: Story = {
+  name: "破壊的",
   render: () => (
     <Alert variant="destructive">
       <AlertCircle className="h-4 w-4" />
@@ -55,6 +57,7 @@ export const Destructive: Story = {
  * 成功メッセージ
  */
 export const Success: Story = {
+  name: "成功",
   render: () => (
     <Alert>
       <CheckCircle className="h-4 w-4 text-green-600" />
@@ -68,6 +71,7 @@ export const Success: Story = {
  * タイトルのみのアラート
  */
 export const TitleOnly: Story = {
+  name: "タイトルのみ",
   render: () => (
     <Alert>
       <Info className="h-4 w-4" />
@@ -80,6 +84,7 @@ export const TitleOnly: Story = {
  * 説明文のみのアラート
  */
 export const DescriptionOnly: Story = {
+  name: "説明文のみ",
   render: () => (
     <Alert>
       <Info className="h-4 w-4" />
@@ -92,6 +97,7 @@ export const DescriptionOnly: Story = {
  * アイコンなしのアラート
  */
 export const WithoutIcon: Story = {
+  name: "アイコンなし",
   render: () => (
     <Alert>
       <AlertTitle>アイコンなし</AlertTitle>
@@ -100,22 +106,3 @@ export const WithoutIcon: Story = {
   ),
 };
 
-/**
- * すべてのバリエーション
- */
-export const AllVariants: Story = {
-  render: () => (
-    <div className="flex flex-col gap-4">
-      <Alert>
-        <Info className="h-4 w-4" />
-        <AlertTitle>デフォルト</AlertTitle>
-        <AlertDescription>デフォルトのアラート</AlertDescription>
-      </Alert>
-      <Alert variant="destructive">
-        <AlertCircle className="h-4 w-4" />
-        <AlertTitle>破壊的</AlertTitle>
-        <AlertDescription>破壊的なアラート</AlertDescription>
-      </Alert>
-    </div>
-  ),
-};

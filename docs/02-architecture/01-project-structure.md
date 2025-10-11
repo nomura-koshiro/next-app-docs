@@ -19,8 +19,8 @@
 src/
 ├── app/                    # App Router (Next.js 15+)
 │   ├── (sample)/           # ルートグループ（サンプル実装）
-│   │   ├── login/          # ログインページ
-│   │   └── users/          # ユーザー管理ページ
+│   │   ├── sample-login/   # ログインページ
+│   │   └── sample-users/   # ユーザー管理ページ
 │   ├── layout.tsx          # ルートレイアウト
 │   ├── page.tsx            # ホームページ
 │   ├── not-found.tsx       # 404ページ
@@ -28,8 +28,8 @@ src/
 │   └── globals.css         # グローバルスタイル
 │
 ├── features/              # 機能モジュール（bulletproof-react）
-│   ├── auth/               # 認証機能
-│   └── users/              # ユーザー管理機能
+│   ├── sample-auth/        # 認証機能（サンプル）
+│   └── sample-users/       # ユーザー管理機能（サンプル）
 │
 ├── components/            # 共通コンポーネント
 │   ├── ui/                # 基本UI（shadcn/ui風）
@@ -73,7 +73,7 @@ src/
     ├── browser.ts          # ブラウザ用worker
     ├── handlers.ts         # ハンドラー統合
     └── handlers/           # 機能別ハンドラー
-        └── api/v1/
+        └── api/v1/sample/
             ├── auth-handlers.ts
             └── user-handlers.ts
 ```
@@ -115,10 +115,10 @@ import { FeatureBCard } from '@/features/feature-b/components/card'
 
 ## Feature構成
 
-### 実際の構成例（users feature）
+### 実際の構成例（sample-users feature）
 
 ```
-features/users/
+features/sample-users/
 ├── api/                        # API通信
 │   ├── get-users.ts            # GET /api/v1/users
 │   ├── get-user.ts             # GET /api/v1/users/:id
@@ -128,24 +128,24 @@ features/users/
 │   └── index.ts                # エクスポート
 │
 ├── routes/                     # ルート（ページ）コンポーネント
-│   ├── users/                  # 一覧ページ
+│   ├── sample-users/           # 一覧ページ
 │   │   ├── users.tsx           # ページコンポーネント
 │   │   ├── users.hook.ts       # カスタムフック
 │   │   ├── users.stories.tsx   # Storybook
 │   │   ├── components/         # ページ固有コンポーネント
 │   │   │   └── users-list.tsx
 │   │   └── index.ts
-│   ├── new-user/               # 作成ページ
+│   ├── sample-new-user/        # 作成ページ
 │   │   ├── new-user.tsx
 │   │   ├── new-user.hook.ts
 │   │   ├── new-user.stories.tsx
 │   │   └── index.ts
-│   ├── edit-user/              # 編集ページ
+│   ├── sample-edit-user/       # 編集ページ
 │   │   ├── edit-user.tsx
 │   │   ├── edit-user.hook.ts
 │   │   ├── edit-user.stories.tsx
 │   │   └── index.ts
-│   └── delete-user/            # 削除ページ
+│   └── sample-delete-user/     # 削除ページ
 │       ├── delete-user.tsx
 │       ├── delete-user.hook.ts
 │       ├── delete-user.stories.tsx
@@ -167,10 +167,10 @@ features/users/
 └── index.ts                    # エクスポート
 ```
 
-### 最小構成（auth feature）
+### 最小構成（sample-auth feature）
 
 ```
-features/auth/
+features/sample-auth/
 ├── api/                        # API通信
 │   ├── login.ts
 │   ├── logout.ts
@@ -178,7 +178,7 @@ features/auth/
 │   └── index.ts
 │
 ├── routes/                     # ルート（ページ）コンポーネント
-│   └── login/
+│   └── sample-login/
 │       ├── login.tsx           # ページコンポーネント
 │       ├── login.hook.ts       # カスタムフック
 │       ├── components/         # ページ固有コンポーネント

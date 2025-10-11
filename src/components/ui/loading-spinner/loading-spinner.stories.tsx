@@ -32,6 +32,7 @@ type Story = StoryObj<typeof meta>;
  * デフォルトのLoadingSpinner
  */
 export const Default: Story = {
+  name: "デフォルト",
   args: {},
 };
 
@@ -39,6 +40,7 @@ export const Default: Story = {
  * カスタムテキスト
  */
 export const CustomText: Story = {
+  name: "カスタムテキスト",
   args: {
     text: "データを読み込んでいます...",
   },
@@ -48,6 +50,7 @@ export const CustomText: Story = {
  * 小サイズ
  */
 export const Small: Story = {
+  name: "小",
   args: {
     size: "sm",
     text: "読み込み中...",
@@ -58,6 +61,7 @@ export const Small: Story = {
  * 中サイズ
  */
 export const Medium: Story = {
+  name: "中",
   args: {
     size: "md",
     text: "読み込み中...",
@@ -68,6 +72,7 @@ export const Medium: Story = {
  * 大サイズ
  */
 export const Large: Story = {
+  name: "大",
   args: {
     size: "lg",
     text: "読み込み中...",
@@ -77,7 +82,8 @@ export const Large: Story = {
 /**
  * テキストなし
  */
-export const WithoutText: Story = {
+export const NoText: Story = {
+  name: "テキストなし",
   args: {
     text: "",
   },
@@ -87,6 +93,7 @@ export const WithoutText: Story = {
  * フルスクリーン (Storybookでは表示が制限されます)
  */
 export const FullScreen: Story = {
+  name: "フルスクリーン",
   args: {
     fullScreen: true,
   },
@@ -96,31 +103,10 @@ export const FullScreen: Story = {
 };
 
 /**
- * すべてのサイズ
- */
-export const AllSizes: Story = {
-  render: () => (
-    <div className="flex flex-col gap-8">
-      <div>
-        <p className="mb-2 text-sm text-gray-600">Small</p>
-        <LoadingSpinner size="sm" />
-      </div>
-      <div>
-        <p className="mb-2 text-sm text-gray-600">Medium (Default)</p>
-        <LoadingSpinner size="md" />
-      </div>
-      <div>
-        <p className="mb-2 text-sm text-gray-600">Large</p>
-        <LoadingSpinner size="lg" />
-      </div>
-    </div>
-  ),
-};
-
-/**
  * カード内での使用例
  */
 export const InCard: Story = {
+  name: "カード内",
   render: () => (
     <div className="w-96 rounded-lg border bg-white p-8 shadow-sm">
       <LoadingSpinner text="データを取得中..." />

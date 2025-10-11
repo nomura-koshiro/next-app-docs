@@ -14,7 +14,11 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+/**
+ * デフォルトのRadioGroup
+ */
 export const Default: Story = {
+  name: "デフォルト",
   render: () => (
     <RadioGroup defaultValue="option-1">
       <div className="flex items-center space-x-2">
@@ -39,7 +43,11 @@ export const Default: Story = {
   ),
 };
 
-export const WithDescriptions: Story = {
+/**
+ * 説明文付き
+ */
+export const WithDescription: Story = {
+  name: "説明文付き",
   render: () => (
     <RadioGroup defaultValue="comfortable">
       <div className="flex items-center space-x-2">
@@ -79,7 +87,11 @@ export const WithDescriptions: Story = {
   ),
 };
 
+/**
+ * 性別選択の例
+ */
 export const Gender: Story = {
+  name: "性別",
   render: () => (
     <RadioGroup defaultValue="male">
       <div className="flex items-center space-x-2">
@@ -109,7 +121,11 @@ export const Gender: Story = {
   ),
 };
 
+/**
+ * 支払い方法選択の例
+ */
 export const PaymentMethod: Story = {
+  name: "支払い方法",
   render: () => (
     <RadioGroup defaultValue="card">
       <div className="flex items-center space-x-2">
@@ -149,7 +165,11 @@ export const PaymentMethod: Story = {
   ),
 };
 
+/**
+ * 無効化された状態
+ */
 export const Disabled: Story = {
+  name: "無効",
   render: () => (
     <RadioGroup defaultValue="option-1" disabled>
       <div className="flex items-center space-x-2">

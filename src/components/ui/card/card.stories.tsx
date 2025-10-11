@@ -26,6 +26,7 @@ type Story = StoryObj<typeof meta>;
  * 基本的なカード
  */
 export const Default: Story = {
+  name: "デフォルト",
   render: () => (
     <Card className="w-96">
       <CardHeader>
@@ -43,6 +44,7 @@ export const Default: Story = {
  * フッター付きカード
  */
 export const WithFooter: Story = {
+  name: "フッター付き",
   render: () => (
     <Card className="w-96">
       <CardHeader>
@@ -68,6 +70,7 @@ export const WithFooter: Story = {
  * アクション付きカード
  */
 export const WithAction: Story = {
+  name: "アクション付き",
   render: () => (
     <Card className="w-96">
       <CardHeader>
@@ -90,6 +93,7 @@ export const WithAction: Story = {
  * シンプルなカード
  */
 export const Simple: Story = {
+  name: "シンプル",
   render: () => (
     <Card className="w-96">
       <CardContent>
@@ -103,6 +107,7 @@ export const Simple: Story = {
  * フォーム用カード
  */
 export const FormCard: Story = {
+  name: "フォーム",
   render: () => (
     <Card className="w-96">
       <CardHeader>
@@ -133,51 +138,5 @@ export const FormCard: Story = {
         <Button className="w-full">ログイン</Button>
       </CardFooter>
     </Card>
-  ),
-};
-
-/**
- * 複数のカード
- */
-export const MultipleCards: Story = {
-  render: () => (
-    <div className="grid grid-cols-2 gap-4 w-full max-w-4xl">
-      <Card>
-        <CardHeader>
-          <CardTitle>カード 1</CardTitle>
-          <CardDescription>最初のカード</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <p>コンテンツ</p>
-        </CardContent>
-      </Card>
-      <Card>
-        <CardHeader>
-          <CardTitle>カード 2</CardTitle>
-          <CardDescription>2番目のカード</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <p>コンテンツ</p>
-        </CardContent>
-      </Card>
-      <Card>
-        <CardHeader>
-          <CardTitle>カード 3</CardTitle>
-          <CardDescription>3番目のカード</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <p>コンテンツ</p>
-        </CardContent>
-      </Card>
-      <Card>
-        <CardHeader>
-          <CardTitle>カード 4</CardTitle>
-          <CardDescription>4番目のカード</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <p>コンテンツ</p>
-        </CardContent>
-      </Card>
-    </div>
   ),
 };

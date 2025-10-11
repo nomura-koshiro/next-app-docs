@@ -50,87 +50,96 @@ type Story = StoryObj<typeof meta>;
  * デフォルトのボタン
  */
 export const Default: Story = {
+  name: "デフォルト",
   args: {
-    children: "Button",
+    children: "ボタン",
     variant: "default",
     size: "default",
   },
 };
 
 /**
- * 破壊的なアクション用のボタン
+ * 破壊的なアクション用のボタン（削除など）
  */
 export const Destructive: Story = {
+  name: "破壊的アクション",
   args: {
-    children: "Delete",
+    children: "削除",
     variant: "destructive",
   },
 };
 
 /**
- * アウトラインボタン
+ * アウトラインスタイル
  */
 export const Outline: Story = {
+  name: "アウトライン",
   args: {
-    children: "Outline",
+    children: "アウトライン",
     variant: "outline",
   },
 };
 
 /**
- * セカンダリボタン
+ * セカンダリスタイル
  */
 export const Secondary: Story = {
+  name: "セカンダリ",
   args: {
-    children: "Secondary",
+    children: "セカンダリ",
     variant: "secondary",
   },
 };
 
 /**
- * ゴーストボタン
+ * ゴーストスタイル（背景なし）
  */
 export const Ghost: Story = {
+  name: "ゴースト",
   args: {
-    children: "Ghost",
+    children: "ゴースト",
     variant: "ghost",
   },
 };
 
 /**
- * リンクボタン
+ * リンクスタイル
  */
 export const Link: Story = {
+  name: "リンク",
   args: {
-    children: "Link",
+    children: "リンク",
     variant: "link",
   },
 };
 
 /**
- * 小サイズのボタン
+ * 小サイズ
  */
 export const Small: Story = {
+  name: "小サイズ",
   args: {
-    children: "Small",
+    children: "小",
     size: "sm",
   },
 };
 
 /**
- * 大サイズのボタン
+ * 大サイズ
  */
 export const Large: Story = {
+  name: "大サイズ",
   args: {
-    children: "Large",
+    children: "大",
     size: "lg",
   },
 };
 
 /**
- * アイコンボタン
+ * アイコンのみ
  */
 export const Icon: Story = {
+  name: "アイコン",
   args: {
     children: "🔔",
     size: "icon",
@@ -138,51 +147,21 @@ export const Icon: Story = {
 };
 
 /**
- * 無効化されたボタン
+ * 無効化状態
  */
 export const Disabled: Story = {
+  name: "無効化",
   args: {
-    children: "Disabled",
+    children: "無効化",
     disabled: true,
   },
 };
 
 /**
- * すべてのバリエーションを表示
- */
-export const AllVariants: Story = {
-  render: () => (
-    <div className="flex flex-col gap-4">
-      <div className="flex gap-2">
-        <Button variant="default">Default</Button>
-        <Button variant="destructive">Destructive</Button>
-        <Button variant="outline">Outline</Button>
-        <Button variant="secondary">Secondary</Button>
-        <Button variant="ghost">Ghost</Button>
-        <Button variant="link">Link</Button>
-      </div>
-    </div>
-  ),
-};
-
-/**
- * すべてのサイズを表示
- */
-export const AllSizes: Story = {
-  render: () => (
-    <div className="flex items-center gap-2">
-      <Button size="sm">Small</Button>
-      <Button size="default">Default</Button>
-      <Button size="lg">Large</Button>
-      <Button size="icon">🔔</Button>
-    </div>
-  ),
-};
-
-/**
- * ローディング状態のボタン
+ * ローディング状態
  */
 export const Loading: Story = {
+  name: "ローディング",
   render: () => (
     <Button disabled>
       <svg
@@ -205,15 +184,16 @@ export const Loading: Story = {
           d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
         ></path>
       </svg>
-      Loading...
+      読み込み中...
     </Button>
   ),
 };
 
 /**
- * アイコン付きボタン
+ * アイコンとテキストの組み合わせ
  */
 export const WithIcon: Story = {
+  name: "アイコン付き",
   render: () => (
     <div className="flex gap-2">
       <Button>
@@ -231,10 +211,10 @@ export const WithIcon: Story = {
           <path d="M5 12h14" />
           <path d="M12 5v14" />
         </svg>
-        Add Item
+        項目を追加
       </Button>
       <Button variant="outline">
-        Download
+        ダウンロード
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="16"
