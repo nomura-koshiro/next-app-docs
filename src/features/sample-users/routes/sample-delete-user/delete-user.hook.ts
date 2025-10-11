@@ -45,7 +45,7 @@ export const useDeleteUser = (params: Promise<{ id: string }>) => {
     return deleteUserMutation
       .mutateAsync(userId)
       .then(() => {
-        router.push("/users");
+        router.push("/sample-users");
       })
       .catch(() => {
         setDeleteError("ユーザーの削除に失敗しました");
@@ -56,7 +56,7 @@ export const useDeleteUser = (params: Promise<{ id: string }>) => {
   };
 
   const handleCancel = () => {
-    router.push("/users");
+    router.push("/sample-users");
   };
 
   const user = data?.data;

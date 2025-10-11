@@ -11,15 +11,15 @@ export const useUsers = () => {
   const users = data?.data ?? [];
 
   const handleEdit = (userId: string) => {
-    router.push(`/users/${userId}/edit`);
+    router.push(`/sample-users/${userId}/edit`);
   };
 
   const handleDelete = (userId: string) => {
-    router.push(`/users/${userId}/delete`);
+    router.push(`/sample-users/${userId}/delete`);
   };
 
   const handleCreateNew = () => {
-    router.push("/users/new");
+    router.push("/sample-users/new");
   };
 
   return {

@@ -4,7 +4,7 @@ import { http, HttpResponse, delay } from "msw";
 import NewUserPage from "./new-user";
 
 const meta = {
-  title: "features/users/routes/new-user/NewUser",
+  title: "features/sample-users/routes/sample-new-user/NewUser",
   component: NewUserPage,
   parameters: {
     layout: "fullscreen",

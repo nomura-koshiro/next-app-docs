@@ -72,7 +72,7 @@ export const useEditUser = (params: Promise<{ id: string }>) => {
         data: formData,
       })
       .then(() => {
-        router.push("/users");
+        router.push("/sample-users");
       })
       .catch(() => {
         setError("root", {
@@ -82,7 +82,7 @@ export const useEditUser = (params: Promise<{ id: string }>) => {
   });
 
   const handleCancel = () => {
-    router.push("/users");
+    router.push("/sample-users");
   };
 
   return {

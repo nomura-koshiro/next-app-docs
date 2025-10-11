@@ -4,7 +4,7 @@ import { http, HttpResponse, delay } from "msw";
 import EditUserPage from "./edit-user";
 
 const meta = {
-  title: "features/users/routes/edit-user/EditUser",
+  title: "features/sample-users/routes/sample-edit-user/EditUser",
   component: EditUserPage,
   parameters: {
     layout: "fullscreen",

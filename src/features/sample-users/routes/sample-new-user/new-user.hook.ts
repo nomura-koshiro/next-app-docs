@@ -32,7 +32,7 @@ export const useNewUser = () => {
     createUserMutation
       .mutateAsync(data)
       .then(() => {
-        router.push("/users");
+        router.push("/sample-users");
       })
       .catch(() => {
         setError("root", {
@@ -42,7 +42,7 @@ export const useNewUser = () => {
   });
 
   const handleCancel = () => {
-    router.push("/users");
+    router.push("/sample-users");
   };
 
   return {

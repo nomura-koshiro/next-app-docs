@@ -4,7 +4,7 @@ import { http, HttpResponse, delay } from "msw";
 import DeleteUserPage from "./delete-user";
 
 const meta = {
-  title: "features/users/routes/delete-user/DeleteUser",
+  title: "features/sample-users/routes/sample-delete-user/DeleteUser",
   component: DeleteUserPage,
   parameters: {
     layout: "fullscreen",
