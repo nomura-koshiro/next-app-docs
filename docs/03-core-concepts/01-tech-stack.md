@@ -16,11 +16,21 @@
 
 ## フレームワーク
 
-### Next.js 15.5 + React 19
+### Next.js 15.5.4 + React 19.1.0
 
 - **App Router**: ファイルベースのルーティング
 - **Server Components**: サーバーサイドレンダリング
-- **TypeScript 5.5+**: 型安全な開発
+- **TypeScript 5**: 型安全な開発
+- **Turbopack**: 高速なビルドツール
+
+```json
+{
+  "next": "15.5.4",
+  "react": "19.1.0",
+  "react-dom": "19.1.0",
+  "typescript": "^5"
+}
+```
 
 **公式**: [Next.js](https://nextjs.org/) | [React](https://react.dev/)
 
@@ -77,23 +87,38 @@ const buttonVariants = cva('rounded font-semibold', {
 
 ## 状態管理
 
-### TanStack Query
+### TanStack Query v5.90.2
 
 **サーバー状態**の管理（APIから取得するデータ）
 
 - データフェッチング
 - キャッシング
 - バックグラウンド更新
+- DevTools対応
+
+```json
+{
+  "@tanstack/react-query": "^5.90.2",
+  "@tanstack/react-query-devtools": "^5.90.2",
+  "@tanstack/eslint-plugin-query": "^5.91.0"
+}
+```
 
 **公式**: [TanStack Query](https://tanstack.com/query/latest)
 
-### Zustand
+### Zustand v5.0.8
 
 **グローバル状態**の管理（クライアント側）
 
 - 認証ユーザー情報
 - テーマ設定
 - サイドバーの開閉状態
+
+```json
+{
+  "zustand": "^5.0.8"
+}
+```
 
 **公式**: [Zustand](https://zustand-demo.pmnd.rs/)
 
@@ -109,10 +134,12 @@ const buttonVariants = cva('rounded font-semibold', {
 
 ## フォーム管理
 
-### React Hook Form + Zod
+### React Hook Form v7.64.0 + Zod v4.1.12
 
 - **React Hook Form**: パフォーマンスに優れたフォーム管理
 - **Zod**: スキーマバリデーション
+- **@hookform/resolvers**: ZodとReact Hook Formの統合
+- **@hookform/devtools**: 開発ツール
 
 ```typescript
 const schema = z.object({
@@ -121,13 +148,22 @@ const schema = z.object({
 })
 ```
 
+```json
+{
+  "react-hook-form": "^7.64.0",
+  "zod": "^4.1.12",
+  "@hookform/resolvers": "^5.2.2",
+  "@hookform/devtools": "^4.4.0"
+}
+```
+
 **公式**: [React Hook Form](https://react-hook-form.com/) | [Zod](https://zod.dev/)
 
 ---
 
 ## データ取得
 
-### Axios
+### Axios v1.12.2
 
 HTTPクライアント
 
@@ -135,20 +171,78 @@ HTTPクライアント
 - 自動JSONデータ変換
 - Cookie認証対応
 
+```json
+{
+  "axios": "^1.12.2"
+}
+```
+
 **公式**: [Axios](https://axios-http.com/)
 
 ---
 
 ## 開発ツール
 
-| ツール | 用途 |
-|--------|------|
-| **Vitest** | ユニットテスト |
-| **Playwright** | E2Eテスト |
-| **Storybook** | UIコンポーネント開発 |
-| **ESLint** | コードの静的解析 |
-| **Prettier** | コードフォーマット |
-| **pnpm** | パッケージマネージャー |
+| ツール | バージョン | 用途 |
+|--------|-----------|------|
+| **Vitest** | v3.2.4 | ユニットテスト・コンポーネントテスト |
+| **Playwright** | v1.56.0 | E2Eテスト |
+| **Storybook** | v9.1.10 | UIコンポーネント開発 |
+| **MSW** | v2.11.5 | APIモック |
+| **ESLint** | v9 | コードの静的解析 |
+| **Prettier** | v3.6.2 | コードフォーマット |
+| **Stylelint** | v16.25.0 | CSSリント |
+| **plop** | v4.0.4 | コード生成 |
+| **pnpm** | - | パッケージマネージャー |
+
+```json
+{
+  "vitest": "^3.2.4",
+  "@vitest/browser": "3.2.4",
+  "@vitest/coverage-v8": "3.2.4",
+  "@playwright/test": "^1.56.0",
+  "storybook": "9.1.10",
+  "msw": "^2.11.5",
+  "eslint": "^9",
+  "prettier": "^3.6.2",
+  "stylelint": "^16.25.0",
+  "plop": "^4.0.4"
+}
+```
+
+---
+
+## その他のライブラリ
+
+### UI関連
+
+| ライブラリ | バージョン | 用途 |
+|-----------|-----------|------|
+| **lucide-react** | v0.545.0 | アイコン |
+| **tailwind-merge** | v3.3.1 | Tailwindクラスのマージ |
+| **tailwindcss-animate** | v1.0.7 | アニメーション |
+| **clsx** | v2.1.1 | クラス名の条件付き結合 |
+
+### ユーティリティ
+
+| ライブラリ | バージョン | 用途 |
+|-----------|-----------|------|
+| **date-fns** | v4.1.0 | 日付操作 |
+| **react-error-boundary** | v6.0.0 | エラーバウンダリ |
+| **exceljs** | v4.4.0 | Excel操作 |
+
+### Radix UI（shadcn/uiベース）
+
+```json
+{
+  "@radix-ui/react-checkbox": "^1.3.3",
+  "@radix-ui/react-label": "^2.1.7",
+  "@radix-ui/react-radio-group": "^1.3.8",
+  "@radix-ui/react-select": "^2.2.6",
+  "@radix-ui/react-slot": "^1.2.3",
+  "@radix-ui/react-switch": "^1.2.6"
+}
+```
 
 ---
 

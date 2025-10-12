@@ -9,8 +9,8 @@
 3. [Good/Bad例](#goodbad例)
 4. [CRUD処理の実装パターン](#crud処理の実装パターン)
 5. [コンポーネント分割の判断基準](#コンポーネント分割の判断基準)
-6. [ディレクトリ構成](#ディレクトリ構成)
-7. [アンチパターン](#アンチパターン)
+6. [アンチパターン](#アンチパターン)
+7. [ディレクトリ構成](#ディレクトリ構成)
 8. [チェックリスト](#チェックリスト)
 
 ---
@@ -350,34 +350,6 @@ export const ReviewItem = ({ review }: { review: Review }) => {
 
 ---
 
-## ディレクトリ構成
-
-```text
-features/users/
-├── api/
-│   ├── get-users.ts         # useUsers
-│   ├── create-user.ts       # useCreateUser
-│   ├── update-user.ts       # useUpdateUser
-│   └── delete-user.ts       # useDeleteUser
-├── components/
-│   ├── user-list.tsx        # Presentational
-│   ├── user-list-container.tsx  # Container
-│   ├── user-form.tsx        # Presentational
-│   └── user-card.tsx        # Presentational
-└── types/
-    └── index.ts             # User型定義
-```
-
-### ファイル命名規則
-
-| タイプ | 命名規則 | 例 |
-|--------|---------|---|
-| **Container** | `{name}-container.tsx` | `user-list-container.tsx` |
-| **Presentational** | `{name}.tsx` | `user-list.tsx` |
-| **API Hook** | `{action}-{resource}.ts` | `get-users.ts` |
-
----
-
 ## アンチパターン
 
 ### ❌ 1. PresentationalでTanStack Queryを使う
@@ -457,6 +429,34 @@ export const UserListContainer = () => {
   )
 }
 ```
+
+---
+
+## ディレクトリ構成
+
+```text
+features/users/
+├── api/
+│   ├── get-users.ts         # useUsers
+│   ├── create-user.ts       # useCreateUser
+│   ├── update-user.ts       # useUpdateUser
+│   └── delete-user.ts       # useDeleteUser
+├── components/
+│   ├── user-list.tsx        # Presentational
+│   ├── user-list-container.tsx  # Container
+│   ├── user-form.tsx        # Presentational
+│   └── user-card.tsx        # Presentational
+└── types/
+    └── index.ts             # User型定義
+```
+
+### ファイル命名規則
+
+| タイプ | 命名規則 | 例 |
+|--------|---------|---|
+| **Container** | `{name}-container.tsx` | `user-list-container.tsx` |
+| **Presentational** | `{name}.tsx` | `user-list.tsx` |
+| **API Hook** | `{action}-{resource}.ts` | `get-users.ts` |
 
 ---
 
