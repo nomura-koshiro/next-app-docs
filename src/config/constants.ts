@@ -1,35 +1,8 @@
 /**
  * アプリケーション全体で使用する定数定義
  *
- * バリデーション、設定値、マジックナンバーなどを集中管理します。
+ * 設定値、マジックナンバーなどを集中管理します。
  */
-
-/**
- * バリデーション関連の定数
- */
-export const VALIDATION = {
-  // ユーザー名
-  NAME_MIN_LENGTH: 1,
-  NAME_MAX_LENGTH: 50,
-
-  // メールアドレス
-  EMAIL_MAX_LENGTH: 255,
-
-  // パスワード
-  PASSWORD_MIN_LENGTH: 8,
-  PASSWORD_MAX_LENGTH: 72,
-
-  // 年齢
-  AGE_MIN: 0,
-  AGE_MAX: 150,
-
-  // テキストエリア
-  TEXTAREA_MAX_LENGTH: 1000,
-
-  // その他
-  PHONE_PATTERN: /^[0-9]{10,11}$/,
-  URL_PATTERN: /^https?:\/\/.+/,
-} as const;
 
 /**
  * API関連の定数

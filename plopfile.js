@@ -84,6 +84,12 @@ export default function (plop) {
           path: "src/features/{{kebabCase featureName}}/routes/{{kebabCase routeName}}/components/{{kebabCase routeName}}-form.tsx",
           templateFile: "plop-templates/feature/route-form.hbs",
         },
+        // Route stories
+        {
+          type: "add",
+          path: "src/features/{{kebabCase featureName}}/routes/{{kebabCase routeName}}/{{kebabCase routeName}}.stories.tsx",
+          templateFile: "plop-templates/feature/route-stories.hbs",
+        },
         // Route index
         {
           type: "add",
@@ -147,6 +153,12 @@ export default function (plop) {
         path: "src/features/{{kebabCase featureName}}/routes/{{kebabCase routeName}}/components/{{kebabCase routeName}}-form.tsx",
         templateFile: "plop-templates/route/route-form.hbs",
       },
+      // Route stories
+      {
+        type: "add",
+        path: "src/features/{{kebabCase featureName}}/routes/{{kebabCase routeName}}/{{kebabCase routeName}}.stories.tsx",
+        templateFile: "plop-templates/route/route-stories.hbs",
+      },
       // Route index
       {
         type: "add",
@@ -182,25 +194,33 @@ export default function (plop) {
         },
       },
     ],
-    actions: [
-      // Component
-      {
-        type: "add",
-        path: "src/components/{{componentType}}/{{kebabCase componentName}}/{{kebabCase componentName}}.tsx",
-        templateFile: "plop-templates/component/component.hbs",
-      },
-      // Stories
-      {
-        type: "add",
-        path: "src/components/{{componentType}}/{{kebabCase componentName}}/{{kebabCase componentName}}.stories.tsx",
-        templateFile: "plop-templates/component/stories.hbs",
-      },
-      // Index
-      {
-        type: "add",
-        path: "src/components/{{componentType}}/{{kebabCase componentName}}/index.ts",
-        templateFile: "plop-templates/component/index.hbs",
-      },
-    ],
+    actions: (data) => {
+      // componentTypeに応じてストーリーテンプレートを選択
+      const storiesTemplate =
+        data.componentType === "layout"
+          ? "plop-templates/component/stories-layout.hbs"
+          : "plop-templates/component/stories-ui.hbs";
+
+      return [
+        // Component
+        {
+          type: "add",
+          path: "src/components/{{componentType}}/{{kebabCase componentName}}/{{kebabCase componentName}}.tsx",
+          templateFile: "plop-templates/component/component.hbs",
+        },
+        // Stories（タイプに応じたテンプレートを使用）
+        {
+          type: "add",
+          path: "src/components/{{componentType}}/{{kebabCase componentName}}/{{kebabCase componentName}}.stories.tsx",
+          templateFile: storiesTemplate,
+        },
+        // Index
+        {
+          type: "add",
+          path: "src/components/{{componentType}}/{{kebabCase componentName}}/index.ts",
+          templateFile: "plop-templates/component/index.hbs",
+        },
+      ];
+    },
   });
 }

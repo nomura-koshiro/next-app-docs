@@ -1,21 +1,16 @@
 import { z } from "zod";
+import { nameSchema } from "@/schemas/fields/name.schema";
+import { emailSchema } from "@/schemas/fields/email.schema";
+import { roleSchema } from "@/schemas/fields/role.schema";
 
 /**
  * ユーザーフォームのバリデーションスキーマ
  * 新規作成・編集フォームで使用
  */
 export const userFormSchema = z.object({
-  name: z
-    .string()
-    .min(1, { message: "名前は必須です" })
-    .max(100, { message: "名前は100文字以内で入力してください" }),
-  email: z
-    .string()
-    .min(1, { message: "メールアドレスは必須です" })
-    .email({ message: "有効なメールアドレスを入力してください" }),
-  role: z.enum(["user", "admin"], {
-    message: "ロールを選択してください",
-  }),
+  name: nameSchema,
+  email: emailSchema,
+  role: roleSchema,
 });
 
 /**

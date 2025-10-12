@@ -156,6 +156,7 @@ CAMP_front/src/
     ├── components/        # 共通UIコンポーネント
     ├── hooks/             # 共通カスタムフック
     ├── lib/               # ライブラリ設定
+    ├── schemas/           # 共通バリデーションスキーマ (Zod)
     ├── stores/            # グローバルストア
     ├── types/             # 共通型定義
     └── utils/             # ユーティリティ

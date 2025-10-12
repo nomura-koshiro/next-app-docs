@@ -165,13 +165,15 @@ src/
 │   ├── {feature}/
 │   │   ├── api/       # API通信
 │   │   ├── routes/    # ルート（ページ）
-│   │   ├── schemas/   # バリデーションスキーマ
+│   │   ├── schemas/   # Feature固有のバリデーションスキーマ
 │   │   ├── stores/    # 状態管理
 │   │   └── index.ts
 │   └── ...
-└── components/        # 汎用コンポーネント
-    ├── ui/           # UIコンポーネント
-    └── layout/       # レイアウトコンポーネント
+├── components/        # 汎用コンポーネント
+│   ├── ui/           # UIコンポーネント
+│   └── layout/       # レイアウトコンポーネント
+└── schemas/          # 共通バリデーションスキーマ（再利用可能）
+    └── fields/       # フィールド単位のスキーマ (email, password, etc.)
 ```
 
 ## トラブルシューティング

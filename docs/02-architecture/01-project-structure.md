@@ -69,6 +69,14 @@ src/
 ├── types/                 # 共通型定義
 │   └── global.d.ts        # グローバル型定義
 │
+├── schemas/               # 共通バリデーションスキーマ
+│   ├── index.ts            # バレルエクスポート
+│   └── fields/             # フィールド単位のスキーマ
+│       ├── index.ts
+│       ├── email.schema.ts
+│       ├── password.schema.ts
+│       └── ...
+│
 └── mocks/                 # MSW設定
     ├── browser.ts          # ブラウザ用worker
     ├── handlers.ts         # ハンドラー統合
