@@ -20,7 +20,7 @@
 
 `app/`ディレクトリの構造がそのままルートになります。
 
-```
+```text
 app/
 ├── page.tsx              → /
 ├── about/
@@ -47,7 +47,7 @@ app/
 
 `(folder)`で括弧を使うと、URLに影響せずにルートをグループ化できます。
 
-```
+```text
 app/
 ├── (auth)/
 │   ├── login/
@@ -89,7 +89,7 @@ export default function DashboardLayout({
 
 ### [id]フォルダ
 
-```
+```text
 app/items/[id]/page.tsx  → /items/1, /items/2, ...
 ```
 

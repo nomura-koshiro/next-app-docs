@@ -1,5 +1,7 @@
 // For more info, see https://github.com/storybookjs/eslint-plugin-storybook#configuration-flat-config-format
 import storybook from "eslint-plugin-storybook";
+import tanstackQuery from "@tanstack/eslint-plugin-query";
+// import tailwindcss from "eslint-plugin-tailwindcss"; // Tailwind CSS v4と互換性がないため一時的にコメントアウト
 
 import { dirname } from "path";
 import { fileURLToPath } from "url";
@@ -12,7 +14,11 @@ const compat = new FlatCompat({
   baseDirectory: __dirname,
 });
 
-const eslintConfig = [...compat.extends("next/core-web-vitals", "next/typescript"), {
+const eslintConfig = [
+  ...compat.extends("next/core-web-vitals", "next/typescript"),
+  ...tanstackQuery.configs["flat/recommended"],
+  // ...tailwindcss.configs["flat/recommended"], // Tailwind CSS v4と互換性がないため一時的にコメントアウト
+  {
   ignores: [
     "node_modules/**",
     ".next/**",
@@ -66,12 +72,22 @@ const eslintConfig = [...compat.extends("next/core-web-vitals", "next/typescript
       }
     ],
   },
-}, {
-  files: ["src/components/ui/**/*.{ts,tsx}", "src/components/layout/**/*.{ts,tsx}"],
-  rules: {
-    // UIコンポーネントでは関数宣言を許可
-    "func-style": "off",
+},
+  {
+    files: ["src/components/ui/**/*.{ts,tsx}", "src/components/layout/**/*.{ts,tsx}"],
+    rules: {
+      // UIコンポーネントでは関数宣言を許可
+      "func-style": "off",
+    },
   },
-}, ...storybook.configs["flat/recommended"]];
+  {
+    files: ["**/*.{ts,tsx}"],
+    rules: {
+      // TanStack Query: exhaustive-deps を warn に変更（厳格すぎる場合）
+      "@tanstack/query/exhaustive-deps": "warn",
+    },
+  },
+  ...storybook.configs["flat/recommended"]
+];
 
 export default eslintConfig;

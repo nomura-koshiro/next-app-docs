@@ -15,7 +15,7 @@
 
 ## ディレクトリ構成
 
-```
+```text
 src/
 ├── app/                    # App Router (Next.js 15+)
 │   ├── (sample)/           # ルートグループ（サンプル実装）
@@ -84,7 +84,7 @@ src/
 
 ### コードフローの方向性
 
-```
+```text
 共通コード (components, hooks, lib, utils)
     ↓
 features (機能モジュール)
@@ -117,7 +117,7 @@ import { SampleAuthForm } from '@/features/sample-auth/components/login-form'
 
 ### 実際の構成例（sample-users feature）
 
-```
+```text
 features/sample-users/
 ├── api/                        # API通信
 │   ├── get-users.ts            # GET /api/v1/users
@@ -169,7 +169,7 @@ features/sample-users/
 
 ### 最小構成（sample-auth feature）
 
-```
+```text
 features/sample-auth/
 ├── api/                        # API通信
 │   ├── login.ts

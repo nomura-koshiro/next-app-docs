@@ -27,14 +27,6 @@ const mockUser: User = {
   createdAt: "2024-01-15",
 };
 
-const mockAdminUser: User = {
-  id: "2",
-  name: "佐藤花子",
-  email: "sato@example.com",
-  role: "admin",
-  createdAt: "2024-02-20",
-};
-
 /**
  * デフォルト状態
  * ユーザー削除確認の通常状態（一般ユーザー）

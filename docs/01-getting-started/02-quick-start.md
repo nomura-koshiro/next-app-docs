@@ -59,7 +59,7 @@ NEXT_PUBLIC_ENABLE_API_MOCKING=true
 pnpm dev
 ```
 
-→ http://localhost:3000 にアクセス
+→ <http://localhost:3000> にアクセス
 
 ---
 

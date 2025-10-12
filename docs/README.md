@@ -75,6 +75,7 @@
 外部ドキュメント、公式リソース、学習教材へのリンク集
 
 - [01. リソース](./07-reference/01-resources.md) - 外部リンク・学習リソース
+- [02. ユーティリティ関数](./07-reference/02-utils.md) - 日付操作・フォーマット・バリデーション関数
 
 ---
 
@@ -189,7 +190,7 @@ CAMP_front/src/
 ├── config/                # 設定ファイル (env.ts, paths.ts, constants.ts)
 ├── hooks/                 # 共通カスタムフック（将来実装予定）
 ├── types/                 # 共通型定義
-└── utils/                 # ユーティリティ（将来実装予定）
+└── utils/                 # ユーティリティ (date, format, validation)
 ```
 
 詳細は [プロジェクト構造](./02-architecture/01-project-structure.md) を参照

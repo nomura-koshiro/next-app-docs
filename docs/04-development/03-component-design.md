@@ -30,6 +30,7 @@
 ### Container Component（ロジック）
 
 **責任:**
+
 - データ取得（TanStack Query）
 - 状態管理（useState, Zustand）
 - ビジネスロジック
@@ -54,6 +55,7 @@ export const UserListContainer = () => {
 ### Presentational Component（見た目）
 
 **責任:**
+
 - UIレンダリング
 - スタイリング
 - イベント発火（親の関数を呼ぶ）
@@ -119,6 +121,7 @@ export const UserPage = () => {
 ```
 
 **問題点:**
+
 - データ取得・削除・UIが1つに混在
 - テストが困難
 - 再利用不可
@@ -163,6 +166,7 @@ export const UserList = ({ users, onDelete }: UserListProps) => {
 ```
 
 **メリット:**
+
 - ✅ 責任が明確
 - ✅ テストが容易
 - ✅ 再利用可能
@@ -348,7 +352,7 @@ export const ReviewItem = ({ review }: { review: Review }) => {
 
 ## ディレクトリ構成
 
-```
+```text
 features/users/
 ├── api/
 │   ├── get-users.ts         # useUsers
@@ -459,6 +463,7 @@ export const UserListContainer = () => {
 ## チェックリスト
 
 ### Container Component
+
 - [ ] TanStack QueryでデータをFetch
 - [ ] useMutationで更新・削除を実装
 - [ ] イベントハンドラを定義
@@ -466,6 +471,7 @@ export const UserListContainer = () => {
 - [ ] JSXは最小限
 
 ### Presentational Component
+
 - [ ] Propsでデータを受け取る
 - [ ] UIをレンダリング
 - [ ] データ取得しない

@@ -24,6 +24,7 @@
 ### ❌ Error: `Type 'X' is not assignable to type 'Y'`
 
 **原因:**
+
 - 型が一致していない
 
 **解決方法:**
@@ -47,6 +48,7 @@ const user: User = {
 ### ❌ Error: `'interface' is not allowed. Use 'type' instead.`
 
 **原因:**
+
 - ESLintルールで `interface` が禁止されている
 
 **解決方法:**
@@ -70,6 +72,7 @@ type User = {
 ### ❌ Error: `Expected blank line before return statement`
 
 **原因:**
+
 - ESLintルールで `return` 文の前に空行が必須
 
 **解決方法:**
@@ -100,6 +103,7 @@ pnpm lint:fix
 ### ❌ Error: `Use arrow functions instead of function declarations`
 
 **原因:**
+
 - 関数宣言（`function`）は禁止、アロー関数を使用
 
 **解決方法:**
@@ -123,6 +127,7 @@ const calculateTotal = (items: Item[]): number => {
 ### ❌ Error: `You're importing a component that needs useState/useEffect. It only works in a Client Component but none of its parents are marked with "use client"`
 
 **原因:**
+
 - Server Component内で `useState` などのClient専用フックを使用
 
 **解決方法:**
@@ -148,6 +153,7 @@ export const UserForm = () => {
 ### ❌ Error: `Hydration failed because the initial UI does not match what was rendered on the server`
 
 **原因:**
+
 - サーバーとクライアントでレンダリング結果が異なる
 
 **よくあるケース:**
@@ -176,7 +182,7 @@ export const TimeDisplay = () => {
 }
 ```
 
-2. **`localStorage` をServer Componentで使用**
+1. **`localStorage` をServer Componentで使用**
 
 ```typescript
 // ❌ Bad: Server Component で localStorage
@@ -206,6 +212,7 @@ export const UserGreeting = () => {
 ### ❌ Warning: `Each child in a list should have a unique "key" prop`
 
 **原因:**
+
 - 配列の `map()` で `key` が不足または重複
 
 **解決方法:**
@@ -234,6 +241,7 @@ export const UserGreeting = () => {
 ### ❌ Error: `No QueryClient set, use QueryClientProvider to set one`
 
 **原因:**
+
 - `QueryClientProvider` が設定されていない
 
 **解決方法:**
@@ -258,6 +266,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
 ### ❌ Error: `Cannot destructure property 'data' of 'useQuery(...)' as it is undefined`
 
 **原因:**
+
 - `useQuery` の戻り値を正しく扱っていない
 
 **解決方法:**
@@ -281,6 +290,7 @@ return <div>{data?.data.map(...)}</div>
 ### ❌ Warning: `A query result with a stale time of 0ms is considered stale immediately`
 
 **原因:**
+
 - `staleTime` が設定されていないため、データが即座に古くなる
 
 **解決方法:**
@@ -302,6 +312,7 @@ export const queryConfig = {
 ### ❌ Error: `Uncaught Error: useForm() should be inside <FormProvider>`
 
 **原因:**
+
 - `useFormContext()` を使っているが `FormProvider` がない
 
 **解決方法:**
@@ -336,6 +347,7 @@ export const FormField = ({ control }: Props) => {
 ### ❌ Error: `resolver is not a function`
 
 **原因:**
+
 - `@hookform/resolvers` がインストールされていない
 
 **解決方法:**
@@ -359,6 +371,7 @@ const form = useForm({
 ### ❌ Error: `[MSW] Failed to register a Service Worker`
 
 **原因:**
+
 - `mockServiceWorker.js` が `/public` にない
 
 **解決方法:**
@@ -370,7 +383,7 @@ npx msw init public/ --save
 
 **確認:**
 
-```
+```text
 public/
 └── mockServiceWorker.js  ← これが必要
 ```
@@ -380,6 +393,7 @@ public/
 ### ❌ Warning: `[MSW] Unhandled request: GET /api/v1/users`
 
 **原因:**
+
 - MSWハンドラーが定義されていない
 
 **解決方法:**
@@ -409,6 +423,7 @@ export const handlers = [
 ### ❌ Error: `Failed to fetch` when using MSW in Storybook
 
 **原因:**
+
 - Storybookの MSW 設定が不足
 
 **解決方法:**
@@ -441,6 +456,7 @@ export default preview
 ### ❌ Error: `Cannot read properties of undefined (reading 'getState')`
 
 **原因:**
+
 - ストアが正しく初期化されていない
 
 **解決方法:**
@@ -477,6 +493,7 @@ export const useAuthStore = create<AuthStore>()(
 ### ❌ Warning: `localStorage is not defined` in Next.js
 
 **原因:**
+
 - Server Component で `localStorage` を使用
 
 **解決方法:**
@@ -511,6 +528,7 @@ export const UserName = () => {
 ### ❌ Tailwindクラスが効かない
 
 **原因:**
+
 1. `globals.css` で Tailwind をインポートしていない
 2. `tailwind.config.ts` の `content` パスが正しくない
 
@@ -542,6 +560,7 @@ export default config
 ### ❌ `cn()` が undefined
 
 **原因:**
+
 - `cn` ユーティリティが定義されていない
 
 **解決方法:**
@@ -568,6 +587,7 @@ pnpm add clsx tailwind-merge
 ### ❌ Error: `Cannot find module 'X'`
 
 **原因:**
+
 - パッケージがインストールされていない
 
 **解決方法:**
@@ -586,6 +606,7 @@ pnpm add パッケージ名
 ### ❌ Error: `Peer dependency warning`
 
 **原因:**
+
 - 依存関係のバージョンが合わない
 
 **解決方法:**
@@ -622,7 +643,7 @@ const { data } = useQuery({
 })
 ```
 
-2. **不要な状態管理**
+1. **不要な状態管理**
 
 ```typescript
 // ❌ Bad: サーバーデータを useState で管理
@@ -701,7 +722,7 @@ await worker.start({
 
 ### Q: `pnpm dev` が起動しない
 
-**A: ポートが既に使用されている可能性**
+A: ポートが既に使用されている可能性
 
 ```bash
 # 3000番ポートを使っているプロセスを確認
@@ -718,7 +739,7 @@ pnpm dev -- -p 3001
 
 ### Q: ビルドは成功するが、`pnpm dev` でエラーになる
 
-**A: Turbopack の問題の可能性**
+A: Turbopack の問題の可能性
 
 ```bash
 # Turbopack を無効化して起動
@@ -729,7 +750,7 @@ pnpm dev --no-turbopack
 
 ### Q: 型エラーは出ないが、実行時エラーになる
 
-**A: TypeScript の型チェック**
+A: TypeScript の型チェック
 
 ```bash
 # 型チェックを実行

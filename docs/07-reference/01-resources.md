@@ -22,39 +22,39 @@
 
 | 名前 | URL | 説明 |
 |------|-----|------|
-| **Next.js** | https://nextjs.org/docs | Next.js 15公式ドキュメント |
-| **React** | https://react.dev/ | React 19公式ドキュメント |
-| **TypeScript** | https://www.typescriptlang.org/docs/ | TypeScript公式ハンドブック |
+| **Next.js** | <https://nextjs.org/docs> | Next.js 15公式ドキュメント |
+| **React** | <https://react.dev/> | React 19公式ドキュメント |
+| **TypeScript** | <https://www.typescriptlang.org/docs/> | TypeScript公式ハンドブック |
 
 ### UI・スタイリング
 
 | 名前 | URL | 説明 |
 |------|-----|------|
-| **Tailwind CSS** | https://tailwindcss.com/ | Tailwind CSS v4公式ドキュメント |
-| **CVA** | https://cva.style/ | Class Variance Authority |
-| **Radix UI** | https://www.radix-ui.com/ | アクセシブルなUIプリミティブ |
+| **Tailwind CSS** | <https://tailwindcss.com/> | Tailwind CSS v4公式ドキュメント |
+| **CVA** | <https://cva.style/> | Class Variance Authority |
+| **Radix UI** | <https://www.radix-ui.com/> | アクセシブルなUIプリミティブ |
 
 ### 状態管理・データ取得
 
 | 名前 | URL | 説明 |
 |------|-----|------|
-| **TanStack Query** | https://tanstack.com/query/latest | サーバー状態管理 |
-| **Zustand** | https://zustand-demo.pmnd.rs/ | クライアント状態管理 |
+| **TanStack Query** | <https://tanstack.com/query/latest> | サーバー状態管理 |
+| **Zustand** | <https://zustand-demo.pmnd.rs/> | クライアント状態管理 |
 
 ### フォーム・バリデーション
 
 | 名前 | URL | 説明 |
 |------|-----|------|
-| **React Hook Form** | https://react-hook-form.com/ | フォーム管理 |
-| **Zod** | https://zod.dev/ | スキーマバリデーション |
+| **React Hook Form** | <https://react-hook-form.com/> | フォーム管理 |
+| **Zod** | <https://zod.dev/> | スキーマバリデーション |
 
 ### テスト
 
 | 名前 | URL | 説明 |
 |------|-----|------|
-| **Vitest** | https://vitest.dev/ | ユニットテストフレームワーク |
-| **Playwright** | https://playwright.dev/ | E2Eテストフレームワーク |
-| **Testing Library** | https://testing-library.com/react | Reactコンポーネントテスト |
+| **Vitest** | <https://vitest.dev/> | ユニットテストフレームワーク |
+| **Playwright** | <https://playwright.dev/> | E2Eテストフレームワーク |
+| **Testing Library** | <https://testing-library.com/react> | Reactコンポーネントテスト |
 
 ---
 
@@ -62,11 +62,12 @@
 
 ### bulletproof-react
 
-**URL:** https://github.com/alan2207/bulletproof-react
+**URL:** <https://github.com/alan2207/bulletproof-react>
 
 **概要:** スケーラブルなReactアプリケーションのアーキテクチャパターン
 
 **主要な原則:**
+
 - Feature-Based Organization
 - Unidirectional Codebase Flow
 - Separation of Concerns
@@ -74,13 +75,13 @@
 
 ### Feature-Sliced Design
 
-**URL:** https://feature-sliced.design/
+**URL:** <https://feature-sliced.design/>
 
 **概要:** 前述のbulletproof-reactと類似のアーキテクチャ手法
 
 ### React Architecture Best Practices
 
-**URL:** https://react.dev/learn/thinking-in-react
+**URL:** <https://react.dev/learn/thinking-in-react>
 
 **概要:** React公式の設計思想ガイド
 
@@ -92,32 +93,32 @@
 
 | リソース | URL | 内容 |
 |---------|-----|------|
-| **Next.js Learn** | https://nextjs.org/learn | 公式チュートリアル |
-| **App Router Migration** | https://nextjs.org/docs/app/building-your-application/upgrading/app-router-migration-guide | Pages → App Router移行ガイド |
+| **Next.js Learn** | <https://nextjs.org/learn> | 公式チュートリアル |
+| **App Router Migration** | <https://nextjs.org/docs/app/building-your-application/upgrading/app-router-migration-guide> | Pages → App Router移行ガイド |
 
 ### TypeScript
 
 | リソース | URL | 内容 |
 |---------|-----|------|
-| **TypeScript Handbook** | https://www.typescriptlang.org/docs/handbook/intro.html | 公式ハンドブック |
-| **TypeScript Deep Dive** | https://basarat.gitbook.io/typescript | 詳細な解説書 |
-| **Type Challenges** | https://github.com/type-challenges/type-challenges | 型の練習問題 |
+| **TypeScript Handbook** | <https://www.typescriptlang.org/docs/handbook/intro.html> | 公式ハンドブック |
+| **TypeScript Deep Dive** | <https://basarat.gitbook.io/typescript> | 詳細な解説書 |
+| **Type Challenges** | <https://github.com/type-challenges/type-challenges> | 型の練習問題 |
 
 ### React
 
 | リソース | URL | 内容 |
 |---------|-----|------|
-| **React Docs** | https://react.dev/learn | 公式チュートリアル |
-| **React Patterns** | https://reactpatterns.com/ | デザインパターン集 |
-| **React TypeScript Cheatsheet** | https://react-typescript-cheatsheet.netlify.app/ | TypeScript + Reactチートシート |
+| **React Docs** | <https://react.dev/learn> | 公式チュートリアル |
+| **React Patterns** | <https://reactpatterns.com/> | デザインパターン集 |
+| **React TypeScript Cheatsheet** | <https://react-typescript-cheatsheet.netlify.app/> | TypeScript + Reactチートシート |
 
 ### Tailwind CSS
 
 | リソース | URL | 内容 |
 |---------|-----|------|
-| **Tailwind v4 Docs** | https://tailwindcss.com/docs | 公式ドキュメント |
-| **Tailwind UI** | https://tailwindui.com/ | プレミアムコンポーネント集 |
-| **Headless UI** | https://headlessui.com/ | アクセシブルなUIコンポーネント |
+| **Tailwind v4 Docs** | <https://tailwindcss.com/docs> | 公式ドキュメント |
+| **Tailwind UI** | <https://tailwindui.com/> | プレミアムコンポーネント集 |
+| **Headless UI** | <https://headlessui.com/> | アクセシブルなUIコンポーネント |
 
 ---
 
@@ -127,10 +128,10 @@
 
 | ツール | URL | 用途 |
 |--------|-----|------|
-| **pnpm** | https://pnpm.io/ | 高速なパッケージマネージャー |
-| **ESLint** | https://eslint.org/ | コード品質チェック |
-| **Prettier** | https://prettier.io/ | コードフォーマッター |
-| **Storybook** | https://storybook.js.org/ | UIコンポーネント開発 |
+| **pnpm** | <https://pnpm.io/> | 高速なパッケージマネージャー |
+| **ESLint** | <https://eslint.org/> | コード品質チェック |
+| **Prettier** | <https://prettier.io/> | コードフォーマッター |
+| **Storybook** | <https://storybook.js.org/> | UIコンポーネント開発 |
 
 ### VSCode拡張機能
 
@@ -146,9 +147,9 @@
 
 | ツール | URL | 用途 |
 |--------|-----|------|
-| **React DevTools** | https://react.dev/learn/react-developer-tools | React デバッグ |
-| **TanStack Query DevTools** | https://tanstack.com/query/latest/docs/react/devtools | クエリデバッグ |
-| **Zustand DevTools** | https://github.com/pmndrs/zustand#devtools | ストアデバッグ |
+| **React DevTools** | <https://react.dev/learn/react-developer-tools> | React デバッグ |
+| **TanStack Query DevTools** | <https://tanstack.com/query/latest/docs/react/devtools> | クエリデバッグ |
+| **Zustand DevTools** | <https://github.com/pmndrs/zustand#devtools> | ストアデバッグ |
 
 ---
 
@@ -158,26 +159,26 @@
 
 | コミュニティ | URL | 説明 |
 |------------|-----|------|
-| **Next.js Discord** | https://nextjs.org/discord | Next.js公式Discord |
-| **Reactiflux** | https://www.reactiflux.com/ | React開発者コミュニティ |
-| **TailwindCSS Discord** | https://tailwindcss.com/discord | Tailwind CSS公式Discord |
+| **Next.js Discord** | <https://nextjs.org/discord> | Next.js公式Discord |
+| **Reactiflux** | <https://www.reactiflux.com/> | React開発者コミュニティ |
+| **TailwindCSS Discord** | <https://tailwindcss.com/discord> | Tailwind CSS公式Discord |
 
 ### GitHub
 
 | リポジトリ | URL | 説明 |
 |-----------|-----|------|
-| **Next.js** | https://github.com/vercel/next.js | Next.jsソースコード |
-| **React** | https://github.com/facebook/react | Reactソースコード |
-| **bulletproof-react** | https://github.com/alan2207/bulletproof-react | アーキテクチャリファレンス |
+| **Next.js** | <https://github.com/vercel/next.js> | Next.jsソースコード |
+| **React** | <https://github.com/facebook/react> | Reactソースコード |
+| **bulletproof-react** | <https://github.com/alan2207/bulletproof-react> | アーキテクチャリファレンス |
 
 ### ブログ・記事
 
 | サイト | URL | 内容 |
 |--------|-----|------|
-| **Vercel Blog** | https://vercel.com/blog | Next.js最新情報 |
-| **React Blog** | https://react.dev/blog | React公式ブログ |
-| **Kent C. Dodds** | https://kentcdodds.com/blog | React/Testing専門家のブログ |
-| **Josh W. Comeau** | https://www.joshwcomeau.com/ | CSS/Reactの深掘り記事 |
+| **Vercel Blog** | <https://vercel.com/blog> | Next.js最新情報 |
+| **React Blog** | <https://react.dev/blog> | React公式ブログ |
+| **Kent C. Dodds** | <https://kentcdodds.com/blog> | React/Testing専門家のブログ |
+| **Josh W. Comeau** | <https://www.joshwcomeau.com/> | CSS/Reactの深掘り記事 |
 
 ---
 
@@ -186,18 +187,19 @@
 ### Stack Overflow
 
 **タグ:**
-- [next.js](https://stackoverflow.com/questions/tagged/next.js)
-- [reactjs](https://stackoverflow.com/questions/tagged/reactjs)
-- [typescript](https://stackoverflow.com/questions/tagged/typescript)
-- [tailwind-css](https://stackoverflow.com/questions/tagged/tailwind-css)
+
+- [next.js](<https://stackoverflow.com/questions/tagged/next.js>)
+- [reactjs](<https://stackoverflow.com/questions/tagged/reactjs>)
+- [typescript](<https://stackoverflow.com/questions/tagged/typescript>)
+- [tailwind-css](<https://stackoverflow.com/questions/tagged/tailwind-css>)
 
 ### GitHub Issues
 
 各ライブラリの公式リポジトリのIssueを検索：
 
-- [Next.js Issues](https://github.com/vercel/next.js/issues)
-- [React Issues](https://github.com/facebook/react/issues)
-- [TanStack Query Issues](https://github.com/TanStack/query/issues)
+- [Next.js Issues](<https://github.com/vercel/next.js/issues>)
+- [React Issues](<https://github.com/facebook/react/issues>)
+- [TanStack Query Issues](<https://github.com/TanStack/query/issues>)
 
 ---
 
@@ -205,9 +207,9 @@
 
 | Newsletter | URL | 内容 |
 |-----------|-----|------|
-| **React Newsletter** | https://reactnewsletter.com/ | React週刊ニュース |
-| **TypeScript Weekly** | https://typescript-weekly.com/ | TypeScript週刊ニュース |
-| **Tailwind Weekly** | https://tailwindweekly.com/ | Tailwind週刊ニュース |
+| **React Newsletter** | <https://reactnewsletter.com/> | React週刊ニュース |
+| **TypeScript Weekly** | <https://typescript-weekly.com/> | TypeScript週刊ニュース |
+| **Tailwind Weekly** | <https://tailwindweekly.com/> | Tailwind週刊ニュース |
 
 ---
 
@@ -215,10 +217,10 @@
 
 | チャンネル | URL | 内容 |
 |-----------|-----|------|
-| **Vercel** | https://www.youtube.com/@VercelHQ | Next.js公式チャンネル |
-| **Jack Herrington** | https://www.youtube.com/@jherr | TypeScript/React解説 |
-| **Theo - t3.gg** | https://www.youtube.com/@t3dotgg | Next.js実践的な内容 |
-| **Web Dev Simplified** | https://www.youtube.com/@WebDevSimplified | 初心者向けチュートリアル |
+| **Vercel** | <https://www.youtube.com/@VercelHQ> | Next.js公式チャンネル |
+| **Jack Herrington** | <https://www.youtube.com/@jherr> | TypeScript/React解説 |
+| **Theo - t3.gg** | <https://www.youtube.com/@t3dotgg> | Next.js実践的な内容 |
+| **Web Dev Simplified** | <https://www.youtube.com/@WebDevSimplified> | 初心者向けチュートリアル |
 
 ---
 

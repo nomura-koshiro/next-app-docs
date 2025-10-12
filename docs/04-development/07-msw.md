@@ -23,7 +23,7 @@
 
 ### 公式サイト
 
-https://mswjs.io/
+<https://mswjs.io/>
 
 ### 特徴
 

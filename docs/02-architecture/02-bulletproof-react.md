@@ -22,7 +22,7 @@
 
 ### 公式リポジトリ
 
-https://github.com/alan2207/bulletproof-react
+<https://github.com/alan2207/bulletproof-react>
 
 ### なぜbulletproof-reactを採用するのか
 
@@ -39,9 +39,9 @@ https://github.com/alan2207/bulletproof-react
 
 ### 1. Feature-Based Organization
 
-**機能ごとにコードを分離する**
+機能ごとにコードを分離する:
 
-```
+```text
 features/
 ├── {feature-a}/       # 機能A
 │   ├── api/
@@ -58,13 +58,14 @@ features/
 ```
 
 **メリット:**
+
 - 機能単位での開発・テストが容易
 - 不要な機能の削除が簡単
 - チーム開発での競合が減少
 
 ### 2. Unidirectional Codebase Flow
 
-**単一方向のコードフロー**
+単一方向のコードフロー:
 
 ```mermaid
 graph TD
@@ -77,12 +78,13 @@ graph TD
 ```
 
 **ルール:**
+
 - 下層から上層へのインポートのみ許可
 - 逆方向のインポートは禁止
 
 ### 3. Separation of Concerns
 
-**関心の分離**
+関心の分離:
 
 | レイヤー | 責務 |
 |---------|------|
@@ -93,7 +95,7 @@ graph TD
 
 ### 4. No Cross-Feature Imports
 
-**Feature間の直接インポート禁止**
+Feature間の直接インポート禁止:
 
 ```mermaid
 graph LR
@@ -107,6 +109,7 @@ graph LR
 ```
 
 **ルール:**
+
 - Feature間で直接インポートは禁止
 - appレイヤーで複数のFeatureを組み合わせる
 
@@ -136,7 +139,7 @@ export default function DashboardPage() {
 
 ### 全体構造
 
-```
+```text
 CAMP_front/src/
 ├── app/                    # Next.js App Router（最上層）
 │   ├── (group-a)/
@@ -160,7 +163,7 @@ CAMP_front/src/
 
 ### Feature内部の構造
 
-```
+```text
 features/{feature-name}/
 ├── api/                   # API通信
 │   ├── queries.ts         # TanStack Query（取得）

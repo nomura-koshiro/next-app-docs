@@ -34,6 +34,7 @@ Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManage
 ```
 
 確認:
+
 ```powershell
 choco --version
 ```
@@ -45,11 +46,13 @@ choco install fnm -y
 ```
 
 PowerShellプロファイルに追加:
+
 ```powershell
 notepad $PROFILE
 ```
 
 以下を追加:
+
 ```powershell
 fnm env --use-on-cd | Out-String | Invoke-Expression
 ```
@@ -118,6 +121,7 @@ cp .env.example .env.local
 ```
 
 `.env.local` を編集:
+
 ```bash
 NEXT_PUBLIC_API_URL=http://localhost:3000/api/v1
 NEXT_PUBLIC_ENABLE_API_MOCKING=true
@@ -129,7 +133,7 @@ NEXT_PUBLIC_ENABLE_API_MOCKING=true
 pnpm dev
 ```
 
-http://localhost:3000 にアクセス
+<http://localhost:3000> にアクセス
 
 ---
 

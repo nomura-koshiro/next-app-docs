@@ -5,7 +5,7 @@ import type { SampleItem } from "@/features/sample-page-list/constants/samples";
 /**
  * サンプル一覧コンテンツのプロップス
  */
-interface SampleListContentProps {
+type SampleListContentProps = {
   samples: SampleItem[];
 }
 
@@ -14,14 +14,15 @@ interface SampleListContentProps {
  *
  * カテゴリ別にグループ化されたサンプルページへのリンクカードを表示します。
  */
-export function SampleListContent({ samples }: SampleListContentProps) {
+export const SampleListContent = ({ samples }: SampleListContentProps) => {
   // カテゴリごとにグループ化
   const groupedSamples = samples.reduce(
     (acc, sample) => {
-      if (!acc[sample.category]) {
+      if (acc[sample.category] === undefined) {
         acc[sample.category] = [];
       }
       acc[sample.category].push(sample);
+
       return acc;
     },
     {} as Record<string, SampleItem[]>,

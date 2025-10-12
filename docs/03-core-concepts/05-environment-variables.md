@@ -132,7 +132,8 @@ npm run dev
 ```
 
 **エラー出力:**
-```
+
+```text
 Error: Invalid env provided.
   The following variables are missing or invalid:
   - API_URL: Required
@@ -146,7 +147,8 @@ NEXT_PUBLIC_ENABLE_API_MOCKING=yes  # 'true' か 'false' のみ
 ```
 
 **エラー出力:**
-```
+
+```text
 Error: Invalid env provided.
   The following variables are missing or invalid:
   - ENABLE_API_MOCKING: Invalid input

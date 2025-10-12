@@ -28,7 +28,9 @@
       "Bash(cat:*)",
       "Bash(test:*)",
       "Bash(find:*)",
-      "WebSearch"
+      "WebSearch",
+      "Bash(pnpm lint:md:*)",
+      "Bash(npx markdownlint-cli2:*)"
     ],
     "deny": [],
     "ask": []

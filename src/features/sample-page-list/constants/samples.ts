@@ -1,7 +1,7 @@
 /**
  * サンプルページの情報
  */
-export interface SampleItem {
+export type SampleItem = {
   title: string;
   description: string;
   href: string;

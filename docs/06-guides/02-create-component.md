@@ -198,7 +198,7 @@ export * from './card'
 pnpm storybook
 ```
 
-→ http://localhost:6006 で確認
+→ <http://localhost:6006> で確認
 
 ---
 
