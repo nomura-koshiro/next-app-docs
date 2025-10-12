@@ -88,7 +88,8 @@ npx msw init public/ --save
 ```
 
 **生成されるファイル:**
-```
+
+```text
 CAMP_front/
 └── public/
     └── mockServiceWorker.js  # ← MSWのService Worker
@@ -108,7 +109,7 @@ echo "public/mockServiceWorker.js" >> .gitignore
 
 ### ディレクトリ構造
 
-```
+```text
 src/
 ├── mocks/
 │   ├── browser.ts              # ブラウザ用のworker設定
@@ -349,7 +350,7 @@ export const MSWProvider = ({
 
 ### コードの構造
 
-```
+```text
 MSWProvider
 ├── useState(isReady)           MSW初期化状態の管理
 ├── useEffect                   MSW初期化処理
@@ -377,6 +378,7 @@ const { worker } = await import('@/mocks/browser')
 ```
 
 **理由:**
+
 - 本番環境でMSW関連のコードがバンドルされるのを防ぐ
 - 開発環境でのみMSWをロード
 
@@ -389,6 +391,7 @@ if (!isReady && env.ENABLE_API_MOCKING === true) {
 ```
 
 **理由:**
+
 - MSW起動前にAPIリクエストが発行されるのを防ぐ
 - モックが適用されないリクエストを防止
 
@@ -899,11 +902,13 @@ export const Loading: Story = {
 ### 1. Service Workerが起動しない
 
 **症状:**
-```
+
+```text
 [MSW] Failed to register a Service Worker
 ```
 
 **解決策:**
+
 ```bash
 # Service Workerファイルを再生成
 npx msw init public/ --save
@@ -915,11 +920,13 @@ npx msw init public/ --save
 ### 2. Next.js 15でハイドレーションエラー
 
 **症状:**
-```
+
+```text
 Hydration failed because the initial UI does not match what was rendered on the server
 ```
 
 **解決策:**
+
 ```typescript
 // MSWの初期化を待ってからレンダリング
 export function Providers({ children }: { children: React.ReactNode }) {
@@ -945,9 +952,11 @@ export function Providers({ children }: { children: React.ReactNode }) {
 ### 3. Storybookでモックが動かない
 
 **症状:**
+
 実際のAPIリクエストが発生してしまう
 
 **解決策:**
+
 ```bash
 # .env.localでMSWを有効化
 NEXT_PUBLIC_API_MOCKING=true
@@ -971,9 +980,11 @@ const preview: Preview = {
 ### 4. テストでリクエストがバイパスされる
 
 **症状:**
+
 モックが適用されず実際のAPIにリクエストが飛ぶ
 
 **解決策:**
+
 ```typescript
 // vitest.setup.ts
 import { server } from './src/mocks/server'
@@ -996,9 +1007,11 @@ afterAll(() => {
 ### 5. ネットワークタブにリクエストが表示されない
 
 **原因:**
+
 Service Workerがリクエストをインターセプトしているため
 
 **確認方法:**
+
 ```typescript
 // ブラウザコンソールに表示
 worker.start({
@@ -1014,18 +1027,21 @@ worker.start({
 **原因と解決策:**
 
 1. **環境変数が設定されていない**
+
    ```bash
    # .env.local
    NEXT_PUBLIC_ENABLE_API_MOCKING=true
    ```
 
 2. **開発サーバーを再起動していない**
+
    ```bash
    # サーバーを停止（Ctrl+C）して再起動
    npm run dev
    ```
 
 3. **MSWProviderが配置されていない**
+
    ```typescript
    // provider.tsx
    <MSWProvider>
@@ -1040,6 +1056,7 @@ worker.start({
 **原因と解決策:**
 
 1. **ハンドラーのURLが間違っている**
+
    ```typescript
    // ❌ Bad
    http.get('users', ...)  // 相対パス
@@ -1049,6 +1066,7 @@ worker.start({
    ```
 
 2. **baseURLとの整合性**
+
    ```typescript
    // env.API_URL が '/api' の場合
    http.get('/api/users', ...)  // ✅ 正しい

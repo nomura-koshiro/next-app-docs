@@ -131,7 +131,7 @@ pnpm ci
 
 ### コードフローの方向性
 
-```
+```text
 共通コード (components, hooks, lib, utils)
     ↓
 features (各機能モジュール)
@@ -164,7 +164,7 @@ app (Next.js App Router)
 
 > **📝 注意:** 以下はプロジェクトの標準構造です。`features/`には現在`auth`と`users`が実装されています。新しい機能は同様の構造で追加してください。
 
-```
+```text
 CAMP_front/src/
 ├── app/                    # Next.js App Router
 │   ├── (auth)/            # 認証関連ルート

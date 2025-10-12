@@ -918,6 +918,7 @@ await userEvent.type(input, 'Hello')
 ```
 
 **特徴:**
+
 - 複数のイベントを順番に発火 (mousedown → mouseup → click)
 - より現実的な操作
 - 非同期処理
@@ -931,6 +932,7 @@ fireEvent.change(input, { target: { value: 'Hello' } })
 ```
 
 **特徴:**
+
 - 単一のイベントのみ発火
 - 同期処理
 - 特殊なケースでのみ使用

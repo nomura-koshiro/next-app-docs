@@ -107,7 +107,7 @@ export default defineConfig({
 
 ### ディレクトリ構造
 
-```
+```text
 e2e/
 ├── fixtures/           # テストフィクスチャ
 │   ├── auth.ts

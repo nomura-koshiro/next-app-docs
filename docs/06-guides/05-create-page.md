@@ -4,7 +4,7 @@
 
 ## 目次
 
-1. [作成するもの](#作成するもの)
+1. [作成するもの](#-作成するもの)
 2. [パターン1: 基本的なページを追加](#パターン1-基本的なページを追加)
 3. [パターン2: メタデータを追加](#パターン2-メタデータを追加)
 4. [パターン3: 動的ルート(Dynamic Routes)](#パターン3-動的ルートdynamic-routes)
@@ -14,9 +14,9 @@
 8. [パターン7: not-found.tsxを追加](#パターン7-not-foundtsxを追加)
 9. [パターン8: Server ComponentとClient Componentの使い分け](#パターン8-server-componentとclient-componentの使い分け)
 10. [パターン9: paths.tsにルートを追加](#パターン9-pathstsにルートを追加)
-11. [チェックリスト](#チェックリスト)
-12. [ファイル構成例](#ファイル構成例)
-13. [Tips](#tips)
+11. [チェックリスト](#-チェックリスト)
+12. [ファイル構成例](#-ファイル構成例)
+13. [Tips](#-tips)
 
 ---
 
@@ -51,6 +51,7 @@ export default function Page() {
 ```
 
 **ポイント:**
+
 - `page.tsx` という名前が必須
 - デフォルトエクスポートが必須
 - ルートコンポーネントは `features/*/routes/*/` からインポート
@@ -165,6 +166,7 @@ mkdir -p src/app/\(sample\)/posts
 ```
 
 **ルートグループの特徴:**
+
 - `(sample)` はURLに含まれない
 - レイアウトを共有するために使う
 - 複数のグループを作ってレイアウトを分けられる
@@ -210,6 +212,7 @@ export default function Loading() {
 ```
 
 **表示タイミング:**
+
 - ページコンポーネントがSuspendしている間に表示
 - データフェッチ中に自動的に表示される
 
@@ -245,6 +248,7 @@ export default function Error({ error, reset }: Props) {
 ```
 
 **ポイント:**
+
 - `'use client'` が必須
 - `error` と `reset` をpropsで受け取る
 - ページ単位でエラーをキャッチ
@@ -272,6 +276,7 @@ export default function NotFound() {
 ```
 
 **使用方法:**
+
 ```typescript
 // page.tsx内で notFound() を呼ぶ
 import { notFound } from 'next/navigation'
@@ -318,6 +323,7 @@ export default async function Page() {
 ```
 
 **メリット:**
+
 - サーバーでデータ取得可能
 - バンドルサイズが小さい
 - SEOに有利
@@ -335,6 +341,7 @@ export default function Page() {
 ```
 
 **必要な場合:**
+
 - `useState`, `useEffect` などのフックを使う
 - イベントハンドラを使う(`onClick` など)
 - ブラウザAPIを使う
@@ -369,6 +376,7 @@ export const paths = {
 ```
 
 **使用例:**
+
 ```typescript
 import Link from 'next/link'
 import { paths } from '@/config/paths'
@@ -410,7 +418,7 @@ import { paths } from '@/config/paths'
 
 ### シンプルなページ
 
-```
+```text
 src/app/(sample)/posts/
 ├── page.tsx          # ページコンポーネント
 └── loading.tsx       # ローディングUI(オプション)
@@ -418,7 +426,7 @@ src/app/(sample)/posts/
 
 ### 動的ルート
 
-```
+```text
 src/app/(sample)/posts/
 ├── page.tsx          # 一覧ページ
 ├── new/
@@ -433,7 +441,7 @@ src/app/(sample)/posts/
 
 ### 完全な構成(すべてのファイル)
 
-```
+```text
 src/app/(sample)/posts/
 ├── layout.tsx        # レイアウト
 ├── page.tsx          # ページ

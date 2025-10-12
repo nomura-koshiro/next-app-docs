@@ -9,7 +9,9 @@ import { UsersList } from "./components/users-list";
 import { useUsers } from "./users.hook";
 
 /**
- * ユーザー一覧ページ
+ * ユーザー一覧ページ（Client Component）
+ *
+ * TanStack Queryでデータフェッチを行います。
  */
 export default function UsersPage() {
   const { users, isLoading, error, handleEdit, handleDelete, handleCreateNew } =

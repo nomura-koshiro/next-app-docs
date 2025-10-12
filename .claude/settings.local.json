@@ -30,7 +30,12 @@
       "Bash(find:*)",
       "WebSearch",
       "Bash(pnpm lint:md:*)",
-      "Bash(npx markdownlint-cli2:*)"
+      "Bash(npx markdownlint-cli2:*)",
+      "Bash(tee:*)",
+      "Bash(npx markdownlint:*)",
+      "Bash(pnpm markdownlint:*)",
+      "Bash(pnpm lint:md:docs:*)",
+      "Bash(pnpm exec markdownlint:*)"
     ],
     "deny": [],
     "ask": []

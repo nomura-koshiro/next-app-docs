@@ -411,7 +411,7 @@ export const FeatureA = () => {
 }
 ```
 
-**解決策: appレイヤーで組み合わせる**
+#### 解決策: appレイヤーで組み合わせる
 
 ```typescript
 // ✅ Good
@@ -444,7 +444,7 @@ export const ItemCard = () => {
 }
 ```
 
-**解決策: Props経由でデータを渡す**
+#### 解決策: Props経由でデータを渡す
 
 ```typescript
 // ✅ Good
@@ -488,7 +488,7 @@ export * from './api/get-items'
 export * from './api/post-item'
 ```
 
-**解決策: 明示的にインポート**
+#### 解決策: 明示的にインポート
 
 ```typescript
 // ✅ Good

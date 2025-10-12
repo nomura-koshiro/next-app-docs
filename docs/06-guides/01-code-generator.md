@@ -37,14 +37,14 @@ pnpm generate
 
 **入力例:**
 
-```
+```text
 Feature名を入力してください: blog
 Route名を入力してください: list
 ```
 
 **生成されるファイル構造:**
 
-```
+```text
 src/features/blog/
 ├── schemas/
 │   └── blog.schema.ts
@@ -70,14 +70,14 @@ pnpm generate:route
 
 **入力例:**
 
-```
+```text
 既存のFeature名を入力してください: blog
 新しいRoute名を入力してください: detail
 ```
 
 **生成されるファイル構造:**
 
-```
+```text
 src/features/blog/routes/detail/
 ├── detail.tsx
 ├── detail.hook.ts
@@ -98,14 +98,14 @@ pnpm generate:component
 
 **入力例:**
 
-```
+```text
 コンポーネントのタイプを選択してください: ui (または layout)
 コンポーネント名を入力してください: modal
 ```
 
 **生成されるファイル構造:**
 
-```
+```text
 src/components/ui/modal/
 ├── modal.tsx
 ├── modal.stories.tsx
@@ -159,7 +159,7 @@ Plopは入力された名前を自動的に以下の形式に変換します：
 
 生成されたコードは以下のプロジェクト構造に従います：
 
-```
+```text
 src/
 ├── features/           # Feature単位の機能
 │   ├── {feature}/
