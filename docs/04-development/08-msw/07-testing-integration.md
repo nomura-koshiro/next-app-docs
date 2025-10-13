@@ -78,7 +78,7 @@ describe('UserList', () => {
   it('ユーザー一覧を表示', async () => {
     // グローバルハンドラーをオーバーライド
     server.use(
-      http.get('/api/v1/users', () => {
+      http.get('/api/v1/sample/users', () => {
         return HttpResponse.json({
           data: [
             { id: '1', name: 'John Doe', email: 'john@example.com' },
@@ -99,7 +99,7 @@ describe('UserList', () => {
 
   it('空データメッセージを表示', async () => {
     server.use(
-      http.get('/api/v1/users', () => {
+      http.get('/api/v1/sample/users', () => {
         return HttpResponse.json({ data: [] })
       })
     )
@@ -113,7 +113,7 @@ describe('UserList', () => {
 
   it('エラーメッセージを表示', async () => {
     server.use(
-      http.get('/api/v1/users', () => {
+      http.get('/api/v1/sample/users', () => {
         return HttpResponse.json(
           { error: 'Server error' },
           { status: 500 }
@@ -130,7 +130,7 @@ describe('UserList', () => {
 
   it('ローディング状態を表示', async () => {
     server.use(
-      http.get('/api/v1/users', async () => {
+      http.get('/api/v1/sample/users', async () => {
         // 遅延をシミュレーション
         await new Promise((resolve) => setTimeout(resolve, 100))
         return HttpResponse.json({ data: [] })
@@ -168,7 +168,7 @@ describe('CreateUserForm', () => {
     const user = userEvent.setup()
 
     server.use(
-      http.post('/api/v1/users', async ({ request }) => {
+      http.post('/api/v1/sample/users', async ({ request }) => {
         const body = await request.json()
         return HttpResponse.json(
           {
@@ -205,7 +205,7 @@ describe('CreateUserForm', () => {
     const user = userEvent.setup()
 
     server.use(
-      http.post('/api/v1/users', () => {
+      http.post('/api/v1/sample/users', () => {
         return HttpResponse.json(
           {
             errors: {
@@ -376,7 +376,7 @@ export const mockUsers = [
 import { mockUsers } from '@/mocks/data/users'
 
 server.use(
-  http.get('/api/v1/users', () => {
+  http.get('/api/v1/sample/users', () => {
     return HttpResponse.json({ data: mockUsers })
   })
 )
@@ -386,7 +386,7 @@ export const Default: Story = {
   parameters: {
     msw: {
       handlers: [
-        http.get('/api/v1/users', () => {
+        http.get('/api/v1/sample/users', () => {
           return HttpResponse.json({ data: mockUsers })
         }),
       ],
@@ -405,14 +405,14 @@ export const Default: Story = {
 // src/mocks/handlers.ts
 // 基本的なレスポンスを定義
 export const handlers = [
-  http.get('/api/v1/users', () => {
+  http.get('/api/v1/sample/users', () => {
     return HttpResponse.json({ data: mockUsers })
   }),
 ]
 
 // テストで必要に応じてオーバーライド
 server.use(
-  http.get('/api/v1/users', () => {
+  http.get('/api/v1/sample/users', () => {
     return HttpResponse.json({ data: [] })
   })
 )

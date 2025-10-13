@@ -95,7 +95,7 @@ export const UserPage = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       setLoading(true)
-      const res = await api.get('/users')
+      const res = await api.get('/sample/users')
       setUsers(res.data)
       setLoading(false)
     }
@@ -103,7 +103,7 @@ export const UserPage = () => {
   }, [])
 
   const handleDelete = async (id: string) => {
-    await api.delete(`/users/${id}`)
+    await api.delete(`/sample/users/${id}`)
     setUsers(users.filter((u) => u.id !== id))
   }
 

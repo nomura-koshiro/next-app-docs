@@ -628,7 +628,7 @@ Next.js のフォント最適化は `.storybook/preview.ts` で設定：
 // .storybook/preview.ts
 import type { Preview } from '@storybook/nextjs-vite'
 import { Inter } from 'next/font/google'
-import '../src/app/globals.css'
+import '../src/styles/globals.css'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -654,7 +654,7 @@ export default preview
 // .storybook/preview.ts
 import type { Preview } from '@storybook/nextjs-vite'
 import { AppProvider } from '../src/app/provider'
-import '../src/app/globals.css'
+import '../src/styles/globals.css'
 
 const preview: Preview = {
   parameters: {
@@ -801,7 +801,7 @@ const meta = {
 ```typescript
 // .storybook/preview.ts
 import type { Preview } from '@storybook/nextjs-vite'
-import '../src/app/globals.css'
+import '../src/styles/globals.css'
 
 const preview: Preview = {
   parameters: {
@@ -881,7 +881,7 @@ pnpm storybook
 `.storybook/preview.ts`でCSSをインポート：
 
 ```typescript
-import '../src/app/globals.css'
+import '../src/styles/globals.css'
 ```
 
 ### TypeScriptエラー
@@ -898,9 +898,9 @@ ls node_modules/@storybook/nextjs-vite/types
 
 ## 参考リンク
 
-- [コンポーネント設計](./03-component-design.md)
-- [コーディング規約](./01-coding-standards.md)
-- [テスト戦略](../05-testing/01-testing-strategy.md)
+- [コンポーネント設計](../03-component-design/index.md)
+- [コーディング規約](../01-coding-standards/index.md)
+- [テスト戦略](../../05-testing/01-testing-strategy.md)
 - [Storybook公式ドキュメント](https://storybook.js.org/docs)
 - [Storybook for React](https://storybook.js.org/docs/react/get-started/introduction)
 - [Interaction Testing](https://storybook.js.org/docs/react/writing-tests/interaction-testing)

@@ -25,7 +25,7 @@ import type { User } from '../types'
 
 // 1. API関数
 export const getUsers = (): Promise<{ data: User[] }> => {
-  return api.get('/users')
+  return api.get('/sample/users')
 }
 
 // 2. クエリオプション
@@ -54,7 +54,7 @@ export const useUsers = ({ queryConfig }: { queryConfig?: QueryConfig<typeof get
 ```typescript
 // src/features/users/api/get-users.ts
 export const getUsers = (): Promise<{ data: User[] }> => {
-  return api.get('/users')
+  return api.get('/sample/users')
 }
 
 export const getUsersQueryOptions = () => ({
@@ -74,7 +74,7 @@ export const useUsers = () => {
 ```typescript
 // src/features/users/api/get-user.ts
 export const getUser = (userId: string): Promise<User> => {
-  return api.get(`/users/${userId}`)
+  return api.get(`/sample/users/${userId}`)
 }
 
 export const getUserQueryOptions = (userId: string) => ({
@@ -127,7 +127,7 @@ import { MutationConfig } from '@/lib/tanstack-query'
 import type { User, CreateUserInput } from '../types'
 
 export const createUser = (data: CreateUserInput): Promise<User> => {
-  return api.post('/users', data)
+  return api.post('/sample/users', data)
 }
 
 export const useCreateUser = ({
@@ -161,7 +161,7 @@ export const updateUser = ({
   userId: string
   data: UpdateUserInput
 }): Promise<User> => {
-  return api.patch(`/users/${userId}`, data)
+  return api.patch(`/sample/users/${userId}`, data)
 }
 
 export const useUpdateUser = ({
@@ -190,7 +190,7 @@ export const useUpdateUser = ({
 ```typescript
 // src/features/users/api/delete-user.ts
 export const deleteUser = (userId: string): Promise<void> => {
-  return api.delete(`/users/${userId}`)
+  return api.delete(`/sample/users/${userId}`)
 }
 
 export const useDeleteUser = ({
@@ -246,7 +246,7 @@ export const CreateUserForm = () => {
 ```typescript
 // API関数、クエリオプション、カスタムフックを分離
 export const getUsers = (): Promise<{ data: User[] }> => {
-  return api.get('/users')
+  return api.get('/sample/users')
 }
 
 export const getUsersQueryOptions = () => ({
@@ -318,5 +318,5 @@ if (error) {
 ## 参考リンク
 
 - [TanStack Query公式](https://tanstack.com/query/latest)
-- [APIクライアント](../03-core-concepts/06-api-client.md)
-- [TanStack Query設定](../03-core-concepts/07-tanstack-query.md)
+- [APIクライアント](../../03-core-concepts/06-api-client.md)
+- [TanStack Query設定](../../03-core-concepts/07-tanstack-query.md)

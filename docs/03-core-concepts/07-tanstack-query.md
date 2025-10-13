@@ -51,7 +51,7 @@ export type ApiFnReturnType<FnType extends (...args: any) => Promise<any>> =
 
 ```typescript
 const getUser = async (userId: string): Promise<User> => {
-  return api.get(`/users/${userId}`)
+  return api.get(`/sample/users/${userId}`)
 }
 
 // 戻り値の型を抽出
@@ -110,7 +110,7 @@ export type MutationConfig<MutationFnType extends (...args: any) => Promise<any>
 
 ```typescript
 const createUser = async (data: CreateUserInput): Promise<User> => {
-  return api.post('/users', data)
+  return api.post('/sample/users', data)
 }
 
 export const useCreateUser = (config?: MutationConfig<typeof createUser>) => {

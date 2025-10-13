@@ -24,8 +24,10 @@ src/
 │   ├── layout.tsx          # ルートレイアウト
 │   ├── page.tsx            # ホームページ
 │   ├── not-found.tsx       # 404ページ
-│   ├── provider.tsx        # AppProvider（MSW, ErrorBoundary, ReactQuery）
-│   └── globals.css         # グローバルスタイル
+│   └── provider.tsx        # AppProvider（MSW, ErrorBoundary, ReactQuery）
+│
+├── styles/                # スタイル
+│   └── globals.css         # グローバルスタイル（Tailwind CSS）
 │
 ├── features/              # 機能モジュール（bulletproof-react）
 │   ├── sample-auth/        # 認証機能（サンプル）

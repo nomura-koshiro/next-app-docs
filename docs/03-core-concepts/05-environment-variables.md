@@ -32,6 +32,19 @@
 import * as z from 'zod'
 
 const createEnv = () => {
+  // Storybookポート番号を取得（Storybook環境でのみ設定される）
+  const storybookPort = process.env.NEXT_PUBLIC_STORYBOOK_PORT;
+
+  // StorybookポートがあればAPI URLを動的に構築
+  const apiUrl = storybookPort
+    ? `http://localhost:${storybookPort}/api/v1`
+    : process.env.NEXT_PUBLIC_API_URL;
+
+  if (storybookPort) {
+    console.log('[env] Storybook port detected:', storybookPort);
+    console.log('[env] API_URL overridden to:', apiUrl);
+  }
+
   // スキーマ定義
   const EnvSchema = z.object({
     // 必須の環境変数
@@ -47,14 +60,18 @@ const createEnv = () => {
     // デフォルト値付き
     APP_URL: z.string().optional().default('http://localhost:3000'),
     APP_MOCK_API_PORT: z.string().optional().default('8080'),
+
+    // Storybookポート番号（オプション、Storybook環境でのみ設定される）
+    STORYBOOK_PORT: z.string().optional(),
   })
 
   // 環境変数を取得
   const envVars = {
-    API_URL: process.env.NEXT_PUBLIC_API_URL,
+    API_URL: apiUrl,
     ENABLE_API_MOCKING: process.env.NEXT_PUBLIC_ENABLE_API_MOCKING,
     APP_URL: process.env.NEXT_PUBLIC_URL,
     APP_MOCK_API_PORT: process.env.NEXT_PUBLIC_MOCK_API_PORT,
+    STORYBOOK_PORT: storybookPort,
   }
 
   // 検証
@@ -93,6 +110,11 @@ NEXT_PUBLIC_ENABLE_API_MOCKING=true
 # アプリ設定（オプション、デフォルト値あり）
 NEXT_PUBLIC_URL=http://localhost:3000
 NEXT_PUBLIC_MOCK_API_PORT=8080
+
+# Storybook設定（オプション、Storybookでのみ使用）
+# Storybookポート番号を指定すると、API URLが自動的に上書きされます
+# 例: http://localhost:6006/api/v1
+NEXT_PUBLIC_STORYBOOK_PORT=6006
 ```
 
 ---
@@ -119,6 +141,34 @@ if (env.ENABLE_API_MOCKING) {  // boolean | undefined
   await worker.start()
 }
 ```
+
+### Storybookポートの自動検出
+
+Storybook環境では、`NEXT_PUBLIC_STORYBOOK_PORT`を設定することでAPI URLが自動的に上書きされます。
+
+```typescript
+import { env } from '@/config/env'
+
+// NEXT_PUBLIC_STORYBOOK_PORT=6006 の場合
+// env.API_URL は "http://localhost:6006/api/v1" に自動変更される
+```
+
+**動作:**
+
+1. `NEXT_PUBLIC_STORYBOOK_PORT`が設定されている場合
+2. `API_URL`が `http://localhost:${STORYBOOK_PORT}/api/v1` に自動上書き
+3. コンソールにログが出力される
+
+```text
+[env] Storybook port detected: 6006
+[env] API_URL overridden to: http://localhost:6006/api/v1
+```
+
+**利点:**
+
+- StorybookでMSWを使用する際、ポート番号を自動検出
+- `.env.local`のAPI_URLを手動で変更する必要がない
+- 開発環境とStorybook環境でシームレスに切り替え可能
 
 ---
 

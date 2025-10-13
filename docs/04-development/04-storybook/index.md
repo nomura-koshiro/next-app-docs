@@ -28,7 +28,7 @@ UIコンポーネントの開発・ドキュメント化・デバッグのため
 
 ### テンプレートとツール
 
-4. **[Storybookテンプレート](./04-templates.md)** ⭐ NEW
+1. **[Storybookテンプレート](./04-templates.md)** ⭐ NEW
    - テンプレート一覧
    - 基本的なUIコンポーネント用
    - レイアウトコンポーネント用
@@ -37,7 +37,7 @@ UIコンポーネントの開発・ドキュメント化・デバッグのため
    - meta属性の詳細解説
    - 使い方とカスタマイズ
 
-5. **[Plop統合](./05-plop-integration.md)** ⭐ NEW
+2. **[Plop統合](./05-plop-integration.md)** ⭐ NEW
    - 自動コード生成
    - コンポーネント生成
    - ストーリーの自動生成
@@ -46,7 +46,7 @@ UIコンポーネントの開発・ドキュメント化・デバッグのため
 
 ### 実践・応用
 
-6. **[Next.js特有の機能](./06-nextjs-features.md)**
+1. **[Next.js特有の機能](./06-nextjs-features.md)**
    - Image コンポーネント
    - Link コンポーネント
    - Router のモック
@@ -55,7 +55,7 @@ UIコンポーネントの開発・ドキュメント化・デバッグのため
    - AppProvider設定
    - MSW統合
 
-7. **[ベストプラクティス](./07-best-practices.md)**
+2. **[ベストプラクティス](./07-best-practices.md)**
    - ファイル配置
    - 様々な状態のカバー
    - モックデータの作成
@@ -73,7 +73,7 @@ UIコンポーネントの開発・ドキュメント化・デバッグのため
 pnpm storybook
 ```
 
-ブラウザで http://localhost:6006 を開く
+ブラウザで <http://localhost:6006> を開く
 
 ### 新しいコンポーネントとストーリーを生成
 
@@ -175,7 +175,7 @@ pnpm generate:route               # Route生成（ストーリー付き）
 
 ## 📂 ディレクトリ構造
 
-```
+```text
 .storybook/
 ├── main.ts                       # Storybook設定
 ├── preview.tsx                   # グローバル設定
@@ -208,12 +208,14 @@ src/
 ## 🔗 関連リンク
 
 ### 内部ドキュメント
-- [コンポーネント設計](../03-component-design.md)
-- [コーディング規約](../01-coding-standards.md)
+
+- [コンポーネント設計](../03-component-design/index.md)
+- [コーディング規約](../01-coding-standards/index.md)
 - [テスト戦略](../../05-testing/01-testing-strategy.md)
-- [Plopによるコード生成](../05-code-generation.md)
+- [コード生成ガイド](../../06-guides/01-code-generator.md)
 
 ### 外部リソース
+
 - [Storybook公式ドキュメント](https://storybook.js.org/docs)
 - [Storybook for Next.js](https://storybook.js.org/docs/get-started/nextjs)
 - [Interaction Testing](https://storybook.js.org/docs/writing-tests/interaction-testing)

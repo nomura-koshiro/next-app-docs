@@ -39,7 +39,7 @@ import type { User } from '../types'
 
 // 1. API関数
 export const getUsers = (): Promise<{ data: User[] }> => {
-  return api.get('/users')
+  return api.get('/sample/users')
 }
 
 // 2. クエリオプション
@@ -74,7 +74,7 @@ import type { User } from '../types'
 
 // 1. API関数
 export const getUser = (userId: string): Promise<{ data: User }> => {
-  return api.get(`/users/${userId}`)
+  return api.get(`/sample/users/${userId}`)
 }
 
 // 2. クエリオプション
@@ -119,7 +119,7 @@ export type CreateUserInput = {
 
 // 1. API関数
 export const createUser = (data: CreateUserInput): Promise<{ data: User }> => {
-  return api.post('/users', data)
+  return api.post('/sample/users', data)
 }
 
 // 2. カスタムフック
@@ -169,7 +169,7 @@ export const updateUser = ({
   userId: string
   data: UpdateUserInput
 }): Promise<{ data: User }> => {
-  return api.patch(`/users/${userId}`, data)
+  return api.patch(`/sample/users/${userId}`, data)
 }
 
 // 2. カスタムフック
@@ -212,7 +212,7 @@ import { MutationConfig } from '@/lib/tanstack-query'
 
 // 1. API関数
 export const deleteUser = (userId: string): Promise<void> => {
-  return api.delete(`/users/${userId}`)
+  return api.delete(`/sample/users/${userId}`)
 }
 
 // 2. カスタムフック

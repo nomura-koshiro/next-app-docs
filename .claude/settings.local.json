@@ -39,7 +39,8 @@
       "Bash(mkdir:*)",
       "Bash(git add:*)",
       "Bash(for dir in docs/04-development/*/)",
-      "Bash(do echo \"=== $dir ===\")"
+      "Bash(do echo \"=== $dir ===\")",
+      "Bash(git ls-tree:*)"
     ],
     "deny": [],
     "ask": []

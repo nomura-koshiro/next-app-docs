@@ -10,7 +10,7 @@
    - [L: リスコフの置換原則](#l-リスコフの置換原則liskov-substitution-principle)
    - [I: インターフェース分離の原則](#i-インターフェース分離の原則interface-segregation-principle)
    - [D: 依存性逆転の原則](#d-依存性逆転の原則dependency-inversion-principle)
-2. [DRY原則](#dry原則dontrept-yourself)
+2. [DRY原則](#dry原則dont-repeat-yourself)
 3. [KISS原則](#kiss原則keep-it-simple-stupid)
 4. [YAGNI原則](#yagni原則you-arent-gonna-need-it)
 

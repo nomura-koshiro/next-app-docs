@@ -103,9 +103,9 @@ export const MSWProvider = ({ children }: { children: React.ReactNode }) => {
 
 ## 🔗 関連リンク
 
-- [環境変数管理](../03-core-concepts/05-environment-variables.md) - MSW有効化の設定
-- [APIクライアント](../03-core-concepts/06-api-client.md) - APIリクエストの実装
-- [API統合](../05-api-integration.md) - TanStack Queryとの連携
-- [Storybook](../06-storybook.md) - Storybookの設定
-- [テスト戦略](../05-testing/01-testing-strategy.md) - テストの実装方針
+- [環境変数管理](../../03-core-concepts/05-environment-variables.md) - MSW有効化の設定
+- [APIクライアント](../../03-core-concepts/06-api-client.md) - APIリクエストの実装
+- [API統合](../07-api-integration/index.md) - TanStack Queryとの連携
+- [Storybook](../04-storybook/index.md) - Storybookの設定
+- [テスト戦略](../../05-testing/01-testing-strategy.md) - テストの実装方針
 - [MSW公式ドキュメント](https://mswjs.io/) - 公式ドキュメント

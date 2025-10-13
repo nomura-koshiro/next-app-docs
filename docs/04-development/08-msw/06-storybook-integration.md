@@ -10,7 +10,7 @@
 // .storybook/preview.ts
 import type { Preview } from '@storybook/nextjs-vite'
 import { AppProvider } from '../src/app/provider'
-import '../src/app/globals.css'
+import '../src/styles/globals.css'
 
 const preview: Preview = {
   parameters: {

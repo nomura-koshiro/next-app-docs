@@ -217,15 +217,15 @@ pnpm dev
 http.get('users', ...)  // 相対パス
 
 // ✅ Good
-http.get('/api/users', ...)  // 絶対パス
+http.get('/api/sample/users', ...)  // 絶対パス
 ```
 
 **2. baseURLとの整合性**
 
 ```typescript
 // env.API_URL が '/api' の場合
-http.get('/api/users', ...)  // ✅ 正しい
-http.get('/users', ...)      // ❌ マッチしない
+http.get('/api/sample/users', ...)  // ✅ 正しい
+http.get('/sample/users', ...)      // ❌ マッチしない
 ```
 
 **3. ハンドラーの優先順位**
@@ -261,7 +261,7 @@ MSWがCORSヘッダーを返していない
 ### 解決策
 
 ```typescript
-http.get('/api/users', () => {
+http.get('/api/sample/users', () => {
   return HttpResponse.json(
     { data: [...] },
     {
@@ -366,7 +366,7 @@ export default defineConfig({
 
 ```typescript
 // ✅ Good
-http.get('/api/users/:id', ({ params }) => {
+http.get('/api/sample/users/:id', ({ params }) => {
   const { id } = params
   console.log(id) // '123'
 })
@@ -376,7 +376,7 @@ http.get('/api/users/:id', ({ params }) => {
 
 ```typescript
 // ✅ Good
-http.get('/api/users', ({ request }) => {
+http.get('/api/sample/users', ({ request }) => {
   const url = new URL(request.url)
   const search = url.searchParams.get('search')
   console.log(search) // 'john'
@@ -400,7 +400,7 @@ http.get('/api/users', ({ request }) => {
 
 ```typescript
 // ✅ Good
-http.post('/api/users', async ({ request }) => {
+http.post('/api/sample/users', async ({ request }) => {
   const body = await request.json() // 一度だけ呼ぶ
   console.log(body)
   return HttpResponse.json({ id: 1, ...body })
@@ -450,8 +450,8 @@ ls src/mocks/browser.ts
 ### 1. コンソールログを追加
 
 ```typescript
-http.get('/api/users', ({ request }) => {
-  console.log('[MSW] GET /api/users', request.url)
+http.get('/api/sample/users', ({ request }) => {
+  console.log('[MSW] GET /api/sample/users', request.url)
   return HttpResponse.json({ data: [...] })
 })
 ```

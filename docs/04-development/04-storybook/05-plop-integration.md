@@ -69,7 +69,7 @@ pnpm generate
 
 選択肢が表示されます：
 
-```
+```text
 ? [PLOP] Please choose a generator.
 ❯ feature - 新しいfeatureを作成します
   route - 既存のfeature内に新しいrouteを追加します
@@ -101,7 +101,7 @@ pnpm generate:component
 
 **プロンプト:**
 
-```
+```text
 ? コンポーネントのタイプを選択してください:
 ❯ ui
   layout
@@ -112,7 +112,7 @@ pnpm generate:component
 
 **生成されるファイル:**
 
-```
+```text
 src/components/ui/modal/
 ├── modal.tsx                    # コンポーネント本体
 ├── modal.stories.tsx            # ストーリーファイル（自動生成！）
@@ -293,7 +293,7 @@ pnpm generate:component
 
 **プロンプト:**
 
-```
+```text
 ? コンポーネントのタイプを選択してください:
   ui
 ❯ layout
@@ -304,7 +304,7 @@ pnpm generate:component
 
 **生成されるファイル:**
 
-```
+```text
 src/components/layout/sidebar/
 ├── sidebar.tsx
 ├── sidebar.stories.tsx          # レイアウト用テンプレート
@@ -329,7 +329,7 @@ pnpm generate:feature
 
 **プロンプト:**
 
-```
+```text
 ? Feature名を入力してください (例: blog, product):
 > product
 
@@ -339,7 +339,7 @@ pnpm generate:feature
 
 **生成されるファイル:**
 
-```
+```text
 src/features/product/
 ├── schemas/
 │   └── product.schema.ts
@@ -458,7 +458,7 @@ pnpm generate:route
 
 **プロンプト:**
 
-```
+```text
 ? 既存のFeature名を入力してください:
 > product
 
@@ -468,7 +468,7 @@ pnpm generate:route
 
 **生成されるファイル:**
 
-```
+```text
 src/features/product/routes/detail/
 ├── detail.tsx
 ├── detail.hook.ts
@@ -543,7 +543,7 @@ title: "components/ui/Modal",
 
 #### 1. テンプレートファイルの場所
 
-```
+```text
 plop-templates/
 ├── component/
 │   ├── component.hbs            # コンポーネント本体
@@ -563,7 +563,7 @@ plop-templates/
 code plop-templates/component/stories-ui.hbs
 ```
 
-**例: デフォルトのストーリーを追加**
+##### 例: デフォルトのストーリーを追加
 
 ```handlebars
 // ================================================================================
@@ -601,7 +601,7 @@ export const Hover: Story = {
 code plopfile.js
 ```
 
-**例: 新しいテンプレートタイプを追加**
+##### 例: 新しいテンプレートタイプを追加
 
 ```javascript
 plop.setGenerator("component", {
@@ -675,7 +675,7 @@ ls src/components/ui/modal/
 pnpm storybook
 ```
 
-ブラウザで http://localhost:6006 を開く
+ブラウザで <http://localhost:6006> を開く
 
 `components/ui/Modal` が表示される
 
@@ -796,7 +796,7 @@ const storiesTemplate =
 
 - **[Storybookテンプレート](./04-templates.md)** - テンプレートの詳細
 - **[ベストプラクティス](./07-best-practices.md)** - Storybookの効果的な使い方
-- **[コード生成ガイド](../05-code-generation.md)** - plopの全体像
+- **[コード生成ガイド](../../06-guides/01-code-generator.md)** - plopの全体像
 
 ---
 

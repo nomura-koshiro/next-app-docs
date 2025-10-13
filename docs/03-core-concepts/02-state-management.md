@@ -198,7 +198,7 @@ import { useQuery } from '@tanstack/react-query'
 import { api } from '@/lib/api-client'
 
 export const getUsers = (): Promise<{ data: User[] }> => {
-  return api.get('/users')
+  return api.get('/sample/users')
 }
 
 export const getUsersQueryOptions = () => ({
@@ -242,7 +242,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { api } from '@/lib/api-client'
 
 const createUser = (data: CreateUserInput): Promise<User> => {
-  return api.post('/users', data)
+  return api.post('/sample/users', data)
 }
 
 export const useCreateUser = () => {

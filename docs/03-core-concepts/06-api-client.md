@@ -121,11 +121,11 @@ type User = {
 }
 
 export const getUsers = (): Promise<User[]> => {
-  return api.get('/users')
+  return api.get('/sample/users')
 }
 
 export const getUser = (userId: string): Promise<User> => {
-  return api.get(`/users/${userId}`)
+  return api.get(`/sample/users/${userId}`)
 }
 ```
 
@@ -138,7 +138,7 @@ type CreateUserInput = {
 }
 
 export const createUser = (data: CreateUserInput): Promise<User> => {
-  return api.post('/users', data)
+  return api.post('/sample/users', data)
 }
 ```
 
@@ -154,7 +154,7 @@ export const updateUser = (
   userId: string,
   data: UpdateUserInput
 ): Promise<User> => {
-  return api.patch(`/users/${userId}`, data)
+  return api.patch(`/sample/users/${userId}`, data)
 }
 ```
 
@@ -162,7 +162,7 @@ export const updateUser = (
 
 ```typescript
 export const deleteUser = (userId: string): Promise<void> => {
-  return api.delete(`/users/${userId}`)
+  return api.delete(`/sample/users/${userId}`)
 }
 ```
 
@@ -176,12 +176,12 @@ type GetUsersParams = {
 }
 
 export const getUsers = (params: GetUsersParams): Promise<User[]> => {
-  return api.get('/users', { params })
+  return api.get('/sample/users', { params })
 }
 
 // 使用例
 const users = await getUsers({ page: 1, limit: 10, search: 'John' })
-// GET /users?page=1&limit=10&search=John
+// GET /sample/users?page=1&limit=10&search=John
 ```
 
 ---
@@ -197,7 +197,7 @@ import { api } from '@/lib/api-client'
 
 // 1. API関数
 export const getUsers = (): Promise<{ data: User[] }> => {
-  return api.get('/users')
+  return api.get('/sample/users')
 }
 
 // 2. クエリオプション

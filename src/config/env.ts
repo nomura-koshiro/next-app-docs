@@ -11,9 +11,11 @@ const createEnv = () => {
   const storybookPort = process.env.NEXT_PUBLIC_STORYBOOK_PORT;
 
   // StorybookポートがあればAPI URLを動的に構築
-  let apiUrl = process.env.NEXT_PUBLIC_API_URL;
+  const apiUrl = storybookPort
+    ? `http://localhost:${storybookPort}/api/v1`
+    : process.env.NEXT_PUBLIC_API_URL;
+
   if (storybookPort) {
-    apiUrl = `http://localhost:${storybookPort}/api/v1`;
     console.log("[env] Storybook port detected:", storybookPort);
     console.log("[env] API_URL overridden to:", apiUrl);
   }
