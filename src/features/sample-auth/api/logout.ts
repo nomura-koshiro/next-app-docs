@@ -9,6 +9,10 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { MutationConfig } from "@/lib/tanstack-query";
 
+// ================================================================================
+// API Functions
+// ================================================================================
+
 /**
  * ログアウトAPI呼び出し
  *
@@ -23,6 +27,10 @@ export const logout = (): Promise<void> => {
   // クライアント側のみでトークン削除する場合
   return Promise.resolve();
 };
+
+// ================================================================================
+// Hooks
+// ================================================================================
 
 type UseLogoutOptions = {
   mutationConfig?: MutationConfig<typeof logout>;

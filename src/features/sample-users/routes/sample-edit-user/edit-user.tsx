@@ -22,6 +22,9 @@ export default function EditUserPage({
 }: {
   params: Promise<{ id: string }>;
 }) {
+  // ================================================================================
+  // Hooks
+  // ================================================================================
   const {
     control,
     onSubmit,
@@ -32,6 +35,9 @@ export default function EditUserPage({
     error,
   } = useEditUser(params);
 
+  // ================================================================================
+  // Conditional Rendering
+  // ================================================================================
   if (isLoading) {
     return <LoadingSpinner fullScreen />;
   }

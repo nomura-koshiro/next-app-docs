@@ -16,6 +16,9 @@ if (process.env.NODE_ENV === "development") {
  * 新規ユーザー作成ページ
  */
 export default function NewUserPage() {
+  // ================================================================================
+  // Hooks
+  // ================================================================================
   const { control, onSubmit, handleCancel, errors, isSubmitting } =
     useNewUser();
 

@@ -14,6 +14,9 @@ if (process.env.NODE_ENV === "development") {
  * ログインページ
  */
 export default function LoginPage() {
+  // ================================================================================
+  // Hooks
+  // ================================================================================
   const { control, onSubmit, errors, isSubmitting } = useLogin();
 
   return (

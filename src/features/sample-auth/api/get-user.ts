@@ -10,6 +10,10 @@ import { api } from "@/lib/api-client";
 import { QueryConfig } from "@/lib/tanstack-query";
 import type { User } from "../types";
 
+// ================================================================================
+// API Functions
+// ================================================================================
+
 /**
  * 現在のユーザー情報を取得
  *
@@ -40,6 +44,10 @@ export const getUserQueryOptions = () => {
     queryFn: getUser,
   });
 };
+
+// ================================================================================
+// Hooks
+// ================================================================================
 
 type UseUserOptions = {
   queryConfig?: QueryConfig<typeof getUserQueryOptions>;

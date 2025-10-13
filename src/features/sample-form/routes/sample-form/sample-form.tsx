@@ -17,6 +17,9 @@ if (process.env.NODE_ENV === "development") {
  * プレゼンテーショナルコンポーネント SampleForm に渡します。
  */
 export default function SampleFormPage() {
+  // ================================================================================
+  // Hooks
+  // ================================================================================
   const { control, onSubmit, reset } = useSampleForm();
 
   return (

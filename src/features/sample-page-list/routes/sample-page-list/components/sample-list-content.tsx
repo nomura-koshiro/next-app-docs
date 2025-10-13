@@ -15,6 +15,9 @@ type SampleListContentProps = {
  * カテゴリ別にグループ化されたサンプルページへのリンクカードを表示します。
  */
 export const SampleListContent = ({ samples }: SampleListContentProps) => {
+  // ================================================================================
+  // Variables
+  // ================================================================================
   // カテゴリごとにグループ化
   const groupedSamples = samples.reduce(
     (acc, sample) => {

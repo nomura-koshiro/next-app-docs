@@ -14,9 +14,15 @@ import { useUsers } from "./users.hook";
  * TanStack Queryでデータフェッチを行います。
  */
 export default function UsersPage() {
+  // ================================================================================
+  // Hooks
+  // ================================================================================
   const { users, isLoading, error, handleEdit, handleDelete, handleCreateNew } =
     useUsers();
 
+  // ================================================================================
+  // Conditional Rendering
+  // ================================================================================
   if (isLoading) {
     return <LoadingSpinner fullScreen />;
   }

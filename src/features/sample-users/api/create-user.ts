@@ -5,6 +5,10 @@ import { api } from "@/lib/api-client";
 import { MutationConfig } from "@/lib/tanstack-query";
 import type { User, CreateUserInput } from "../types";
 
+// ================================================================================
+// Schemas
+// ================================================================================
+
 export const createUserInputSchema = z.object({
   name: z.string().min(1, "名前は必須です"),
   email: z
@@ -14,9 +18,17 @@ export const createUserInputSchema = z.object({
   role: z.string().min(1, "ロールは必須です"),
 });
 
+// ================================================================================
+// API Functions
+// ================================================================================
+
 export const createUser = (data: CreateUserInput): Promise<User> => {
   return api.post("/sample/users", data);
 };
+
+// ================================================================================
+// Hooks
+// ================================================================================
 
 type UseCreateUserOptions = {
   mutationConfig?: MutationConfig<typeof createUser>;

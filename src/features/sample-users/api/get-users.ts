@@ -4,6 +4,10 @@ import { api } from "@/lib/api-client";
 import { QueryConfig } from "@/lib/tanstack-query";
 import type { User } from "../types";
 
+// ================================================================================
+// API Functions
+// ================================================================================
+
 export const getUsers = (): Promise<{ data: User[] }> => {
   return api.get("/sample/users");
 };
@@ -14,6 +18,10 @@ export const getUsersQueryOptions = () => {
     queryFn: getUsers,
   });
 };
+
+// ================================================================================
+// Hooks
+// ================================================================================
 
 type UseUsersOptions = {
   queryConfig?: QueryConfig<typeof getUsersQueryOptions>;

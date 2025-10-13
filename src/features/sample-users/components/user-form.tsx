@@ -48,6 +48,9 @@ export const UserForm = ({
   isSubmitting,
   isEditMode = false,
 }: UserFormProps) => {
+  // ================================================================================
+  // Variables
+  // ================================================================================
   const submitButtonText = isEditMode
     ? isSubmitting
       ? "更新中..."

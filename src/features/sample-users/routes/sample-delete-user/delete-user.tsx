@@ -15,9 +15,15 @@ export default function DeleteUserPage({
 }: {
   params: Promise<{ id: string }>;
 }) {
+  // ================================================================================
+  // Hooks
+  // ================================================================================
   const { user, isLoading, error, handleDelete, handleCancel, isDeleting } =
     useDeleteUser(params);
 
+  // ================================================================================
+  // Conditional Rendering
+  // ================================================================================
   if (isLoading) {
     return <LoadingSpinner fullScreen />;
   }
