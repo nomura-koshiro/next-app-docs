@@ -1,0 +1,44 @@
+import * as React from "react";
+import { cn } from "@/utils/cn";
+
+/**
+ * {{pascalCase componentName}}のプロパティ
+ */
+export type {{pascalCase componentName}}Props = React.HTMLAttributes<HTMLDivElement> & {
+  /** 子要素 */
+  children?: React.ReactNode;
+  // TODO: 必要なプロパティを追加
+};
+
+/**
+ * {{pascalCase componentName}}コンポーネント
+ *
+ * @example
+ * ```tsx
+ * <{{pascalCase componentName}}>
+ *   コンテンツ
+ * </{{pascalCase componentName}}>
+ * ```
+ */
+export const {{pascalCase componentName}} = React.forwardRef<
+  HTMLDivElement,
+  {{pascalCase componentName}}Props
+>(({ className, children, ...props }, ref) => {
+  // ================================================================================
+  // Variables
+  // ================================================================================
+  // ※使用しないコメントブロックは削除すること
+  // TODO: 必要に応じて変数を追加
+
+  return (
+    <div
+      ref={ref}
+      className={cn("{{kebabCase componentName}}", className)}
+      {...props}
+    >
+      {children}
+    </div>
+  );
+});
+
+{{pascalCase componentName}}.displayName = "{{pascalCase componentName}}";

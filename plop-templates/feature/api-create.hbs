@@ -1,0 +1,43 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+
+import { api } from "@/lib/api-client";
+import { MutationConfig } from "@/lib/tanstack-query";
+import type { Create{{pascalCase featureName}}Input } from "../types";
+
+// ================================================================================
+// API Functions
+// ================================================================================
+
+/**
+ * {{pascalCase featureName}}を作成
+ *
+ * TODO: APIエンドポイントを実際のパスに修正してください
+ */
+export const create{{pascalCase featureName}} = (
+  data: Create{{pascalCase featureName}}Input
+): Promise<{ data: { id: string } }> => {
+  return api.post("/api/v1/{{kebabCase featureName}}s", data);
+};
+
+// ================================================================================
+// Hooks
+// ================================================================================
+
+type UseCreate{{pascalCase featureName}}Options = {
+  mutationConfig?: MutationConfig<typeof create{{pascalCase featureName}}>;
+};
+
+/**
+ * {{pascalCase featureName}}を作成するフック
+ */
+export const useCreate{{pascalCase featureName}} = ({ mutationConfig }: UseCreate{{pascalCase featureName}}Options = {}) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: create{{pascalCase featureName}},
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["{{kebabCase featureName}}s"] });
+    },
+    ...mutationConfig,
+  });
+};

@@ -1,0 +1,88 @@
+import { Control, FieldErrors } from "react-hook-form";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { ControlledInputField } from "@/components/ui/form-field/controlled-form-field";
+import { ErrorMessage } from "@/components/ui/error-message";
+import { {{pascalCase featureName}}FormValues } from "@/features/{{kebabCase featureName}}/schemas/{{kebabCase featureName}}.schema";
+
+type {{pascalCase featureName}}FormProps = {
+  /** React Hook Formのcontrolオブジェクト */
+  control: Control<{{pascalCase featureName}}FormValues>;
+  /** フォーム送信ハンドラー */
+  onSubmit: (e?: React.BaseSyntheticEvent) => void;
+  /** キャンセルボタンのクリックハンドラー */
+  onCancel: () => void;
+  /** フォームエラー */
+  errors: FieldErrors<{{pascalCase featureName}}FormValues>;
+  /** 送信中かどうか */
+  isSubmitting: boolean;
+  /** 編集モードかどうか（デフォルト: false） */
+  isEditMode?: boolean;
+};
+
+/**
+ * {{pascalCase featureName}}フォームコンポーネント（プレゼンテーション）
+ *
+ * {{pascalCase featureName}}の作成・編集に使用するフォームの表示を担当します。
+ * ロジックは含まず、純粋な表示とイベント通知のみを行います。
+ *
+ * TODO: 必要なフィールドを追加してください
+ *
+ * @param props - {{pascalCase featureName}}Formコンポーネントのプロパティ
+ * @returns {{pascalCase featureName}}フォーム要素
+ */
+export const {{pascalCase featureName}}Form = ({
+  control,
+  onSubmit,
+  onCancel,
+  errors,
+  isSubmitting,
+  isEditMode = false,
+}: {{pascalCase featureName}}FormProps) => {
+  // ================================================================================
+  // Variables
+  // ================================================================================
+  // ※使用しないコメントブロックは削除すること
+
+  const submitButtonText = isEditMode
+    ? isSubmitting
+      ? "更新中..."
+      : "更新"
+    : isSubmitting
+      ? "作成中..."
+      : "作成";
+
+  return (
+    <Card>
+      <CardContent className="pt-6">
+        <form onSubmit={onSubmit} className="space-y-6">
+          <ControlledInputField
+            control={control}
+            name="name"
+            label="名前"
+            placeholder="名前を入力"
+            required
+          />
+
+          {/* TODO: 必要なフィールドを追加してください */}
+
+          {errors.root && <ErrorMessage message={errors.root.message ?? ""} />}
+
+          <div className="flex gap-4">
+            <Button type="submit" disabled={isSubmitting} className="flex-1">
+              {submitButtonText}
+            </Button>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={onCancel}
+              className="flex-1"
+            >
+              キャンセル
+            </Button>
+          </div>
+        </form>
+      </CardContent>
+    </Card>
+  );
+};

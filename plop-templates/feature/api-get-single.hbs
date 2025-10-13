@@ -1,0 +1,44 @@
+import { queryOptions, useQuery } from "@tanstack/react-query";
+
+import { api } from "@/lib/api-client";
+import { QueryConfig } from "@/lib/tanstack-query";
+import type { {{pascalCase featureName}} } from "../types";
+
+// ================================================================================
+// API Functions
+// ================================================================================
+
+/**
+ * {{pascalCase featureName}}を1件取得
+ *
+ * TODO: APIエンドポイントを実際のパスに修正してください
+ */
+export const get{{pascalCase featureName}} = (id: string): Promise<{ data: {{pascalCase featureName}} }> => {
+  return api.get(`/api/v1/{{kebabCase featureName}}s/${id}`);
+};
+
+export const get{{pascalCase featureName}}QueryOptions = (id: string) => {
+  return queryOptions({
+    queryKey: ["{{kebabCase featureName}}s", id],
+    queryFn: () => get{{pascalCase featureName}}(id),
+  });
+};
+
+// ================================================================================
+// Hooks
+// ================================================================================
+
+type Use{{pascalCase featureName}}Options = {
+  id: string;
+  queryConfig?: QueryConfig<typeof get{{pascalCase featureName}}QueryOptions>;
+};
+
+/**
+ * {{pascalCase featureName}}を1件取得するフック
+ */
+export const use{{pascalCase featureName}} = ({ id, queryConfig }: Use{{pascalCase featureName}}Options) => {
+  return useQuery({
+    ...get{{pascalCase featureName}}QueryOptions(id),
+    ...queryConfig,
+  });
+};
