@@ -12,10 +12,23 @@ import {
  * ログインページのロジックを管理するカスタムフック
  */
 export const useLogin = () => {
+  // ================================================================================
+  // Hooks
+  // ================================================================================
   const router = useRouter();
   const setUser = useAuthStore((state) => state.setUser);
 
-  const form = useForm<LoginFormValues>({
+  const loginMutation = useLoginMutation();
+
+  // ================================================================================
+  // Form
+  // ================================================================================
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    setError,
+  } = useForm<LoginFormValues>({
     resolver: zodResolver(loginFormSchema),
     defaultValues: {
       email: "",
@@ -23,28 +36,29 @@ export const useLogin = () => {
     },
   });
 
-  const loginMutation = useLoginMutation({
-    mutationConfig: {
-      onSuccess: (data) => {
+  // ================================================================================
+  // Handlers
+  // ================================================================================
+  const onSubmit = handleSubmit((values) => {
+    loginMutation
+      .mutateAsync(values)
+      .then((data) => {
         localStorage.setItem("token", data.token);
         setUser(data.user);
         router.push("/users");
-      },
-    },
+      })
+      .catch(() => {
+        setError("root", {
+          message:
+            "ログインに失敗しました。メールアドレスとパスワードを確認してください。",
+        });
+      });
   });
 
-  const handleSubmit = (values: LoginFormValues) => {
-    loginMutation.mutate(values);
-  };
-
-  const errorMessage = loginMutation.isError
-    ? "ログインに失敗しました。メールアドレスとパスワードを確認してください。"
-    : null;
-
   return {
-    form,
-    handleSubmit,
-    isLoading: loginMutation.isPending,
-    error: errorMessage,
+    control,
+    onSubmit,
+    errors,
+    isSubmitting: loginMutation.isPending,
   };
 };

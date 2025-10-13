@@ -1,5 +1,3 @@
-"use client";
-
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -13,7 +11,15 @@ import {
  * フォームの状態管理とロジックを担当します。
  */
 export const useSampleForm = () => {
-  const form = useForm<SampleFormValues>({
+  // ================================================================================
+  // Form
+  // ================================================================================
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<SampleFormValues>({
     resolver: zodResolver(sampleFormSchema),
     defaultValues: {
       username: "",
@@ -30,19 +36,22 @@ export const useSampleForm = () => {
     },
   });
 
-  const onSubmit = async (data: SampleFormValues) => {
+  // ================================================================================
+  // Handlers
+  // ================================================================================
+  const onSubmit = handleSubmit(async (data) => {
     // フォームデータを表示
     console.log("Form Data:", data);
     alert(`フォームが送信されました！\n\n${JSON.stringify(data, null, 2)}`);
 
     // フォームをリセット
-    form.reset();
-  };
-
-  const handleSubmit = form.handleSubmit(onSubmit);
+    reset();
+  });
 
   return {
-    form,
-    handleSubmit,
+    control,
+    onSubmit,
+    errors,
+    reset,
   };
 };

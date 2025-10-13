@@ -23,7 +23,6 @@ export default function EditUserPage({
   params: Promise<{ id: string }>;
 }) {
   const {
-    userId,
     control,
     onSubmit,
     handleCancel,
@@ -33,7 +32,7 @@ export default function EditUserPage({
     error,
   } = useEditUser(params);
 
-  if (isLoading || userId === null) {
+  if (isLoading) {
     return <LoadingSpinner fullScreen />;
   }
 

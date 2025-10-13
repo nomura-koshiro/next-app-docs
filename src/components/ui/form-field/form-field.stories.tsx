@@ -3,13 +3,142 @@ import { FormField, InputField, SelectField } from "./form-field";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 
+/**
+ * FormFieldコンポーネントのストーリー
+ *
+ * ラベル、入力フィールド、エラーメッセージを統合したフォームフィールドコンポーネント。
+ * InputFieldやSelectFieldなど、特定の入力タイプに特化したコンポーネントも提供します。
+ *
+ * @example
+ * ```tsx
+ * <FormField label="名前" id="name" required>
+ *   <Input placeholder="山田太郎" />
+ * </FormField>
+ * ```
+ */
 const meta = {
+  // ================================================================================
+  // Storybookのナビゲーション階層
+  // ================================================================================
   title: "components/ui/FormField",
+
+  // ================================================================================
+  // 表示するコンポーネント
+  // ================================================================================
   component: FormField,
+
   parameters: {
+    // ================================================================================
+    // レイアウト設定
+    // - "centered": コンポーネントを画面中央に配置（小さなUIコンポーネント向け）
+    // - "padded": 周囲にパディングを追加（フォームやカード向け）
+    // - "fullscreen": 全画面表示（ページレイアウト向け）
+    // ================================================================================
     layout: "padded",
+
+    // ================================================================================
+    // コンポーネントの詳細説明
+    // Markdown形式で記述可能
+    // ================================================================================
+    docs: {
+      description: {
+        component:
+          "フォーム入力の標準的な構造を提供するコンポーネント。ラベル、入力要素、エラーメッセージを統合します。\n\n" +
+          "**主な機能:**\n" +
+          "- ラベルと入力フィールドの関連付け\n" +
+          "- 必須フィールドの表示\n" +
+          "- エラーメッセージの表示\n" +
+          "- InputField、SelectFieldなどの便利なラッパー\n\n" +
+          "**使用場面:**\n" +
+          "- あらゆるフォーム入力\n" +
+          "- ユーザー登録・編集フォーム\n" +
+          "- 設定画面\n" +
+          "- データ入力フォーム",
+      },
+    },
+
+    // ================================================================================
+    // 背景色のテストオプション
+    // 異なる背景色でコンポーネントの見た目を確認できます
+    // ================================================================================
+    backgrounds: {
+      default: "light",
+      values: [
+        { name: "light", value: "#ffffff" },
+        { name: "dark", value: "#1a1a1a" },
+        { name: "gray", value: "#f3f4f6" },
+      ],
+    },
+
+    // ================================================================================
+    // アクション設定
+    // on* で始まるプロパティを自動的にアクションパネルに表示
+    // ================================================================================
+    actions: {
+      argTypesRegex: "^on[A-Z].*",
+    },
   },
+
+  // ================================================================================
+  // ドキュメント自動生成を有効化
+  // ================================================================================
   tags: ["autodocs"],
+
+  // ================================================================================
+  // コントロールパネルの設定
+  // Storybookのコントロールパネルで操作可能なプロパティを定義
+  // ================================================================================
+  argTypes: {
+    label: {
+      control: "text",
+      description: "フィールドのラベルテキスト",
+      table: {
+        type: { summary: "string" },
+        category: "コンテンツ",
+      },
+    },
+    id: {
+      control: "text",
+      description: "フィールドのID（ラベルとの関連付けに使用）",
+      table: {
+        type: { summary: "string" },
+        category: "基本",
+      },
+    },
+    required: {
+      control: "boolean",
+      description: "必須フィールドかどうか",
+      table: {
+        type: { summary: "boolean" },
+        defaultValue: { summary: "false" },
+        category: "バリデーション",
+      },
+    },
+    error: {
+      control: "text",
+      description: "エラーメッセージ",
+      table: {
+        type: { summary: "string" },
+        category: "バリデーション",
+      },
+    },
+    children: {
+      control: false,
+      description: "入力要素（Input、Selectなど）",
+      table: {
+        type: { summary: "ReactNode" },
+        category: "コンテンツ",
+      },
+    },
+    className: {
+      control: "text",
+      description: "追加のCSSクラス名",
+      table: {
+        type: { summary: "string" },
+        category: "スタイリング",
+      },
+    },
+  },
 } satisfies Meta<typeof FormField>;
 
 export default meta;
@@ -30,6 +159,13 @@ export const Default: Story = {
       <Input placeholder="入力してください" />
     </FormField>
   ),
+  parameters: {
+    docs: {
+      description: {
+        story: "最も基本的なフォームフィールド。ラベルと入力フィールドを組み合わせた構成です。",
+      },
+    },
+  },
 };
 
 /**
@@ -48,6 +184,13 @@ export const Required: Story = {
       <Input placeholder="山田太郎" required />
     </FormField>
   ),
+  parameters: {
+    docs: {
+      description: {
+        story: "必須フィールドの例。ラベルに赤いアスタリスクが表示され、ユーザーに必須入力であることを示します。",
+      },
+    },
+  },
 };
 
 /**
@@ -74,6 +217,13 @@ export const WithError: Story = {
       <Input type="email" placeholder="user@example.com" aria-invalid="true" />
     </FormField>
   ),
+  parameters: {
+    docs: {
+      description: {
+        story: "バリデーションエラーがある状態のフィールド。エラーメッセージが赤色で表示されます。",
+      },
+    },
+  },
 };
 
 /**
@@ -99,6 +249,13 @@ export const InputFieldExample: Story = {
         required
       />
     );
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: "InputFieldは、FormFieldとInputを組み合わせた便利なコンポーネント。状態管理が組み込まれています。",
+      },
+    },
   },
 };
 
@@ -129,6 +286,13 @@ export const SelectFieldExample: Story = {
         required
       />
     );
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: "SelectFieldは、FormFieldとSelectを組み合わせた便利なコンポーネント。選択肢から1つを選ぶ入力に使用します。",
+      },
+    },
   },
 };
 
@@ -180,6 +344,13 @@ export const CompleteForm: Story = {
       </div>
     );
   },
+  parameters: {
+    docs: {
+      description: {
+        story: "複数のフィールドを組み合わせた実用的なフォームの例。すべてのフィールドが統一されたスタイルで表示されます。",
+      },
+    },
+  },
 };
 
 /**
@@ -220,5 +391,11 @@ export const FormWithErrors: Story = {
       </div>
     );
   },
+  parameters: {
+    docs: {
+      description: {
+        story: "バリデーションエラーが発生している状態のフォーム。各フィールドにエラーメッセージが表示されています。",
+      },
+    },
+  },
 };
-

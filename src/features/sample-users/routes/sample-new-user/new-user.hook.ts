@@ -11,13 +11,19 @@ import {
  * 新規ユーザー作成ページのロジックを管理するカスタムフック
  */
 export const useNewUser = () => {
+  // ================================================================================
+  // Hooks
+  // ================================================================================
   const router = useRouter();
   const createUserMutation = useCreateUser();
 
+  // ================================================================================
+  // Form
+  // ================================================================================
   const {
     control,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
     setError,
   } = useForm<UserFormValues>({
     resolver: zodResolver(userFormSchema),
@@ -28,6 +34,9 @@ export const useNewUser = () => {
     },
   });
 
+  // ================================================================================
+  // Handlers
+  // ================================================================================
   const onSubmit = handleSubmit((data) => {
     createUserMutation
       .mutateAsync(data)
@@ -50,6 +59,6 @@ export const useNewUser = () => {
     onSubmit,
     handleCancel,
     errors,
-    isSubmitting,
+    isSubmitting: createUserMutation.isPending,
   };
 };

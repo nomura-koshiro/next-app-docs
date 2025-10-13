@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { use, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -12,14 +12,26 @@ import {
  * ユーザー編集ページのロジックを管理するカスタムフック
  */
 export const useEditUser = (params: Promise<{ id: string }>) => {
+  // ================================================================================
+  // Hooks
+  // ================================================================================
   const router = useRouter();
-  const [userId, setUserId] = useState<string | null>(null);
+  const { id: userId } = use(params);
 
+  const { data, isLoading, error } = useUser({
+    userId,
+  });
+
+  const updateUserMutation = useUpdateUser();
+
+  // ================================================================================
+  // Form
+  // ================================================================================
   const {
     control,
     handleSubmit,
     reset,
-    formState: { errors, isSubmitting },
+    formState: { errors },
     setError,
   } = useForm<UserFormValues>({
     resolver: zodResolver(userFormSchema),
@@ -29,26 +41,6 @@ export const useEditUser = (params: Promise<{ id: string }>) => {
       role: "user",
     },
   });
-
-  // Next.js 15のApp Routerではparamsが非同期Promiseになる
-  useEffect(() => {
-    params
-      .then((resolvedParams) => {
-        setUserId(resolvedParams.id);
-      })
-      .catch((error: unknown) => {
-        console.error("Failed to resolve params:", error);
-      });
-  }, [params]);
-
-  const { data, isLoading, error } = useUser({
-    userId: userId ?? "",
-    queryConfig: {
-      enabled: userId !== null,
-    },
-  });
-
-  const updateUserMutation = useUpdateUser();
 
   // 取得したユーザーデータをフォームの初期値として設定
   useEffect(() => {
@@ -61,11 +53,10 @@ export const useEditUser = (params: Promise<{ id: string }>) => {
     }
   }, [data, reset]);
 
+  // ================================================================================
+  // Handlers
+  // ================================================================================
   const onSubmit = handleSubmit((formData) => {
-    if (userId === null) {
-      return;
-    }
-
     updateUserMutation
       .mutateAsync({
         userId,
@@ -86,12 +77,11 @@ export const useEditUser = (params: Promise<{ id: string }>) => {
   };
 
   return {
-    userId,
     control,
     onSubmit,
     handleCancel,
     errors,
-    isSubmitting,
+    isSubmitting: updateUserMutation.isPending,
     isLoading,
     error,
   };

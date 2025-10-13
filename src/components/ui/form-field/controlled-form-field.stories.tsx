@@ -14,11 +14,79 @@ import {
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
+/**
+ * ControlledFormFieldsコンポーネントのストーリー
+ *
+ * React Hook FormとZodを統合した制御されたフォームフィールドコンポーネント群。
+ * バリデーションとエラー処理が自動的に行われます。
+ *
+ * @example
+ * ```tsx
+ * const { control } = useForm({ resolver: zodResolver(schema) });
+ * <ControlledInputField control={control} name="username" label="ユーザー名" />
+ * ```
+ */
 const meta = {
+  // ================================================================================
+  // Storybookのナビゲーション階層
+  // ================================================================================
   title: "components/ui/ControlledFormFields",
+
   parameters: {
+    // ================================================================================
+    // レイアウト設定
+    // - "centered": コンポーネントを画面中央に配置（小さなUIコンポーネント向け）
+    // - "padded": 周囲にパディングを追加（フォームやカード向け）
+    // - "fullscreen": 全画面表示（ページレイアウト向け）
+    // ================================================================================
     layout: "centered",
+
+    // ================================================================================
+    // コンポーネントの詳細説明
+    // Markdown形式で記述可能
+    // ================================================================================
+    docs: {
+      description: {
+        component:
+          "React Hook Formによって制御されるフォームフィールドコンポーネント群。Zodスキーマによるバリデーションと統合されています。\n\n" +
+          "**主な機能:**\n" +
+          "- React Hook Formとの統合\n" +
+          "- Zodによる型安全なバリデーション\n" +
+          "- 自動エラー表示\n" +
+          "- 豊富なフィールドタイプ（Input, Select, Textarea, Checkbox, RadioGroup, Switch, Date）\n\n" +
+          "**使用場面:**\n" +
+          "- 複雑なバリデーションが必要なフォーム\n" +
+          "- 型安全性が重要なフォーム\n" +
+          "- ユーザー登録・編集フォーム\n" +
+          "- 設定画面",
+      },
+    },
+
+    // ================================================================================
+    // 背景色のテストオプション
+    // 異なる背景色でコンポーネントの見た目を確認できます
+    // ================================================================================
+    backgrounds: {
+      default: "light",
+      values: [
+        { name: "light", value: "#ffffff" },
+        { name: "dark", value: "#1a1a1a" },
+        { name: "gray", value: "#f3f4f6" },
+      ],
+    },
+
+    // ================================================================================
+    // アクション設定
+    // on* で始まるプロパティを自動的にアクションパネルに表示
+    // ================================================================================
+    actions: {
+      argTypesRegex: "^on[A-Z].*",
+    },
   },
+
+  // ================================================================================
+  // ドキュメント自動生成を有効化
+  // ================================================================================
   tags: ["autodocs"],
 } satisfies Meta;
 
@@ -29,6 +97,13 @@ export default meta;
  */
 export const InputField: StoryObj = {
   name: "入力フィールド",
+  parameters: {
+    docs: {
+      description: {
+        story: "React Hook Formで制御される入力フィールド。Zodスキーマによるバリデーションが自動的に適用されます。",
+      },
+    },
+  },
   render: () => {
     const schema = z.object({
       username: z.string().min(3, { message: "3文字以上で入力してください" }),
@@ -73,6 +148,13 @@ export const InputField: StoryObj = {
  */
 export const SelectField: StoryObj = {
   name: "セレクトフィールド",
+  parameters: {
+    docs: {
+      description: {
+        story: "React Hook Formで制御されるセレクトフィールド。選択肢から1つを選ぶ入力に使用します。",
+      },
+    },
+  },
   render: () => {
     const schema = z.object({
       country: z.string().min(1, { message: "国を選択してください" }),
@@ -122,6 +204,13 @@ export const SelectField: StoryObj = {
  */
 export const TextareaField: StoryObj = {
   name: "テキストエリアフィールド",
+  parameters: {
+    docs: {
+      description: {
+        story: "React Hook Formで制御される複数行テキスト入力フィールド。長文の入力に使用します。",
+      },
+    },
+  },
   render: () => {
     const schema = z.object({
       bio: z
@@ -170,6 +259,13 @@ export const TextareaField: StoryObj = {
  */
 export const CheckboxField: StoryObj = {
   name: "チェックボックスフィールド",
+  parameters: {
+    docs: {
+      description: {
+        story: "React Hook Formで制御されるチェックボックスフィールド。利用規約への同意などに使用します。",
+      },
+    },
+  },
   render: () => {
     const schema = z.object({
       terms: z.boolean().refine((val) => val === true, {
@@ -222,6 +318,13 @@ export const CheckboxField: StoryObj = {
  */
 export const RadioGroupField: StoryObj = {
   name: "ラジオグループフィールド",
+  parameters: {
+    docs: {
+      description: {
+        story: "React Hook Formで制御されるラジオボタングループ。複数の選択肢から1つを選ぶ入力に使用します。",
+      },
+    },
+  },
   render: () => {
     const schema = z.object({
       gender: z.enum(["male", "female", "other"], {
@@ -276,6 +379,13 @@ export const RadioGroupField: StoryObj = {
  */
 export const SwitchField: StoryObj = {
   name: "スイッチフィールド",
+  parameters: {
+    docs: {
+      description: {
+        story: "React Hook Formで制御されるスイッチフィールド。オン/オフの設定に使用します。",
+      },
+    },
+  },
   render: () => {
     const schema = z.object({
       notifications: z.boolean(),
@@ -326,6 +436,13 @@ export const SwitchField: StoryObj = {
  */
 export const DateField: StoryObj = {
   name: "日付フィールド",
+  parameters: {
+    docs: {
+      description: {
+        story: "React Hook Formで制御される日付入力フィールド。生年月日などの入力に使用します。",
+      },
+    },
+  },
   render: () => {
     const schema = z.object({
       birthdate: z.string().min(1, { message: "生年月日を入力してください" }),
@@ -369,6 +486,13 @@ export const DateField: StoryObj = {
  */
 export const CompleteForm: StoryObj = {
   name: "完全なフォーム",
+  parameters: {
+    docs: {
+      description: {
+        story: "すべてのControlledフィールドコンポーネントを組み合わせた実用的なフォームの例。React Hook FormとZodによる包括的なバリデーションが実装されています。",
+      },
+    },
+  },
   render: () => {
     const schema = z.object({
       username: z.string().min(3, { message: "3文字以上で入力してください" }),

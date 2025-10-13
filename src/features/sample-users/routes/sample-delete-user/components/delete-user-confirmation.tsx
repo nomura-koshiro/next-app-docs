@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { ErrorMessage } from "@/components/ui/error-message";
 import { AlertTriangle } from "lucide-react";
 import type { User } from "@/features/sample-users/types";
 
@@ -14,8 +13,6 @@ type DeleteUserConfirmationProps = {
   onCancel: () => void;
   /** 削除中かどうか */
   isDeleting: boolean;
-  /** 削除エラーメッセージ */
-  deleteError: string | null;
 };
 
 /**
@@ -27,7 +24,6 @@ type DeleteUserConfirmationProps = {
  * 機能:
  * - 削除対象ユーザーの情報表示（ID、名前、メール、ロール）
  * - 警告メッセージ表示
- * - エラーメッセージ表示
  * - 削除・キャンセルボタン
  * - 削除中の状態表示
  *
@@ -39,7 +35,6 @@ export const DeleteUserConfirmation = ({
   onDelete,
   onCancel,
   isDeleting,
-  deleteError,
 }: DeleteUserConfirmationProps) => {
   return (
     <Card className="border-red-200">
@@ -69,12 +64,6 @@ export const DeleteUserConfirmation = ({
           </AlertDescription>
         </Alert>
 
-        {deleteError && (
-          <div className="mb-6">
-            <ErrorMessage message={deleteError} />
-          </div>
-        )}
-
         <div className="flex gap-4">
           <Button
             variant="destructive"
@@ -84,7 +73,12 @@ export const DeleteUserConfirmation = ({
           >
             {isDeleting ? "削除中..." : "削除する"}
           </Button>
-          <Button variant="outline" onClick={onCancel} className="flex-1">
+          <Button
+            variant="outline"
+            onClick={onCancel}
+            disabled={isDeleting}
+            className="flex-1"
+          >
             キャンセル
           </Button>
         </div>

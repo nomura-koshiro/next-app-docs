@@ -1,0 +1,243 @@
+import type { Meta, StoryObj } from "@storybook/nextjs-vite";
+import { expect, within } from "@storybook/test";
+import { http, HttpResponse, delay } from "msw";
+import {{pascalCase routeName}}Page from "./{{kebabCase routeName}}";
+
+/**
+ * {{pascalCase routeName}}ページのストーリー
+ *
+ * TODO: ページの説明を記載してください
+ * MSWを使用してAPI通信をモック化しています
+ */
+const meta = {
+  // ================================================================================
+  // Storybookのナビゲーション階層
+  // ================================================================================
+  title: "features/{{kebabCase featureName}}/routes/{{kebabCase routeName}}/{{pascalCase routeName}}",
+
+  // ================================================================================
+  // 表示するコンポーネント
+  // ================================================================================
+  component: {{pascalCase routeName}}Page,
+
+  parameters: {
+    // ================================================================================
+    // レイアウト設定
+    // ページコンポーネントは "fullscreen" が適切
+    // ================================================================================
+    layout: "fullscreen",
+
+    // ================================================================================
+    // Next.js設定
+    // App Router を使用している場合は appDirectory: true
+    // ================================================================================
+    nextjs: {
+      appDirectory: true,
+    },
+
+    // ================================================================================
+    // コンポーネントの詳細説明
+    // ================================================================================
+    docs: {
+      description: {
+        component:
+          "TODO: ページの詳細な説明をここに記載\n\n" +
+          "**主な機能:**\n" +
+          "- データの一覧表示\n" +
+          "- データの作成・編集・削除\n" +
+          "- ローディング状態の表示\n" +
+          "- エラーハンドリング\n\n" +
+          "**API エンドポイント:**\n" +
+          "- `GET /api/v1/{{kebabCase featureName}}` - データ一覧取得\n" +
+          "- `POST /api/v1/{{kebabCase featureName}}` - データ作成\n\n" +
+          "**状態管理:**\n" +
+          "- React Query を使用してデータフェッチングを管理",
+      },
+    },
+
+    // ================================================================================
+    // MSW（Mock Service Worker）設定
+    // デフォルトのAPIレスポンスを定義
+    // 各ストーリーで上書き可能
+    // ================================================================================
+    msw: {
+      handlers: [
+        // TODO: 実際のAPIエンドポイントに合わせて修正してください
+        http.get("/api/v1/{{kebabCase featureName}}", () => {
+          return HttpResponse.json({
+            data: [
+              // TODO: モックデータを定義してください
+              { id: "1", name: "サンプル1" },
+              { id: "2", name: "サンプル2" },
+            ],
+          });
+        }),
+      ],
+    },
+
+    // ================================================================================
+    // 背景色設定
+    // ページコンポーネントは通常 gray 背景
+    // ================================================================================
+    backgrounds: {
+      default: "gray",
+      values: [
+        { name: "light", value: "#ffffff" },
+        { name: "gray", value: "#f3f4f6" },
+      ],
+    },
+  },
+
+  // ================================================================================
+  // ドキュメント自動生成を有効化
+  // ================================================================================
+  tags: ["autodocs"],
+
+  // ================================================================================
+  // コントロールパネルの設定
+  // ページコンポーネントは通常 args を持たない
+  // ================================================================================
+  argTypes: {},
+} satisfies Meta<typeof {{pascalCase routeName}}Page>;
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+// ================================================================================
+// ストーリー定義
+// ================================================================================
+
+/**
+ * デフォルト状態
+ *
+ * ページの通常状態
+ * データが正常に取得できた場合の表示
+ */
+export const Default: Story = {
+  name: "デフォルト",
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    // TODO: データが表示されることを確認するテストを追加
+    // 例:
+    // const firstItem = await canvas.findByText("サンプル1");
+    // expect(firstItem).toBeInTheDocument();
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: "データが正常に取得できた場合の一覧表示",
+      },
+    },
+  },
+};
+
+/**
+ * ローディング状態
+ *
+ * データを読み込み中の状態
+ */
+export const Loading: Story = {
+  name: "ローディング中",
+  parameters: {
+    msw: {
+      handlers: [
+        http.get("/api/v1/{{kebabCase featureName}}", async () => {
+          await delay(5000);
+          return HttpResponse.json({
+            data: [
+              { id: "1", name: "サンプル1" },
+              { id: "2", name: "サンプル2" },
+            ],
+          });
+        }),
+      ],
+    },
+    docs: {
+      description: {
+        story: "データ取得中のローディング状態",
+      },
+    },
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    // TODO: ローディングインジケーターが表示されることを確認
+    // 例:
+    // const loadingElement = canvas.getByTestId("loading-spinner");
+    // expect(loadingElement).toBeInTheDocument();
+  },
+};
+
+/**
+ * エラー状態
+ *
+ * API エラーが発生した際の表示
+ */
+export const WithError: Story = {
+  name: "エラー",
+  parameters: {
+    msw: {
+      handlers: [
+        http.get("/api/v1/{{kebabCase featureName}}", () => {
+          return HttpResponse.json(
+            { message: "Internal Server Error" },
+            { status: 500 }
+          );
+        }),
+      ],
+    },
+    docs: {
+      description: {
+        story: "APIエラーが発生した際の表示",
+      },
+    },
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    // TODO: エラーメッセージが表示されることを確認
+    // 例:
+    // const errorMessage = await canvas.findByText(/エラーが発生しました/i);
+    // expect(errorMessage).toBeInTheDocument();
+  },
+};
+
+/**
+ * 空の状態
+ *
+ * データが存在しない場合の表示
+ */
+export const EmptyState: Story = {
+  name: "空の状態",
+  parameters: {
+    msw: {
+      handlers: [
+        http.get("/api/v1/{{kebabCase featureName}}", () => {
+          return HttpResponse.json({ data: [] });
+        }),
+      ],
+    },
+    docs: {
+      description: {
+        story: "データが存在しない場合の表示",
+      },
+    },
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    // TODO: 空状態メッセージが表示されることを確認
+    // 例:
+    // const emptyMessage = await canvas.findByText(/データが見つかりません/i);
+    // expect(emptyMessage).toBeInTheDocument();
+  },
+};
+
+// TODO: 必要に応じて追加のストーリーを定義してください
+// 例:
+// - 多数のデータ表示
+// - 検索・フィルタリング状態
+// - ページネーション状態
+// - 認証エラー状態（401）
+// - 権限エラー状態（403）

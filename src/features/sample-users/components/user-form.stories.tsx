@@ -8,13 +8,147 @@ import {
   type UserFormValues,
 } from "@/features/sample-users/schemas/user-form.schema";
 
+/**
+ * UserFormコンポーネントのストーリー
+ *
+ * ユーザー情報の作成・編集フォームコンポーネント。
+ * React Hook FormとZodによるバリデーションを使用しています。
+ *
+ * @example
+ * ```tsx
+ * const { control, handleSubmit, formState } = useForm<UserFormValues>({
+ *   resolver: zodResolver(userFormSchema),
+ * });
+ *
+ * <UserForm
+ *   control={control}
+ *   onSubmit={handleSubmit(onSubmit)}
+ *   onCancel={onCancel}
+ *   errors={formState.errors}
+ *   isSubmitting={formState.isSubmitting}
+ * />
+ * ```
+ */
 const meta = {
+  // ================================================================================
+  // Storybookのナビゲーション階層
+  // ================================================================================
   title: "features/users/components/UserForm",
+
+  // ================================================================================
+  // 表示するコンポーネント
+  // ================================================================================
   component: UserForm,
+
   parameters: {
+    // ================================================================================
+    // レイアウト設定
+    // - "centered": コンポーネントを画面中央に配置（小さなUIコンポーネント向け）
+    // - "padded": 周囲にパディングを追加（フォームやカード向け）
+    // - "fullscreen": 全画面表示（ページレイアウト向け）
+    // ================================================================================
     layout: "padded",
+
+    // ================================================================================
+    // コンポーネントの詳細説明
+    // Markdown形式で記述可能
+    // ================================================================================
+    docs: {
+      description: {
+        component:
+          "ユーザー情報の作成・編集を行うフォームコンポーネント。\n\n" +
+          "**主な機能:**\n" +
+          "- React Hook Formによるフォーム管理\n" +
+          "- Zodスキーマによるバリデーション\n" +
+          "- 名前、メールアドレス、ロール（user/admin）の入力\n" +
+          "- 送信中状態の制御\n" +
+          "- エラーメッセージの表示\n" +
+          "- 新規作成・編集モードの切り替え\n\n" +
+          "**使用場面:**\n" +
+          "- 新規ユーザー作成画面\n" +
+          "- ユーザー情報編集画面",
+      },
+    },
+
+    // ================================================================================
+    // 背景色のテストオプション
+    // 異なる背景色でコンポーネントの見た目を確認できます
+    // ================================================================================
+    backgrounds: {
+      default: "gray",
+      values: [
+        { name: "light", value: "#ffffff" },
+        { name: "dark", value: "#1a1a1a" },
+        { name: "gray", value: "#f3f4f6" },
+      ],
+    },
+
+    // ================================================================================
+    // アクション設定
+    // on* で始まるプロパティを自動的にアクションパネルに表示
+    // ================================================================================
+    actions: {
+      argTypesRegex: "^on[A-Z].*",
+    },
   },
+
+  // ================================================================================
+  // ドキュメント自動生成を有効化
+  // ================================================================================
   tags: ["autodocs"],
+
+  // ================================================================================
+  // コントロールパネルの設定
+  // Storybookのコントロールパネルで操作可能なプロパティを定義
+  // ================================================================================
+  argTypes: {
+    control: {
+      description: "React Hook Formのcontrolオブジェクト",
+      table: {
+        type: { summary: "Control<UserFormValues>" },
+        category: "フォーム制御",
+      },
+    },
+    onSubmit: {
+      description: "フォーム送信時のコールバック関数",
+      table: {
+        type: { summary: "(e?: React.BaseSyntheticEvent) => Promise<void>" },
+        category: "イベント",
+      },
+    },
+    onCancel: {
+      description: "キャンセルボタン押下時のコールバック関数",
+      table: {
+        type: { summary: "() => void" },
+        category: "イベント",
+      },
+    },
+    errors: {
+      description: "React Hook Formのエラーオブジェクト",
+      table: {
+        type: { summary: "FieldErrors<UserFormValues>" },
+        category: "フォーム制御",
+      },
+    },
+    isSubmitting: {
+      control: "boolean",
+      description: "送信中状態のフラグ",
+      table: {
+        type: { summary: "boolean" },
+        defaultValue: { summary: "false" },
+        category: "状態",
+      },
+    },
+    isEditMode: {
+      control: "boolean",
+      description: "編集モードのフラグ（新規作成 or 編集）",
+      table: {
+        type: { summary: "boolean" },
+        defaultValue: { summary: "false" },
+        category: "状態",
+      },
+    },
+  },
 } satisfies Meta<typeof UserForm>;
 
 export default meta;
@@ -57,6 +191,14 @@ export const Default: Story = {
       />
     );
   },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "新規ユーザー作成時の初期状態。すべてのフィールドが空で、バリデーションエラーも表示されていません。",
+      },
+    },
+  },
 };
 
 /**
@@ -95,6 +237,14 @@ export const WithValue: Story = {
         isSubmitting={isSubmitting}
       />
     );
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "すべてのフィールドに有効な値が入力された状態。送信ボタンが有効になります。",
+      },
+    },
   },
 };
 
@@ -139,6 +289,14 @@ export const ValidationError: Story = {
       />
     );
   },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "必須フィールドが空のままフォーム送信を試みた際のバリデーションエラー表示。各フィールドの下にエラーメッセージが表示されます。",
+      },
+    },
+  },
 };
 
 /**
@@ -177,6 +335,14 @@ export const Submitting: Story = {
         isSubmitting={true}
       />
     );
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "フォーム送信中の状態。送信ボタンとキャンセルボタンが無効化され、ローディング表示が表示されます。",
+      },
+    },
   },
 };
 
@@ -224,6 +390,14 @@ export const WithError: Story = {
       />
     );
   },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "API通信エラーなど、サーバー側でエラーが発生した際の表示。フォーム上部にエラーメッセージが表示されます。",
+      },
+    },
+  },
 };
 
 /**
@@ -264,6 +438,14 @@ export const EditMode: Story = {
         isEditMode={true}
       />
     );
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "既存ユーザー情報を編集する際のモード。ボタンラベルが「作成」から「更新」に変わります。",
+      },
+    },
   },
 };
 

@@ -1,29 +1,29 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
-import { Label } from "./label";
-import { Input } from "@/components/ui/input";
+import { fn } from "@storybook/test";
+import { {{pascalCase componentName}} } from "./{{kebabCase componentName}}";
 
 /**
- * Labelコンポーネントのストーリー
+ * {{pascalCase componentName}}のストーリー
  *
- * フォーム要素のラベルを表示するためのコンポーネント。
- * アクセシビリティのため、入力フィールドと関連付けて使用します。
+ * TODO: コンポーネントの説明を記載してください
  *
  * @example
  * ```tsx
- * <Label htmlFor="name">名前</Label>
- * <Input id="name" />
+ * <{{pascalCase componentName}}>
+ *   コンテンツ
+ * </{{pascalCase componentName}}>
  * ```
  */
 const meta = {
   // ================================================================================
   // Storybookのナビゲーション階層
   // ================================================================================
-  title: "components/ui/Label",
+  title: "components/{{componentType}}/{{pascalCase componentName}}",
 
   // ================================================================================
   // 表示するコンポーネント
   // ================================================================================
-  component: Label,
+  component: {{pascalCase componentName}},
 
   parameters: {
     // ================================================================================
@@ -32,7 +32,7 @@ const meta = {
     // - "padded": 周囲にパディングを追加（フォームやカード向け）
     // - "fullscreen": 全画面表示（ページレイアウト向け）
     // ================================================================================
-    layout: "padded",
+    layout: "centered",
 
     // ================================================================================
     // コンポーネントの詳細説明
@@ -41,16 +41,16 @@ const meta = {
     docs: {
       description: {
         component:
-          "フォーム要素のラベルコンポーネント。Radix UI Labelをベースに構築されています。\n\n" +
+          "TODO: コンポーネントの詳細な説明をここに記載\n\n" +
           "**主な機能:**\n" +
-          "- 入力フィールドとの関連付け（htmlFor属性）\n" +
-          "- アクセシビリティサポート\n" +
-          "- 必須マークの表示\n" +
-          "- 無効化状態のサポート\n\n" +
-          "**使用場面:**\n" +
-          "- すべてのフォーム入力フィールド\n" +
-          "- チェックボックス\n" +
-          "- ラジオボタン",
+          "- 機能1の説明\n" +
+          "- 機能2の説明\n\n" +
+          "**使用例:**\n" +
+          "```tsx\n" +
+          "<{{pascalCase componentName}}>\n" +
+          "  コンテンツ\n" +
+          "</{{pascalCase componentName}}>\n" +
+          "```",
       },
     },
 
@@ -88,18 +88,10 @@ const meta = {
   argTypes: {
     children: {
       control: "text",
-      description: "ラベルのテキスト内容",
+      description: "コンポーネントの子要素（テキストまたはReactNode）",
       table: {
         type: { summary: "ReactNode" },
         category: "コンテンツ",
-      },
-    },
-    htmlFor: {
-      control: "text",
-      description: "関連付ける入力フィールドのid",
-      table: {
-        type: { summary: "string" },
-        category: "アクセシビリティ",
       },
     },
     className: {
@@ -110,6 +102,18 @@ const meta = {
         category: "スタイリング",
       },
     },
+    // TODO: 追加のプロパティを定義してください
+    // 例:
+    // variant: {
+    //   control: "select",
+    //   options: ["default", "primary", "secondary"],
+    //   description: "コンポーネントのバリエーション",
+    //   table: {
+    //     type: { summary: "string" },
+    //     defaultValue: { summary: "default" },
+    //     category: "外観",
+    //   },
+    // },
   },
 
   // ================================================================================
@@ -118,82 +122,81 @@ const meta = {
   // 個々のストーリーで上書き可能
   // ================================================================================
   args: {
-    children: "ラベル",
+    children: "{{pascalCase componentName}}のサンプルコンテンツ",
   },
-} satisfies Meta<typeof Label>;
+} satisfies Meta<typeof {{pascalCase componentName}}>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+// ================================================================================
+// ストーリー定義
+// ================================================================================
+
 /**
- * デフォルトのLabel
+ * デフォルト状態
+ *
+ * 最も一般的な使用例を示します
  */
 export const Default: Story = {
   name: "デフォルト",
   args: {
-    children: "ラベル",
+    children: "{{pascalCase componentName}}",
   },
   parameters: {
     docs: {
       description: {
-        story: "基本的なラベル表示。単独で使用されることは少なく、通常は入力フィールドと組み合わせます。",
+        story: "デフォルト状態の{{pascalCase componentName}}コンポーネント",
       },
     },
   },
 };
 
 /**
- * Input付きLabel
+ * カスタムスタイル
+ *
+ * 追加のクラス名を適用した例
  */
-export const WithInput: Story = {
-  name: "入力フィールド付き",
-  render: () => (
-    <div className="space-y-2">
-      <Label htmlFor="name">名前</Label>
-      <Input id="name" placeholder="山田太郎" />
-    </div>
-  ),
+export const CustomStyle: Story = {
+  name: "カスタムスタイル",
+  args: {
+    children: "カスタムスタイル",
+    className: "bg-blue-100 p-4 rounded-md",
+  },
   parameters: {
     docs: {
       description: {
-        story: "入力フィールドと組み合わせた実用的な使用例。htmlForとidを関連付けることでアクセシビリティが向上します。",
+        story: "classNameプロパティでカスタムスタイルを適用できます",
       },
     },
   },
 };
 
 /**
- * 必須マーク付きLabel
+ * ダークモード表示
+ *
+ * 背景色を変更してダークモードでの見た目を確認
  */
-export const Required: Story = {
-  name: "必須",
-  render: () => (
-    <div className="space-y-2">
-      <Label htmlFor="email">
-        メールアドレス
-        <span className="text-red-500 ml-1">*</span>
-      </Label>
-      <Input id="email" type="email" placeholder="user@example.com" />
-    </div>
-  ),
+export const DarkMode: Story = {
+  name: "ダークモード",
+  args: {
+    children: "ダークモード",
+  },
   parameters: {
+    backgrounds: {
+      default: "dark",
+    },
     docs: {
       description: {
-        story: "必須フィールドであることを示すアスタリスク（*）付きのラベル。赤色で視覚的に強調します。",
+        story: "ダークモードでの表示例",
       },
     },
   },
 };
 
-/**
- * 無効化されたLabel
- */
-export const Disabled: Story = {
-  name: "無効",
-  render: () => (
-    <div className="space-y-2" data-disabled="true">
-      <Label htmlFor="disabled">無効化されたフィールド</Label>
-      <Input id="disabled" disabled placeholder="入力できません" />
-    </div>
-  ),
-};
+// TODO: 必要に応じて追加のストーリーを定義してください
+// 例:
+// - バリエーションごとのストーリー
+// - 無効化状態
+// - エラー状態
+// - インタラクションテスト

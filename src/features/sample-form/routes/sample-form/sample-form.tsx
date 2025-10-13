@@ -17,21 +17,19 @@ if (process.env.NODE_ENV === "development") {
  * プレゼンテーショナルコンポーネント SampleForm に渡します。
  */
 export default function SampleFormPage() {
-  const { form, handleSubmit } = useSampleForm();
+  const { control, onSubmit, reset } = useSampleForm();
 
   return (
     <>
       <SampleForm
-        control={form.control}
-        onSubmit={handleSubmit}
-        onReset={() => form.reset()}
-        isSubmitting={form.formState.isSubmitting}
+        control={control}
+        onSubmit={onSubmit}
+        onReset={reset}
+        isSubmitting={false}
       />
 
       {/* 開発環境でのみReact Hook Form DevToolsを表示 */}
-      {process.env.NODE_ENV === "development" && (
-        <DevTool control={form.control} />
-      )}
+      {process.env.NODE_ENV === "development" && <DevTool control={control} />}
     </>
   );
 }

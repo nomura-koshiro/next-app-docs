@@ -2,13 +2,129 @@ import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { RadioGroup, RadioGroupItem } from "./radio-group";
 import { Label } from "@/components/ui/label";
 
+/**
+ * RadioGroupコンポーネントのストーリー
+ *
+ * 複数の選択肢から一つを選択するラジオボタングループコンポーネント。
+ * 排他的な選択が必要な場面で使用します。
+ *
+ * @example
+ * ```tsx
+ * <RadioGroup defaultValue="option-1">
+ *   <div className="flex items-center space-x-2">
+ *     <RadioGroupItem value="option-1" id="option-1" />
+ *     <Label htmlFor="option-1">オプション 1</Label>
+ *   </div>
+ * </RadioGroup>
+ * ```
+ */
 const meta = {
+  // ================================================================================
+  // Storybookのナビゲーション階層
+  // ================================================================================
   title: "components/ui/RadioGroup",
+
+  // ================================================================================
+  // 表示するコンポーネント
+  // ================================================================================
   component: RadioGroup,
+
   parameters: {
+    // ================================================================================
+    // レイアウト設定
+    // - "centered": コンポーネントを画面中央に配置（小さなUIコンポーネント向け）
+    // - "padded": 周囲にパディングを追加（フォームやカード向け）
+    // - "fullscreen": 全画面表示（ページレイアウト向け）
+    // ================================================================================
     layout: "centered",
+
+    // ================================================================================
+    // コンポーネントの詳細説明
+    // Markdown形式で記述可能
+    // ================================================================================
+    docs: {
+      description: {
+        component:
+          "排他的な選択を行うラジオボタングループコンポーネント。\n\n" +
+          "**主な機能:**\n" +
+          "- 複数の選択肢から一つを選択\n" +
+          "- デフォルト値の設定\n" +
+          "- 無効化状態の制御\n" +
+          "- ラベルとの連携\n" +
+          "- 説明文の追加が可能\n\n" +
+          "**使用場面:**\n" +
+          "- フォームでの排他的選択\n" +
+          "- 設定画面での選択\n" +
+          "- アンケートフォーム\n" +
+          "- 支払い方法の選択",
+      },
+    },
+
+    // ================================================================================
+    // 背景色のテストオプション
+    // 異なる背景色でコンポーネントの見た目を確認できます
+    // ================================================================================
+    backgrounds: {
+      default: "light",
+      values: [
+        { name: "light", value: "#ffffff" },
+        { name: "dark", value: "#1a1a1a" },
+        { name: "gray", value: "#f3f4f6" },
+      ],
+    },
+
+    // ================================================================================
+    // アクション設定
+    // on* で始まるプロパティを自動的にアクションパネルに表示
+    // ================================================================================
+    actions: {
+      argTypesRegex: "^on[A-Z].*",
+    },
   },
+
+  // ================================================================================
+  // ドキュメント自動生成を有効化
+  // ================================================================================
   tags: ["autodocs"],
+
+  // ================================================================================
+  // コントロールパネルの設定
+  // Storybookのコントロールパネルで操作可能なプロパティを定義
+  // ================================================================================
+  argTypes: {
+    defaultValue: {
+      control: "text",
+      description: "初期選択値",
+      table: {
+        type: { summary: "string" },
+        category: "コンテンツ",
+      },
+    },
+    disabled: {
+      control: "boolean",
+      description: "無効化状態",
+      table: {
+        type: { summary: "boolean" },
+        defaultValue: { summary: "false" },
+        category: "状態",
+      },
+    },
+    onValueChange: {
+      description: "選択値変更時のコールバック関数",
+      table: {
+        type: { summary: "(value: string) => void" },
+        category: "イベント",
+      },
+    },
+    className: {
+      control: "text",
+      description: "追加のCSSクラス名",
+      table: {
+        type: { summary: "string" },
+        category: "スタイリング",
+      },
+    },
+  },
 } satisfies Meta<typeof RadioGroup>;
 
 export default meta;
@@ -41,6 +157,13 @@ export const Default: Story = {
       </div>
     </RadioGroup>
   ),
+  parameters: {
+    docs: {
+      description: {
+        story: "基本的なラジオボタングループ。複数の選択肢から一つを選択できます。",
+      },
+    },
+  },
 };
 
 /**
@@ -85,6 +208,13 @@ export const WithDescription: Story = {
       </div>
     </RadioGroup>
   ),
+  parameters: {
+    docs: {
+      description: {
+        story: "各選択肢に説明文を追加した例。ユーザーが選択肢の内容を理解しやすくなります。",
+      },
+    },
+  },
 };
 
 /**
@@ -119,6 +249,13 @@ export const Gender: Story = {
       </div>
     </RadioGroup>
   ),
+  parameters: {
+    docs: {
+      description: {
+        story: "性別選択フォームの実用例。一部の選択肢のみに説明文を付けることも可能です。",
+      },
+    },
+  },
 };
 
 /**
@@ -163,6 +300,13 @@ export const PaymentMethod: Story = {
       </div>
     </RadioGroup>
   ),
+  parameters: {
+    docs: {
+      description: {
+        story: "ECサイトなどでの支払い方法選択の例。すべての選択肢に詳細な説明を付けています。",
+      },
+    },
+  },
 };
 
 /**
@@ -186,4 +330,11 @@ export const Disabled: Story = {
       </div>
     </RadioGroup>
   ),
+  parameters: {
+    docs: {
+      description: {
+        story: "無効化されたラジオボタングループ。ユーザーによる選択ができず、視覚的にもグレーアウト表示されます。",
+      },
+    },
+  },
 };

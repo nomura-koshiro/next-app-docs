@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { use } from "react";
 import { useRouter } from "next/navigation";
 import {
   useUser,
@@ -9,49 +9,32 @@ import {
  * ユーザー削除確認ページのロジックを管理するカスタムフック
  */
 export const useDeleteUser = (params: Promise<{ id: string }>) => {
+  // ================================================================================
+  // Hooks
+  // ================================================================================
   const router = useRouter();
-  const [userId, setUserId] = useState<string | null>(null);
-  const [deleteError, setDeleteError] = useState<string | null>(null);
-  const [isDeleting, setIsDeleting] = useState(false);
-
-  // Next.js 15のApp Routerではparamsが非同期Promiseになる
-  useEffect(() => {
-    params
-      .then((resolvedParams) => {
-        setUserId(resolvedParams.id);
-      })
-      .catch((error: unknown) => {
-        console.error("Failed to resolve params:", error);
-      });
-  }, [params]);
+  const { id: userId } = use(params);
 
   const { data, isLoading, error } = useUser({
-    userId: userId ?? "",
-    queryConfig: {
-      enabled: userId !== null,
-    },
+    userId,
   });
 
   const deleteUserMutation = useDeleteUserMutation();
+  const isDeleting = deleteUserMutation.isPending;
 
+  const user = data?.data;
+
+  // ================================================================================
+  // Handlers
+  // ================================================================================
   const handleDelete = () => {
-    if (userId === null) {
-      return;
-    }
-
-    setIsDeleting(true);
-    setDeleteError(null);
-
-    return deleteUserMutation
+    deleteUserMutation
       .mutateAsync(userId)
       .then(() => {
         router.push("/sample-users");
       })
       .catch(() => {
-        setDeleteError("ユーザーの削除に失敗しました");
-      })
-      .finally(() => {
-        setIsDeleting(false);
+        // エラーハンドリング: mutationのエラー状態で管理
       });
   };
 
@@ -59,16 +42,12 @@ export const useDeleteUser = (params: Promise<{ id: string }>) => {
     router.push("/sample-users");
   };
 
-  const user = data?.data;
-
   return {
-    userId,
     user,
     isLoading,
     error,
     handleDelete,
     handleCancel,
     isDeleting,
-    deleteError,
   };
 };

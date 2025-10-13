@@ -15,18 +15,10 @@ export default function DeleteUserPage({
 }: {
   params: Promise<{ id: string }>;
 }) {
-  const {
-    userId,
-    user,
-    isLoading,
-    error,
-    handleDelete,
-    handleCancel,
-    isDeleting,
-    deleteError,
-  } = useDeleteUser(params);
+  const { user, isLoading, error, handleDelete, handleCancel, isDeleting } =
+    useDeleteUser(params);
 
-  if (isLoading || userId === null) {
+  if (isLoading) {
     return <LoadingSpinner fullScreen />;
   }
 
@@ -52,7 +44,6 @@ export default function DeleteUserPage({
         onDelete={handleDelete}
         onCancel={handleCancel}
         isDeleting={isDeleting}
-        deleteError={deleteError}
       />
     </PageLayout>
   );

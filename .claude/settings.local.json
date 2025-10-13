@@ -37,7 +37,9 @@
       "Bash(pnpm lint:md:docs:*)",
       "Bash(pnpm exec markdownlint:*)",
       "Bash(mkdir:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(for dir in docs/04-development/*/)",
+      "Bash(do echo \"=== $dir ===\")"
     ],
     "deny": [],
     "ask": []

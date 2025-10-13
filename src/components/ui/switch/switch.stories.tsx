@@ -2,13 +2,128 @@ import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { Switch } from "./switch";
 import { Label } from "@/components/ui/label";
 
+/**
+ * Switchコンポーネントのストーリー
+ *
+ * オン/オフ切り替えを行うスイッチコンポーネント。
+ * 設定のオン/オフなど、二値の状態を切り替える場面で使用します。
+ *
+ * @example
+ * ```tsx
+ * <div className="flex items-center space-x-2">
+ *   <Switch id="airplane-mode" />
+ *   <Label htmlFor="airplane-mode">機内モード</Label>
+ * </div>
+ * ```
+ */
 const meta = {
+  // ================================================================================
+  // Storybookのナビゲーション階層
+  // ================================================================================
   title: "components/ui/Switch",
+
+  // ================================================================================
+  // 表示するコンポーネント
+  // ================================================================================
   component: Switch,
+
   parameters: {
+    // ================================================================================
+    // レイアウト設定
+    // - "centered": コンポーネントを画面中央に配置（小さなUIコンポーネント向け）
+    // - "padded": 周囲にパディングを追加（フォームやカード向け）
+    // - "fullscreen": 全画面表示（ページレイアウト向け）
+    // ================================================================================
     layout: "centered",
+
+    // ================================================================================
+    // コンポーネントの詳細説明
+    // Markdown形式で記述可能
+    // ================================================================================
+    docs: {
+      description: {
+        component:
+          "オン/オフの二値状態を切り替えるスイッチコンポーネント。\n\n" +
+          "**主な機能:**\n" +
+          "- オン/オフの状態切り替え\n" +
+          "- デフォルト値の設定\n" +
+          "- 無効化状態の制御\n" +
+          "- ラベルとの連携\n" +
+          "- アニメーション付きの状態遷移\n\n" +
+          "**使用場面:**\n" +
+          "- 設定画面での機能のオン/オフ\n" +
+          "- 通知設定\n" +
+          "- プライバシー設定\n" +
+          "- ダークモード切り替え",
+      },
+    },
+
+    // ================================================================================
+    // 背景色のテストオプション
+    // 異なる背景色でコンポーネントの見た目を確認できます
+    // ================================================================================
+    backgrounds: {
+      default: "light",
+      values: [
+        { name: "light", value: "#ffffff" },
+        { name: "dark", value: "#1a1a1a" },
+        { name: "gray", value: "#f3f4f6" },
+      ],
+    },
+
+    // ================================================================================
+    // アクション設定
+    // on* で始まるプロパティを自動的にアクションパネルに表示
+    // ================================================================================
+    actions: {
+      argTypesRegex: "^on[A-Z].*",
+    },
   },
+
+  // ================================================================================
+  // ドキュメント自動生成を有効化
+  // ================================================================================
   tags: ["autodocs"],
+
+  // ================================================================================
+  // コントロールパネルの設定
+  // Storybookのコントロールパネルで操作可能なプロパティを定義
+  // ================================================================================
+  argTypes: {
+    defaultChecked: {
+      control: "boolean",
+      description: "初期チェック状態",
+      table: {
+        type: { summary: "boolean" },
+        defaultValue: { summary: "false" },
+        category: "状態",
+      },
+    },
+    disabled: {
+      control: "boolean",
+      description: "無効化状態",
+      table: {
+        type: { summary: "boolean" },
+        defaultValue: { summary: "false" },
+        category: "状態",
+      },
+    },
+    onCheckedChange: {
+      description: "チェック状態変更時のコールバック関数",
+      table: {
+        type: { summary: "(checked: boolean) => void" },
+        category: "イベント",
+      },
+    },
+    className: {
+      control: "text",
+      description: "追加のCSSクラス名",
+      table: {
+        type: { summary: "string" },
+        category: "スタイリング",
+      },
+    },
+  },
 } satisfies Meta<typeof Switch>;
 
 export default meta;
@@ -27,6 +142,13 @@ export const Default: Story = {
       </Label>
     </div>
   ),
+  parameters: {
+    docs: {
+      description: {
+        story: "基本的なスイッチコンポーネント。ラベルと組み合わせて使用します。",
+      },
+    },
+  },
 };
 
 /**
@@ -42,6 +164,13 @@ export const Checked: Story = {
       </Label>
     </div>
   ),
+  parameters: {
+    docs: {
+      description: {
+        story: "初期状態がオンになっているスイッチ。デフォルトで有効にしたい機能に使用します。",
+      },
+    },
+  },
 };
 
 /**
@@ -57,6 +186,13 @@ export const Disabled: Story = {
       </Label>
     </div>
   ),
+  parameters: {
+    docs: {
+      description: {
+        story: "無効化されたスイッチ。ユーザーによる操作ができず、視覚的にもグレーアウト表示されます。",
+      },
+    },
+  },
 };
 
 /**
@@ -72,6 +208,13 @@ export const DisabledAndChecked: Story = {
       </Label>
     </div>
   ),
+  parameters: {
+    docs: {
+      description: {
+        story: "無効化されているが、オンの状態を示すスイッチ。変更できない設定を表示する際に使用します。",
+      },
+    },
+  },
 };
 
 /**
@@ -92,6 +235,13 @@ export const WithDescription: Story = {
       <Switch id="notifications" />
     </div>
   ),
+  parameters: {
+    docs: {
+      description: {
+        story: "説明文を追加したスイッチ。ユーザーが設定の内容を理解しやすくなります。",
+      },
+    },
+  },
 };
 
 /**
@@ -136,6 +286,13 @@ export const SettingsGroup: Story = {
       </div>
     </div>
   ),
+  parameters: {
+    docs: {
+      description: {
+        story: "複数のスイッチをグループ化した設定画面の例。各スイッチに説明文が付いています。",
+      },
+    },
+  },
 };
 
 /**
@@ -156,6 +313,13 @@ export const DarkMode: Story = {
       <Switch id="dark-mode" />
     </div>
   ),
+  parameters: {
+    docs: {
+      description: {
+        story: "ダークモード切り替えの実用例。テーマ切り替え機能などで使用されます。",
+      },
+    },
+  },
 };
 
 /**
@@ -200,4 +364,11 @@ export const PrivacySettings: Story = {
       </div>
     </div>
   ),
+  parameters: {
+    docs: {
+      description: {
+        story: "プライバシー設定画面の例。複数のプライバシー関連設定をスイッチで管理します。",
+      },
+    },
+  },
 };

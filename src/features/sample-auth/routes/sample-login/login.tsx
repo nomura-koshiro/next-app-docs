@@ -14,22 +14,19 @@ if (process.env.NODE_ENV === "development") {
  * ログインページ
  */
 export default function LoginPage() {
-  const { form, handleSubmit, isLoading, error } = useLogin();
+  const { control, onSubmit, errors, isSubmitting } = useLogin();
 
   return (
     <>
       <LoginForm
-        control={form.control}
-        onSubmit={form.handleSubmit(handleSubmit)}
-        errors={form.formState.errors}
-        isLoading={isLoading}
-        error={error}
+        control={control}
+        onSubmit={onSubmit}
+        errors={errors}
+        isSubmitting={isSubmitting}
       />
 
       {/* 開発環境でのみReact Hook Form DevToolsを表示 */}
-      {process.env.NODE_ENV === "development" && (
-        <DevTool control={form.control} />
-      )}
+      {process.env.NODE_ENV === "development" && <DevTool control={control} />}
     </>
   );
 }

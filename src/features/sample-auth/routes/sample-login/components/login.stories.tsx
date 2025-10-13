@@ -8,13 +8,94 @@ import {
   type LoginFormValues,
 } from "@/features/sample-auth/schemas/login-form.schema";
 
+/**
+ * LoginFormコンポーネントのストーリー
+ *
+ * ログインフォームコンポーネント。メールアドレスとパスワードによる認証を行います。
+ * React Hook FormとZodによるバリデーションが統合されています。
+ *
+ * @example
+ * ```tsx
+ * <LoginForm
+ *   control={control}
+ *   onSubmit={handleSubmit}
+ *   errors={errors}
+ *   isSubmitting={false}
+ * />
+ * ```
+ */
 const meta = {
+  // ================================================================================
+  // Storybookのナビゲーション階層
+  // ================================================================================
   title: "features/auth/routes/login/components/LoginForm",
+
+  // ================================================================================
+  // 表示するコンポーネント
+  // ================================================================================
   component: LoginForm,
+
   parameters: {
+    // ================================================================================
+    // レイアウト設定
+    // - "centered": コンポーネントを画面中央に配置（小さなUIコンポーネント向け）
+    // - "padded": 周囲にパディングを追加（フォームやカード向け）
+    // - "fullscreen": 全画面表示（ページレイアウト向け）
+    // ================================================================================
     layout: "fullscreen",
+
+    // ================================================================================
+    // コンポーネントの詳細説明
+    // Markdown形式で記述可能
+    // ================================================================================
+    docs: {
+      description: {
+        component:
+          "ユーザー認証のためのログインフォームコンポーネント。メールアドレスとパスワードによる認証を提供します。\n\n" +
+          "**主な機能:**\n" +
+          "- メールアドレスとパスワードの入力\n" +
+          "- React Hook Formによる制御\n" +
+          "- Zodスキーマによるバリデーション\n" +
+          "- ローディング状態の表示\n" +
+          "- エラーメッセージの表示\n\n" +
+          "**使用場面:**\n" +
+          "- ログインページ\n" +
+          "- 認証が必要な機能へのアクセス前",
+      },
+    },
+
+    // ================================================================================
+    // 背景色のテストオプション
+    // 異なる背景色でコンポーネントの見た目を確認できます
+    // ================================================================================
+    backgrounds: {
+      default: "light",
+      values: [
+        { name: "light", value: "#ffffff" },
+        { name: "dark", value: "#1a1a1a" },
+        { name: "gray", value: "#f3f4f6" },
+      ],
+    },
+
+    // ================================================================================
+    // アクション設定
+    // on* で始まるプロパティを自動的にアクションパネルに表示
+    // ================================================================================
+    actions: {
+      argTypesRegex: "^on[A-Z].*",
+    },
   },
+
+  // ================================================================================
+  // ドキュメント自動生成を有効化
+  // ================================================================================
   tags: ["autodocs"],
+
+  // ================================================================================
+  // デフォルトの args 値
+  // すべてのストーリーに適用されるデフォルト値
+  // 個々のストーリーで上書き可能
+  // ================================================================================
   args: {
     onSubmit: fn(),
   },
@@ -33,8 +114,7 @@ export const Default: Story = {
     control: {} as Control<LoginFormValues>,
     onSubmit: fn(),
     errors: {},
-    isLoading: false,
-    error: null,
+    isSubmitting: false,
   },
   render: (args) => {
     const form = useForm<LoginFormValues>({
@@ -50,11 +130,17 @@ export const Default: Story = {
         control={form.control}
         onSubmit={args.onSubmit}
         errors={form.formState.errors}
-        isLoading={false}
-        error={null}
+        isSubmitting={false}
         idPrefix="default"
       />
     );
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: "ログインフォームの初期状態。メールアドレスとパスワードの入力フィールドが表示されます。",
+      },
+    },
   },
 };
 
@@ -68,8 +154,7 @@ export const Loading: Story = {
     control: {} as Control<LoginFormValues>,
     onSubmit: fn(),
     errors: {},
-    isLoading: true,
-    error: null,
+    isSubmitting: true,
   },
   render: (args) => {
     const form = useForm<LoginFormValues>({
@@ -85,11 +170,17 @@ export const Loading: Story = {
         control={form.control}
         onSubmit={args.onSubmit}
         errors={form.formState.errors}
-        isLoading={true}
-        error={null}
+        isSubmitting={true}
         idPrefix="loading"
       />
     );
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: "ログイン処理中の状態。送信ボタンが無効化され、ローディングインジケーターが表示されます。",
+      },
+    },
   },
 };
 
@@ -103,9 +194,7 @@ export const WithError: Story = {
     control: {} as Control<LoginFormValues>,
     onSubmit: fn(),
     errors: {},
-    isLoading: false,
-    error:
-      "ログインに失敗しました。メールアドレスとパスワードを確認してください。",
+    isSubmitting: false,
   },
   render: (args) => {
     const form = useForm<LoginFormValues>({
@@ -116,15 +205,29 @@ export const WithError: Story = {
       },
     });
 
+    const errors = {
+      root: {
+        message:
+          "ログインに失敗しました。メールアドレスとパスワードを確認してください。",
+        type: "manual" as const,
+      },
+    };
+
     return (
       <LoginForm
         control={form.control}
         onSubmit={args.onSubmit}
-        errors={form.formState.errors}
-        isLoading={false}
-        error="ログインに失敗しました。メールアドレスとパスワードを確認してください。"
+        errors={errors}
+        isSubmitting={false}
         idPrefix="error"
       />
     );
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: "ログイン失敗時の状態。エラーメッセージが表示され、ユーザーに認証情報の確認を促します。",
+      },
+    },
   },
 };

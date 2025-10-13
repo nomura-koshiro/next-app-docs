@@ -20,9 +20,7 @@ type LoginFormProps = {
   /** フォームエラー */
   errors: FieldErrors<LoginFormValues>;
   /** ログイン中かどうか */
-  isLoading: boolean;
-  /** エラーメッセージ */
-  error: string | null;
+  isSubmitting: boolean;
   /** IDプレフィックス（Storybook等でIDを一意にする場合に使用） */
   idPrefix?: string;
 };
@@ -46,9 +44,8 @@ type LoginFormProps = {
 export const LoginForm = ({
   control,
   onSubmit,
-  errors: _errors,
-  isLoading,
-  error,
+  errors,
+  isSubmitting,
   idPrefix = "",
 }: LoginFormProps) => {
   const uniqueId = useId();
@@ -88,10 +85,10 @@ export const LoginForm = ({
               />
             </div>
 
-            {error && <ErrorMessage message={error} />}
+            {errors.root && <ErrorMessage message={errors.root.message} />}
 
-            <Button type="submit" className="w-full" disabled={isLoading}>
-              {isLoading ? "ログイン中..." : "ログイン"}
+            <Button type="submit" className="w-full" disabled={isSubmitting}>
+              {isSubmitting ? "ログイン中..." : "ログイン"}
             </Button>
 
             <p className="text-center text-sm text-gray-600">

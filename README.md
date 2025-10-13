@@ -118,15 +118,39 @@ pnpm generate:component   # Component生成
 | [📝 コーディング規約](./docs/04-development/01-coding-standards/) | 規約とベストプラクティス |
 | [🧪 テスト戦略](./docs/05-testing/01-testing-strategy.md) | テストの書き方 |
 
+## 🛠️ 技術スタック
+
+| カテゴリ | 技術 |
+|---------|------|
+| **フレームワーク** | Next.js 15, React 19, TypeScript 5.5+ |
+| **スタイリング** | Tailwind CSS v4, CVA (Class Variance Authority) |
+| **状態管理** | Zustand (クライアント), TanStack Query (サーバー) |
+| **フォーム** | React Hook Form, Zod |
+| **テスト** | Vitest, React Testing Library, Playwright, Storybook |
+| **開発ツール** | ESLint, Prettier, Stylelint, MSW, Plop |
+
+詳細は [技術スタック](./docs/03-core-concepts/01-tech-stack.md) を参照してください。
+
 ## 🏗️ アーキテクチャ
 
 このプロジェクトは [bulletproof-react](https://github.com/alan2207/bulletproof-react) アーキテクチャを採用しています。
 
-**主要原則:**
-1. Feature-Based Organization（機能ごとにコードを分離）
-2. Unidirectional Codebase Flow（単一方向のコードフロー）
-3. Separation of Concerns（関心の分離）
-4. No Cross-Feature Imports（Feature間の直接インポート禁止）
+### 主要原則
+
+1. **Feature-Based Organization** - 機能ごとにコードを分離
+2. **Unidirectional Codebase Flow** - 単一方向のコードフロー
+3. **Separation of Concerns** - 関心の分離
+4. **No Cross-Feature Imports** - Feature間の直接インポート禁止
+
+### コードフローの方向性
+
+```text
+共通コード (components, hooks, lib, utils)
+    ↓
+features (各機能モジュール)
+    ↓
+app (Next.js App Router)
+```
 
 詳細は [bulletproof-react適用指針](./docs/02-architecture/02-bulletproof-react.md) を参照してください。
 
