@@ -35,7 +35,9 @@
       "Bash(npx markdownlint:*)",
       "Bash(pnpm markdownlint:*)",
       "Bash(pnpm lint:md:docs:*)",
-      "Bash(pnpm exec markdownlint:*)"
+      "Bash(pnpm exec markdownlint:*)",
+      "Bash(mkdir:*)",
+      "Bash(git add:*)"
     ],
     "deny": [],
     "ask": []
