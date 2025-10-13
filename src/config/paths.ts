@@ -10,10 +10,8 @@
  * <Link href={paths.home.getHref()}>Home</Link>
  *
  * // パラメータ付き
- * <Link href={paths.app.user.getHref('123')}>User Profile</Link>
- *
- * // リダイレクト付き認証
- * router.push(paths.auth.login.getHref('/app/dashboard'))
+ * <Link href={paths.sample.users.detail.getHref('123')}>User Detail</Link>
+ * <Link href={paths.sample.users.edit.getHref('123')}>Edit User</Link>
  * ```
  */
 export const paths = {
@@ -25,65 +23,71 @@ export const paths = {
   },
 
   /**
-   * 認証関連のパス
+   * サンプルページ（デモ・参考実装）
    */
-  auth: {
+  sample: {
     /**
-     * ユーザー登録ページ
-     * @param redirectTo - 登録後のリダイレクト先URL
+     * サンプルフォーム
      */
-    register: {
-      getHref: (redirectTo?: string | null | undefined) =>
-        `/auth/register${redirectTo !== undefined && redirectTo !== null && redirectTo !== "" ? `?redirectTo=${encodeURIComponent(redirectTo)}` : ""}`,
+    form: {
+      getHref: () => "/sample-form",
     },
 
     /**
-     * ログインページ
-     * @param redirectTo - ログイン後のリダイレクト先URL
+     * サンプルログイン
      */
     login: {
-      getHref: (redirectTo?: string | null | undefined) =>
-        `/auth/login${redirectTo !== undefined && redirectTo !== null && redirectTo !== "" ? `?redirectTo=${encodeURIComponent(redirectTo)}` : ""}`,
+      getHref: () => "/sample-login",
     },
 
     /**
-     * ログアウト処理
+     * サンプルページリスト
      */
-    logout: {
-      getHref: () => "/auth/logout",
-    },
-  },
-
-  /**
-   * アプリケーション内のパス（認証が必要なエリア）
-   */
-  app: {
-    /**
-     * アプリケーションルート
-     */
-    root: {
-      getHref: () => "/app",
+    pageList: {
+      getHref: () => "/sample-page-list",
     },
 
     /**
-     * ダッシュボード
+     * ユーザー管理サンプル
      */
-    dashboard: {
-      getHref: () => "/app/dashboard",
-    },
+    users: {
+      /**
+       * ユーザー一覧
+       */
+      list: {
+        getHref: () => "/sample-users",
+      },
 
-    /**
-     * プロフィールページ
-     */
-    profile: {
-      getHref: () => "/app/profile",
-    },
+      /**
+       * 新規ユーザー作成
+       */
+      create: {
+        getHref: () => "/sample-users/new",
+      },
 
-    /**
-     * 設定ページ
-     */
-    settings: {
-      getHref: () => "/app/settings",
+      /**
+       * ユーザー詳細
+       * @param id - ユーザーID
+       */
+      detail: {
+        getHref: (id: string) => `/sample-users/${id}`,
+      },
+
+      /**
+       * ユーザー編集
+       * @param id - ユーザーID
+       */
+      edit: {
+        getHref: (id: string) => `/sample-users/${id}/edit`,
+      },
+
+      /**
+       * ユーザー削除
+       * @param id - ユーザーID
+       */
+      delete: {
+        getHref: (id: string) => `/sample-users/${id}/delete`,
+      },
     },
   },
 } as const;

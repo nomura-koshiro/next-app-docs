@@ -148,38 +148,40 @@ export const paths = {
     getHref: () => '/',
   },
 
-  auth: {
-    register: {
-      getHref: (redirectTo?: string | null | undefined) =>
-        `/auth/register${redirectTo !== undefined && redirectTo !== null && redirectTo !== '' ? `?redirectTo=${encodeURIComponent(redirectTo)}` : ''}`,
+  sample: {
+    form: {
+      getHref: () => '/sample-form',
     },
     login: {
-      getHref: (redirectTo?: string | null | undefined) =>
-        `/auth/login${redirectTo !== undefined && redirectTo !== null && redirectTo !== '' ? `?redirectTo=${encodeURIComponent(redirectTo)}` : ''}`,
+      getHref: () => '/sample-login',
     },
-    logout: {
-      getHref: () => '/auth/logout',
+    pageList: {
+      getHref: () => '/sample-page-list',
     },
-  },
-
-  app: {
-    root: {
-      getHref: () => '/app',
-    },
-    dashboard: {
-      getHref: () => '/app/dashboard',
-    },
-    profile: {
-      getHref: () => '/app/profile',
-    },
-    settings: {
-      getHref: () => '/app/settings',
+    users: {
+      list: {
+        getHref: () => '/sample-users',
+      },
+      create: {
+        getHref: () => '/sample-users/new',
+      },
+      detail: {
+        getHref: (id: string) => `/sample-users/${id}`,
+      },
+      edit: {
+        getHref: (id: string) => `/sample-users/${id}/edit`,
+      },
+      delete: {
+        getHref: (id: string) => `/sample-users/${id}/delete`,
+      },
     },
   },
 } as const
 ```
 
 ### 使用例
+
+**基本的な使用:**
 
 ```typescript
 import Link from 'next/link'
@@ -189,20 +191,48 @@ export const Navigation = () => {
   return (
     <nav>
       <Link href={paths.home.getHref()}>ホーム</Link>
-      <Link href={paths.auth.login.getHref()}>ログイン</Link>
-      <Link href={paths.app.dashboard.getHref()}>ダッシュボード</Link>
+      <Link href={paths.sample.users.list.getHref()}>ユーザー一覧</Link>
+      <Link href={paths.sample.form.getHref()}>サンプルフォーム</Link>
     </nav>
   )
 }
 ```
 
-### リダイレクト機能
+**パラメータ付き:**
 
 ```typescript
-// ログイン後にダッシュボードへリダイレクト
-<Link href={paths.auth.login.getHref('/app/dashboard')}>
-  ログイン
+import { paths } from '@/config/paths'
+
+// ユーザー詳細ページへのリンク
+<Link href={paths.sample.users.detail.getHref('123')}>
+  ユーザー詳細
 </Link>
+
+// ユーザー編集ページへのリンク
+<Link href={paths.sample.users.edit.getHref(userId)}>
+  編集
+</Link>
+```
+
+**useRouterでの使用:**
+
+```typescript
+'use client'
+
+import { useRouter } from 'next/navigation'
+import { paths } from '@/config/paths'
+
+export const CreateUserForm = () => {
+  const router = useRouter()
+
+  const handleSubmit = async (data: CreateUserInput) => {
+    const user = await createUser(data)
+    // 作成後、ユーザー詳細ページへ遷移
+    router.push(paths.sample.users.detail.getHref(user.id))
+  }
+
+  return <form onSubmit={handleSubmit}>...</form>
+}
 ```
 
 ---
