@@ -4,15 +4,78 @@ import { delay, http, HttpResponse } from "msw";
 
 import UsersPage from "./users";
 
+/**
+ * UsersPageコンポーネントのストーリー
+ *
+ * ユーザー一覧ページコンポーネント。
+ * 登録されているユーザーの一覧を表示し、編集・削除・新規作成の操作を提供します。
+ *
+ * @example
+ * ```tsx
+ * <UsersPage />
+ * ```
+ */
 const meta = {
+  // ================================================================================
+  // Storybookのナビゲーション階層
+  // ================================================================================
   title: "features/sample-users/routes/sample-users/Users",
+
+  // ================================================================================
+  // 表示するコンポーネント
+  // ================================================================================
   component: UsersPage,
+
   parameters: {
+    // ================================================================================
+    // レイアウト設定
+    // ================================================================================
     layout: "fullscreen",
+
+    // ================================================================================
+    // Next.js設定
+    // ================================================================================
     nextjs: {
       appDirectory: true,
     },
+
+    // ================================================================================
+    // コンポーネントの詳細説明
+    // ================================================================================
+    docs: {
+      description: {
+        component:
+          "ユーザー一覧を表示するためのページコンポーネント。データの読み込み、一覧表示、各種操作が実装されています。\n\n" +
+          "**主な機能:**\n" +
+          "- ユーザーデータの一覧表示\n" +
+          "- 編集・削除操作\n" +
+          "- 新規ユーザー作成\n" +
+          "- ローディング状態の表示\n" +
+          "- エラーハンドリング\n" +
+          "- 空状態の表示\n" +
+          "- MSWによるAPIモック\n\n" +
+          "**使用場面:**\n" +
+          "- ユーザー管理画面\n" +
+          "- 管理者ダッシュボード",
+      },
+    },
+
+    // ================================================================================
+    // 背景色のテストオプション
+    // ================================================================================
+    backgrounds: {
+      default: "gray",
+      values: [
+        { name: "light", value: "#ffffff" },
+        { name: "dark", value: "#1a1a1a" },
+        { name: "gray", value: "#f3f4f6" },
+      ],
+    },
   },
+
+  // ================================================================================
+  // ドキュメント自動生成を有効化
+  // ================================================================================
   tags: ["autodocs"],
 } satisfies Meta<typeof UsersPage>;
 
@@ -25,6 +88,14 @@ type Story = StoryObj<typeof meta>;
  */
 export const UsersList: Story = {
   name: "ユーザー一覧表示",
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "ユーザー一覧ページの初期状態。ユーザーデータが正常に読み込まれ、テーブル形式で表示されます。",
+      },
+    },
+  },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
 
@@ -48,6 +119,12 @@ export const UsersList: Story = {
 export const Loading: Story = {
   name: "ローディング中",
   parameters: {
+    docs: {
+      description: {
+        story:
+          "ユーザーデータの読み込み中の状態。ローディングスピナーが表示されます。",
+      },
+    },
     msw: {
       handlers: [
         http.get("/api/v1/sample/users", async () => {
@@ -83,6 +160,12 @@ export const Loading: Story = {
 export const WithError: Story = {
   name: "エラー",
   parameters: {
+    docs: {
+      description: {
+        story:
+          "APIエラーが発生した場合の状態。ErrorBoundaryによりエラーメッセージが表示されます。",
+      },
+    },
     msw: {
       handlers: [
         http.get("/api/v1/sample/users", () => {
@@ -110,6 +193,12 @@ export const WithError: Story = {
 export const EmptyState: Story = {
   name: "空の状態",
   parameters: {
+    docs: {
+      description: {
+        story:
+          "ユーザーが1件も登録されていない場合の表示。空状態メッセージが表示されます。",
+      },
+    },
     msw: {
       handlers: [
         http.get("/api/v1/sample/users", () => {
@@ -133,6 +222,12 @@ export const EmptyState: Story = {
 export const ManyUsers: Story = {
   name: "多数のユーザー",
   parameters: {
+    docs: {
+      description: {
+        story:
+          "多数のユーザーが登録されている場合の表示例。スクロールやレイアウトの確認に使用します。",
+      },
+    },
     msw: {
       handlers: [
         http.get("/api/v1/sample/users", () => {
