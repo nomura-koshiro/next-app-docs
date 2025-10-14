@@ -1,18 +1,20 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import {
-  ControlledInputField,
-  ControlledSelectField,
-  ControlledTextareaField,
-  ControlledCheckboxField,
-  ControlledRadioGroupField,
-  ControlledSwitchField,
-  ControlledDateField,
-} from "./controlled-form-field";
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+
+import {
+  ControlledCheckboxField,
+  ControlledDateField,
+  ControlledInputField,
+  ControlledRadioGroupField,
+  ControlledSelectField,
+  ControlledSwitchField,
+  ControlledTextareaField,
+} from "./controlled-form-field";
 
 /**
  * ControlledFormFieldsコンポーネントのストーリー
@@ -100,7 +102,8 @@ export const InputField: StoryObj = {
   parameters: {
     docs: {
       description: {
-        story: "React Hook Formで制御される入力フィールド。Zodスキーマによるバリデーションが自動的に適用されます。",
+        story:
+          "React Hook Formで制御される入力フィールド。Zodスキーマによるバリデーションが自動的に適用されます。",
       },
     },
   },
@@ -151,7 +154,8 @@ export const SelectField: StoryObj = {
   parameters: {
     docs: {
       description: {
-        story: "React Hook Formで制御されるセレクトフィールド。選択肢から1つを選ぶ入力に使用します。",
+        story:
+          "React Hook Formで制御されるセレクトフィールド。選択肢から1つを選ぶ入力に使用します。",
       },
     },
   },
@@ -207,7 +211,8 @@ export const TextareaField: StoryObj = {
   parameters: {
     docs: {
       description: {
-        story: "React Hook Formで制御される複数行テキスト入力フィールド。長文の入力に使用します。",
+        story:
+          "React Hook Formで制御される複数行テキスト入力フィールド。長文の入力に使用します。",
       },
     },
   },
@@ -262,7 +267,8 @@ export const CheckboxField: StoryObj = {
   parameters: {
     docs: {
       description: {
-        story: "React Hook Formで制御されるチェックボックスフィールド。利用規約への同意などに使用します。",
+        story:
+          "React Hook Formで制御されるチェックボックスフィールド。利用規約への同意などに使用します。",
       },
     },
   },
@@ -321,7 +327,8 @@ export const RadioGroupField: StoryObj = {
   parameters: {
     docs: {
       description: {
-        story: "React Hook Formで制御されるラジオボタングループ。複数の選択肢から1つを選ぶ入力に使用します。",
+        story:
+          "React Hook Formで制御されるラジオボタングループ。複数の選択肢から1つを選ぶ入力に使用します。",
       },
     },
   },
@@ -382,7 +389,8 @@ export const SwitchField: StoryObj = {
   parameters: {
     docs: {
       description: {
-        story: "React Hook Formで制御されるスイッチフィールド。オン/オフの設定に使用します。",
+        story:
+          "React Hook Formで制御されるスイッチフィールド。オン/オフの設定に使用します。",
       },
     },
   },
@@ -439,7 +447,8 @@ export const DateField: StoryObj = {
   parameters: {
     docs: {
       description: {
-        story: "React Hook Formで制御される日付入力フィールド。生年月日などの入力に使用します。",
+        story:
+          "React Hook Formで制御される日付入力フィールド。生年月日などの入力に使用します。",
       },
     },
   },
@@ -489,7 +498,8 @@ export const CompleteForm: StoryObj = {
   parameters: {
     docs: {
       description: {
-        story: "すべてのControlledフィールドコンポーネントを組み合わせた実用的なフォームの例。React Hook FormとZodによる包括的なバリデーションが実装されています。",
+        story:
+          "すべてのControlledフィールドコンポーネントを組み合わせた実用的なフォームの例。React Hook FormとZodによる包括的なバリデーションが実装されています。",
       },
     },
   },

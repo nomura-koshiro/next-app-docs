@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
 import type { ReactElement } from "react";
+import { useEffect, useState } from "react";
 import type { Control, FieldValues } from "react-hook-form";
 
 /**
@@ -25,7 +25,7 @@ import type { Control, FieldValues } from "react-hook-form";
  * @returns DevToolsコンポーネント（開発環境のみ）またはnull
  */
 export const useDevTools = <T extends FieldValues>(
-  control: Control<T>
+  control: Control<T>,
 ): ReactElement | null => {
   const [DevTool, setDevTool] = useState<any>(null);
 

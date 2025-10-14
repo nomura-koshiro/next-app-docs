@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
+
 import { LoadingSpinner } from "./loading-spinner";
 
 /**
@@ -113,14 +114,6 @@ const meta = {
         category: "レイアウト",
       },
     },
-    className: {
-      control: "text",
-      description: "追加のCSSクラス名",
-      table: {
-        type: { summary: "string" },
-        category: "スタイリング",
-      },
-    },
   },
 
   // ================================================================================
@@ -146,7 +139,8 @@ export const Default: Story = {
   parameters: {
     docs: {
       description: {
-        story: "標準サイズのローディングスピナー。デフォルトのテキストとサイズで表示されます。",
+        story:
+          "標準サイズのローディングスピナー。デフォルトのテキストとサイズで表示されます。",
       },
     },
   },
@@ -163,7 +157,8 @@ export const CustomText: Story = {
   parameters: {
     docs: {
       description: {
-        story: "カスタムテキストを表示したローディングスピナー。状況に応じたメッセージを設定できます。",
+        story:
+          "カスタムテキストを表示したローディングスピナー。状況に応じたメッセージを設定できます。",
       },
     },
   },
@@ -181,7 +176,8 @@ export const Small: Story = {
   parameters: {
     docs: {
       description: {
-        story: "小サイズのスピナー。ボタン内やコンパクトな領域での使用に適しています。",
+        story:
+          "小サイズのスピナー。ボタン内やコンパクトな領域での使用に適しています。",
       },
     },
   },
@@ -199,7 +195,8 @@ export const Medium: Story = {
   parameters: {
     docs: {
       description: {
-        story: "中サイズのスピナー。最も汎用的なサイズで、カード内やモーダル内での使用に最適です。",
+        story:
+          "中サイズのスピナー。最も汎用的なサイズで、カード内やモーダル内での使用に最適です。",
       },
     },
   },
@@ -217,7 +214,8 @@ export const Large: Story = {
   parameters: {
     docs: {
       description: {
-        story: "大サイズのスピナー。ページ全体のローディングや重要な処理実行時に使用します。",
+        story:
+          "大サイズのスピナー。ページ全体のローディングや重要な処理実行時に使用します。",
       },
     },
   },
@@ -234,7 +232,8 @@ export const NoText: Story = {
   parameters: {
     docs: {
       description: {
-        story: "テキストを表示しないスピナー。スペースが限られている場合やミニマルなUIに適しています。",
+        story:
+          "テキストを表示しないスピナー。スペースが限られている場合やミニマルなUIに適しています。",
       },
     },
   },
@@ -252,7 +251,8 @@ export const FullScreen: Story = {
     layout: "fullscreen",
     docs: {
       description: {
-        story: "フルスクリーン表示モード。画面全体を覆うオーバーレイとして表示され、ページ全体のローディング状態を表現します。",
+        story:
+          "フルスクリーン表示モード。画面全体を覆うオーバーレイとして表示され、ページ全体のローディング状態を表現します。",
       },
     },
   },
@@ -271,7 +271,8 @@ export const InCard: Story = {
   parameters: {
     docs: {
       description: {
-        story: "カード内でのローディング表示例。コンテンツ領域内でデータ取得中であることを示します。",
+        story:
+          "カード内でのローディング表示例。コンテンツ領域内でデータ取得中であることを示します。",
       },
     },
   },

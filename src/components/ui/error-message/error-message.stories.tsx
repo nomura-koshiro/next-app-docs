@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
+
 import { ErrorMessage } from "./error-message";
 
 /**
@@ -110,14 +111,6 @@ const meta = {
         category: "レイアウト",
       },
     },
-    className: {
-      control: "text",
-      description: "追加のCSSクラス名",
-      table: {
-        type: { summary: "string" },
-        category: "スタイリング",
-      },
-    },
   },
 } satisfies Meta<typeof ErrorMessage>;
 
@@ -135,7 +128,8 @@ export const Default: Story = {
   parameters: {
     docs: {
       description: {
-        story: "最も基本的なエラーメッセージ。デフォルトのタイトルと指定されたメッセージを表示します。",
+        story:
+          "最も基本的なエラーメッセージ。デフォルトのタイトルと指定されたメッセージを表示します。",
       },
     },
   },
@@ -153,12 +147,12 @@ export const CustomTitle: Story = {
   parameters: {
     docs: {
       description: {
-        story: "カスタムタイトルを設定したエラーメッセージ。エラーの種類をより明確に伝えることができます。",
+        story:
+          "カスタムタイトルを設定したエラーメッセージ。エラーの種類をより明確に伝えることができます。",
       },
     },
   },
 };
-
 
 /**
  * フルスクリーン (Storybookでは表示が制限されます)
@@ -173,7 +167,8 @@ export const FullScreen: Story = {
     layout: "fullscreen",
     docs: {
       description: {
-        story: "画面全体を使ってエラーを表示するモード。ページ全体のエラーや致命的なエラーの表示に使用します。",
+        story:
+          "画面全体を使ってエラーを表示するモード。ページ全体のエラーや致命的なエラーの表示に使用します。",
       },
     },
   },
@@ -206,7 +201,8 @@ export const InForm: Story = {
   parameters: {
     docs: {
       description: {
-        story: "フォーム内でバリデーションエラーを表示する実用的な例。入力フィールドの下にエラーメッセージを配置しています。",
+        story:
+          "フォーム内でバリデーションエラーを表示する実用的な例。入力フィールドの下にエラーメッセージを配置しています。",
       },
     },
   },

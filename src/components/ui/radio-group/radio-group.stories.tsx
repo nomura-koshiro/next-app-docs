@@ -1,6 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
-import { RadioGroup, RadioGroupItem } from "./radio-group";
+
 import { Label } from "@/components/ui/label";
+
+import { RadioGroup, RadioGroupItem } from "./radio-group";
 
 /**
  * RadioGroupコンポーネントのストーリー
@@ -160,7 +162,8 @@ export const Default: Story = {
   parameters: {
     docs: {
       description: {
-        story: "基本的なラジオボタングループ。複数の選択肢から一つを選択できます。",
+        story:
+          "基本的なラジオボタングループ。複数の選択肢から一つを選択できます。",
       },
     },
   },
@@ -211,7 +214,8 @@ export const WithDescription: Story = {
   parameters: {
     docs: {
       description: {
-        story: "各選択肢に説明文を追加した例。ユーザーが選択肢の内容を理解しやすくなります。",
+        story:
+          "各選択肢に説明文を追加した例。ユーザーが選択肢の内容を理解しやすくなります。",
       },
     },
   },
@@ -252,7 +256,8 @@ export const Gender: Story = {
   parameters: {
     docs: {
       description: {
-        story: "性別選択フォームの実用例。一部の選択肢のみに説明文を付けることも可能です。",
+        story:
+          "性別選択フォームの実用例。一部の選択肢のみに説明文を付けることも可能です。",
       },
     },
   },
@@ -303,7 +308,8 @@ export const PaymentMethod: Story = {
   parameters: {
     docs: {
       description: {
-        story: "ECサイトなどでの支払い方法選択の例。すべての選択肢に詳細な説明を付けています。",
+        story:
+          "ECサイトなどでの支払い方法選択の例。すべての選択肢に詳細な説明を付けています。",
       },
     },
   },
@@ -333,7 +339,8 @@ export const Disabled: Story = {
   parameters: {
     docs: {
       description: {
-        story: "無効化されたラジオボタングループ。ユーザーによる選択ができず、視覚的にもグレーアウト表示されます。",
+        story:
+          "無効化されたラジオボタングループ。ユーザーによる選択ができず、視覚的にもグレーアウト表示されます。",
       },
     },
   },

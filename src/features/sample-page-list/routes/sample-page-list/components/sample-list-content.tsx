@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { Card, CardHeader, CardContent } from "@/components/ui/card";
+
+import { Card, CardContent,CardHeader } from "@/components/ui/card";
 import type { SampleItem } from "@/features/sample-page-list/constants/samples";
 
 /**
@@ -7,7 +8,7 @@ import type { SampleItem } from "@/features/sample-page-list/constants/samples";
  */
 type SampleListContentProps = {
   samples: SampleItem[];
-}
+};
 
 /**
  * サンプル一覧のコンテンツ表示コンポーネント
@@ -90,4 +91,4 @@ export const SampleListContent = ({ samples }: SampleListContentProps) => {
       </div>
     </>
   );
-}
+};

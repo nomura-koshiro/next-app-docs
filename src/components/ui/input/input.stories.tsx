@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
+
 import { Input } from "./input";
 
 /**
@@ -153,7 +154,8 @@ export const Default: Story = {
   parameters: {
     docs: {
       description: {
-        story: "最も基本的なテキスト入力フィールド。type属性を指定しない場合は自動的にtextタイプになります。",
+        story:
+          "最も基本的なテキスト入力フィールド。type属性を指定しない場合は自動的にtextタイプになります。",
       },
     },
   },
@@ -171,7 +173,8 @@ export const Email: Story = {
   parameters: {
     docs: {
       description: {
-        story: "メールアドレス専用の入力フィールド。ブラウザの自動バリデーションとキーボード最適化が有効になります。",
+        story:
+          "メールアドレス専用の入力フィールド。ブラウザの自動バリデーションとキーボード最適化が有効になります。",
       },
     },
   },
@@ -189,7 +192,8 @@ export const Password: Story = {
   parameters: {
     docs: {
       description: {
-        story: "パスワード入力用のフィールド。入力内容が自動的にマスキングされます。",
+        story:
+          "パスワード入力用のフィールド。入力内容が自動的にマスキングされます。",
       },
     },
   },
@@ -207,7 +211,8 @@ export const Number: Story = {
   parameters: {
     docs: {
       description: {
-        story: "数値専用の入力フィールド。増減ボタンが表示され、数値以外の入力が制限されます。",
+        story:
+          "数値専用の入力フィールド。増減ボタンが表示され、数値以外の入力が制限されます。",
       },
     },
   },
@@ -225,7 +230,8 @@ export const Disabled: Story = {
   parameters: {
     docs: {
       description: {
-        story: "無効化された状態の入力フィールド。ユーザーによる編集ができず、視覚的にもグレーアウト表示されます。",
+        story:
+          "無効化された状態の入力フィールド。ユーザーによる編集ができず、視覚的にもグレーアウト表示されます。",
       },
     },
   },
@@ -242,7 +248,8 @@ export const WithDefaultValue: Story = {
   parameters: {
     docs: {
       description: {
-        story: "初期値が設定された入力フィールド。フォームの編集画面などで使用されます。",
+        story:
+          "初期値が設定された入力フィールド。フォームの編集画面などで使用されます。",
       },
     },
   },
@@ -264,7 +271,8 @@ export const WithLabel: Story = {
   parameters: {
     docs: {
       description: {
-        story: "ラベルと組み合わせた実用的な使用例。アクセシビリティのためlabelとidを関連付けています。",
+        story:
+          "ラベルと組み合わせた実用的な使用例。アクセシビリティのためlabelとidを関連付けています。",
       },
     },
   },
@@ -294,7 +302,8 @@ export const WithError: Story = {
   parameters: {
     docs: {
       description: {
-        story: "バリデーションエラー時の表示例。aria-invalid属性とエラーメッセージを組み合わせています。",
+        story:
+          "バリデーションエラー時の表示例。aria-invalid属性とエラーメッセージを組み合わせています。",
       },
     },
   },

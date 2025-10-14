@@ -6,7 +6,7 @@ export type SampleItem = {
   description: string;
   href: string;
   category: string;
-}
+};
 
 /**
  * サンプルページ一覧

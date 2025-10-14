@@ -1,12 +1,14 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { fn } from "@storybook/test";
-import { useForm, Control } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { LoginForm } from "./login";
+import { Control,useForm } from "react-hook-form";
+
 import {
   loginFormSchema,
   type LoginFormValues,
 } from "@/features/sample-auth/schemas/login-form.schema";
+
+import { LoginForm } from "./login";
 
 /**
  * LoginFormコンポーネントのストーリー
@@ -138,7 +140,8 @@ export const Default: Story = {
   parameters: {
     docs: {
       description: {
-        story: "ログインフォームの初期状態。メールアドレスとパスワードの入力フィールドが表示されます。",
+        story:
+          "ログインフォームの初期状態。メールアドレスとパスワードの入力フィールドが表示されます。",
       },
     },
   },
@@ -178,7 +181,8 @@ export const Loading: Story = {
   parameters: {
     docs: {
       description: {
-        story: "ログイン処理中の状態。送信ボタンが無効化され、ローディングインジケーターが表示されます。",
+        story:
+          "ログイン処理中の状態。送信ボタンが無効化され、ローディングインジケーターが表示されます。",
       },
     },
   },
@@ -226,7 +230,8 @@ export const WithError: Story = {
   parameters: {
     docs: {
       description: {
-        story: "ログイン失敗時の状態。エラーメッセージが表示され、ユーザーに認証情報の確認を促します。",
+        story:
+          "ログイン失敗時の状態。エラーメッセージが表示され、ユーザーに認証情報の確認を促します。",
       },
     },
   },

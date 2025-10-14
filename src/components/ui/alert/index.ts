@@ -3,4 +3,4 @@
  *
  * @module components/ui/alert
  */
-export { Alert, AlertTitle, AlertDescription } from "./alert";
+export { Alert, AlertDescription,AlertTitle } from "./alert";

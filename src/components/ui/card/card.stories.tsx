@@ -1,14 +1,16 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
+
+import { Button } from "@/components/ui/button";
+
 import {
   Card,
+  CardAction,
+  CardContent,
+  CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
-  CardDescription,
-  CardContent,
-  CardFooter,
-  CardAction,
 } from "./card";
-import { Button } from "@/components/ui/button";
 
 /**
  * Cardコンポーネントのストーリー
@@ -146,7 +148,8 @@ export const Default: Story = {
   parameters: {
     docs: {
       description: {
-        story: "基本的なカード構成。ヘッダー（タイトルと説明）とコンテンツで構成されています。",
+        story:
+          "基本的なカード構成。ヘッダー（タイトルと説明）とコンテンツで構成されています。",
       },
     },
   },
@@ -179,7 +182,8 @@ export const WithFooter: Story = {
   parameters: {
     docs: {
       description: {
-        story: "フッターセクションを持つカード。アクションボタン（保存、キャンセルなど）を配置するのに適しています。",
+        story:
+          "フッターセクションを持つカード。アクションボタン（保存、キャンセルなど）を配置するのに適しています。",
       },
     },
   },

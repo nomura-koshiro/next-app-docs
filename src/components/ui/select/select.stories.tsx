@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
+
 import {
   Select,
   SelectContent,
@@ -153,7 +154,8 @@ export const Default: Story = {
   parameters: {
     docs: {
       description: {
-        story: "基本的なセレクトコンポーネント。ドロップダウンメニューから選択肢を選べます。",
+        story:
+          "基本的なセレクトコンポーネント。ドロップダウンメニューから選択肢を選べます。",
       },
     },
   },
@@ -188,7 +190,8 @@ export const WithGroups: Story = {
   parameters: {
     docs: {
       description: {
-        story: "選択肢をグループ化して表示。カテゴリー別の選択肢を整理して表示する場合に便利です。",
+        story:
+          "選択肢をグループ化して表示。カテゴリー別の選択肢を整理して表示する場合に便利です。",
       },
     },
   },
@@ -247,7 +250,8 @@ export const WithLabel: Story = {
   parameters: {
     docs: {
       description: {
-        story: "ラベルと組み合わせた実用的な使用例。アクセシビリティのためlabelとidを関連付けています。",
+        story:
+          "ラベルと組み合わせた実用的な使用例。アクセシビリティのためlabelとidを関連付けています。",
       },
     },
   },
@@ -272,7 +276,8 @@ export const Disabled: Story = {
   parameters: {
     docs: {
       description: {
-        story: "無効化された状態のセレクト。ユーザーによる選択ができず、視覚的にもグレーアウト表示されます。",
+        story:
+          "無効化された状態のセレクト。ユーザーによる選択ができず、視覚的にもグレーアウト表示されます。",
       },
     },
   },
@@ -323,7 +328,8 @@ export const InForm: Story = {
   parameters: {
     docs: {
       description: {
-        story: "フォーム内での実用例。必須項目の表示や複数のセレクトフィールドの組み合わせを示しています。",
+        story:
+          "フォーム内での実用例。必須項目の表示や複数のセレクトフィールドの組み合わせを示しています。",
       },
     },
   },

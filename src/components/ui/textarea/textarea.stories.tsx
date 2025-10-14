@@ -1,7 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import * as React from "react";
-import { Textarea } from "./textarea";
+
 import { Label } from "@/components/ui/label";
+
+import { Textarea } from "./textarea";
 
 /**
  * Textareaコンポーネントのストーリー
@@ -158,7 +160,8 @@ export const Default: Story = {
   parameters: {
     docs: {
       description: {
-        story: "基本的な複数行テキスト入力エリア。ラベルと組み合わせて使用します。",
+        story:
+          "基本的な複数行テキスト入力エリア。ラベルと組み合わせて使用します。",
       },
     },
   },
@@ -181,7 +184,8 @@ export const WithValue: Story = {
   parameters: {
     docs: {
       description: {
-        story: "初期値が設定されたテキストエリア。プロフィール編集画面などで使用されます。",
+        story:
+          "初期値が設定されたテキストエリア。プロフィール編集画面などで使用されます。",
       },
     },
   },
@@ -206,7 +210,8 @@ export const Disabled: Story = {
   parameters: {
     docs: {
       description: {
-        story: "無効化された状態のテキストエリア。ユーザーによる編集ができず、視覚的にもグレーアウト表示されます。",
+        story:
+          "無効化された状態のテキストエリア。ユーザーによる編集ができず、視覚的にもグレーアウト表示されます。",
       },
     },
   },
@@ -230,7 +235,8 @@ export const WithRows: Story = {
   parameters: {
     docs: {
       description: {
-        story: "行数を指定したテキストエリア。長文の入力が必要な場合に、より広い入力スペースを提供します。",
+        story:
+          "行数を指定したテキストエリア。長文の入力が必要な場合に、より広い入力スペースを提供します。",
       },
     },
   },
@@ -264,7 +270,8 @@ export const WithCharacterCount: Story = {
   parameters: {
     docs: {
       description: {
-        story: "文字数カウンターを組み合わせた例。ユーザーに残りの入力可能文字数を明示的に表示します。",
+        story:
+          "文字数カウンターを組み合わせた例。ユーザーに残りの入力可能文字数を明示的に表示します。",
       },
     },
   },
@@ -295,7 +302,8 @@ export const WithError: Story = {
   parameters: {
     docs: {
       description: {
-        story: "バリデーションエラー時の表示例。エラー状態を視覚的に示し、エラーメッセージを表示します。",
+        story:
+          "バリデーションエラー時の表示例。エラー状態を視覚的に示し、エラーメッセージを表示します。",
       },
     },
   },
@@ -326,7 +334,8 @@ export const FeedbackForm: Story = {
   parameters: {
     docs: {
       description: {
-        story: "実用的なフィードバックフォームの例。必須マークとヘルプテキストを組み合わせた構成です。",
+        story:
+          "実用的なフィードバックフォームの例。必須マークとヘルプテキストを組み合わせた構成です。",
       },
     },
   },

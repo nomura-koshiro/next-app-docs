@@ -1,9 +1,10 @@
 "use client";
 
+import { PageHeader } from "@/components/layout/page-header";
+import { PageLayout } from "@/components/layout/page-layout";
 import { ErrorMessage } from "@/components/ui/error-message";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
-import { PageLayout } from "@/components/layout/page-layout";
-import { PageHeader } from "@/components/layout/page-header";
+
 import { DeleteUserConfirmation } from "./components/delete-user-confirmation";
 import { useDeleteUser } from "./delete-user.hook";
 

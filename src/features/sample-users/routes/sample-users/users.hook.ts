@@ -1,4 +1,5 @@
 import { useRouter } from "next/navigation";
+
 import { useUsers as useUsersQuery } from "@/features/sample-users";
 
 /**

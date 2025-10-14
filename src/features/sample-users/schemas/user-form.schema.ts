@@ -1,6 +1,7 @@
 import { z } from "zod";
-import { nameSchema } from "@/schemas/fields/name.schema";
+
 import { emailSchema } from "@/schemas/fields/email.schema";
+import { nameSchema } from "@/schemas/fields/name.schema";
 import { roleSchema } from "@/schemas/fields/role.schema";
 
 /**

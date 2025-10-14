@@ -3,8 +3,8 @@
  * date-fnsを使用した日付のフォーマットと解析
  */
 
-import { format, formatDistance, parseISO, isValid } from 'date-fns'
-import { ja } from 'date-fns/locale'
+import { format, formatDistance, isValid,parseISO } from "date-fns";
+import { ja } from "date-fns/locale";
 
 /**
  * 日付を指定されたフォーマットで文字列に変換
@@ -18,15 +18,15 @@ import { ja } from 'date-fns/locale'
  */
 export const formatDate = (
   date: Date | string | number,
-  formatString = 'yyyy/MM/dd'
+  formatString = "yyyy/MM/dd",
 ): string => {
-  const parsedDate = typeof date === 'string' ? parseISO(date) : new Date(date)
+  const parsedDate = typeof date === "string" ? parseISO(date) : new Date(date);
   if (!isValid(parsedDate)) {
-    return '無効な日付'
+    return "無効な日付";
   }
 
-  return format(parsedDate, formatString, { locale: ja })
-}
+  return format(parsedDate, formatString, { locale: ja });
+};
 
 /**
  * 日付を日本語形式でフォーマット
@@ -36,8 +36,8 @@ export const formatDate = (
  * formatDateJa(new Date()) // "2025年10月12日"
  */
 export const formatDateJa = (date: Date | string | number): string => {
-  return formatDate(date, 'yyyy年MM月dd日')
-}
+  return formatDate(date, "yyyy年MM月dd日");
+};
 
 /**
  * 日付を相対的な時間で表示（例: "3日前"）
@@ -48,13 +48,16 @@ export const formatDateJa = (date: Date | string | number): string => {
  * formatRelativeTime(new Date(Date.now() + 2 * 24 * 60 * 60 * 1000)) // "2日後"
  */
 export const formatRelativeTime = (date: Date | string | number): string => {
-  const parsedDate = typeof date === 'string' ? parseISO(date) : new Date(date)
+  const parsedDate = typeof date === "string" ? parseISO(date) : new Date(date);
   if (!isValid(parsedDate)) {
-    return '無効な日付'
+    return "無効な日付";
   }
 
-  return formatDistance(parsedDate, new Date(), { addSuffix: true, locale: ja })
-}
+  return formatDistance(parsedDate, new Date(), {
+    addSuffix: true,
+    locale: ja,
+  });
+};
 
 /**
  * ISO形式の文字列を日付オブジェクトに変換
@@ -65,7 +68,7 @@ export const formatRelativeTime = (date: Date | string | number): string => {
  * parseDate('invalid') // null
  */
 export const parseDate = (dateString: string): Date | null => {
-  const date = parseISO(dateString)
+  const date = parseISO(dateString);
 
-  return isValid(date) ? date : null
-}
+  return isValid(date) ? date : null;
+};

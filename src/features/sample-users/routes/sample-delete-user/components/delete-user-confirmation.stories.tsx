@@ -1,7 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { fn } from "@storybook/test";
-import { DeleteUserConfirmation } from "./delete-user-confirmation";
+
 import type { User } from "@/features/sample-users/types";
+
+import { DeleteUserConfirmation } from "./delete-user-confirmation";
 
 /**
  * DeleteUserConfirmationコンポーネントのストーリー
@@ -24,7 +26,8 @@ const meta = {
   // ================================================================================
   // Storybookのナビゲーション階層
   // ================================================================================
-  title: "features/sample-users/routes/sample-delete-user/components/DeleteUserConfirmation",
+  title:
+    "features/sample-users/routes/sample-delete-user/components/DeleteUserConfirmation",
 
   // ================================================================================
   // 表示するコンポーネント
@@ -103,12 +106,12 @@ export const Default: Story = {
   args: {
     user: mockUser,
     isDeleting: false,
-    deleteError: null,
   },
   parameters: {
     docs: {
       description: {
-        story: "ユーザー削除確認の初期状態。削除対象のユーザー情報が表示され、削除またはキャンセルを選択できます。",
+        story:
+          "ユーザー削除確認の初期状態。削除対象のユーザー情報が表示され、削除またはキャンセルを選択できます。",
       },
     },
   },
@@ -123,12 +126,12 @@ export const Deleting: Story = {
   args: {
     user: mockUser,
     isDeleting: true,
-    deleteError: null,
   },
   parameters: {
     docs: {
       description: {
-        story: "削除処理中の状態。ボタンが無効化され、ローディングインジケーターが表示されます。",
+        story:
+          "削除処理中の状態。ボタンが無効化され、ローディングインジケーターが表示されます。",
       },
     },
   },
@@ -143,12 +146,12 @@ export const WithError: Story = {
   args: {
     user: mockUser,
     isDeleting: false,
-    deleteError: "ユーザーの削除に失敗しました",
   },
   parameters: {
     docs: {
       description: {
-        story: "削除に失敗した場合の状態。エラーメッセージが表示され、再度削除を試みることができます。",
+        story:
+          "削除に失敗した場合の状態。エラーメッセージが表示され、再度削除を試みることができます。",
       },
     },
   },

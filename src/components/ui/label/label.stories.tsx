@@ -1,6 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
-import { Label } from "./label";
+
 import { Input } from "@/components/ui/input";
+
+import { Label } from "./label";
 
 /**
  * Labelコンポーネントのストーリー
@@ -136,7 +138,8 @@ export const Default: Story = {
   parameters: {
     docs: {
       description: {
-        story: "基本的なラベル表示。単独で使用されることは少なく、通常は入力フィールドと組み合わせます。",
+        story:
+          "基本的なラベル表示。単独で使用されることは少なく、通常は入力フィールドと組み合わせます。",
       },
     },
   },
@@ -156,7 +159,8 @@ export const WithInput: Story = {
   parameters: {
     docs: {
       description: {
-        story: "入力フィールドと組み合わせた実用的な使用例。htmlForとidを関連付けることでアクセシビリティが向上します。",
+        story:
+          "入力フィールドと組み合わせた実用的な使用例。htmlForとidを関連付けることでアクセシビリティが向上します。",
       },
     },
   },
@@ -179,7 +183,8 @@ export const Required: Story = {
   parameters: {
     docs: {
       description: {
-        story: "必須フィールドであることを示すアスタリスク（*）付きのラベル。赤色で視覚的に強調します。",
+        story:
+          "必須フィールドであることを示すアスタリスク（*）付きのラベル。赤色で視覚的に強調します。",
       },
     },
   },

@@ -1,6 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
-import { Checkbox } from "./checkbox";
+
 import { Label } from "@/components/ui/label";
+
+import { Checkbox } from "./checkbox";
 
 /**
  * Checkboxコンポーネントのストーリー
@@ -167,7 +169,8 @@ export const Checked: Story = {
   parameters: {
     docs: {
       description: {
-        story: "初期状態がチェック済みのチェックボックス。デフォルトで選択状態にしたい項目に使用します。",
+        story:
+          "初期状態がチェック済みのチェックボックス。デフォルトで選択状態にしたい項目に使用します。",
       },
     },
   },
@@ -189,7 +192,8 @@ export const Disabled: Story = {
   parameters: {
     docs: {
       description: {
-        story: "無効化されたチェックボックス。ユーザーによる操作ができず、視覚的にもグレーアウト表示されます。",
+        story:
+          "無効化されたチェックボックス。ユーザーによる操作ができず、視覚的にもグレーアウト表示されます。",
       },
     },
   },
@@ -211,7 +215,8 @@ export const DisabledAndChecked: Story = {
   parameters: {
     docs: {
       description: {
-        story: "無効化されているが、チェック済みの状態を示すチェックボックス。変更できない選択済み項目を表示する際に使用します。",
+        story:
+          "無効化されているが、チェック済みの状態を示すチェックボックス。変更できない選択済み項目を表示する際に使用します。",
       },
     },
   },
@@ -238,7 +243,8 @@ export const WithDescription: Story = {
   parameters: {
     docs: {
       description: {
-        story: "説明文を追加したチェックボックス。ユーザーが選択肢の内容を理解しやすくなります。",
+        story:
+          "説明文を追加したチェックボックス。ユーザーが選択肢の内容を理解しやすくなります。",
       },
     },
   },
@@ -274,7 +280,8 @@ export const MultipleCheckboxes: Story = {
   parameters: {
     docs: {
       description: {
-        story: "複数のチェックボックスをグループ化した例。フィルター条件の選択や興味のある項目の複数選択に使用します。",
+        story:
+          "複数のチェックボックスをグループ化した例。フィルター条件の選択や興味のある項目の複数選択に使用します。",
       },
     },
   },

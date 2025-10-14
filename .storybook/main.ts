@@ -16,7 +16,7 @@ const config: StorybookConfig = {
     "options": {}
   },
   "staticDirs": [
-    "..\\public"
+    "../public"
   ],
   async viteFinal(config) {
     // Storybook用の環境変数を追加

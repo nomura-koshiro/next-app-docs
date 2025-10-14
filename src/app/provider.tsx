@@ -6,8 +6,8 @@ import * as React from "react";
 import { ErrorBoundary } from "react-error-boundary";
 
 import { MainErrorFallback } from "@/components/errors/main";
-import { queryConfig } from "@/lib/tanstack-query";
 import { MSWProvider } from "@/lib/msw";
+import { queryConfig } from "@/lib/tanstack-query";
 
 type AppProviderProps = {
   children: React.ReactNode;

@@ -1,8 +1,9 @@
-import { use } from "react";
 import { useRouter } from "next/navigation";
+import { use } from "react";
+
 import {
-  useUser,
   useDeleteUser as useDeleteUserMutation,
+  useUser,
 } from "@/features/sample-users";
 
 /**

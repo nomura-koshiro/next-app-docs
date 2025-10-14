@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { expect, within } from "@storybook/test";
-import { http, HttpResponse, delay } from "msw";
+import { delay,http, HttpResponse } from "msw";
+
 import UsersPage from "./users";
 
 const meta = {
@@ -156,4 +157,3 @@ export const ManyUsers: Story = {
     expect(userNames.length).toBeGreaterThan(10);
   },
 };
-

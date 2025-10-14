@@ -1,6 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
-import { PageHeader } from "./page-header";
+
 import { Button } from "@/components/ui/button";
+
+import { PageHeader } from "./page-header";
 
 /**
  * PageHeaderコンポーネントのストーリー
@@ -114,14 +116,6 @@ const meta = {
         category: "コンテンツ",
       },
     },
-    className: {
-      control: "text",
-      description: "追加のCSSクラス名",
-      table: {
-        type: { summary: "string" },
-        category: "スタイリング",
-      },
-    },
   },
 } satisfies Meta<typeof PageHeader>;
 
@@ -157,7 +151,8 @@ export const WithDescription: Story = {
   parameters: {
     docs: {
       description: {
-        story: "タイトルと説明文を組み合わせた構成。ページの目的をより明確に伝えることができます。",
+        story:
+          "タイトルと説明文を組み合わせた構成。ページの目的をより明確に伝えることができます。",
       },
     },
   },
@@ -176,7 +171,8 @@ export const WithAction: Story = {
   parameters: {
     docs: {
       description: {
-        story: "アクションボタンを配置したページヘッダー。新規作成などの主要なアクションを配置するのに適しています。",
+        story:
+          "アクションボタンを配置したページヘッダー。新規作成などの主要なアクションを配置するのに適しています。",
       },
     },
   },
@@ -206,7 +202,8 @@ export const MultipleActions: Story = {
   parameters: {
     docs: {
       description: {
-        story: "複数のアクションボタンを配置した例。編集フォームなどで保存とキャンセルのボタンを並べる場合に使用します。",
+        story:
+          "複数のアクションボタンを配置した例。編集フォームなどで保存とキャンセルのボタンを並べる場合に使用します。",
       },
     },
   },
@@ -225,7 +222,8 @@ export const LongText: Story = {
   parameters: {
     docs: {
       description: {
-        story: "長いタイトルと説明文の表示例。テキストの折り返しやレイアウトの確認に使用します。",
+        story:
+          "長いタイトルと説明文の表示例。テキストの折り返しやレイアウトの確認に使用します。",
       },
     },
   },

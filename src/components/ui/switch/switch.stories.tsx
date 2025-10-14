@@ -1,6 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
-import { Switch } from "./switch";
+
 import { Label } from "@/components/ui/label";
+
+import { Switch } from "./switch";
 
 /**
  * Switchコンポーネントのストーリー
@@ -145,7 +147,8 @@ export const Default: Story = {
   parameters: {
     docs: {
       description: {
-        story: "基本的なスイッチコンポーネント。ラベルと組み合わせて使用します。",
+        story:
+          "基本的なスイッチコンポーネント。ラベルと組み合わせて使用します。",
       },
     },
   },
@@ -167,7 +170,8 @@ export const Checked: Story = {
   parameters: {
     docs: {
       description: {
-        story: "初期状態がオンになっているスイッチ。デフォルトで有効にしたい機能に使用します。",
+        story:
+          "初期状態がオンになっているスイッチ。デフォルトで有効にしたい機能に使用します。",
       },
     },
   },
@@ -189,7 +193,8 @@ export const Disabled: Story = {
   parameters: {
     docs: {
       description: {
-        story: "無効化されたスイッチ。ユーザーによる操作ができず、視覚的にもグレーアウト表示されます。",
+        story:
+          "無効化されたスイッチ。ユーザーによる操作ができず、視覚的にもグレーアウト表示されます。",
       },
     },
   },
@@ -211,7 +216,8 @@ export const DisabledAndChecked: Story = {
   parameters: {
     docs: {
       description: {
-        story: "無効化されているが、オンの状態を示すスイッチ。変更できない設定を表示する際に使用します。",
+        story:
+          "無効化されているが、オンの状態を示すスイッチ。変更できない設定を表示する際に使用します。",
       },
     },
   },
@@ -238,7 +244,8 @@ export const WithDescription: Story = {
   parameters: {
     docs: {
       description: {
-        story: "説明文を追加したスイッチ。ユーザーが設定の内容を理解しやすくなります。",
+        story:
+          "説明文を追加したスイッチ。ユーザーが設定の内容を理解しやすくなります。",
       },
     },
   },
@@ -289,7 +296,8 @@ export const SettingsGroup: Story = {
   parameters: {
     docs: {
       description: {
-        story: "複数のスイッチをグループ化した設定画面の例。各スイッチに説明文が付いています。",
+        story:
+          "複数のスイッチをグループ化した設定画面の例。各スイッチに説明文が付いています。",
       },
     },
   },
@@ -316,7 +324,8 @@ export const DarkMode: Story = {
   parameters: {
     docs: {
       description: {
-        story: "ダークモード切り替えの実用例。テーマ切り替え機能などで使用されます。",
+        story:
+          "ダークモード切り替えの実用例。テーマ切り替え機能などで使用されます。",
       },
     },
   },
@@ -367,7 +376,8 @@ export const PrivacySettings: Story = {
   parameters: {
     docs: {
       description: {
-        story: "プライバシー設定画面の例。複数のプライバシー関連設定をスイッチで管理します。",
+        story:
+          "プライバシー設定画面の例。複数のプライバシー関連設定をスイッチで管理します。",
       },
     },
   },

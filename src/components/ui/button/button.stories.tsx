@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
+
 import { Button } from "./button";
 
 /**
@@ -193,7 +194,8 @@ export const Destructive: Story = {
   parameters: {
     docs: {
       description: {
-        story: "削除やデータの破棄など、取り返しのつかないアクションに使用します。赤色で警告を示します。",
+        story:
+          "削除やデータの破棄など、取り返しのつかないアクションに使用します。赤色で警告を示します。",
       },
     },
   },
@@ -288,7 +290,8 @@ export const Disabled: Story = {
   parameters: {
     docs: {
       description: {
-        story: "無効化された状態のボタン。クリックできず、視覚的にグレーアウト表示されます。",
+        story:
+          "無効化された状態のボタン。クリックできず、視覚的にグレーアウト表示されます。",
       },
     },
   },

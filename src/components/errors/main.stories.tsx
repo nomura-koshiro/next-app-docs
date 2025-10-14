@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
+
 import { MainErrorFallback } from "./main";
 
 /**
@@ -39,7 +40,7 @@ const meta = {
           "**主な機能:**\n" +
           "- エラー発生の通知\n" +
           "- ユーザーへのメッセージ表示\n" +
-          "- アクセシビリティ対応（role=\"alert\"）\n" +
+          '- アクセシビリティ対応（role="alert"）\n' +
           "- フルスクリーン表示\n\n" +
           "**使用場面:**\n" +
           "- アプリケーション全体のエラーハンドリング\n" +
@@ -82,7 +83,8 @@ export const Default: Story = {
   parameters: {
     docs: {
       description: {
-        story: "アプリケーションで致命的なエラーが発生した際に表示されるフォールバックUI。ユーザーにエラーが発生したことを通知し、適切な対応を促します。",
+        story:
+          "アプリケーションで致命的なエラーが発生した際に表示されるフォールバックUI。ユーザーにエラーが発生したことを通知し、適切な対応を促します。",
       },
     },
   },

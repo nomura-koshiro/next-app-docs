@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { expect, userEvent, within } from "@storybook/test";
-import { http, HttpResponse, delay } from "msw";
+import { delay,http, HttpResponse } from "msw";
+
 import LoginPage from "./login";
 
 /**
@@ -110,7 +111,8 @@ export const Default: Story = {
   parameters: {
     docs: {
       description: {
-        story: "ログインページの初期状態。メールアドレスとパスワードの入力フォームが表示されます。",
+        story:
+          "ログインページの初期状態。メールアドレスとパスワードの入力フォームが表示されます。",
       },
     },
   },
@@ -150,10 +152,7 @@ export const WithError: Story = {
       canvas.getByLabelText(/メールアドレス/i),
       "user@example.com",
     );
-    await userEvent.type(
-      canvas.getByLabelText(/パスワード/i),
-      "wrongpassword",
-    );
+    await userEvent.type(canvas.getByLabelText(/パスワード/i), "wrongpassword");
 
     // 送信ボタンをクリック
     const submitButton = canvas.getByRole("button", { name: /ログイン/i });

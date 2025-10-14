@@ -3,6 +3,7 @@
  */
 
 import { http, HttpResponse } from "msw";
+
 import type { User } from "@/features/sample-users/types";
 
 // モックデータ

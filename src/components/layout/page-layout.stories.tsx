@@ -1,7 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
-import { PageLayout } from "./page-layout";
-import { PageHeader } from "./page-header";
+
 import { Button } from "@/components/ui/button";
+
+import { PageHeader } from "./page-header";
+import { PageLayout } from "./page-layout";
 
 /**
  * PageLayoutコンポーネントのストーリー
@@ -107,14 +109,6 @@ const meta = {
         category: "コンテンツ",
       },
     },
-    className: {
-      control: "text",
-      description: "追加のCSSクラス名",
-      table: {
-        type: { summary: "string" },
-        category: "スタイリング",
-      },
-    },
   },
 } satisfies Meta<typeof PageLayout>;
 
@@ -142,7 +136,8 @@ export const Default: Story = {
   parameters: {
     docs: {
       description: {
-        story: "最も基本的なページレイアウト。デフォルトの最大幅（6xl）でコンテンツが表示されます。",
+        story:
+          "最も基本的なページレイアウト。デフォルトの最大幅（6xl）でコンテンツが表示されます。",
       },
     },
   },
@@ -170,7 +165,8 @@ export const WithHeader: Story = {
   parameters: {
     docs: {
       description: {
-        story: "PageHeaderを組み合わせた実用的な例。ヘッダーとコンテンツが適切に配置されます。",
+        story:
+          "PageHeaderを組み合わせた実用的な例。ヘッダーとコンテンツが適切に配置されます。",
       },
     },
   },
@@ -199,7 +195,8 @@ export const WithActionHeader: Story = {
   parameters: {
     docs: {
       description: {
-        story: "アクションボタン付きヘッダーを持つページレイアウト。一覧ページでよく使われる構成です。",
+        story:
+          "アクションボタン付きヘッダーを持つページレイアウト。一覧ページでよく使われる構成です。",
       },
     },
   },
@@ -225,7 +222,8 @@ export const WithWidth: Story = {
   parameters: {
     docs: {
       description: {
-        story: "最大幅を指定したレイアウト。フォームや詳細ページなど、幅を狭めたい場合に使用します。",
+        story:
+          "最大幅を指定したレイアウト。フォームや詳細ページなど、幅を狭めたい場合に使用します。",
       },
     },
   },
@@ -251,7 +249,8 @@ export const FullWidth: Story = {
   parameters: {
     docs: {
       description: {
-        story: "最大幅制限なしのフルワイドレイアウト。ダッシュボードや複雑なUIを持つページに適しています。",
+        story:
+          "最大幅制限なしのフルワイドレイアウト。ダッシュボードや複雑なUIを持つページに適しています。",
       },
     },
   },
@@ -295,7 +294,8 @@ export const MultipleSections: Story = {
   parameters: {
     docs: {
       description: {
-        story: "複数のセクションを持つページレイアウトの例。ダッシュボードのような複雑なページ構成を実現します。",
+        story:
+          "複数のセクションを持つページレイアウトの例。ダッシュボードのような複雑なページ構成を実現します。",
       },
     },
   },

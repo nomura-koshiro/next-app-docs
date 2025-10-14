@@ -1,8 +1,9 @@
 "use client";
 
+import { useEffect } from "react";
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { useEffect } from "react";
 
 type ErrorProps = {
   error: Error & { digest?: string };

@@ -1,5 +1,6 @@
 import { useId } from "react";
 import { Control, FieldErrors } from "react-hook-form";
+
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -8,8 +9,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { ControlledInputField } from "@/components/ui/form-field/controlled-form-field";
 import { ErrorMessage } from "@/components/ui/error-message";
+import { ControlledInputField } from "@/components/ui/form-field/controlled-form-field";
 import { LoginFormValues } from "@/features/sample-auth/schemas/login-form.schema";
 
 type LoginFormProps = {
@@ -49,8 +50,12 @@ export const LoginForm = ({
   idPrefix = "",
 }: LoginFormProps) => {
   const uniqueId = useId();
-  const emailId = idPrefix ? `${idPrefix}-email-${uniqueId}` : `email-${uniqueId}`;
-  const passwordId = idPrefix ? `${idPrefix}-password-${uniqueId}` : `password-${uniqueId}`;
+  const emailId = idPrefix
+    ? `${idPrefix}-email-${uniqueId}`
+    : `email-${uniqueId}`;
+  const passwordId = idPrefix
+    ? `${idPrefix}-password-${uniqueId}`
+    : `password-${uniqueId}`;
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-50">
@@ -85,7 +90,11 @@ export const LoginForm = ({
               />
             </div>
 
-            {errors.root && <ErrorMessage message={errors.root.message} />}
+            {errors.root && (
+              <ErrorMessage
+                message={errors.root.message ?? "エラーが発生しました"}
+              />
+            )}
 
             <Button type="submit" className="w-full" disabled={isSubmitting}>
               {isSubmitting ? "ログイン中..." : "ログイン"}

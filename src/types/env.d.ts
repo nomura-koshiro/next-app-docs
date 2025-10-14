@@ -7,7 +7,7 @@
  * @see https://nextjs.org/docs/app/building-your-application/configuring/environment-variables
  */
 
-/* eslint-disable @typescript-eslint/no-unused-vars */
+ 
 /* eslint-disable @typescript-eslint/consistent-type-definitions */
 
 declare namespace NodeJS {

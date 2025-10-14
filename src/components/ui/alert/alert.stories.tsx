@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
-import { Alert, AlertDescription, AlertTitle } from "./alert";
 import { AlertCircle, CheckCircle, Info } from "lucide-react";
+
+import { Alert, AlertDescription, AlertTitle } from "./alert";
 
 /**
  * Alertコンポーネントのストーリー
@@ -131,7 +132,8 @@ export const Default: Story = {
   parameters: {
     docs: {
       description: {
-        story: "一般的な情報メッセージを表示する際に使用します。アイコン、タイトル、説明文の組み合わせ。",
+        story:
+          "一般的な情報メッセージを表示する際に使用します。アイコン、タイトル、説明文の組み合わせ。",
       },
     },
   },
@@ -154,7 +156,8 @@ export const Destructive: Story = {
   parameters: {
     docs: {
       description: {
-        story: "エラーや警告など、ユーザーの注意を引く必要がある重要なメッセージに使用します。赤色で強調表示されます。",
+        story:
+          "エラーや警告など、ユーザーの注意を引く必要がある重要なメッセージに使用します。赤色で強調表示されます。",
       },
     },
   },
@@ -212,4 +215,3 @@ export const WithoutIcon: Story = {
     </Alert>
   ),
 };
-

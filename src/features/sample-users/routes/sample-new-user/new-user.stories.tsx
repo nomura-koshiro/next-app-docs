@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { expect, userEvent, within } from "@storybook/test";
-import { http, HttpResponse, delay } from "msw";
+import { delay,http, HttpResponse } from "msw";
+
 import NewUserPage from "./new-user";
 
 /**
@@ -103,7 +104,8 @@ export const WithError: Story = {
   parameters: {
     docs: {
       description: {
-        story: "API呼び出しが失敗した場合の状態。MSWを使用してエラーレスポンスをシミュレートし、エラーメッセージが表示されることを確認します。",
+        story:
+          "API呼び出しが失敗した場合の状態。MSWを使用してエラーレスポンスをシミュレートし、エラーメッセージが表示されることを確認します。",
       },
     },
     msw: {
@@ -139,4 +141,3 @@ export const WithError: Story = {
     expect(errorMessage).toBeInTheDocument();
   },
 };
-

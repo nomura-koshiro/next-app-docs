@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { expect, within } from "@storybook/test";
-import { http, HttpResponse, delay } from "msw";
+import { delay,http, HttpResponse } from "msw";
+
 import DeleteUserPage from "./delete-user";
 
 /**
@@ -93,7 +94,8 @@ export const Default: Story = {
   parameters: {
     docs: {
       description: {
-        story: "ユーザー削除確認ページの初期状態。削除対象のユーザー情報が表示され、削除の確認を求めます。",
+        story:
+          "ユーザー削除確認ページの初期状態。削除対象のユーザー情報が表示され、削除の確認を求めます。",
       },
     },
   },
@@ -111,7 +113,8 @@ export const Loading: Story = {
   parameters: {
     docs: {
       description: {
-        story: "ユーザーデータの読み込み中の状態。ローディングスピナーが表示されます。",
+        story:
+          "ユーザーデータの読み込み中の状態。ローディングスピナーが表示されます。",
       },
     },
     msw: {
@@ -152,7 +155,8 @@ export const WithError: Story = {
   parameters: {
     docs: {
       description: {
-        story: "ユーザーデータの読み込みに失敗した場合の状態。存在しないIDを指定するとエラーメッセージが表示されます。",
+        story:
+          "ユーザーデータの読み込みに失敗した場合の状態。存在しないIDを指定するとエラーメッセージが表示されます。",
       },
     },
     msw: {

@@ -1,7 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
-import { FormField, InputField, SelectField } from "./form-field";
-import { Input } from "@/components/ui/input";
 import { useState } from "react";
+
+import { Input } from "@/components/ui/input";
+
+import { FormField, InputField, SelectField } from "./form-field";
 
 /**
  * FormFieldコンポーネントのストーリー
@@ -130,14 +132,6 @@ const meta = {
         category: "コンテンツ",
       },
     },
-    className: {
-      control: "text",
-      description: "追加のCSSクラス名",
-      table: {
-        type: { summary: "string" },
-        category: "スタイリング",
-      },
-    },
   },
 } satisfies Meta<typeof FormField>;
 
@@ -162,7 +156,8 @@ export const Default: Story = {
   parameters: {
     docs: {
       description: {
-        story: "最も基本的なフォームフィールド。ラベルと入力フィールドを組み合わせた構成です。",
+        story:
+          "最も基本的なフォームフィールド。ラベルと入力フィールドを組み合わせた構成です。",
       },
     },
   },
@@ -187,7 +182,8 @@ export const Required: Story = {
   parameters: {
     docs: {
       description: {
-        story: "必須フィールドの例。ラベルに赤いアスタリスクが表示され、ユーザーに必須入力であることを示します。",
+        story:
+          "必須フィールドの例。ラベルに赤いアスタリスクが表示され、ユーザーに必須入力であることを示します。",
       },
     },
   },
@@ -220,7 +216,8 @@ export const WithError: Story = {
   parameters: {
     docs: {
       description: {
-        story: "バリデーションエラーがある状態のフィールド。エラーメッセージが赤色で表示されます。",
+        story:
+          "バリデーションエラーがある状態のフィールド。エラーメッセージが赤色で表示されます。",
       },
     },
   },
@@ -253,7 +250,8 @@ export const InputFieldExample: Story = {
   parameters: {
     docs: {
       description: {
-        story: "InputFieldは、FormFieldとInputを組み合わせた便利なコンポーネント。状態管理が組み込まれています。",
+        story:
+          "InputFieldは、FormFieldとInputを組み合わせた便利なコンポーネント。状態管理が組み込まれています。",
       },
     },
   },
@@ -290,7 +288,8 @@ export const SelectFieldExample: Story = {
   parameters: {
     docs: {
       description: {
-        story: "SelectFieldは、FormFieldとSelectを組み合わせた便利なコンポーネント。選択肢から1つを選ぶ入力に使用します。",
+        story:
+          "SelectFieldは、FormFieldとSelectを組み合わせた便利なコンポーネント。選択肢から1つを選ぶ入力に使用します。",
       },
     },
   },
@@ -347,7 +346,8 @@ export const CompleteForm: Story = {
   parameters: {
     docs: {
       description: {
-        story: "複数のフィールドを組み合わせた実用的なフォームの例。すべてのフィールドが統一されたスタイルで表示されます。",
+        story:
+          "複数のフィールドを組み合わせた実用的なフォームの例。すべてのフィールドが統一されたスタイルで表示されます。",
       },
     },
   },
@@ -394,7 +394,8 @@ export const FormWithErrors: Story = {
   parameters: {
     docs: {
       description: {
-        story: "バリデーションエラーが発生している状態のフォーム。各フィールドにエラーメッセージが表示されています。",
+        story:
+          "バリデーションエラーが発生している状態のフォーム。各フィールドにエラーメッセージが表示されています。",
       },
     },
   },

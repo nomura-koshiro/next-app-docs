@@ -1,6 +1,11 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
+
+import {
+  type SampleItem,
+  SAMPLES,
+} from "@/features/sample-page-list/constants/samples";
+
 import { SampleListContent } from "./sample-list-content";
-import { SAMPLES, type SampleItem } from "@/features/sample-page-list/constants/samples";
 
 /**
  * SampleListContentコンポーネントのストーリー
@@ -17,7 +22,8 @@ const meta = {
   // ================================================================================
   // Storybookのナビゲーション階層
   // ================================================================================
-  title: "features/sample-page-list/routes/sample-page-list/components/SampleListContent",
+  title:
+    "features/sample-page-list/routes/sample-page-list/components/SampleListContent",
 
   // ================================================================================
   // 表示するコンポーネント
@@ -148,13 +154,15 @@ export const CustomSamples: Story = {
     samples: [
       {
         title: "カスタム機能 A",
-        description: "カスタム機能Aの説明。この機能は独自の実装例を提供します。",
+        description:
+          "カスタム機能Aの説明。この機能は独自の実装例を提供します。",
         href: "/custom-a",
         category: "カスタム",
       },
       {
         title: "カスタム機能 B",
-        description: "カスタム機能Bの説明。この機能も独自の実装例を提供します。",
+        description:
+          "カスタム機能Bの説明。この機能も独自の実装例を提供します。",
         href: "/custom-b",
         category: "カスタム",
       },

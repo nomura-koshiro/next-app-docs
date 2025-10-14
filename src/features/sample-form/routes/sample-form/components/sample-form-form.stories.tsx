@@ -1,12 +1,14 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { fn } from "@storybook/test";
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { SampleForm } from "./sample-form-form";
+
 import {
   sampleFormSchema,
   type SampleFormValues,
 } from "@/features/sample-form/schemas/sample-form.schema";
+
+import { SampleForm } from "./sample-form-form";
 
 /**
  * SampleFormコンポーネントのストーリー
@@ -161,13 +163,14 @@ export const Default: Story = {
  */
 export const Filled: Story = {
   name: "入力済み",
+  args: {},
   render: (args) => {
     const form = useForm<SampleFormValues>({
       resolver: zodResolver(sampleFormSchema),
       defaultValues: {
         username: "yamada_taro",
         email: "yamada@example.com",
-        age: 25,
+        age: "25",
         country: "jp",
         bio: "こんにちは、山田太郎です。Webエンジニアとして働いています。趣味はプログラミングと読書です。",
         terms: true,
@@ -210,13 +213,14 @@ export const Filled: Story = {
  */
 export const Submitting: Story = {
   name: "送信中",
+  args: {},
   render: (args) => {
     const form = useForm<SampleFormValues>({
       resolver: zodResolver(sampleFormSchema),
       defaultValues: {
         username: "yamada_taro",
         email: "yamada@example.com",
-        age: 25,
+        age: "25",
         country: "jp",
         bio: "こんにちは、山田太郎です。Webエンジニアとして働いています。趣味はプログラミングと読書です。",
         terms: true,

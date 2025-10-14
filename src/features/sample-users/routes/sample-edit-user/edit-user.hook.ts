@@ -1,8 +1,9 @@
-import { use, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useUser, useUpdateUser } from "@/features/sample-users";
+import { useRouter } from "next/navigation";
+import { use, useEffect } from "react";
+import { useForm } from "react-hook-form";
+
+import { useUpdateUser,useUser } from "@/features/sample-users";
 import {
   userFormSchema,
   type UserFormValues,
