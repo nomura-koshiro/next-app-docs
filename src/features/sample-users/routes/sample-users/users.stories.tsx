@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { expect, within } from "@storybook/test";
-import { delay,http, HttpResponse } from "msw";
+import { delay, http, HttpResponse } from "msw";
 
 import UsersPage from "./users";
 

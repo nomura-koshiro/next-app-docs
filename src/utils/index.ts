@@ -14,4 +14,4 @@ export {
 } from "./date";
 
 // フォーマット
-export { formatCurrency,formatNumber } from "./format";
+export { formatCurrency, formatNumber } from "./format";

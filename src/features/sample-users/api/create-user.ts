@@ -4,7 +4,7 @@ import { z } from "zod";
 import { api } from "@/lib/api-client";
 import { MutationConfig } from "@/lib/tanstack-query";
 
-import type { CreateUserInput,User } from "../types";
+import type { CreateUserInput, User } from "../types";
 
 // ================================================================================
 // Schemas

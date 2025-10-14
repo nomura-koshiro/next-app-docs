@@ -3,7 +3,7 @@
  * date-fnsを使用した日付のフォーマットと解析
  */
 
-import { format, formatDistance, isValid,parseISO } from "date-fns";
+import { format, formatDistance, isValid, parseISO } from "date-fns";
 import { ja } from "date-fns/locale";
 
 /**

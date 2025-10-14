@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { fn } from "@storybook/test";
-import { type Control,useForm } from "react-hook-form";
+import { type Control, useForm } from "react-hook-form";
 
 import {
   userFormSchema,

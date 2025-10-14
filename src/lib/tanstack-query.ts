@@ -1,4 +1,4 @@
-import { DefaultOptions,UseMutationOptions } from "@tanstack/react-query";
+import { DefaultOptions, UseMutationOptions } from "@tanstack/react-query";
 
 /**
  * React Query のデフォルト設定
