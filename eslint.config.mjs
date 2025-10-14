@@ -1,6 +1,8 @@
 // For more info, see https://github.com/storybookjs/eslint-plugin-storybook#configuration-flat-config-format
 import storybook from "eslint-plugin-storybook";
 import tanstackQuery from "@tanstack/eslint-plugin-query";
+import simpleImportSort from "eslint-plugin-simple-import-sort";
+import unusedImports from "eslint-plugin-unused-imports";
 // import tailwindcss from "eslint-plugin-tailwindcss"; // Tailwind CSS v4と互換性がないため一時的にコメントアウト
 
 import { dirname } from "path";
@@ -26,6 +28,10 @@ const eslintConfig = [
     "build/**",
     "next-env.d.ts",
   ],
+  plugins: {
+    "simple-import-sort": simpleImportSort,
+    "unused-imports": unusedImports,
+  },
   languageOptions: {
     parserOptions: {
       projectService: true,
@@ -49,13 +55,18 @@ const eslintConfig = [
       }
     ],
     // 未使用変数をエラー（_で始まる変数は除外）
-    "@typescript-eslint/no-unused-vars": [
+    "@typescript-eslint/no-unused-vars": "off", // unused-importsプラグインを使用
+    "unused-imports/no-unused-imports": "error",
+    "unused-imports/no-unused-vars": [
       "error",
       {
         "argsIgnorePattern": "^_",
         "varsIgnorePattern": "^_"
       }
     ],
+    // インポートの自動ソート
+    "simple-import-sort/imports": "error",
+    "simple-import-sort/exports": "error",
     // Promiseの誤用を防ぐ
     "@typescript-eslint/no-misused-promises": [
       "error",
