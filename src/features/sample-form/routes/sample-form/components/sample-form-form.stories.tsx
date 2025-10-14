@@ -114,7 +114,7 @@ type Story = StoryObj<typeof meta>;
  */
 export const Default: Story = {
   name: "デフォルト",
-  render: (args) => {
+  render: () => {
     const form = useForm<SampleFormValues>({
       resolver: zodResolver(sampleFormSchema),
       defaultValues: {
@@ -136,11 +136,11 @@ export const Default: Story = {
       <SampleForm
         control={form.control}
         onSubmit={form.handleSubmit((data) => {
-          args.onSubmit();
+          fn()();
           alert(JSON.stringify(data, null, 2));
         })}
         onReset={() => {
-          args.onReset();
+          fn()();
           form.reset();
         }}
         isSubmitting={false}
@@ -163,8 +163,7 @@ export const Default: Story = {
  */
 export const Filled: Story = {
   name: "入力済み",
-  args: {},
-  render: (args) => {
+  render: () => {
     const form = useForm<SampleFormValues>({
       resolver: zodResolver(sampleFormSchema),
       defaultValues: {
@@ -186,11 +185,11 @@ export const Filled: Story = {
       <SampleForm
         control={form.control}
         onSubmit={form.handleSubmit((data) => {
-          args.onSubmit();
+          fn()();
           alert(JSON.stringify(data, null, 2));
         })}
         onReset={() => {
-          args.onReset();
+          fn()();
           form.reset();
         }}
         isSubmitting={false}
@@ -213,8 +212,7 @@ export const Filled: Story = {
  */
 export const Submitting: Story = {
   name: "送信中",
-  args: {},
-  render: (args) => {
+  render: () => {
     const form = useForm<SampleFormValues>({
       resolver: zodResolver(sampleFormSchema),
       defaultValues: {
@@ -236,11 +234,11 @@ export const Submitting: Story = {
       <SampleForm
         control={form.control}
         onSubmit={form.handleSubmit((data) => {
-          args.onSubmit();
+          fn()();
           alert(JSON.stringify(data, null, 2));
         })}
         onReset={() => {
-          args.onReset();
+          fn()();
           form.reset();
         }}
         isSubmitting={true}
