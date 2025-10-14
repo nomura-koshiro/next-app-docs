@@ -80,14 +80,14 @@ const [activeTab, setActiveTab] = useState<'profile' | 'settings'>('profile')
 import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
 
-interface User {
+type User = {
   id: string
   email: string
   name: string
   role: string
 }
 
-interface AuthStore {
+type AuthStore = {
   user: User | null
   isAuthenticated: boolean
   isLoading: boolean

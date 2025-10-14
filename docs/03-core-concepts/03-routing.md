@@ -97,7 +97,7 @@ app/items/[id]/page.tsx  → /items/1, /items/2, ...
 
 ```typescript
 // app/items/[id]/page.tsx
-interface ItemPageProps {
+type ItemPageProps = {
   params: Promise<{ id: string }>
 }
 

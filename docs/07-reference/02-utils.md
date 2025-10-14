@@ -155,7 +155,7 @@ formatCurrency(1234.56, 'USD')  // "$1,234.56"
 ```typescript
 import { formatDate } from '@/utils'
 
-interface User {
+type User = {
   name: string
   createdAt: string
 }
@@ -175,7 +175,7 @@ export const UserProfile = ({ user }: { user: User }) => {
 ```typescript
 import { formatCurrency } from '@/utils'
 
-interface Product {
+type Product = {
   name: string
   price: number
 }
@@ -195,7 +195,7 @@ export const ProductCard = ({ product }: { product: Product }) => {
 ```typescript
 import { formatRelativeTime } from '@/utils'
 
-interface Post {
+type Post = {
   title: string
   createdAt: string
 }

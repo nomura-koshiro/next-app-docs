@@ -577,7 +577,7 @@ const createTestQueryClient = () =>
     },
   })
 
-interface CustomRenderOptions extends Omit<RenderOptions, 'wrapper'> {
+type CustomRenderOptions = Omit<RenderOptions, 'wrapper'> & {
   queryClient?: QueryClient
 }
 

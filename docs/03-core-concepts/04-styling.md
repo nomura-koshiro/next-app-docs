@@ -63,7 +63,7 @@ export const cn = (...inputs: ClassValue[]) => {
 ```typescript
 import { cn } from '@/utils/cn'
 
-interface ButtonProps {
+type ButtonProps = {
   variant?: 'primary' | 'secondary'
   className?: string
 }
@@ -113,9 +113,8 @@ const buttonVariants = cva('rounded-lg font-semibold transition-colors', {
   },
 })
 
-interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonVariants> {}
+type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> &
+  VariantProps<typeof buttonVariants>
 
 export const Button = ({ variant, size, className, ...props }: ButtonProps) => {
   return (
