@@ -38,6 +38,46 @@ export const queryConfig = {
 
 ## 型ユーティリティ
 
+### 型ユーティリティの関係図
+
+```mermaid
+graph TB
+    subgraph API["API関数"]
+        GetUser["getUser(userId: string)<br/>→ Promise&lt;User&gt;"]
+        CreateUser["createUser(data: CreateUserInput)<br/>→ Promise&lt;User&gt;"]
+    end
+
+    subgraph Types["型ユーティリティ"]
+        ApiFn["ApiFnReturnType&lt;typeof getUser&gt;<br/>→ User"]
+        QueryConf["QueryConfig&lt;typeof getUserQueryOptions&gt;<br/>→ staleTime?, enabled?, etc.<br/>(queryKey, queryFnは除外)"]
+        MutationConf["MutationConfig&lt;typeof createUser&gt;<br/>→ onSuccess?, onError?, etc."]
+    end
+
+    subgraph QueryOpts["クエリオプション"]
+        QueryOptions["getUserQueryOptions(userId)<br/>→ { queryKey, queryFn }"]
+    end
+
+    subgraph Hooks["カスタムフック"]
+        UseUser["useUser(userId, config?)"]
+        UseCreateUser["useCreateUser(config?)"]
+    end
+
+    GetUser -->|型抽出| ApiFn
+    GetUser --> QueryOptions
+    QueryOptions -->|型生成| QueryConf
+    QueryConf --> UseUser
+    UseUser -->|useSuspenseQuery| Result1[data: User]
+
+    CreateUser -->|型生成| MutationConf
+    MutationConf --> UseCreateUser
+    UseCreateUser -->|useMutation| Result2[mutate, mutateAsync]
+
+    style API fill:#e1f5ff
+    style Types fill:#fff4e6
+    style QueryOpts fill:#e8f5e9
+    style Hooks fill:#f3e5f5
+```
+
 ### 1. ApiFnReturnType
 
 API関数の戻り値の型を自動抽出します。
@@ -145,6 +185,54 @@ createUserMutation.mutate({
 
 ## プロバイダー設定
 
+### アプリケーション構成
+
+```mermaid
+graph TB
+    subgraph App["アプリケーションルート"]
+        Root[layout.tsx]
+    end
+
+    subgraph Provider["AppProvider"]
+        QueryClient["QueryClient<br/>defaultOptions: queryConfig"]
+        QCP["QueryClientProvider"]
+        Devtools["ReactQueryDevtools<br/>(開発環境のみ)"]
+    end
+
+    subgraph Config["設定 (lib/tanstack-query.ts)"]
+        DefaultOpts["queryConfig<br/>・refetchOnWindowFocus: false<br/>・retry: false<br/>・staleTime: 1分"]
+    end
+
+    subgraph Pages["ページコンポーネント"]
+        Page1[UsersPage]
+        Page2[UserDetailPage]
+        Page3[CreateUserPage]
+    end
+
+    subgraph Hooks["カスタムフック"]
+        Hook1[useUsers]
+        Hook2[useUser]
+        Hook3[useCreateUser]
+    end
+
+    Root --> Provider
+    DefaultOpts --> QueryClient
+    QueryClient --> QCP
+    QCP --> Pages
+    QCP --> Devtools
+    Page1 --> Hook1
+    Page2 --> Hook2
+    Page3 --> Hook3
+    Hook1 -.設定を継承.-> QueryClient
+    Hook2 -.設定を継承.-> QueryClient
+    Hook3 -.設定を継承.-> QueryClient
+
+    style Config fill:#fff4e6
+    style Provider fill:#e1f5ff
+    style Pages fill:#f3e5f5
+    style Hooks fill:#c8e6c9
+```
+
 ```typescript
 // src/app/provider.tsx
 'use client'
@@ -208,8 +296,174 @@ const { data } = useQuery({
 
 ---
 
+## Suspenseとの統合
+
+### API層にカスタムフックを含める
+
+TanStack Query v5では、Reactの`Suspense`と統合するために`useSuspenseQuery`フックを使用します。
+**重要**: bulletproof-reactの構造に従い、React QueryのカスタムフックもAPI層に含めます。
+
+**API層（`api/get-users.ts`）:**
+
+```typescript
+// src/features/sample-users/api/get-users.ts
+import { queryOptions, useSuspenseQuery } from '@tanstack/react-query'
+import { api } from '@/lib/api-client'
+import { QueryConfig } from '@/lib/tanstack-query'
+import type { User } from '../types'
+
+// 1. API関数
+export const getUsers = (): Promise<{ data: User[] }> => {
+  return api.get('/sample/users')
+}
+
+// 2. クエリオプション
+export const getUsersQueryOptions = () => {
+  return queryOptions({
+    queryKey: ['users'],
+    queryFn: getUsers,
+  })
+}
+
+// 3. カスタムフック
+type UseUsersOptions = {
+  queryConfig?: QueryConfig<typeof getUsersQueryOptions>
+}
+
+export const useUsers = ({ queryConfig }: UseUsersOptions = {}) => {
+  return useSuspenseQuery({
+    ...getUsersQueryOptions(),
+    ...queryConfig,
+  })
+}
+```
+
+**Hooks層（`routes/sample-users/users.hook.ts`）- 必要に応じて:**
+
+ページ固有のビジネスロジックを追加する場合のみ作成します。
+
+```typescript
+// src/features/sample-users/routes/sample-users/users.hook.ts
+import { useRouter } from 'next/navigation'
+import { useUsers as useUsersQuery } from '@/features/sample-users/api/get-users'
+
+export const useUsers = () => {
+  const router = useRouter()
+  const { data } = useUsersQuery()
+
+  const users = data?.data ?? []
+
+  const handleEdit = (userId: string) => {
+    router.push(`/sample-users/${userId}/edit`)
+  }
+
+  return {
+    users,
+    handleEdit,
+  }
+}
+```
+
+### コンポーネントでの使用
+
+**パターン1: API層のuseUsersを直接使用（シンプルなページ）**
+
+```typescript
+'use client'
+
+import { Suspense } from 'react'
+import { ErrorBoundary } from 'react-error-boundary'
+import { LoadingSpinner } from '@/components/ui/loading-spinner'
+import { MainErrorFallback } from '@/components/errors/main'
+import { useUsers } from '@/features/sample-users/api/get-users'
+
+// データフェッチを含むコンポーネント
+const UsersPageContent = () => {
+  const { data } = useUsers()  // isLoading, error は不要
+  const users = data?.data ?? []
+
+  return (
+    <div>
+      <h1>ユーザー一覧</h1>
+      <ul>
+        {users.map((user) => (
+          <li key={user.id}>{user.name}</li>
+        ))}
+      </ul>
+    </div>
+  )
+}
+
+// メインコンポーネント
+const UsersPage = () => {
+  return (
+    <ErrorBoundary FallbackComponent={MainErrorFallback}>
+      <Suspense fallback={<LoadingSpinner fullScreen />}>
+        <UsersPageContent />
+      </Suspense>
+    </ErrorBoundary>
+  )
+}
+
+export default UsersPage
+```
+
+**パターン2: routes層のuseUsersを使用（ビジネスロジックがある場合）**
+
+```typescript
+'use client'
+
+import { Suspense } from 'react'
+import { ErrorBoundary } from 'react-error-boundary'
+import { LoadingSpinner } from '@/components/ui/loading-spinner'
+import { MainErrorFallback } from '@/components/errors/main'
+import { useUsers } from './users.hook'
+
+// データフェッチを含むコンポーネント
+const UsersPageContent = () => {
+  const { users, handleEdit } = useUsers()  // isLoading, error は不要
+
+  return (
+    <div>
+      <h1>ユーザー一覧</h1>
+      <ul>
+        {users.map((user) => (
+          <li key={user.id}>
+            {user.name}
+            <button onClick={() => handleEdit(user.id)}>編集</button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  )
+}
+
+// メインコンポーネント
+const UsersPage = () => {
+  return (
+    <ErrorBoundary FallbackComponent={MainErrorFallback}>
+      <Suspense fallback={<LoadingSpinner fullScreen />}>
+        <UsersPageContent />
+      </Suspense>
+    </ErrorBoundary>
+  )
+}
+
+export default UsersPage
+```
+
+### Suspenseを使用する利点
+
+- **宣言的なローディング管理**: `isLoading`を手動でチェックする必要がない
+- **エラーハンドリングの統一**: `ErrorBoundary`で一元管理
+- **コードの簡潔化**: ローディングとエラー状態の分岐処理が不要
+- **Reactの標準パターン**: Reactの推奨パターンに従う
+
+---
+
 ## 参考リンク
 
 - [TanStack Query公式](https://tanstack.com/query/latest)
+- [TanStack Query - Suspense](https://tanstack.com/query/latest/docs/framework/react/guides/suspense)
 - [API統合](../04-development/05-api-integration.md)
 - [APIクライアント](./06-api-client.md)

@@ -1,7 +1,9 @@
 "use client";
 
+import { Suspense } from "react";
+import { ErrorBoundary } from "react-error-boundary";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
-import { ErrorMessage } from "@/components/ui/error-message";
+import { MainErrorFallback } from "@/components/errors/main";
 import { PageLayout } from "@/components/layout/page-layout";
 import { PageHeader } from "@/components/layout/page-header";
 import { UserForm } from "@/features/sample-users/components/user-form";
@@ -15,38 +17,15 @@ if (process.env.NODE_ENV === "development") {
 }
 
 /**
- * ユーザー編集ページ
+ * ユーザー編集ページのコンテンツ
  */
-export default function EditUserPage({
+const EditUserPageContent = ({
   params,
 }: {
   params: Promise<{ id: string }>;
-}) {
-  // ================================================================================
-  // Hooks
-  // ================================================================================
-  const {
-    control,
-    onSubmit,
-    handleCancel,
-    errors,
-    isSubmitting,
-    isLoading,
-    error,
-  } = useEditUser(params);
-
-  // ================================================================================
-  // Conditional Rendering
-  // ================================================================================
-  if (isLoading) {
-    return <LoadingSpinner fullScreen />;
-  }
-
-  if (error !== null) {
-    return (
-      <ErrorMessage message="ユーザーの読み込みに失敗しました" fullScreen />
-    );
-  }
+}) => {
+  const { control, onSubmit, handleCancel, errors, isSubmitting } =
+    useEditUser(params);
 
   return (
     <>
@@ -70,4 +49,21 @@ export default function EditUserPage({
       {process.env.NODE_ENV === "development" && <DevTool control={control} />}
     </>
   );
-}
+};
+
+/**
+ * ユーザー編集ページ
+ *
+ * TanStack QueryのSuspense機能を使用してデータフェッチを行います。
+ */
+const EditUserPage = ({ params }: { params: Promise<{ id: string }> }) => {
+  return (
+    <ErrorBoundary FallbackComponent={MainErrorFallback}>
+      <Suspense fallback={<LoadingSpinner fullScreen />}>
+        <EditUserPageContent params={params} />
+      </Suspense>
+    </ErrorBoundary>
+  );
+};
+
+export default EditUserPage;

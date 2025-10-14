@@ -23,15 +23,77 @@
 
 ## 使い分けフローチャート
 
-```text
-データを管理する必要がある
-    ↓
-サーバーから取得するデータ？
-    ↓ Yes → TanStack Query
-    ↓ No
-複数のコンポーネントで共有する？
-    ↓ Yes → Zustand
-    ↓ No → useState
+```mermaid
+flowchart TD
+    Start([データを管理する<br/>必要がある])
+    Start --> Q1{サーバーから<br/>取得するデータ?}
+
+    Q1 -->|Yes| TQ[TanStack Query]
+    Q1 -->|No| Q2{複数のコンポーネント<br/>で共有する?}
+
+    Q2 -->|Yes| Zustand[Zustand]
+    Q2 -->|No| UseState[useState]
+
+    TQ --> TQEx[例: ユーザー一覧<br/>商品データ<br/>通知情報]
+    Zustand --> ZustandEx[例: 認証情報<br/>テーマ設定<br/>サイドバー状態]
+    UseState --> UseStateEx[例: モーダル開閉<br/>フォーム入力値<br/>タブ選択状態]
+
+    style TQ fill:#e1f5ff
+    style Zustand fill:#fff4e6
+    style UseState fill:#c8e6c9
+    style TQEx fill:#e1f5ff
+    style ZustandEx fill:#fff4e6
+    style UseStateEx fill:#c8e6c9
+```
+
+### 状態管理の全体像
+
+```mermaid
+graph TB
+    subgraph Server["サーバーサイド"]
+        API[Backend API]
+    end
+
+    subgraph Client["クライアントサイド"]
+        subgraph TQ["TanStack Query<br/>サーバーステート"]
+            Cache[キャッシュ管理]
+            Refetch[自動再取得]
+            Optimistic[楽観的更新]
+        end
+
+        subgraph Zustand["Zustand<br/>グローバルステート"]
+            Auth[認証情報]
+            Theme[テーマ設定]
+            UI[UI状態]
+            Storage[LocalStorage<br/>永続化]
+        end
+
+        subgraph Local["useState<br/>ローカルステート"]
+            Modal[モーダル状態]
+            Form[フォーム入力]
+            Tab[タブ選択]
+        end
+
+        subgraph Components["コンポーネント"]
+            CompA[Component A]
+            CompB[Component B]
+            CompC[Component C]
+        end
+    end
+
+    API <-->|HTTP| TQ
+    TQ --> CompA
+    TQ --> CompB
+    Zustand --> CompA
+    Zustand --> CompB
+    Zustand --> CompC
+    Local --> CompC
+    Storage <--> Zustand
+
+    style Server fill:#e8f5e9
+    style TQ fill:#e1f5ff
+    style Zustand fill:#fff4e6
+    style Local fill:#c8e6c9
 ```
 
 ---
@@ -154,6 +216,37 @@ export const selectUser = (state: AuthStore) => state.user
 export const selectIsAuthenticated = (state: AuthStore) => state.isAuthenticated
 ```
 
+### Zustandの永続化とデータフロー
+
+```mermaid
+sequenceDiagram
+    participant LS as LocalStorage
+    participant Store as Zustand Store
+    participant Comp as Component
+
+    Note over LS,Comp: 初期化時
+    LS->>Store: 保存されたデータを復元<br/>auth-storage
+    Store->>Store: user, isAuthenticated<br/>を復元（isLoadingは除外）
+
+    Note over LS,Comp: ログイン時
+    Comp->>Store: login(email, password)
+    Store->>Store: API呼び出し
+    Store->>Store: set({ user, isAuthenticated: true })
+    Store->>LS: 自動的にLocalStorageに保存<br/>(partializeで選択された状態のみ)
+    Store-->>Comp: 状態更新通知
+
+    Note over LS,Comp: コンポーネントでの使用
+    Comp->>Store: useAuthStore((state) => state.user)
+    Store-->>Comp: user データ返却
+    Note over Comp: 必要な状態のみを取得<br/>再レンダリング最適化
+
+    Note over LS,Comp: ログアウト時
+    Comp->>Store: logout()
+    Store->>Store: set({ user: null, isAuthenticated: false })
+    Store->>LS: LocalStorageを更新
+    Store-->>Comp: 状態更新通知
+```
+
 ### 使用方法
 
 ```typescript
@@ -188,48 +281,96 @@ export const Header = () => {
 従来のアプローチでは、自分でキャッシュ、再取得、エラーハンドリングを実装する必要がありました。
 TanStack Queryはこれらを自動的に管理します。
 
+### TanStack Queryのキャッシュライフサイクル
+
+```mermaid
+stateDiagram-v2
+    [*] --> Fresh: データ取得成功
+    Fresh --> Stale: staleTime経過<br/>(1分)
+    Stale --> Fetching: 再フェッチトリガー<br/>・ウィンドウフォーカス<br/>・手動invalidate<br/>・コンポーネント再マウント
+    Fetching --> Fresh: 取得成功
+    Fetching --> Error: 取得失敗
+    Error --> Fetching: リトライ
+    Stale --> Inactive: すべてのコンポーネントが<br/>アンマウント
+    Inactive --> [*]: gcTime経過後<br/>キャッシュから削除
+
+    note right of Fresh
+        キャッシュを使用
+        再取得しない
+    end note
+
+    note right of Stale
+        キャッシュを表示しつつ
+        バックグラウンドで更新可能
+    end note
+```
+
 ### 実装例
 
 #### データ取得（Query）
 
+**API層（`api/get-users.ts`）:**
+
 ```typescript
 // src/features/sample-users/api/get-users.ts
-import { useQuery } from '@tanstack/react-query'
+import { queryOptions, useSuspenseQuery } from '@tanstack/react-query'
 import { api } from '@/lib/api-client'
+import { QueryConfig } from '@/lib/tanstack-query'
 
 export const getUsers = (): Promise<{ data: User[] }> => {
   return api.get('/sample/users')
 }
 
-export const getUsersQueryOptions = () => ({
-  queryKey: ['users'],
-  queryFn: getUsers,
-})
+export const getUsersQueryOptions = () => {
+  return queryOptions({
+    queryKey: ['users'],
+    queryFn: getUsers,
+  })
+}
 
-export const useUsers = () => {
-  return useQuery({
+type UseUsersOptions = {
+  queryConfig?: QueryConfig<typeof getUsersQueryOptions>
+}
+
+export const useUsers = ({ queryConfig }: UseUsersOptions = {}) => {
+  return useSuspenseQuery({
     ...getUsersQueryOptions(),
+    ...queryConfig,
   })
 }
 ```
 
-**使用方法:**
+**コンポーネント層（Suspenseパターン）:**
 
 ```typescript
+import { Suspense } from 'react'
+import { ErrorBoundary } from 'react-error-boundary'
+import { LoadingSpinner } from '@/components/ui/loading-spinner'
+import { MainErrorFallback } from '@/components/errors/main'
 import { useUsers } from '@/features/sample-users/api/get-users'
 
-export const UserList = () => {
-  const { data, isLoading, error } = useUsers()
-
-  if (isLoading) return <div>読み込み中...</div>
-  if (error) return <div>エラー: {error.message}</div>
+// データフェッチを含むコンポーネント
+const UserListContent = () => {
+  const { data } = useUsers()  // isLoading, error は不要
+  const users = data?.data ?? []
 
   return (
     <ul>
-      {data?.data.map((user) => (
+      {users.map((user) => (
         <li key={user.id}>{user.name}</li>
       ))}
     </ul>
+  )
+}
+
+// メインコンポーネント
+export const UserList = () => {
+  return (
+    <ErrorBoundary FallbackComponent={MainErrorFallback}>
+      <Suspense fallback={<LoadingSpinner />}>
+        <UserListContent />
+      </Suspense>
+    </ErrorBoundary>
   )
 }
 ```

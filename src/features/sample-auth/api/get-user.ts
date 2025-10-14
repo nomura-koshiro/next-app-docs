@@ -4,7 +4,7 @@
  * TODO: 実際のバックエンドAPIエンドポイントに合わせて修正してください
  */
 
-import { queryOptions, useQuery } from "@tanstack/react-query";
+import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 
 import { api } from "@/lib/api-client";
 import { QueryConfig } from "@/lib/tanstack-query";
@@ -45,38 +45,12 @@ export const getUserQueryOptions = () => {
   });
 };
 
-// ================================================================================
-// Hooks
-// ================================================================================
-
 type UseUserOptions = {
   queryConfig?: QueryConfig<typeof getUserQueryOptions>;
 };
 
-/**
- * 現在のユーザー情報を取得するHook
- *
- * @example
- * ```tsx
- * import { useUser } from '@/features/sample-auth/api/get-user'
- *
- * function UserProfile() {
- *   const { data, isLoading, error } = useUser()
- *
- *   if (isLoading) return <div>Loading...</div>
- *   if (error) return <div>Error loading user</div>
- *
- *   return (
- *     <div>
- *       <h1>{data?.data.name}</h1>
- *       <p>{data?.data.email}</p>
- *     </div>
- *   )
- * }
- * ```
- */
 export const useUser = ({ queryConfig }: UseUserOptions = {}) => {
-  return useQuery({
+  return useSuspenseQuery({
     ...getUserQueryOptions(),
     ...queryConfig,
   });
