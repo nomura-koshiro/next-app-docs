@@ -24,7 +24,7 @@ const meta = {
   // ================================================================================
   // Storybookのナビゲーション階層
   // ================================================================================
-  title: "features/users/routes/delete-user/components/DeleteUserConfirmation",
+  title: "features/sample-users/routes/sample-delete-user/components/DeleteUserConfirmation",
 
   // ================================================================================
   // 表示するコンポーネント
