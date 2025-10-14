@@ -4,13 +4,7 @@ import { PageLayout } from "@/components/layout/page-layout";
 import { PageHeader } from "@/components/layout/page-header";
 import { {{pascalCase routeName}}Form } from "./components/{{kebabCase routeName}}-form";
 import { use{{pascalCase routeName}} } from "./{{kebabCase routeName}}.hook";
-
-// 開発環境でのみReact Hook Form DevToolsをインポート
-let DevTool: any = () => null;
-if (process.env.NODE_ENV === "development") {
-  // eslint-disable-next-line @typescript-eslint/no-require-imports
-  DevTool = require("@hookform/devtools").DevTool;
-}
+import { useDevTools } from "@/hooks/use-devtools";
 
 /**
  * {{pascalCase routeName}}ページ
@@ -21,6 +15,7 @@ export default function {{pascalCase routeName}}Page() {
   // ================================================================================
   // ※使用しないコメントブロックは削除すること
   const { control, onSubmit, errors, reset } = use{{pascalCase routeName}}();
+  const DevTools = useDevTools(control);
 
   // ================================================================================
   // Conditional Rendering
@@ -42,9 +37,7 @@ export default function {{pascalCase routeName}}Page() {
           errors={errors}
         />
       </PageLayout>
-
-      {/* 開発環境でのみReact Hook Form DevToolsを表示 */}
-      {process.env.NODE_ENV === "development" && <DevTool control={control} />}
+      {DevTools}
     </>
   );
 }

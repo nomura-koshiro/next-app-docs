@@ -62,7 +62,7 @@ export const UserListContainer = () => {
 
 ```typescript
 // Presentational: UIのみ
-interface UserListProps {
+type UserListProps = {
   users: User[]
   onDelete: (userId: string) => void
 }
@@ -144,7 +144,7 @@ export const UserListContainer = () => {
 }
 
 // Presentational: UI
-interface UserListProps {
+type UserListProps = {
   users: User[]
   onDelete: (userId: string) => void
 }
@@ -217,7 +217,7 @@ export const UserCreateContainer = () => {
 }
 
 // Presentational
-interface UserFormProps {
+type UserFormProps = {
   onSubmit: (data: CreateUserInput) => void
   isSubmitting: boolean
 }
