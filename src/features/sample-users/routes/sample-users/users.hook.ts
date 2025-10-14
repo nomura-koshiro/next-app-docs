@@ -1,16 +1,18 @@
 import { useRouter } from "next/navigation";
 
-import { useUsers as useUsersQuery } from "@/features/sample-users";
+import { useUsers as useUsersQuery } from "@/features/sample-users/api/get-users";
 
 /**
  * ユーザー一覧ページのロジックを管理するカスタムフック
+ *
+ * API層のuseUsersを呼び出し、ページ固有のビジネスロジック（ナビゲーション）を追加
  */
 export const useUsers = () => {
   // ================================================================================
   // Hooks
   // ================================================================================
   const router = useRouter();
-  const { data, isLoading, error } = useUsersQuery();
+  const { data } = useUsersQuery();
 
   const users = data?.data ?? [];
 
@@ -31,8 +33,6 @@ export const useUsers = () => {
 
   return {
     users,
-    isLoading,
-    error,
     handleEdit,
     handleDelete,
     handleCreateNew,

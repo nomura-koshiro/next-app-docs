@@ -14,11 +14,96 @@
 
 ## 基本パターン
 
-API関数は以下の3つのパートで構成します。
+### アーキテクチャ概要
+
+```mermaid
+graph TB
+    subgraph Component["コンポーネント層"]
+        Page[Page Component]
+    end
+
+    subgraph Hooks["Hooks層 routes/*/xxx.hook.ts<br/>※必要に応じて"]
+        PageHook[useUsers<br/>ページ固有のビジネスロジック<br/>ナビゲーション、複数APIの組み合わせ]
+    end
+
+    subgraph API["API層 api/get-users.ts"]
+        APIFn[getUsers<br/>API関数]
+        QueryOpts[getUsersQueryOptions<br/>クエリオプション]
+        QueryHook[useUsers<br/>React Queryカスタムフック]
+    end
+
+    subgraph Backend[バックエンドAPI]
+        Server[/api/users]
+    end
+
+    Page -->|直接呼び出し<br/>シンプルな場合| QueryHook
+    Page -->|ビジネスロジック<br/>が必要な場合| PageHook
+    PageHook --> QueryHook
+    QueryHook --> QueryOpts
+    QueryOpts --> APIFn
+    APIFn --> Server
+
+    style API fill:#e1f5ff
+    style Hooks fill:#fff4e6
+    style Component fill:#f3e5f5
+    style Backend fill:#e8f5e9
+```
+
+### データフロー（Query）
+
+```mermaid
+sequenceDiagram
+    participant C as Component
+    participant H as Hooks層<br/>(必要時)
+    participant A as API層<br/>useUsers
+    participant TQ as TanStack Query
+    participant S as Server
+
+    C->>H: useUsers() 呼び出し
+    H->>A: useUsersQuery() 呼び出し
+    A->>TQ: useSuspenseQuery()
+
+    alt キャッシュあり
+        TQ-->>A: キャッシュデータ返却
+    else キャッシュなし
+        TQ->>A: getUsers() 実行
+        A->>S: GET /api/users
+        S-->>A: データ返却
+        A-->>TQ: データ保存
+        TQ-->>A: データ返却
+    end
+
+    A-->>H: data返却
+    H-->>C: users, handleEdit返却
+    C->>C: レンダリング
+```
+
+### データフロー（Mutation）
+
+```mermaid
+sequenceDiagram
+    participant C as Component
+    participant A as API層<br/>useCreateUser
+    participant TQ as TanStack Query
+    participant S as Server
+
+    C->>A: mutate(data)
+    A->>TQ: useMutation実行
+    TQ->>A: createUser(data)
+    A->>S: POST /api/users
+    S-->>A: 作成されたデータ
+    A->>TQ: onSuccess
+    TQ->>TQ: キャッシュ無効化<br/>invalidateQueries
+    A-->>C: 完了通知
+```
+
+### API層（`api/`）
+
+API関数は**データ取得・更新ロジック**と**React Queryのカスタムフック**を含みます。
 
 ```typescript
 // src/features/users/api/get-users.ts
-import { queryOptions, useQuery } from '@tanstack/react-query'
+import { queryOptions, useSuspenseQuery } from '@tanstack/react-query'
 import { api } from '@/lib/api-client'
 import { QueryConfig } from '@/lib/tanstack-query'
 import type { User } from '../types'
@@ -37,11 +122,41 @@ export const getUsersQueryOptions = () => {
 }
 
 // 3. カスタムフック
-export const useUsers = ({ queryConfig }: { queryConfig?: QueryConfig<typeof getUsersQueryOptions> } = {}) => {
-  return useQuery({
+type UseUsersOptions = {
+  queryConfig?: QueryConfig<typeof getUsersQueryOptions>
+}
+
+export const useUsers = ({ queryConfig }: UseUsersOptions = {}) => {
+  return useSuspenseQuery({
     ...getUsersQueryOptions(),
     ...queryConfig,
   })
+}
+```
+
+### Hooks層（`routes/{route-name}/*.hook.ts`）※必要に応じて
+
+ページ固有のビジネスロジック（ナビゲーション、複数APIの組み合わせなど）を担当します。
+
+```typescript
+// src/features/users/routes/users/users.hook.ts
+import { useRouter } from 'next/navigation'
+import { useUsers as useUsersQuery } from '@/features/users/api/get-users'
+
+export const useUsers = () => {
+  const router = useRouter()
+  const { data } = useUsersQuery()
+
+  const users = data?.data ?? []
+
+  const handleEdit = (userId: string) => {
+    router.push(`/users/${userId}/edit`)
+  }
+
+  return {
+    users,
+    handleEdit,
+  }
 }
 ```
 
@@ -51,42 +166,104 @@ export const useUsers = ({ queryConfig }: { queryConfig?: QueryConfig<typeof get
 
 ### 基本的な取得
 
+**API層:**
+
 ```typescript
 // src/features/users/api/get-users.ts
+import { queryOptions, useSuspenseQuery } from '@tanstack/react-query'
+import { api } from '@/lib/api-client'
+import { QueryConfig } from '@/lib/tanstack-query'
+import type { User } from '../types'
+
 export const getUsers = (): Promise<{ data: User[] }> => {
   return api.get('/sample/users')
 }
 
-export const getUsersQueryOptions = () => ({
-  queryKey: ['users'],
-  queryFn: getUsers,
-})
+export const getUsersQueryOptions = () => {
+  return queryOptions({
+    queryKey: ['users'],
+    queryFn: getUsers,
+  })
+}
+
+type UseUsersOptions = {
+  queryConfig?: QueryConfig<typeof getUsersQueryOptions>
+}
+
+export const useUsers = ({ queryConfig }: UseUsersOptions = {}) => {
+  return useSuspenseQuery({
+    ...getUsersQueryOptions(),
+    ...queryConfig,
+  })
+}
+```
+
+**Hooks層（必要に応じて）:**
+
+```typescript
+// src/features/users/routes/users/users.hook.ts
+import { useRouter } from 'next/navigation'
+import { useUsers as useUsersQuery } from '@/features/users/api/get-users'
 
 export const useUsers = () => {
-  return useQuery({
-    ...getUsersQueryOptions(),
-  })
+  const router = useRouter()
+  const { data } = useUsersQuery()
+  const users = data?.data ?? []
+
+  const handleEdit = (userId: string) => {
+    router.push(`/users/${userId}/edit`)
+  }
+
+  return { users, handleEdit }
 }
 ```
 
 ### パラメータ付き取得
 
+**API層:**
+
 ```typescript
 // src/features/users/api/get-user.ts
-export const getUser = (userId: string): Promise<User> => {
+import { queryOptions, useSuspenseQuery } from '@tanstack/react-query'
+import { api } from '@/lib/api-client'
+import { QueryConfig } from '@/lib/tanstack-query'
+import type { User } from '../types'
+
+export const getUser = (userId: string): Promise<{ data: User }> => {
   return api.get(`/sample/users/${userId}`)
 }
 
-export const getUserQueryOptions = (userId: string) => ({
-  queryKey: ['users', userId],
-  queryFn: () => getUser(userId),
-})
-
-export const useUser = ({ userId }: { userId: string }) => {
-  return useQuery({
-    ...getUserQueryOptions(userId),
-    enabled: !!userId,  // userIdが存在する場合のみ実行
+export const getUserQueryOptions = (userId: string) => {
+  return queryOptions({
+    queryKey: ['users', userId],
+    queryFn: () => getUser(userId),
   })
+}
+
+type UseUserOptions = {
+  userId: string
+  queryConfig?: QueryConfig<typeof getUserQueryOptions>
+}
+
+export const useUser = ({ userId, queryConfig }: UseUserOptions) => {
+  return useSuspenseQuery({
+    ...getUserQueryOptions(userId),
+    ...queryConfig,
+  })
+}
+```
+
+**Hooks層（必要に応じて）:**
+
+```typescript
+// src/features/users/routes/user-detail/user-detail.hook.ts
+import { useUser as useUserQuery } from '@/features/users/api/get-user'
+
+export const useUserDetail = (userId: string) => {
+  const { data } = useUserQuery({ userId })
+  const user = data?.data
+
+  return { user }
 }
 ```
 
@@ -95,20 +272,33 @@ export const useUser = ({ userId }: { userId: string }) => {
 ```typescript
 'use client'
 
-import { useUsers } from '@/features/users/api/get-users'
+import { Suspense } from 'react'
+import { ErrorBoundary } from 'react-error-boundary'
+import { LoadingSpinner } from '@/components/ui/loading-spinner'
+import { MainErrorFallback } from '@/components/errors/main'
+import { useUsers } from './users.hook'
 
-export const UserList = () => {
-  const { data, isLoading, error } = useUsers()
-
-  if (isLoading) return <div>読み込み中...</div>
-  if (error) return <div>エラー: {error.message}</div>
+// データフェッチを含むコンポーネント
+const UserListContent = () => {
+  const { users } = useUsers()  // isLoading, error は不要
 
   return (
     <ul>
-      {data?.data.map((user) => (
+      {users.map((user) => (
         <li key={user.id}>{user.name}</li>
       ))}
     </ul>
+  )
+}
+
+// メインコンポーネント
+export const UserList = () => {
+  return (
+    <ErrorBoundary FallbackComponent={MainErrorFallback}>
+      <Suspense fallback={<LoadingSpinner />}>
+        <UserListContent />
+      </Suspense>
+    </ErrorBoundary>
   )
 }
 ```
@@ -241,30 +431,66 @@ export const CreateUserForm = () => {
 
 ## ベストプラクティス
 
-### ✅ Good
+### ✅ Good: bulletproof-reactの構造に従う
+
+**API層（データ取得ロジック + React Queryのカスタムフック）:**
 
 ```typescript
-// API関数、クエリオプション、カスタムフックを分離
+// src/features/users/api/get-users.ts
+import { queryOptions, useSuspenseQuery } from '@tanstack/react-query'
+import { api } from '@/lib/api-client'
+import { QueryConfig } from '@/lib/tanstack-query'
+import type { User } from '../types'
+
 export const getUsers = (): Promise<{ data: User[] }> => {
   return api.get('/sample/users')
 }
 
-export const getUsersQueryOptions = () => ({
-  queryKey: ['users'],
-  queryFn: getUsers,
-})
+export const getUsersQueryOptions = () => {
+  return queryOptions({
+    queryKey: ['users'],
+    queryFn: getUsers,
+  })
+}
 
-export const useUsers = () => {
-  return useQuery({
+type UseUsersOptions = {
+  queryConfig?: QueryConfig<typeof getUsersQueryOptions>
+}
+
+export const useUsers = ({ queryConfig }: UseUsersOptions = {}) => {
+  return useSuspenseQuery({
     ...getUsersQueryOptions(),
+    ...queryConfig,
   })
 }
 ```
 
-### ❌ Bad
+**Hooks層（ページ固有のビジネスロジック）- 必要に応じて:**
 
 ```typescript
-// すべてを1つの関数に詰め込む
+// src/features/users/routes/users/users.hook.ts
+import { useRouter } from 'next/navigation'
+import { useUsers as useUsersQuery } from '@/features/users/api/get-users'
+
+export const useUsers = () => {
+  const router = useRouter()
+  const { data } = useUsersQuery()
+
+  const users = data?.data ?? []
+
+  const handleEdit = (userId: string) => {
+    router.push(`/users/${userId}/edit`)
+  }
+
+  return { users, handleEdit }
+}
+```
+
+### ❌ Bad: 責任が混在
+
+```typescript
+// API関数とReact Hooksが混在（単一責任の原則に違反）
+// src/features/users/api/get-users.ts
 export const useUsers = () => {
   return useQuery({
     queryKey: ['users'],
@@ -275,6 +501,20 @@ export const useUsers = () => {
   })
 }
 ```
+
+### Suspense パターンの利点
+
+- **宣言的なローディング管理**: `isLoading`の手動チェックが不要
+- **エラーハンドリングの統一**: `ErrorBoundary`で一元管理
+- **コードの簡潔化**: 条件分岐が減り、読みやすくなる
+- **Reactの標準パターン**: Reactの推奨パターンに従う
+
+### bulletproof-react構造の利点
+
+- **API層**: React Queryのカスタムフックも含め、再利用可能なAPI操作を提供
+- **Hooks層**: ページ固有のビジネスロジック（ナビゲーション、複数APIの組み合わせ）に集中
+- **明確な責任分離**: API操作とビジネスロジックが分離され、保守性が向上
+- **テスト容易性**: API層は純粋な関数として単体テストが可能
 
 ---
 
@@ -298,16 +538,34 @@ api.interceptors.response.use(
 )
 ```
 
-### コンポーネントでのエラー処理
+### ErrorBoundaryによるエラー処理
+
+Suspenseを使用する場合、エラーは`ErrorBoundary`でキャッチします。
 
 ```typescript
-const { data, isLoading, error, refetch } = useUsers()
+import { ErrorBoundary } from 'react-error-boundary'
+import { MainErrorFallback } from '@/components/errors/main'
 
-if (error) {
+const UsersPage = () => {
+  return (
+    <ErrorBoundary FallbackComponent={MainErrorFallback}>
+      <Suspense fallback={<LoadingSpinner fullScreen />}>
+        <UsersPageContent />
+      </Suspense>
+    </ErrorBoundary>
+  )
+}
+```
+
+### カスタムエラーフォールバック
+
+```typescript
+const CustomErrorFallback = ({ error, resetErrorBoundary }: FallbackProps) => {
   return (
     <div>
-      <p>エラーが発生しました: {error.message}</p>
-      <button onClick={() => refetch()}>再試行</button>
+      <h2>エラーが発生しました</h2>
+      <p>{error.message}</p>
+      <button onClick={resetErrorBoundary}>再試行</button>
     </div>
   )
 }

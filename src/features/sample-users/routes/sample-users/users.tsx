@@ -1,36 +1,21 @@
 "use client";
 
+import { Suspense } from "react";
+import { ErrorBoundary } from "react-error-boundary";
+import { Button } from "@/components/ui/button";
+import { LoadingSpinner } from "@/components/ui/loading-spinner";
+import { MainErrorFallback } from "@/components/errors/main";
 import { PageHeader } from "@/components/layout/page-header";
 import { PageLayout } from "@/components/layout/page-layout";
-import { Button } from "@/components/ui/button";
-import { ErrorMessage } from "@/components/ui/error-message";
-import { LoadingSpinner } from "@/components/ui/loading-spinner";
 
 import { UsersList } from "./components/users-list";
 import { useUsers } from "./users.hook";
 
 /**
- * ユーザー一覧ページ（Client Component）
- *
- * TanStack Queryでデータフェッチを行います。
+ * ユーザー一覧ページのコンテンツ
  */
-export default function UsersPage() {
-  // ================================================================================
-  // Hooks
-  // ================================================================================
-  const { users, isLoading, error, handleEdit, handleDelete, handleCreateNew } =
-    useUsers();
-
-  // ================================================================================
-  // Conditional Rendering
-  // ================================================================================
-  if (isLoading) {
-    return <LoadingSpinner fullScreen />;
-  }
-
-  if (error !== null) {
-    return <ErrorMessage message="エラーが発生しました" fullScreen />;
-  }
+const UsersPageContent = () => {
+  const { users, handleEdit, handleDelete, handleCreateNew } = useUsers();
 
   return (
     <PageLayout>
@@ -42,4 +27,21 @@ export default function UsersPage() {
       <UsersList users={users} onEdit={handleEdit} onDelete={handleDelete} />
     </PageLayout>
   );
-}
+};
+
+/**
+ * ユーザー一覧ページ（Client Component）
+ *
+ * TanStack QueryのSuspense機能を使用してデータフェッチを行います。
+ */
+const UsersPage = () => {
+  return (
+    <ErrorBoundary FallbackComponent={MainErrorFallback}>
+      <Suspense fallback={<LoadingSpinner fullScreen />}>
+        <UsersPageContent />
+      </Suspense>
+    </ErrorBoundary>
+  );
+};
+
+export default UsersPage;

@@ -1,39 +1,25 @@
 "use client";
 
-import { PageHeader } from "@/components/layout/page-header";
-import { PageLayout } from "@/components/layout/page-layout";
+import { Suspense } from "react";
+import { ErrorBoundary } from "react-error-boundary";
 import { ErrorMessage } from "@/components/ui/error-message";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
-
+import { MainErrorFallback } from "@/components/errors/main";
+import { PageLayout } from "@/components/layout/page-layout";
+import { PageHeader } from "@/components/layout/page-header";
 import { DeleteUserConfirmation } from "./components/delete-user-confirmation";
 import { useDeleteUser } from "./delete-user.hook";
 
 /**
- * ユーザー削除確認ページ
+ * ユーザー削除確認ページのコンテンツ
  */
-export default function DeleteUserPage({
+const DeleteUserPageContent = ({
   params,
 }: {
   params: Promise<{ id: string }>;
-}) {
-  // ================================================================================
-  // Hooks
-  // ================================================================================
-  const { user, isLoading, error, handleDelete, handleCancel, isDeleting } =
+}) => {
+  const { user, handleDelete, handleCancel, isDeleting } =
     useDeleteUser(params);
-
-  // ================================================================================
-  // Conditional Rendering
-  // ================================================================================
-  if (isLoading) {
-    return <LoadingSpinner fullScreen />;
-  }
-
-  if (error !== null) {
-    return (
-      <ErrorMessage message="ユーザーの読み込みに失敗しました" fullScreen />
-    );
-  }
 
   if (!user) {
     return <ErrorMessage message="ユーザーが見つかりません" fullScreen />;
@@ -54,4 +40,21 @@ export default function DeleteUserPage({
       />
     </PageLayout>
   );
-}
+};
+
+/**
+ * ユーザー削除確認ページ
+ *
+ * TanStack QueryのSuspense機能を使用してデータフェッチを行います。
+ */
+const DeleteUserPage = ({ params }: { params: Promise<{ id: string }> }) => {
+  return (
+    <ErrorBoundary FallbackComponent={MainErrorFallback}>
+      <Suspense fallback={<LoadingSpinner fullScreen />}>
+        <DeleteUserPageContent params={params} />
+      </Suspense>
+    </ErrorBoundary>
+  );
+};
+
+export default DeleteUserPage;

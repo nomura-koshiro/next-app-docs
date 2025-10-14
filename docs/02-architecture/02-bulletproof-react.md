@@ -266,12 +266,12 @@ import { FeaturePage } from '@/app/(group-a)/page'
 
 ```typescript
 // get-items.ts
-import { useQuery } from '@tanstack/react-query'
+import { useSuspenseQuery } from '@tanstack/react-query'
 import { api } from '@/lib/api-client'
 import type { Item } from '../types'
 
 export const useItems = () => {
-  return useQuery({
+  return useSuspenseQuery({
     queryKey: ['items'],
     queryFn: () => api.get<Item[]>('/api/items'),
   })

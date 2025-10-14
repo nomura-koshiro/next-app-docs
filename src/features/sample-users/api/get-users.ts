@@ -1,4 +1,4 @@
-import { queryOptions, useQuery } from "@tanstack/react-query";
+import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 
 import { api } from "@/lib/api-client";
 import { QueryConfig } from "@/lib/tanstack-query";
@@ -20,16 +20,12 @@ export const getUsersQueryOptions = () => {
   });
 };
 
-// ================================================================================
-// Hooks
-// ================================================================================
-
 type UseUsersOptions = {
   queryConfig?: QueryConfig<typeof getUsersQueryOptions>;
 };
 
 export const useUsers = ({ queryConfig }: UseUsersOptions = {}) => {
-  return useQuery({
+  return useSuspenseQuery({
     ...getUsersQueryOptions(),
     ...queryConfig,
   });

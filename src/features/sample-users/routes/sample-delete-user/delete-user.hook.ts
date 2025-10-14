@@ -1,13 +1,12 @@
 import { useRouter } from "next/navigation";
-import { use } from "react";
 
-import {
-  useDeleteUser as useDeleteUserMutation,
-  useUser,
-} from "@/features/sample-users";
+import { useUser } from "@/features/sample-users/api/get-user";
+import { useDeleteUser as useDeleteUserMutation } from "@/features/sample-users";
 
 /**
  * ユーザー削除確認ページのロジックを管理するカスタムフック
+ *
+ * API層のuseUserを呼び出し、削除処理とナビゲーションを追加
  */
 export const useDeleteUser = (params: Promise<{ id: string }>) => {
   // ================================================================================
@@ -16,9 +15,7 @@ export const useDeleteUser = (params: Promise<{ id: string }>) => {
   const router = useRouter();
   const { id: userId } = use(params);
 
-  const { data, isLoading, error } = useUser({
-    userId,
-  });
+  const { data } = useUser({ userId });
 
   const deleteUserMutation = useDeleteUserMutation();
   const isDeleting = deleteUserMutation.isPending;
@@ -45,8 +42,6 @@ export const useDeleteUser = (params: Promise<{ id: string }>) => {
 
   return {
     user,
-    isLoading,
-    error,
     handleDelete,
     handleCancel,
     isDeleting,

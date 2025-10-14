@@ -1,9 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
-import { use, useEffect } from "react";
-import { useForm } from "react-hook-form";
 
-import { useUpdateUser,useUser } from "@/features/sample-users";
+import { useUser } from "@/features/sample-users/api/get-user";
+import { useUpdateUser } from "@/features/sample-users";
 import {
   userFormSchema,
   type UserFormValues,
@@ -11,6 +9,8 @@ import {
 
 /**
  * ユーザー編集ページのロジックを管理するカスタムフック
+ *
+ * API層のuseUserを呼び出し、フォーム処理とナビゲーションを追加
  */
 export const useEditUser = (params: Promise<{ id: string }>) => {
   // ================================================================================
@@ -19,9 +19,7 @@ export const useEditUser = (params: Promise<{ id: string }>) => {
   const router = useRouter();
   const { id: userId } = use(params);
 
-  const { data, isLoading, error } = useUser({
-    userId,
-  });
+  const { data } = useUser({ userId });
 
   const updateUserMutation = useUpdateUser();
 
@@ -83,7 +81,5 @@ export const useEditUser = (params: Promise<{ id: string }>) => {
     handleCancel,
     errors,
     isSubmitting: updateUserMutation.isPending,
-    isLoading,
-    error,
   };
 };

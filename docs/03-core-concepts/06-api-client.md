@@ -59,6 +59,34 @@ api.interceptors.response.use(
 
 ## インターセプターの役割
 
+### リクエスト/レスポンスフロー
+
+```mermaid
+sequenceDiagram
+    participant Comp as Component
+    participant ReqInt as Request<br/>Interceptor
+    participant Axios as Axios Instance
+    participant ResInt as Response<br/>Interceptor
+    participant Server as Backend API
+
+    Note over Comp,Server: リクエスト時
+    Comp->>Axios: api.get('/users')
+    Axios->>ReqInt: リクエスト前処理
+    ReqInt->>ReqInt: Accept: application/json<br/>withCredentials: true
+    ReqInt->>Server: HTTP Request<br/>(Cookieを自動送信)
+
+    Note over Comp,Server: レスポンス時
+    Server-->>ResInt: HTTP Response<br/>(Set-Cookie含む)
+    ResInt->>ResInt: response.dataのみ抽出
+    ResInt-->>Axios: data返却
+    Axios-->>Comp: User[] 型のデータ<br/>(.dataアクセス不要)
+
+    Note over Comp,Server: エラー時
+    Server--xResInt: Error Response
+    ResInt->>ResInt: エラーメッセージ抽出<br/>console.error出力
+    ResInt--xComp: Promise.reject(error)
+```
+
 ### リクエストインターセプター
 
 すべてのリクエストに共通処理を追加します。
@@ -189,11 +217,15 @@ const users = await getUsers({ page: 1, limit: 10, search: 'John' })
 ## TanStack Queryとの連携
 
 実際のアプリケーションでは、TanStack Queryと組み合わせて使用します。
+bulletproof-reactの構造に従い、React QueryのカスタムフックもAPI層に含めます。
+
+**API層（`api/get-users.ts`）:**
 
 ```typescript
-// src/features/users/api/get-users.ts
-import { useQuery } from '@tanstack/react-query'
+// src/features/sample-users/api/get-users.ts
+import { queryOptions, useSuspenseQuery } from '@tanstack/react-query'
 import { api } from '@/lib/api-client'
+import { QueryConfig } from '@/lib/tanstack-query'
 
 // 1. API関数
 export const getUsers = (): Promise<{ data: User[] }> => {
@@ -201,43 +233,64 @@ export const getUsers = (): Promise<{ data: User[] }> => {
 }
 
 // 2. クエリオプション
-export const getUsersQueryOptions = () => ({
-  queryKey: ['users'],
-  queryFn: getUsers,
-})
+export const getUsersQueryOptions = () => {
+  return queryOptions({
+    queryKey: ['users'],
+    queryFn: getUsers,
+  })
+}
 
 // 3. カスタムフック
-export const useUsers = () => {
-  return useQuery({
+type UseUsersOptions = {
+  queryConfig?: QueryConfig<typeof getUsersQueryOptions>
+}
+
+export const useUsers = ({ queryConfig }: UseUsersOptions = {}) => {
+  return useSuspenseQuery({
     ...getUsersQueryOptions(),
+    ...queryConfig,
   })
 }
 ```
 
-**コンポーネントでの使用:**
+**コンポーネントでの使用（Suspenseパターン）:**
 
 ```typescript
 'use client'
 
-import { useUsers } from '@/features/users/api/get-users'
+import { Suspense } from 'react'
+import { ErrorBoundary } from 'react-error-boundary'
+import { LoadingSpinner } from '@/components/ui/loading-spinner'
+import { MainErrorFallback } from '@/components/errors/main'
+import { useUsers } from '@/features/sample-users/api/get-users'
 
-export const UserList = () => {
-  const { data, isLoading, error } = useUsers()
-
-  if (isLoading) return <div>読み込み中...</div>
-  if (error) return <div>エラーが発生しました</div>
+// データフェッチを含むコンポーネント
+const UserListContent = () => {
+  const { data } = useUsers()  // isLoading, error は不要
+  const users = data?.data ?? []
 
   return (
     <ul>
-      {data?.data.map((user) => (
+      {users.map((user) => (
         <li key={user.id}>{user.name}</li>
       ))}
     </ul>
   )
 }
+
+// メインコンポーネント
+export const UserList = () => {
+  return (
+    <ErrorBoundary FallbackComponent={MainErrorFallback}>
+      <Suspense fallback={<LoadingSpinner />}>
+        <UserListContent />
+      </Suspense>
+    </ErrorBoundary>
+  )
+}
 ```
 
-詳しくは [TanStack Query](./07-tanstack-query.md) と [API統合](../04-development/05-api-integration.md) を参照してください。
+詳しくは [TanStack Query](./07-tanstack-query.md) と [API統合](../04-development/07-api-integration/index.md) を参照してください。
 
 ---
 
@@ -248,6 +301,37 @@ config.withCredentials = true
 ```
 
 この設定により、リクエスト時に自動的にCookieを送信し、レスポンスの`Set-Cookie`ヘッダーを自動的に保存します。
+
+### Cookie認証のフロー
+
+```mermaid
+sequenceDiagram
+    participant Browser as Browser<br/>(Cookie Storage)
+    participant Client as API Client<br/>(withCredentials: true)
+    participant Server as Backend API
+
+    Note over Browser,Server: 初回ログイン
+    Client->>Server: POST /auth/login<br/>{ email, password }
+    Server->>Server: 認証処理
+    Server-->>Client: Set-Cookie: session=abc123<br/>HttpOnly, Secure
+    Client->>Browser: Cookieを自動保存
+
+    Note over Browser,Server: 以降のリクエスト
+    Client->>Browser: Cookie取得
+    Browser-->>Client: session=abc123
+    Client->>Server: GET /api/users<br/>Cookie: session=abc123
+    Server->>Server: Cookieから認証確認
+    Server-->>Client: ユーザーデータ返却
+
+    Note over Browser,Server: ログアウト
+    Client->>Server: POST /auth/logout<br/>Cookie: session=abc123
+    Server-->>Client: Set-Cookie: session=; Max-Age=0<br/>Cookieを削除
+    Client->>Browser: Cookie削除
+
+    style Browser fill:#fff4e6
+    style Client fill:#e1f5ff
+    style Server fill:#e8f5e9
+```
 
 ---
 

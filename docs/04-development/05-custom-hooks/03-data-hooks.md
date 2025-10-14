@@ -32,53 +32,166 @@
 
 ## 基本パターン
 
-データ取得フックは以下の基本構造に従います。
+### データフック層の構成
+
+```mermaid
+graph TB
+    subgraph API["API層 features/*/api/<br/>データ取得ロジック + React Query"]
+        APIFn["API関数<br/>getUsers(), createUser()"]
+        QueryOpts["クエリオプション<br/>getUsersQueryOptions()"]
+        APIHook["カスタムフック<br/>useUsers(), useCreateUser()"]
+    end
+
+    subgraph Hooks["Hooks層 features/*/routes/*/*.hook.ts<br/>ページ固有のビジネスロジック<br/>※必要に応じて"]
+        PageHook["ページフック<br/>useUsers()"]
+        Logic["・ナビゲーション<br/>・複数APIの組み合わせ<br/>・データ変換<br/>・追加の状態管理"]
+    end
+
+    subgraph Component["コンポーネント層<br/>表示ロジック"]
+        Page["Page Component"]
+        UI["UI描画"]
+    end
+
+    APIFn --> QueryOpts
+    QueryOpts --> APIHook
+
+    APIHook -.シンプルなページ.-> Page
+    APIHook --> PageHook
+    PageHook --> Logic
+    Logic --> Page
+    Page --> UI
+
+    style API fill:#e1f5ff
+    style Hooks fill:#fff4e6
+    style Component fill:#f3e5f5
+```
+
+### いつHooks層が必要か？
+
+```mermaid
+flowchart TD
+    Start([API層のフックを作成])
+    Start --> Q1{ページ固有の<br/>ロジックが必要?}
+
+    Q1 -->|No| Direct[コンポーネントで<br/>API層のフックを直接使用]
+    Q1 -->|Yes| Q2{どんなロジック?}
+
+    Q2 --> Case1[ナビゲーション処理<br/>router.push等]
+    Q2 --> Case2[複数のAPIを組み合わせ<br/>useUsers + useSettings]
+    Q2 --> Case3[複雑なデータ変換<br/>整形・計算・フィルタリング]
+    Q2 --> Case4[追加の状態管理<br/>useState等]
+
+    Case1 --> Create[Hooks層を作成<br/>routes/*/*.hook.ts]
+    Case2 --> Create
+    Case3 --> Create
+    Case4 --> Create
+
+    Direct --> End1[シンプルで保守しやすい]
+    Create --> End2[責任が明確に分離]
+
+    style Direct fill:#c8e6c9
+    style Create fill:#fff9c4
+    style End1 fill:#c8e6c9
+    style End2 fill:#fff9c4
+```
+
+### Suspenseパターン（推奨）
+
+このプロジェクトでは、bulletproof-reactの構造に従い、`useSuspenseQuery`を使用したSuspenseパターンを推奨します。
+React QueryのカスタムフックもAPI層に含めます。
+
+**API層（`api/get-data.ts`）:**
+```tsx
+import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
+import { api } from "@/lib/api-client";
+import { QueryConfig } from "@/lib/tanstack-query";
+
+export const getData = () => {
+  return api.get("/feature/data");
+};
+
+export const getDataQueryOptions = () => {
+  return queryOptions({
+    queryKey: ["feature"],
+    queryFn: getData,
+  });
+};
+
+type UseDataOptions = {
+  queryConfig?: QueryConfig<typeof getDataQueryOptions>;
+};
+
+export const useData = ({ queryConfig }: UseDataOptions = {}) => {
+  return useSuspenseQuery({
+    ...getDataQueryOptions(),
+    ...queryConfig,
+  });
+};
+```
+
+**Hooks層（`routes/feature/feature.hook.ts`）- 必要に応じて:**
+
+ページ固有のビジネスロジックがある場合のみ作成します。
 
 ```tsx
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { fetchData, updateData } from "./api";
+import { useData as useDataQuery } from "../../api/get-data";
 
 export const useFeatureData = () => {
-  const queryClient = useQueryClient();
-
-  // ================================================================================
-  // Queries
-  // ================================================================================
-  const dataQuery = useQuery({
-    queryKey: ["feature"],
-    queryFn: fetchData,
-  });
+  const { data } = useDataQuery();
 
   // ================================================================================
   // Data Transformation
   // ================================================================================
-  const data = dataQuery.data?.map((item) => ({
+  const transformedData = data?.data?.map((item) => ({
     // データ変換
   })) ?? [];
 
-  // ================================================================================
-  // Mutations
-  // ================================================================================
-  const updateMutation = useMutation({
-    mutationFn: updateData,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["feature"] });
-    },
-  });
-
-  // ================================================================================
-  // Return
-  // ================================================================================
   return {
-    data,
-    isLoading: dataQuery.isLoading,
-    error: dataQuery.error,
-    updateData: updateMutation.mutate,
+    data: transformedData,
+    // isLoading, error は不要（SuspenseとErrorBoundaryが管理）
   };
 };
 ```
 
+### 従来のuseQueryパターン
+
+以下のセクションの例は、従来の`useQuery`を使用したパターンです。
+新規実装では上記のSuspenseパターンを使用してください。詳細は「[Suspenseとの統合](#suspenseとの統合)」セクションを参照してください。
+
 ## データ取得フック（Query）
+
+### Queryのデータフロー
+
+```mermaid
+sequenceDiagram
+    participant Comp as Component
+    participant Hook as Hooks層<br/>useUsers()<br/>(必要時)
+    participant API as API層<br/>useUsers()
+    participant TQ as TanStack Query
+    participant Cache as キャッシュ
+    participant Server as Backend API
+
+    Comp->>Hook: useUsers()呼び出し
+    Hook->>API: useUsersQuery()呼び出し
+    API->>TQ: useSuspenseQuery実行
+
+    alt キャッシュがFresh
+        Cache-->>TQ: キャッシュデータ返却
+        TQ-->>API: データ返却
+    else キャッシュがStaleまたは無し
+        TQ->>Server: GET /api/users
+        Server-->>TQ: レスポンス
+        TQ->>Cache: キャッシュに保存<br/>(queryKey: ['users'])
+        TQ-->>API: データ返却
+    end
+
+    API-->>Hook: { data: User[] }
+    Hook->>Hook: データ変換<br/>ビジネスロジック
+    Hook-->>Comp: { users, handleEdit }
+    Comp->>Comp: UIレンダリング
+
+    Note over Comp,Server: Suspenseがローディングを管理<br/>ErrorBoundaryがエラーを管理
+```
 
 ### 基本的なデータ取得
 
@@ -174,6 +287,64 @@ export const useUser = (userId: string) => {
 ```
 
 ## データ更新フック（Mutation）
+
+### Mutationのデータフロー
+
+```mermaid
+sequenceDiagram
+    participant Comp as Component
+    participant Hook as Hooks層<br/>useNewUser()
+    participant API as API層<br/>useCreateUser()
+    participant TQ as TanStack Query
+    participant Cache as キャッシュ
+    participant Server as Backend API
+
+    Comp->>Hook: onSubmit(data)
+    Hook->>API: mutate(data)
+    API->>TQ: useMutation実行
+    TQ->>Server: POST /api/users
+    Server-->>TQ: 作成成功<br/>{ data: User }
+
+    TQ->>API: onSuccess実行
+    API->>Cache: invalidateQueries<br/>(['users'])
+    Note over Cache: ユーザーリストの<br/>キャッシュを無効化
+
+    API-->>Hook: onSuccess実行
+    Hook->>Hook: router.push('/users')<br/>画面遷移
+    Hook-->>Comp: 完了通知
+
+    Cache->>Server: 再フェッチトリガー<br/>GET /api/users
+    Server-->>Cache: 最新データ返却
+    Note over Cache: キャッシュ更新完了
+
+    Note over Comp,Server: ページ遷移後、<br/>最新データが自動表示
+```
+
+### Mutationのキャッシュ戦略
+
+```mermaid
+graph LR
+    subgraph Create["作成 (POST)"]
+        C1[createUser] --> C2[invalidateQueries<br/>queryKey: users]
+        C2 --> C3[リスト全体を再取得]
+    end
+
+    subgraph Update["更新 (PATCH)"]
+        U1[updateUser] --> U2[setQueryData<br/>queryKey: users, userId]
+        U2 --> U3[invalidateQueries<br/>queryKey: users]
+        U3 --> U4[個別更新 + リスト更新]
+    end
+
+    subgraph Delete["削除 (DELETE)"]
+        D1[deleteUser] --> D2[removeQueries<br/>queryKey: users, userId]
+        D2 --> D3[invalidateQueries<br/>queryKey: users]
+        D3 --> D4[個別削除 + リスト更新]
+    end
+
+    style Create fill:#e1f5ff
+    style Update fill:#fff4e6
+    style Delete fill:#ffcdd2
+```
 
 ### 新規作成
 
@@ -541,6 +712,126 @@ export const useNewUser = () => {
   };
 };
 ```
+
+## Suspenseとの統合
+
+このプロジェクトでは、bulletproof-reactの構造に従い、TanStack Query v5の`useSuspenseQuery`を使用します。
+**重要**: React QueryのカスタムフックもAPI層に含めます。
+
+### API層（データ取得ロジック + カスタムフック）
+
+```tsx
+// src/features/sample-users/api/get-users.ts
+import { queryOptions, useSuspenseQuery } from '@tanstack/react-query'
+import { api } from '@/lib/api-client'
+import { QueryConfig } from '@/lib/tanstack-query'
+import type { User } from '../types'
+
+// 1. API関数
+export const getUsers = (): Promise<{ data: User[] }> => {
+  return api.get('/sample/users')
+}
+
+// 2. クエリオプション
+export const getUsersQueryOptions = () => {
+  return queryOptions({
+    queryKey: ['users'],
+    queryFn: getUsers,
+  })
+}
+
+// 3. カスタムフック
+type UseUsersOptions = {
+  queryConfig?: QueryConfig<typeof getUsersQueryOptions>
+}
+
+export const useUsers = ({ queryConfig }: UseUsersOptions = {}) => {
+  return useSuspenseQuery({
+    ...getUsersQueryOptions(),
+    ...queryConfig,
+  })
+}
+```
+
+### Hooks層（ページ固有のビジネスロジック）- 必要に応じて
+
+ナビゲーションなどのページ固有のロジックを追加する場合のみ作成します。
+
+```tsx
+// src/features/sample-users/routes/sample-users/users.hook.ts
+import { useRouter } from 'next/navigation'
+import { useUsers as useUsersQuery } from '@/features/sample-users/api/get-users'
+
+export const useUsers = () => {
+  const router = useRouter()
+  const { data } = useUsersQuery()
+
+  const users = data?.data ?? []
+
+  const handleEdit = (userId: string) => {
+    router.push(`/sample-users/${userId}/edit`)
+  }
+
+  return {
+    users,
+    handleEdit,
+  }
+}
+```
+
+### コンポーネント層（表示ロジック）
+
+```tsx
+// src/features/sample-users/routes/sample-users/users.tsx
+'use client'
+
+import { Suspense } from 'react'
+import { ErrorBoundary } from 'react-error-boundary'
+import { LoadingSpinner } from '@/components/ui/loading-spinner'
+import { MainErrorFallback } from '@/components/errors/main'
+import { useUsers } from './users.hook'
+
+// データフェッチを含むコンポーネント
+const UsersPageContent = () => {
+  const { users, handleEdit } = useUsers()  // isLoading, error は不要
+
+  return (
+    <div>
+      <h1>ユーザー一覧</h1>
+      <ul>
+        {users.map((user) => (
+          <li key={user.id}>
+            {user.name}
+            <button onClick={() => handleEdit(user.id)}>編集</button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  )
+}
+
+// メインコンポーネント
+const UsersPage = () => {
+  return (
+    <ErrorBoundary FallbackComponent={MainErrorFallback}>
+      <Suspense fallback={<LoadingSpinner fullScreen />}>
+        <UsersPageContent />
+      </Suspense>
+    </ErrorBoundary>
+  )
+}
+
+export default UsersPage
+```
+
+### Suspenseを使う利点
+
+- **宣言的なローディング管理**: `isLoading`の手動チェックが不要
+- **エラーハンドリングの統一**: `ErrorBoundary`で一元管理
+- **コードの簡潔化**: 条件分岐が減り、読みやすくなる
+- **Reactの標準パターン**: Reactの推奨パターンに従う
+
+---
 
 ## ベストプラクティス
 
