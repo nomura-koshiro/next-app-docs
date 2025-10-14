@@ -2,11 +2,13 @@
 
 import { Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
+
 import { MainErrorFallback } from "@/components/errors/main";
 import { PageHeader } from "@/components/layout/page-header";
 import { PageLayout } from "@/components/layout/page-layout";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
 import { UserForm } from "@/features/sample-users/components/user-form";
+import { useDevTools } from "@/hooks/use-devtools";
 
 import { useEditUser } from "./edit-user.hook";
 
@@ -20,6 +22,8 @@ const EditUserPageContent = ({
 }) => {
   const { control, onSubmit, handleCancel, errors, isSubmitting } =
     useEditUser(params);
+
+  const DevTools = useDevTools(control);
 
   return (
     <>

@@ -2,11 +2,12 @@
 
 import { Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
-import { Button } from "@/components/ui/button";
-import { LoadingSpinner } from "@/components/ui/loading-spinner";
+
 import { MainErrorFallback } from "@/components/errors/main";
 import { PageHeader } from "@/components/layout/page-header";
 import { PageLayout } from "@/components/layout/page-layout";
+import { Button } from "@/components/ui/button";
+import { LoadingSpinner } from "@/components/ui/loading-spinner";
 
 import { UsersList } from "./components/users-list";
 import { useUsers } from "./users.hook";

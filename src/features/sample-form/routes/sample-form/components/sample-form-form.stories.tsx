@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { fn } from "@storybook/test";
-import { useForm } from "react-hook-form";
+import { type Control, useForm } from "react-hook-form";
 
 import {
   sampleFormSchema,
@@ -108,13 +108,21 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+const dummyForm = {
+  control: {} as Control<SampleFormValues>,
+};
+
 /**
  * デフォルト状態
  * フォームの初期状態
  */
 export const Default: Story = {
   name: "デフォルト",
-  render: () => {
+  args: {
+    control: dummyForm.control,
+    isSubmitting: false,
+  },
+  render: (_args) => {
     const form = useForm<SampleFormValues>({
       resolver: zodResolver(sampleFormSchema),
       defaultValues: {
@@ -163,7 +171,11 @@ export const Default: Story = {
  */
 export const Filled: Story = {
   name: "入力済み",
-  render: () => {
+  args: {
+    control: dummyForm.control,
+    isSubmitting: false,
+  },
+  render: (_args) => {
     const form = useForm<SampleFormValues>({
       resolver: zodResolver(sampleFormSchema),
       defaultValues: {
@@ -212,7 +224,11 @@ export const Filled: Story = {
  */
 export const Submitting: Story = {
   name: "送信中",
-  render: () => {
+  args: {
+    control: dummyForm.control,
+    isSubmitting: true,
+  },
+  render: (_args) => {
     const form = useForm<SampleFormValues>({
       resolver: zodResolver(sampleFormSchema),
       defaultValues: {

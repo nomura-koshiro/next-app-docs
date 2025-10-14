@@ -97,7 +97,8 @@ export const WithError: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
 
-    const errorMessage = await canvas.findByText(/エラーが発生しました/i);
+    // ErrorBoundaryによるエラーメッセージが表示されることを確認
+    const errorMessage = await canvas.findByText(/予期しないエラーが発生しました/i);
     expect(errorMessage).toBeInTheDocument();
   },
 };

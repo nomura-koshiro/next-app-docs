@@ -173,9 +173,9 @@ export const WithError: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
 
-    // エラーメッセージが表示されることを確認
+    // ErrorBoundaryによるエラーメッセージが表示されることを確認
     const errorMessage =
-      await canvas.findByText(/ユーザーの読み込みに失敗しました/i);
+      await canvas.findByText(/予期しないエラーが発生しました/i);
     expect(errorMessage).toBeInTheDocument();
   },
 };

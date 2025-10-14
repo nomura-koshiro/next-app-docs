@@ -2,11 +2,13 @@
 
 import { Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
+
+import { MainErrorFallback } from "@/components/errors/main";
+import { PageHeader } from "@/components/layout/page-header";
+import { PageLayout } from "@/components/layout/page-layout";
 import { ErrorMessage } from "@/components/ui/error-message";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
-import { MainErrorFallback } from "@/components/errors/main";
-import { PageLayout } from "@/components/layout/page-layout";
-import { PageHeader } from "@/components/layout/page-header";
+
 import { DeleteUserConfirmation } from "./components/delete-user-confirmation";
 import { useDeleteUser } from "./delete-user.hook";
 
@@ -21,7 +23,7 @@ const DeleteUserPageContent = ({
   const { user, handleDelete, handleCancel, isDeleting } =
     useDeleteUser(params);
 
-  if (!user) {
+  if (user === undefined) {
     return <ErrorMessage message="ユーザーが見つかりません" fullScreen />;
   }
 

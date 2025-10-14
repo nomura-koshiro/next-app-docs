@@ -1,7 +1,8 @@
 import { useRouter } from "next/navigation";
+import { use } from "react";
 
-import { useUser } from "@/features/sample-users/api/get-user";
 import { useDeleteUser as useDeleteUserMutation } from "@/features/sample-users";
+import { useUser } from "@/features/sample-users/api/get-user";
 
 /**
  * ユーザー削除確認ページのロジックを管理するカスタムフック

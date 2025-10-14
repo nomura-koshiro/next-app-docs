@@ -1,7 +1,10 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
+import { use, useEffect } from "react";
+import { useForm } from "react-hook-form";
 
-import { useUser } from "@/features/sample-users/api/get-user";
 import { useUpdateUser } from "@/features/sample-users";
+import { useUser } from "@/features/sample-users/api/get-user";
 import {
   userFormSchema,
   type UserFormValues,
@@ -55,7 +58,7 @@ export const useEditUser = (params: Promise<{ id: string }>) => {
   // ================================================================================
   // Handlers
   // ================================================================================
-  const onSubmit = handleSubmit((formData) => {
+  const onSubmit = handleSubmit((formData: UserFormValues) => {
     updateUserMutation
       .mutateAsync({
         userId,
