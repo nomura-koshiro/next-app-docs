@@ -1,16 +1,8 @@
-import type { Meta, StoryObj } from "@storybook/nextjs-vite";
+import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 
-import {
-  Card,
-  CardAction,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "./card";
+import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from './card';
 
 /**
  * Cardコンポーネントのストーリー
@@ -35,7 +27,7 @@ const meta = {
   // ================================================================================
   // Storybookのナビゲーション階層
   // ================================================================================
-  title: "components/ui/Card",
+  title: 'components/ui/Card',
 
   // ================================================================================
   // 表示するコンポーネント
@@ -49,7 +41,7 @@ const meta = {
     // - "padded": 周囲にパディングを追加（フォームやカード向け）
     // - "fullscreen": 全画面表示（ページレイアウト向け）
     // ================================================================================
-    layout: "padded",
+    layout: 'padded',
 
     // ================================================================================
     // コンポーネントの詳細説明
@@ -58,20 +50,20 @@ const meta = {
     docs: {
       description: {
         component:
-          "コンテンツをグループ化して表示するためのカードコンポーネント。\n\n" +
-          "**構成要素:**\n" +
-          "- `Card`: カードのコンテナ\n" +
-          "- `CardHeader`: ヘッダーセクション\n" +
-          "- `CardTitle`: タイトル\n" +
-          "- `CardDescription`: 説明文\n" +
-          "- `CardContent`: メインコンテンツ\n" +
-          "- `CardFooter`: フッターセクション（ボタンなど）\n" +
-          "- `CardAction`: ヘッダー内のアクションボタン\n\n" +
-          "**使用場面:**\n" +
-          "- ダッシュボードのウィジェット\n" +
-          "- フォームのグループ化\n" +
-          "- リスト項目の詳細表示\n" +
-          "- 設定パネル",
+          'コンテンツをグループ化して表示するためのカードコンポーネント。\n\n' +
+          '**構成要素:**\n' +
+          '- `Card`: カードのコンテナ\n' +
+          '- `CardHeader`: ヘッダーセクション\n' +
+          '- `CardTitle`: タイトル\n' +
+          '- `CardDescription`: 説明文\n' +
+          '- `CardContent`: メインコンテンツ\n' +
+          '- `CardFooter`: フッターセクション（ボタンなど）\n' +
+          '- `CardAction`: ヘッダー内のアクションボタン\n\n' +
+          '**使用場面:**\n' +
+          '- ダッシュボードのウィジェット\n' +
+          '- フォームのグループ化\n' +
+          '- リスト項目の詳細表示\n' +
+          '- 設定パネル',
       },
     },
 
@@ -80,11 +72,11 @@ const meta = {
     // 異なる背景色でコンポーネントの見た目を確認できます
     // ================================================================================
     backgrounds: {
-      default: "gray",
+      default: 'gray',
       values: [
-        { name: "light", value: "#ffffff" },
-        { name: "dark", value: "#1a1a1a" },
-        { name: "gray", value: "#f3f4f6" },
+        { name: 'light', value: '#ffffff' },
+        { name: 'dark', value: '#1a1a1a' },
+        { name: 'gray', value: '#f3f4f6' },
       ],
     },
 
@@ -93,14 +85,14 @@ const meta = {
     // on* で始まるプロパティを自動的にアクションパネルに表示
     // ================================================================================
     actions: {
-      argTypesRegex: "^on[A-Z].*",
+      argTypesRegex: '^on[A-Z].*',
     },
   },
 
   // ================================================================================
   // ドキュメント自動生成を有効化
   // ================================================================================
-  tags: ["autodocs"],
+  tags: ['autodocs'],
 
   // ================================================================================
   // コントロールパネルの設定
@@ -108,19 +100,19 @@ const meta = {
   // ================================================================================
   argTypes: {
     className: {
-      control: "text",
-      description: "追加のCSSクラス名",
+      control: 'text',
+      description: '追加のCSSクラス名',
       table: {
-        type: { summary: "string" },
-        category: "スタイリング",
+        type: { summary: 'string' },
+        category: 'スタイリング',
       },
     },
     children: {
       control: false,
-      description: "カードの内容（CardHeader、CardContent、CardFooterなど）",
+      description: 'カードの内容（CardHeader、CardContent、CardFooterなど）',
       table: {
-        type: { summary: "ReactNode" },
-        category: "コンテンツ",
+        type: { summary: 'ReactNode' },
+        category: 'コンテンツ',
       },
     },
   },
@@ -133,7 +125,7 @@ type Story = StoryObj<typeof meta>;
  * 基本的なカード
  */
 export const Default: Story = {
-  name: "デフォルト",
+  name: 'デフォルト',
   render: () => (
     <Card className="w-96">
       <CardHeader>
@@ -148,8 +140,7 @@ export const Default: Story = {
   parameters: {
     docs: {
       description: {
-        story:
-          "基本的なカード構成。ヘッダー（タイトルと説明）とコンテンツで構成されています。",
+        story: '基本的なカード構成。ヘッダー（タイトルと説明）とコンテンツで構成されています。',
       },
     },
   },
@@ -159,14 +150,12 @@ export const Default: Story = {
  * フッター付きカード
  */
 export const WithFooter: Story = {
-  name: "フッター付き",
+  name: 'フッター付き',
   render: () => (
     <Card className="w-96">
       <CardHeader>
         <CardTitle>フッター付きカード</CardTitle>
-        <CardDescription>
-          フッターにアクションボタンを配置できます。
-        </CardDescription>
+        <CardDescription>フッターにアクションボタンを配置できます。</CardDescription>
       </CardHeader>
       <CardContent>
         <p>カードのコンテンツエリアです。</p>
@@ -182,8 +171,7 @@ export const WithFooter: Story = {
   parameters: {
     docs: {
       description: {
-        story:
-          "フッターセクションを持つカード。アクションボタン（保存、キャンセルなど）を配置するのに適しています。",
+        story: 'フッターセクションを持つカード。アクションボタン（保存、キャンセルなど）を配置するのに適しています。',
       },
     },
   },
@@ -193,7 +181,7 @@ export const WithFooter: Story = {
  * アクション付きカード
  */
 export const WithAction: Story = {
-  name: "アクション付き",
+  name: 'アクション付き',
   render: () => (
     <Card className="w-96">
       <CardHeader>
@@ -216,7 +204,7 @@ export const WithAction: Story = {
  * シンプルなカード
  */
 export const Simple: Story = {
-  name: "シンプル",
+  name: 'シンプル',
   render: () => (
     <Card className="w-96">
       <CardContent>
@@ -230,7 +218,7 @@ export const Simple: Story = {
  * フォーム用カード
  */
 export const FormCard: Story = {
-  name: "フォーム",
+  name: 'フォーム',
   render: () => (
     <Card className="w-96">
       <CardHeader>
@@ -241,19 +229,11 @@ export const FormCard: Story = {
         <div className="space-y-4">
           <div className="space-y-2">
             <label className="text-sm font-medium">メールアドレス</label>
-            <input
-              type="email"
-              className="w-full px-3 py-2 border rounded-md"
-              placeholder="user@example.com"
-            />
+            <input type="email" className="w-full px-3 py-2 border rounded-md" placeholder="user@example.com" />
           </div>
           <div className="space-y-2">
             <label className="text-sm font-medium">パスワード</label>
-            <input
-              type="password"
-              className="w-full px-3 py-2 border rounded-md"
-              placeholder="パスワード"
-            />
+            <input type="password" className="w-full px-3 py-2 border rounded-md" placeholder="パスワード" />
           </div>
         </div>
       </CardContent>

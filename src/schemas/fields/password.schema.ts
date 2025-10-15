@@ -1,11 +1,9 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 /**
  * パスワードのバリデーションスキーマ
  */
-export const passwordSchema = z
-  .string()
-  .min(1, { message: "パスワードは必須です" });
+export const passwordSchema = z.string().min(1, { message: 'パスワードは必須です' });
 
 /**
  * 強力なパスワードのバリデーションスキーマ
@@ -13,7 +11,7 @@ export const passwordSchema = z
  */
 export const strongPasswordSchema = z
   .string()
-  .min(8, { message: "パスワードは8文字以上で入力してください" })
+  .min(8, { message: 'パスワードは8文字以上で入力してください' })
   .regex(/^(?=.*[A-Za-z])(?=.*\d)/, {
-    message: "パスワードは英字と数字を含む必要があります",
+    message: 'パスワードは英字と数字を含む必要があります',
   });

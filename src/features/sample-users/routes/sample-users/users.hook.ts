@@ -1,6 +1,8 @@
-import { useRouter } from "next/navigation";
+'use client';
 
-import { useUsers as useUsersQuery } from "@/features/sample-users/api/get-users";
+import { useRouter } from 'next/navigation';
+
+import { useUsers as useUsersQuery } from '@/features/sample-users/api/get-users';
 
 /**
  * ユーザー一覧ページのロジックを管理するカスタムフック
@@ -28,7 +30,7 @@ export const useUsers = () => {
   };
 
   const handleCreateNew = () => {
-    router.push("/sample-users/new");
+    router.push('/sample-users/new');
   };
 
   return {

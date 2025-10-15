@@ -58,9 +58,9 @@ graph TB
     NewUserHook --> NewUserPage
     EditUserHook --> EditUserPage
 
-    style API fill:#e1f5ff
-    style Routes fill:#fff4e6
-    style Component fill:#f3e5f5
+    style API fill:#b3e5fc,stroke:#01579b,stroke-width:2px,color:#000
+    style Routes fill:#ffe0b2,stroke:#e65100,stroke-width:2px,color:#000
+    style Component fill:#ce93d8,stroke:#4a148c,stroke-width:2px,color:#000
 ```
 
 ### API層（`api/`）
@@ -94,9 +94,9 @@ flowchart TD
 
     CreateHook --> UseInComponent[コンポーネントで<br/>routes層のフックを使用]
 
-    style DirectUse fill:#c8e6c9
-    style CreateHook fill:#fff9c4
-    style UseInComponent fill:#c8e6c9
+    style DirectUse fill:#a5d6a7,stroke:#1b5e20,stroke-width:2px,color:#000
+    style CreateHook fill:#fff59d,stroke:#f57f17,stroke-width:2px,color:#000
+    style UseInComponent fill:#a5d6a7,stroke:#1b5e20,stroke-width:2px,color:#000
 ```
 
 ---
@@ -251,9 +251,9 @@ graph LR
         Remove --> Invalidate3[invalidateQueries<br/>リスト更新]
     end
 
-    style Create fill:#e1f5ff
-    style Update fill:#fff4e6
-    style Delete fill:#ffcdd2
+    style Create fill:#b3e5fc,stroke:#01579b,stroke-width:2px,color:#000
+    style Update fill:#ffe0b2,stroke:#e65100,stroke-width:2px,color:#000
+    style Delete fill:#ef9a9a,stroke:#b71c1c,stroke-width:2px,color:#000
 ```
 
 ---

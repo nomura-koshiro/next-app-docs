@@ -1,15 +1,9 @@
-import { Control } from "react-hook-form";
+import { Control } from 'react-hook-form';
 
-import { PageHeader } from "@/components/layout/page-header";
-import { PageLayout } from "@/components/layout/page-layout";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { PageHeader } from '@/components/layout/page-header';
+import { PageLayout } from '@/components/layout/page-layout';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   ControlledCheckboxField,
   ControlledDateField,
@@ -18,9 +12,9 @@ import {
   ControlledSelectField,
   ControlledSwitchField,
   ControlledTextareaField,
-} from "@/components/ui/form-field/controlled-form-field";
+} from '@/components/ui/form-field/controlled-form-field';
 
-import type { SampleFormValues } from "../../../schemas/sample-form.schema";
+import type { SampleFormValues } from '../../../schemas/sample-form.schema';
 
 type SampleFormProps = {
   /** React Hook Formのcontrolオブジェクト */
@@ -39,36 +33,20 @@ type SampleFormProps = {
  * すべてのフォーム部品の使用例を表示します。
  * ロジックは含まず、純粋な表示とイベント通知のみを行います。
  */
-export const SampleForm = ({
-  control,
-  onSubmit,
-  onReset,
-  isSubmitting,
-}: SampleFormProps) => {
+export const SampleForm = ({ control, onSubmit, onReset, isSubmitting }: SampleFormProps) => {
   return (
     <PageLayout maxWidth="4xl">
-      <PageHeader
-        title="フォーム部品サンプル"
-        description="react-hook-form + zod を使ったすべてのフォーム部品の使用例"
-      />
+      <PageHeader title="フォーム部品サンプル" description="react-hook-form + zod を使ったすべてのフォーム部品の使用例" />
 
       <form onSubmit={onSubmit} className="space-y-8">
         {/* Input Fields */}
         <Card>
           <CardHeader>
             <CardTitle>テキスト入力フィールド</CardTitle>
-            <CardDescription>
-              ControlledInputField を使った各種テキスト入力
-            </CardDescription>
+            <CardDescription>ControlledInputField を使った各種テキスト入力</CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
-            <ControlledInputField
-              control={control}
-              name="username"
-              label="ユーザー名"
-              placeholder="yamada_taro"
-              required
-            />
+            <ControlledInputField control={control} name="username" label="ユーザー名" placeholder="yamada_taro" required />
 
             <ControlledInputField
               control={control}
@@ -79,14 +57,7 @@ export const SampleForm = ({
               required
             />
 
-            <ControlledInputField
-              control={control}
-              name="age"
-              label="年齢"
-              type="number"
-              placeholder="25"
-              required
-            />
+            <ControlledInputField control={control} name="age" label="年齢" type="number" placeholder="25" required />
           </CardContent>
         </Card>
 
@@ -94,9 +65,7 @@ export const SampleForm = ({
         <Card>
           <CardHeader>
             <CardTitle>選択 & 複数行入力</CardTitle>
-            <CardDescription>
-              Select と Textarea コンポーネントの使用例
-            </CardDescription>
+            <CardDescription>Select と Textarea コンポーネントの使用例</CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
             <ControlledSelectField
@@ -104,10 +73,10 @@ export const SampleForm = ({
               name="country"
               label="国"
               options={[
-                { value: "jp", label: "日本" },
-                { value: "us", label: "アメリカ" },
-                { value: "uk", label: "イギリス" },
-                { value: "cn", label: "中国" },
+                { value: 'jp', label: '日本' },
+                { value: 'us', label: 'アメリカ' },
+                { value: 'uk', label: 'イギリス' },
+                { value: 'cn', label: '中国' },
               ]}
               required
             />
@@ -158,12 +127,12 @@ export const SampleForm = ({
               name="gender"
               label="性別"
               options={[
-                { value: "male", label: "男性" },
-                { value: "female", label: "女性" },
+                { value: 'male', label: '男性' },
+                { value: 'female', label: '女性' },
                 {
-                  value: "other",
-                  label: "その他",
-                  description: "回答したくない、または別の性別",
+                  value: 'other',
+                  label: 'その他',
+                  description: '回答したくない、または別の性別',
                 },
               ]}
               required
@@ -185,12 +154,7 @@ export const SampleForm = ({
               description="重要なお知らせをプッシュ通知で受け取ります"
             />
 
-            <ControlledSwitchField
-              control={control}
-              name="darkMode"
-              label="ダークモード"
-              description="ダークモードでUIを表示します"
-            />
+            <ControlledSwitchField control={control} name="darkMode" label="ダークモード" description="ダークモードでUIを表示します" />
           </CardContent>
         </Card>
 
@@ -201,26 +165,16 @@ export const SampleForm = ({
             <CardDescription>Date Input コンポーネントの使用例</CardDescription>
           </CardHeader>
           <CardContent>
-            <ControlledDateField
-              control={control}
-              name="birthdate"
-              label="生年月日"
-              required
-            />
+            <ControlledDateField control={control} name="birthdate" label="生年月日" required />
           </CardContent>
         </Card>
 
         {/* Submit Button */}
         <div className="flex gap-4">
           <Button type="submit" disabled={isSubmitting} className="flex-1">
-            {isSubmitting ? "送信中..." : "送信"}
+            {isSubmitting ? '送信中...' : '送信'}
           </Button>
-          <Button
-            type="button"
-            variant="outline"
-            onClick={onReset}
-            className="flex-1"
-          >
+          <Button type="button" variant="outline" onClick={onReset} className="flex-1">
             リセット
           </Button>
         </div>

@@ -1,10 +1,10 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import type { Meta, StoryObj } from "@storybook/nextjs-vite";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
+import { zodResolver } from '@hookform/resolvers/zod';
+import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
 
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 import {
   ControlledCheckboxField,
@@ -14,7 +14,7 @@ import {
   ControlledSelectField,
   ControlledSwitchField,
   ControlledTextareaField,
-} from "./controlled-form-field";
+} from './controlled-form-field';
 
 /**
  * ControlledFormFieldsコンポーネントのストーリー
@@ -32,7 +32,7 @@ const meta = {
   // ================================================================================
   // Storybookのナビゲーション階層
   // ================================================================================
-  title: "components/ui/ControlledFormFields",
+  title: 'components/ui/ControlledFormFields',
 
   parameters: {
     // ================================================================================
@@ -41,7 +41,7 @@ const meta = {
     // - "padded": 周囲にパディングを追加（フォームやカード向け）
     // - "fullscreen": 全画面表示（ページレイアウト向け）
     // ================================================================================
-    layout: "centered",
+    layout: 'centered',
 
     // ================================================================================
     // コンポーネントの詳細説明
@@ -50,17 +50,17 @@ const meta = {
     docs: {
       description: {
         component:
-          "React Hook Formによって制御されるフォームフィールドコンポーネント群。Zodスキーマによるバリデーションと統合されています。\n\n" +
-          "**主な機能:**\n" +
-          "- React Hook Formとの統合\n" +
-          "- Zodによる型安全なバリデーション\n" +
-          "- 自動エラー表示\n" +
-          "- 豊富なフィールドタイプ（Input, Select, Textarea, Checkbox, RadioGroup, Switch, Date）\n\n" +
-          "**使用場面:**\n" +
-          "- 複雑なバリデーションが必要なフォーム\n" +
-          "- 型安全性が重要なフォーム\n" +
-          "- ユーザー登録・編集フォーム\n" +
-          "- 設定画面",
+          'React Hook Formによって制御されるフォームフィールドコンポーネント群。Zodスキーマによるバリデーションと統合されています。\n\n' +
+          '**主な機能:**\n' +
+          '- React Hook Formとの統合\n' +
+          '- Zodによる型安全なバリデーション\n' +
+          '- 自動エラー表示\n' +
+          '- 豊富なフィールドタイプ（Input, Select, Textarea, Checkbox, RadioGroup, Switch, Date）\n\n' +
+          '**使用場面:**\n' +
+          '- 複雑なバリデーションが必要なフォーム\n' +
+          '- 型安全性が重要なフォーム\n' +
+          '- ユーザー登録・編集フォーム\n' +
+          '- 設定画面',
       },
     },
 
@@ -69,11 +69,11 @@ const meta = {
     // 異なる背景色でコンポーネントの見た目を確認できます
     // ================================================================================
     backgrounds: {
-      default: "light",
+      default: 'light',
       values: [
-        { name: "light", value: "#ffffff" },
-        { name: "dark", value: "#1a1a1a" },
-        { name: "gray", value: "#f3f4f6" },
+        { name: 'light', value: '#ffffff' },
+        { name: 'dark', value: '#1a1a1a' },
+        { name: 'gray', value: '#f3f4f6' },
       ],
     },
 
@@ -82,14 +82,14 @@ const meta = {
     // on* で始まるプロパティを自動的にアクションパネルに表示
     // ================================================================================
     actions: {
-      argTypesRegex: "^on[A-Z].*",
+      argTypesRegex: '^on[A-Z].*',
     },
   },
 
   // ================================================================================
   // ドキュメント自動生成を有効化
   // ================================================================================
-  tags: ["autodocs"],
+  tags: ['autodocs'],
 } satisfies Meta;
 
 export default meta;
@@ -98,23 +98,22 @@ export default meta;
  * ControlledInputField のサンプル
  */
 export const InputField: StoryObj = {
-  name: "入力フィールド",
+  name: '入力フィールド',
   parameters: {
     docs: {
       description: {
-        story:
-          "React Hook Formで制御される入力フィールド。Zodスキーマによるバリデーションが自動的に適用されます。",
+        story: 'React Hook Formで制御される入力フィールド。Zodスキーマによるバリデーションが自動的に適用されます。',
       },
     },
   },
   render: () => {
     const schema = z.object({
-      username: z.string().min(3, { message: "3文字以上で入力してください" }),
+      username: z.string().min(3, { message: '3文字以上で入力してください' }),
     });
 
     const { control, handleSubmit } = useForm({
       resolver: zodResolver(schema),
-      defaultValues: { username: "" },
+      defaultValues: { username: '' },
     });
 
     return (
@@ -123,19 +122,8 @@ export const InputField: StoryObj = {
           <CardTitle>ControlledInputField</CardTitle>
         </CardHeader>
         <CardContent>
-          <form
-            onSubmit={handleSubmit((data) =>
-              alert(JSON.stringify(data, null, 2)),
-            )}
-            className="space-y-4"
-          >
-            <ControlledInputField
-              control={control}
-              name="username"
-              label="ユーザー名"
-              placeholder="yamada_taro"
-              required
-            />
+          <form onSubmit={handleSubmit((data) => alert(JSON.stringify(data, null, 2)))} className="space-y-4">
+            <ControlledInputField control={control} name="username" label="ユーザー名" placeholder="yamada_taro" required />
             <Button type="submit" className="w-full">
               送信
             </Button>
@@ -150,23 +138,22 @@ export const InputField: StoryObj = {
  * ControlledSelectField のサンプル
  */
 export const SelectField: StoryObj = {
-  name: "セレクトフィールド",
+  name: 'セレクトフィールド',
   parameters: {
     docs: {
       description: {
-        story:
-          "React Hook Formで制御されるセレクトフィールド。選択肢から1つを選ぶ入力に使用します。",
+        story: 'React Hook Formで制御されるセレクトフィールド。選択肢から1つを選ぶ入力に使用します。',
       },
     },
   },
   render: () => {
     const schema = z.object({
-      country: z.string().min(1, { message: "国を選択してください" }),
+      country: z.string().min(1, { message: '国を選択してください' }),
     });
 
     const { control, handleSubmit } = useForm({
       resolver: zodResolver(schema),
-      defaultValues: { country: "" },
+      defaultValues: { country: '' },
     });
 
     return (
@@ -175,21 +162,16 @@ export const SelectField: StoryObj = {
           <CardTitle>ControlledSelectField</CardTitle>
         </CardHeader>
         <CardContent>
-          <form
-            onSubmit={handleSubmit((data) =>
-              alert(JSON.stringify(data, null, 2)),
-            )}
-            className="space-y-4"
-          >
+          <form onSubmit={handleSubmit((data) => alert(JSON.stringify(data, null, 2)))} className="space-y-4">
             <ControlledSelectField
               control={control}
               name="country"
               label="国"
               options={[
-                { value: "jp", label: "日本" },
-                { value: "us", label: "アメリカ" },
-                { value: "uk", label: "イギリス" },
-                { value: "cn", label: "中国" },
+                { value: 'jp', label: '日本' },
+                { value: 'us', label: 'アメリカ' },
+                { value: 'uk', label: 'イギリス' },
+                { value: 'cn', label: '中国' },
               ]}
               required
             />
@@ -207,26 +189,22 @@ export const SelectField: StoryObj = {
  * ControlledTextareaField のサンプル
  */
 export const TextareaField: StoryObj = {
-  name: "テキストエリアフィールド",
+  name: 'テキストエリアフィールド',
   parameters: {
     docs: {
       description: {
-        story:
-          "React Hook Formで制御される複数行テキスト入力フィールド。長文の入力に使用します。",
+        story: 'React Hook Formで制御される複数行テキスト入力フィールド。長文の入力に使用します。',
       },
     },
   },
   render: () => {
     const schema = z.object({
-      bio: z
-        .string()
-        .min(10, { message: "10文字以上で入力してください" })
-        .max(200, { message: "200文字以内で入力してください" }),
+      bio: z.string().min(10, { message: '10文字以上で入力してください' }).max(200, { message: '200文字以内で入力してください' }),
     });
 
     const { control, handleSubmit } = useForm({
       resolver: zodResolver(schema),
-      defaultValues: { bio: "" },
+      defaultValues: { bio: '' },
     });
 
     return (
@@ -235,12 +213,7 @@ export const TextareaField: StoryObj = {
           <CardTitle>ControlledTextareaField</CardTitle>
         </CardHeader>
         <CardContent>
-          <form
-            onSubmit={handleSubmit((data) =>
-              alert(JSON.stringify(data, null, 2)),
-            )}
-            className="space-y-4"
-          >
+          <form onSubmit={handleSubmit((data) => alert(JSON.stringify(data, null, 2)))} className="space-y-4">
             <ControlledTextareaField
               control={control}
               name="bio"
@@ -263,19 +236,18 @@ export const TextareaField: StoryObj = {
  * ControlledCheckboxField のサンプル
  */
 export const CheckboxField: StoryObj = {
-  name: "チェックボックスフィールド",
+  name: 'チェックボックスフィールド',
   parameters: {
     docs: {
       description: {
-        story:
-          "React Hook Formで制御されるチェックボックスフィールド。利用規約への同意などに使用します。",
+        story: 'React Hook Formで制御されるチェックボックスフィールド。利用規約への同意などに使用します。',
       },
     },
   },
   render: () => {
     const schema = z.object({
       terms: z.boolean().refine((val) => val === true, {
-        message: "利用規約に同意する必要があります",
+        message: '利用規約に同意する必要があります',
       }),
       newsletter: z.boolean().optional(),
     });
@@ -291,12 +263,7 @@ export const CheckboxField: StoryObj = {
           <CardTitle>ControlledCheckboxField</CardTitle>
         </CardHeader>
         <CardContent>
-          <form
-            onSubmit={handleSubmit((data) =>
-              alert(JSON.stringify(data, null, 2)),
-            )}
-            className="space-y-4"
-          >
+          <form onSubmit={handleSubmit((data) => alert(JSON.stringify(data, null, 2)))} className="space-y-4">
             <ControlledCheckboxField
               control={control}
               name="terms"
@@ -323,25 +290,24 @@ export const CheckboxField: StoryObj = {
  * ControlledRadioGroupField のサンプル
  */
 export const RadioGroupField: StoryObj = {
-  name: "ラジオグループフィールド",
+  name: 'ラジオグループフィールド',
   parameters: {
     docs: {
       description: {
-        story:
-          "React Hook Formで制御されるラジオボタングループ。複数の選択肢から1つを選ぶ入力に使用します。",
+        story: 'React Hook Formで制御されるラジオボタングループ。複数の選択肢から1つを選ぶ入力に使用します。',
       },
     },
   },
   render: () => {
     const schema = z.object({
-      gender: z.enum(["male", "female", "other"], {
-        message: "性別を選択してください",
+      gender: z.enum(['male', 'female', 'other'], {
+        message: '性別を選択してください',
       }),
     });
 
     const { control, handleSubmit } = useForm({
       resolver: zodResolver(schema),
-      defaultValues: { gender: "male" as const },
+      defaultValues: { gender: 'male' as const },
     });
 
     return (
@@ -350,23 +316,18 @@ export const RadioGroupField: StoryObj = {
           <CardTitle>ControlledRadioGroupField</CardTitle>
         </CardHeader>
         <CardContent>
-          <form
-            onSubmit={handleSubmit((data) =>
-              alert(JSON.stringify(data, null, 2)),
-            )}
-            className="space-y-4"
-          >
+          <form onSubmit={handleSubmit((data) => alert(JSON.stringify(data, null, 2)))} className="space-y-4">
             <ControlledRadioGroupField
               control={control}
               name="gender"
               label="性別"
               options={[
-                { value: "male", label: "男性" },
-                { value: "female", label: "女性" },
+                { value: 'male', label: '男性' },
+                { value: 'female', label: '女性' },
                 {
-                  value: "other",
-                  label: "その他",
-                  description: "回答したくない、または別の性別",
+                  value: 'other',
+                  label: 'その他',
+                  description: '回答したくない、または別の性別',
                 },
               ]}
               required
@@ -385,12 +346,11 @@ export const RadioGroupField: StoryObj = {
  * ControlledSwitchField のサンプル
  */
 export const SwitchField: StoryObj = {
-  name: "スイッチフィールド",
+  name: 'スイッチフィールド',
   parameters: {
     docs: {
       description: {
-        story:
-          "React Hook Formで制御されるスイッチフィールド。オン/オフの設定に使用します。",
+        story: 'React Hook Formで制御されるスイッチフィールド。オン/オフの設定に使用します。',
       },
     },
   },
@@ -411,24 +371,14 @@ export const SwitchField: StoryObj = {
           <CardTitle>ControlledSwitchField</CardTitle>
         </CardHeader>
         <CardContent>
-          <form
-            onSubmit={handleSubmit((data) =>
-              alert(JSON.stringify(data, null, 2)),
-            )}
-            className="space-y-4"
-          >
+          <form onSubmit={handleSubmit((data) => alert(JSON.stringify(data, null, 2)))} className="space-y-4">
             <ControlledSwitchField
               control={control}
               name="notifications"
               label="通知を有効にする"
               description="重要なお知らせをプッシュ通知で受け取ります"
             />
-            <ControlledSwitchField
-              control={control}
-              name="darkMode"
-              label="ダークモード"
-              description="ダークモードでUIを表示します"
-            />
+            <ControlledSwitchField control={control} name="darkMode" label="ダークモード" description="ダークモードでUIを表示します" />
             <Button type="submit" className="w-full">
               送信
             </Button>
@@ -443,23 +393,22 @@ export const SwitchField: StoryObj = {
  * ControlledDateField のサンプル
  */
 export const DateField: StoryObj = {
-  name: "日付フィールド",
+  name: '日付フィールド',
   parameters: {
     docs: {
       description: {
-        story:
-          "React Hook Formで制御される日付入力フィールド。生年月日などの入力に使用します。",
+        story: 'React Hook Formで制御される日付入力フィールド。生年月日などの入力に使用します。',
       },
     },
   },
   render: () => {
     const schema = z.object({
-      birthdate: z.string().min(1, { message: "生年月日を入力してください" }),
+      birthdate: z.string().min(1, { message: '生年月日を入力してください' }),
     });
 
     const { control, handleSubmit } = useForm({
       resolver: zodResolver(schema),
-      defaultValues: { birthdate: "" },
+      defaultValues: { birthdate: '' },
     });
 
     return (
@@ -468,18 +417,8 @@ export const DateField: StoryObj = {
           <CardTitle>ControlledDateField</CardTitle>
         </CardHeader>
         <CardContent>
-          <form
-            onSubmit={handleSubmit((data) =>
-              alert(JSON.stringify(data, null, 2)),
-            )}
-            className="space-y-4"
-          >
-            <ControlledDateField
-              control={control}
-              name="birthdate"
-              label="生年月日"
-              required
-            />
+          <form onSubmit={handleSubmit((data) => alert(JSON.stringify(data, null, 2)))} className="space-y-4">
+            <ControlledDateField control={control} name="birthdate" label="生年月日" required />
             <Button type="submit" className="w-full">
               送信
             </Button>
@@ -494,45 +433,42 @@ export const DateField: StoryObj = {
  * すべてのフィールドを組み合わせた総合サンプル
  */
 export const CompleteForm: StoryObj = {
-  name: "完全なフォーム",
+  name: '完全なフォーム',
   parameters: {
     docs: {
       description: {
         story:
-          "すべてのControlledフィールドコンポーネントを組み合わせた実用的なフォームの例。React Hook FormとZodによる包括的なバリデーションが実装されています。",
+          'すべてのControlledフィールドコンポーネントを組み合わせた実用的なフォームの例。React Hook FormとZodによる包括的なバリデーションが実装されています。',
       },
     },
   },
   render: () => {
     const schema = z.object({
-      username: z.string().min(3, { message: "3文字以上で入力してください" }),
-      email: z
-        .string()
-        .min(1, { message: "メールアドレスは必須です" })
-        .email({ message: "有効なメールアドレスを入力してください" }),
-      country: z.string().min(1, { message: "国を選択してください" }),
-      bio: z.string().min(10, { message: "10文字以上で入力してください" }),
+      username: z.string().min(3, { message: '3文字以上で入力してください' }),
+      email: z.string().min(1, { message: 'メールアドレスは必須です' }).email({ message: '有効なメールアドレスを入力してください' }),
+      country: z.string().min(1, { message: '国を選択してください' }),
+      bio: z.string().min(10, { message: '10文字以上で入力してください' }),
       terms: z.boolean().refine((val) => val === true, {
-        message: "利用規約に同意する必要があります",
+        message: '利用規約に同意する必要があります',
       }),
-      gender: z.enum(["male", "female", "other"], {
-        message: "性別を選択してください",
+      gender: z.enum(['male', 'female', 'other'], {
+        message: '性別を選択してください',
       }),
       notifications: z.boolean(),
-      birthdate: z.string().min(1, { message: "生年月日を入力してください" }),
+      birthdate: z.string().min(1, { message: '生年月日を入力してください' }),
     });
 
     const { control, handleSubmit, reset } = useForm({
       resolver: zodResolver(schema),
       defaultValues: {
-        username: "",
-        email: "",
-        country: "",
-        bio: "",
+        username: '',
+        email: '',
+        country: '',
+        bio: '',
         terms: false,
-        gender: "male" as const,
+        gender: 'male' as const,
         notifications: true,
-        birthdate: "",
+        birthdate: '',
       },
     });
 
@@ -549,13 +485,7 @@ export const CompleteForm: StoryObj = {
             })}
             className="space-y-6"
           >
-            <ControlledInputField
-              control={control}
-              name="username"
-              label="ユーザー名"
-              placeholder="yamada_taro"
-              required
-            />
+            <ControlledInputField control={control} name="username" label="ユーザー名" placeholder="yamada_taro" required />
 
             <ControlledInputField
               control={control}
@@ -571,10 +501,10 @@ export const CompleteForm: StoryObj = {
               name="country"
               label="国"
               options={[
-                { value: "jp", label: "日本" },
-                { value: "us", label: "アメリカ" },
-                { value: "uk", label: "イギリス" },
-                { value: "cn", label: "中国" },
+                { value: 'jp', label: '日本' },
+                { value: 'us', label: 'アメリカ' },
+                { value: 'uk', label: 'イギリス' },
+                { value: 'cn', label: '中国' },
               ]}
               required
             />
@@ -600,12 +530,12 @@ export const CompleteForm: StoryObj = {
               name="gender"
               label="性別"
               options={[
-                { value: "male", label: "男性" },
-                { value: "female", label: "女性" },
+                { value: 'male', label: '男性' },
+                { value: 'female', label: '女性' },
                 {
-                  value: "other",
-                  label: "その他",
-                  description: "回答したくない、または別の性別",
+                  value: 'other',
+                  label: 'その他',
+                  description: '回答したくない、または別の性別',
                 },
               ]}
               required
@@ -618,23 +548,13 @@ export const CompleteForm: StoryObj = {
               description="重要なお知らせをプッシュ通知で受け取ります"
             />
 
-            <ControlledDateField
-              control={control}
-              name="birthdate"
-              label="生年月日"
-              required
-            />
+            <ControlledDateField control={control} name="birthdate" label="生年月日" required />
 
             <div className="flex gap-4">
               <Button type="submit" className="flex-1">
                 送信
               </Button>
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() => reset()}
-                className="flex-1"
-              >
+              <Button type="button" variant="outline" onClick={() => reset()} className="flex-1">
                 リセット
               </Button>
             </div>

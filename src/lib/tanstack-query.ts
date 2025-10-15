@@ -1,4 +1,4 @@
-import { DefaultOptions, UseMutationOptions } from "@tanstack/react-query";
+import { DefaultOptions, UseMutationOptions } from '@tanstack/react-query';
 
 /**
  * React Query のデフォルト設定
@@ -29,8 +29,7 @@ export const queryConfig = {
  * ```
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type ApiFnReturnType<FnType extends (...args: any) => Promise<any>> =
-  Awaited<ReturnType<FnType>>;
+export type ApiFnReturnType<FnType extends (...args: any) => Promise<any>> = Awaited<ReturnType<FnType>>;
 
 /**
  * クエリ設定のユーティリティ型
@@ -40,10 +39,7 @@ export type ApiFnReturnType<FnType extends (...args: any) => Promise<any>> =
  * @template T - クエリフック関数の型
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type QueryConfig<T extends (...args: any[]) => any> = Omit<
-  ReturnType<T>,
-  "queryKey" | "queryFn"
->;
+export type QueryConfig<T extends (...args: any[]) => any> = Omit<ReturnType<T>, 'queryKey' | 'queryFn'>;
 
 /**
  * Mutation設定のユーティリティ型
@@ -60,8 +56,4 @@ export type QueryConfig<T extends (...args: any[]) => any> = Omit<
 export type MutationConfig<
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   MutationFnType extends (...args: any) => Promise<any>,
-> = UseMutationOptions<
-  ApiFnReturnType<MutationFnType>,
-  Error,
-  Parameters<MutationFnType>[0]
->;
+> = UseMutationOptions<ApiFnReturnType<MutationFnType>, Error, Parameters<MutationFnType>[0]>;

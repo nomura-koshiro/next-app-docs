@@ -1,6 +1,6 @@
-import { AlertCircle } from "lucide-react";
+import { AlertCircle } from 'lucide-react';
 
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 /**
  * ErrorMessageコンポーネントのプロパティ
@@ -41,11 +41,7 @@ type ErrorMessageProps = {
  * @param props - ErrorMessageコンポーネントのプロパティ
  * @returns エラーメッセージ要素
  */
-export function ErrorMessage({
-  title = "エラー",
-  message,
-  fullScreen = false,
-}: ErrorMessageProps) {
+export function ErrorMessage({ title = 'エラー', message, fullScreen = false }: ErrorMessageProps) {
   // アラートコンテンツ
   const alertContent = (
     <Alert variant="destructive">

@@ -25,10 +25,10 @@
  * ```
  */
 
-import { create } from "zustand";
-import { createJSONStorage, persist } from "zustand/middleware";
+import { create } from 'zustand';
+import { createJSONStorage, persist } from 'zustand/middleware';
 
-import type { AuthStore, User } from "../types";
+import type { AuthStore, User } from '../types';
 
 /**
  * 認証ストア
@@ -67,10 +67,10 @@ export const useAuthStore = create<AuthStore>()(
           await new Promise((resolve) => setTimeout(resolve, 1000)); // 擬似的な非同期処理
 
           const mockUser: User = {
-            id: "1",
+            id: '1',
             email: email,
-            name: "Sample User",
-            role: "user",
+            name: 'Sample User',
+            role: 'user',
           };
 
           set({
@@ -115,7 +115,7 @@ export const useAuthStore = create<AuthStore>()(
       },
     }),
     {
-      name: "auth-storage", // LocalStorageのキー名
+      name: 'auth-storage', // LocalStorageのキー名
       storage: createJSONStorage(() => localStorage), // LocalStorageを使用
       // セッションストレージを使用したい場合:
       // storage: createJSONStorage(() => sessionStorage),
@@ -126,8 +126,8 @@ export const useAuthStore = create<AuthStore>()(
         isAuthenticated: state.isAuthenticated,
         // isLoadingは永続化しない
       }),
-    },
-  ),
+    }
+  )
 );
 
 // ================================================================================
@@ -144,6 +144,5 @@ export const useAuthStore = create<AuthStore>()(
  * ```
  */
 export const selectUser = (state: AuthStore): User | null => state.user;
-export const selectIsAuthenticated = (state: AuthStore): boolean =>
-  state.isAuthenticated;
+export const selectIsAuthenticated = (state: AuthStore): boolean => state.isAuthenticated;
 export const selectIsLoading = (state: AuthStore): boolean => state.isLoading;

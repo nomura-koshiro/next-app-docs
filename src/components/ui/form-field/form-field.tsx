@@ -1,12 +1,6 @@
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 /**
  * FormFieldコンポーネントのプロパティ
@@ -45,13 +39,7 @@ type FormFieldProps = {
  * @param props - FormFieldコンポーネントのプロパティ
  * @returns フォームフィールド要素
  */
-export function FormField({
-  label,
-  id,
-  required = false,
-  error,
-  children,
-}: FormFieldProps) {
+export function FormField({ label, id, required = false, error, children }: FormFieldProps) {
   return (
     <div className="space-y-2">
       <Label htmlFor={id}>
@@ -75,26 +63,10 @@ type InputFieldProps = {
   error?: string;
 };
 
-export function InputField({
-  label,
-  id,
-  type = "text",
-  value,
-  onChange,
-  placeholder,
-  required = false,
-  error,
-}: InputFieldProps) {
+export function InputField({ label, id, type = 'text', value, onChange, placeholder, required = false, error }: InputFieldProps) {
   return (
     <FormField label={label} id={id} required={required} error={error}>
-      <Input
-        id={id}
-        type={type}
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        placeholder={placeholder}
-        required={required}
-      />
+      <Input id={id} type={type} value={value} onChange={(e) => onChange(e.target.value)} placeholder={placeholder} required={required} />
     </FormField>
   );
 }
@@ -109,15 +81,7 @@ type SelectFieldProps = {
   error?: string;
 };
 
-export function SelectField({
-  label,
-  id,
-  value,
-  onChange,
-  options,
-  required = false,
-  error,
-}: SelectFieldProps) {
+export function SelectField({ label, id, value, onChange, options, required = false, error }: SelectFieldProps) {
   return (
     <FormField label={label} id={id} required={required} error={error}>
       <Select value={value} onValueChange={onChange}>

@@ -1,4 +1,4 @@
-import * as z from "zod";
+import * as z from 'zod';
 
 /**
  * 環境変数を検証して型安全に取得する
@@ -11,13 +11,11 @@ const createEnv = () => {
   const storybookPort = process.env.NEXT_PUBLIC_STORYBOOK_PORT;
 
   // StorybookポートがあればAPI URLを動的に構築
-  const apiUrl = storybookPort
-    ? `http://localhost:${storybookPort}/api/v1`
-    : process.env.NEXT_PUBLIC_API_URL;
+  const apiUrl = storybookPort ? `http://localhost:${storybookPort}/api/v1` : process.env.NEXT_PUBLIC_API_URL;
 
   if (storybookPort) {
-    console.log("[env] Storybook port detected:", storybookPort);
-    console.log("[env] API_URL overridden to:", apiUrl);
+    console.log('[env] Storybook port detected:', storybookPort);
+    console.log('[env] API_URL overridden to:', apiUrl);
   }
 
   // 環境変数のスキーマ定義
@@ -27,13 +25,13 @@ const createEnv = () => {
     // MSWモックAPIの有効/無効フラグ（オプション）
     ENABLE_API_MOCKING: z
       .string()
-      .refine((s) => s === "true" || s === "false")
-      .transform((s) => s === "true")
+      .refine((s) => s === 'true' || s === 'false')
+      .transform((s) => s === 'true')
       .optional(),
     // アプリケーションURL（オプション、デフォルト: http://localhost:3000）
-    APP_URL: z.string().optional().default("http://localhost:3000"),
+    APP_URL: z.string().optional().default('http://localhost:3000'),
     // モックAPIポート番号（オプション、デフォルト: 8080）
-    APP_MOCK_API_PORT: z.string().optional().default("8080"),
+    APP_MOCK_API_PORT: z.string().optional().default('8080'),
     // Storybookポート番号（オプション、Storybook環境でのみ設定される）
     STORYBOOK_PORT: z.string().optional(),
   });
@@ -57,8 +55,8 @@ const createEnv = () => {
   The following variables are missing or invalid:
   ${Object.entries(parsedEnv.error.flatten().fieldErrors)
     .map(([k, v]) => `- ${k}: ${v}`)
-    .join("\n")}
-  `,
+    .join('\n')}
+  `
     );
   }
 

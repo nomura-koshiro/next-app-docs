@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 
 /**
  * メインエラーフォールバックコンポーネント
@@ -22,20 +22,14 @@ import { Button } from "@/components/ui/button";
  */
 export const MainErrorFallback = (): React.ReactElement => {
   return (
-    <div
-      className="flex h-screen w-screen flex-col items-center justify-center text-red-500"
-      role="alert"
-    >
+    <div className="flex h-screen w-screen flex-col items-center justify-center text-red-500" role="alert">
       <h2 className="text-lg font-semibold">予期しないエラーが発生しました</h2>
       <p className="mt-2 text-sm text-gray-600">
         申し訳ございません。アプリケーションで問題が発生しました。
         <br />
         ページを再読み込みしてもう一度お試しください。
       </p>
-      <Button
-        className="mt-4"
-        onClick={() => window.location.assign(window.location.origin)}
-      >
+      <Button className="mt-4" onClick={() => window.location.assign(window.location.origin)}>
         再読み込み
       </Button>
     </div>

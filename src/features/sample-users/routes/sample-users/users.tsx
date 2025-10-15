@@ -1,16 +1,16 @@
-"use client";
+'use client';
 
-import { Suspense } from "react";
-import { ErrorBoundary } from "react-error-boundary";
+import { Suspense } from 'react';
+import { ErrorBoundary } from 'react-error-boundary';
 
-import { MainErrorFallback } from "@/components/errors/main";
-import { PageHeader } from "@/components/layout/page-header";
-import { PageLayout } from "@/components/layout/page-layout";
-import { Button } from "@/components/ui/button";
-import { LoadingSpinner } from "@/components/ui/loading-spinner";
+import { MainErrorFallback } from '@/components/errors/main';
+import { PageHeader } from '@/components/layout/page-header';
+import { PageLayout } from '@/components/layout/page-layout';
+import { Button } from '@/components/ui/button';
+import { LoadingSpinner } from '@/components/ui/loading-spinner';
 
-import { UsersList } from "./components/users-list";
-import { useUsers } from "./users.hook";
+import { UsersList } from './components/users-list';
+import { useUsers } from './users.hook';
 
 /**
  * ユーザー一覧ページのコンテンツ
@@ -20,10 +20,7 @@ const UsersPageContent = () => {
 
   return (
     <PageLayout>
-      <PageHeader
-        title="ユーザー一覧"
-        action={<Button onClick={handleCreateNew}>新規ユーザー作成</Button>}
-      />
+      <PageHeader title="ユーザー一覧" action={<Button onClick={handleCreateNew}>新規ユーザー作成</Button>} />
 
       <UsersList users={users} onEdit={handleEdit} onDelete={handleDelete} />
     </PageLayout>

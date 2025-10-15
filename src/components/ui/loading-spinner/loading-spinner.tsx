@@ -5,7 +5,7 @@ type LoadingSpinnerProps = {
   /** ローディングテキスト（デフォルト: "読み込み中..."） */
   text?: string;
   /** テキストのサイズ（デフォルト: "md"） */
-  size?: "sm" | "md" | "lg";
+  size?: 'sm' | 'md' | 'lg';
   /** フルスクリーン表示にするか（デフォルト: false） */
   fullScreen?: boolean;
 };
@@ -34,24 +34,17 @@ type LoadingSpinnerProps = {
  * @param props - LoadingSpinnerコンポーネントのプロパティ
  * @returns ローディングスピナー要素
  */
-export function LoadingSpinner({
-  text = "読み込み中...",
-  size = "md",
-  fullScreen = false,
-}: LoadingSpinnerProps) {
+export function LoadingSpinner({ text = '読み込み中...', size = 'md', fullScreen = false }: LoadingSpinnerProps) {
   /** テキストサイズに対応するCSSクラスのマッピング */
   const sizeClasses = {
-    sm: "text-base", // 16px
-    md: "text-lg", // 18px
-    lg: "text-xl", // 20px
+    sm: 'text-base', // 16px
+    md: 'text-lg', // 18px
+    lg: 'text-xl', // 20px
   };
 
   // スピナーコンテンツ
   const content = (
-    <div
-      className="flex flex-col items-center justify-center gap-4"
-      data-testid="loading-spinner"
-    >
+    <div className="flex flex-col items-center justify-center gap-4" data-testid="loading-spinner">
       {/* 回転スピナー */}
       <div className="animate-spin rounded-full border-4 border-gray-200 border-t-blue-600 h-12 w-12" />
       {/* ローディングテキスト */}
@@ -61,11 +54,7 @@ export function LoadingSpinner({
 
   // フルスクリーン表示の場合
   if (fullScreen) {
-    return (
-      <div className="flex min-h-screen items-center justify-center">
-        {content}
-      </div>
-    );
+    return <div className="flex min-h-screen items-center justify-center">{content}</div>;
   }
 
   // インライン表示の場合

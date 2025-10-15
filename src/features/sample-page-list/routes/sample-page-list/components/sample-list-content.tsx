@@ -1,7 +1,7 @@
-import Link from "next/link";
+import Link from 'next/link';
 
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import type { SampleItem } from "@/features/sample-page-list/constants/samples";
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import type { SampleItem } from '@/features/sample-page-list/constants/samples';
 
 /**
  * サンプル一覧コンテンツのプロップス
@@ -29,7 +29,7 @@ export const SampleListContent = ({ samples }: SampleListContentProps) => {
 
       return acc;
     },
-    {} as Record<string, SampleItem[]>,
+    {} as Record<string, SampleItem[]>
   );
 
   return (
@@ -43,14 +43,10 @@ export const SampleListContent = ({ samples }: SampleListContentProps) => {
                 <Link key={sample.href} href={sample.href}>
                   <Card className="h-full transition-all hover:shadow-lg hover:border-primary/50">
                     <CardHeader>
-                      <h3 className="font-semibold text-lg text-foreground">
-                        {sample.title}
-                      </h3>
+                      <h3 className="font-semibold text-lg text-foreground">{sample.title}</h3>
                     </CardHeader>
                     <CardContent>
-                      <p className="text-sm text-muted-foreground">
-                        {sample.description}
-                      </p>
+                      <p className="text-sm text-muted-foreground">{sample.description}</p>
                       <div className="mt-4 flex items-center text-sm text-primary font-medium">
                         <span>サンプルを見る →</span>
                       </div>
@@ -67,24 +63,16 @@ export const SampleListContent = ({ samples }: SampleListContentProps) => {
         <h3 className="font-semibold mb-2 text-foreground">💡 ヒント</h3>
         <ul className="text-sm space-y-2 text-foreground/80">
           <li>
-            • 各サンプルページのソースコードは{" "}
-            <code className="bg-white border border-border px-2 py-0.5 rounded text-xs">
-              src/features/sample-*/
-            </code>{" "}
-            ディレクトリにあります
+            • 各サンプルページのソースコードは{' '}
+            <code className="bg-white border border-border px-2 py-0.5 rounded text-xs">src/features/sample-*/</code> ディレクトリにあります
           </li>
           <li>
             • Storybookでコンポーネント単位のサンプルも確認できます（
-            <code className="bg-white border border-border px-2 py-0.5 rounded text-xs">
-              pnpm storybook
-            </code>
-            ）
+            <code className="bg-white border border-border px-2 py-0.5 rounded text-xs">pnpm storybook</code>）
           </li>
           <li>
-            • 新しいfeatureを作成するには{" "}
-            <code className="bg-white border border-border px-2 py-0.5 rounded text-xs">
-              pnpm generate:feature
-            </code>{" "}
+            • 新しいfeatureを作成するには{' '}
+            <code className="bg-white border border-border px-2 py-0.5 rounded text-xs">pnpm generate:feature</code>{' '}
             コマンドを使用してください
           </li>
         </ul>

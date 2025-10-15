@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { useDevTools } from "@/hooks/use-devtools";
+import { useDevTools } from '@/hooks/use-devtools';
 
-import { SampleForm } from "./components/sample-form-form";
-import { useSampleForm } from "./sample-form.hook";
+import { SampleForm } from './components/sample-form-form';
+import { useSampleForm } from './sample-form.hook';
 
 /**
  * サンプルフォームページコンテナ
@@ -20,12 +20,7 @@ export default function SampleFormPage() {
 
   return (
     <>
-      <SampleForm
-        control={control}
-        onSubmit={onSubmit}
-        onReset={reset}
-        isSubmitting={false}
-      />
+      <SampleForm control={control} onSubmit={onSubmit} onReset={reset} isSubmitting={false} />
       {DevTools}
     </>
   );

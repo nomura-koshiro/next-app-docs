@@ -1,20 +1,14 @@
-"use client";
+'use client';
 
-import { Control, Controller, FieldPath, FieldValues } from "react-hook-form";
+import { Control, Controller, FieldPath, FieldValues } from 'react-hook-form';
 
-import { Checkbox } from "@/components/ui/checkbox";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Switch } from "@/components/ui/switch";
-import { Textarea } from "@/components/ui/textarea";
+import { Checkbox } from '@/components/ui/checkbox';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Switch } from '@/components/ui/switch';
+import { Textarea } from '@/components/ui/textarea';
 
 type ControlledInputFieldProps<TFieldValues extends FieldValues> = {
   control: Control<TFieldValues>;
@@ -34,7 +28,7 @@ export function ControlledInputField<TFieldValues extends FieldValues>({
   control,
   name,
   label,
-  type = "text",
+  type = 'text',
   placeholder,
   required = false,
   autoComplete,
@@ -58,13 +52,9 @@ export function ControlledInputField<TFieldValues extends FieldValues>({
             type={type}
             placeholder={placeholder}
             autoComplete={autoComplete}
-            aria-invalid={fieldState.error ? "true" : "false"}
+            aria-invalid={fieldState.error ? 'true' : 'false'}
           />
-          {fieldState.error && (
-            <p className="text-sm text-destructive">
-              {fieldState.error.message}
-            </p>
-          )}
+          {fieldState.error && <p className="text-sm text-destructive">{fieldState.error.message}</p>}
         </div>
       )}
     />
@@ -100,10 +90,7 @@ export function ControlledSelectField<TFieldValues extends FieldValues>({
             {required && <span className="text-red-500 ml-1">*</span>}
           </Label>
           <Select value={field.value} onValueChange={field.onChange}>
-            <SelectTrigger
-              id={name}
-              aria-invalid={fieldState.error ? "true" : "false"}
-            >
+            <SelectTrigger id={name} aria-invalid={fieldState.error ? 'true' : 'false'}>
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
@@ -114,11 +101,7 @@ export function ControlledSelectField<TFieldValues extends FieldValues>({
               ))}
             </SelectContent>
           </Select>
-          {fieldState.error && (
-            <p className="text-sm text-destructive">
-              {fieldState.error.message}
-            </p>
-          )}
+          {fieldState.error && <p className="text-sm text-destructive">{fieldState.error.message}</p>}
         </div>
       )}
     />
@@ -155,18 +138,8 @@ export function ControlledTextareaField<TFieldValues extends FieldValues>({
             {label}
             {required && <span className="text-red-500 ml-1">*</span>}
           </Label>
-          <Textarea
-            {...field}
-            id={name}
-            placeholder={placeholder}
-            rows={rows}
-            aria-invalid={fieldState.error ? "true" : "false"}
-          />
-          {fieldState.error && (
-            <p className="text-sm text-destructive">
-              {fieldState.error.message}
-            </p>
-          )}
+          <Textarea {...field} id={name} placeholder={placeholder} rows={rows} aria-invalid={fieldState.error ? 'true' : 'false'} />
+          {fieldState.error && <p className="text-sm text-destructive">{fieldState.error.message}</p>}
         </div>
       )}
     />
@@ -196,26 +169,15 @@ export function ControlledCheckboxField<TFieldValues extends FieldValues>({
       render={({ field, fieldState }) => (
         <div className="space-y-2">
           <div className="flex items-center space-x-2">
-            <Checkbox
-              id={name}
-              checked={field.value}
-              onCheckedChange={field.onChange}
-              aria-invalid={fieldState.error ? "true" : "false"}
-            />
+            <Checkbox id={name} checked={field.value} onCheckedChange={field.onChange} aria-invalid={fieldState.error ? 'true' : 'false'} />
             <div className="grid gap-1.5 leading-none">
               <Label htmlFor={name} className="cursor-pointer">
                 {label}
               </Label>
-              {description && (
-                <p className="text-sm text-muted-foreground">{description}</p>
-              )}
+              {description && <p className="text-sm text-muted-foreground">{description}</p>}
             </div>
           </div>
-          {fieldState.error && (
-            <p className="text-sm text-destructive">
-              {fieldState.error.message}
-            </p>
-          )}
+          {fieldState.error && <p className="text-sm text-destructive">{fieldState.error.message}</p>}
         </div>
       )}
     />
@@ -253,31 +215,17 @@ export function ControlledRadioGroupField<TFieldValues extends FieldValues>({
           <RadioGroup value={field.value} onValueChange={field.onChange}>
             {options.map((option) => (
               <div key={option.value} className="flex items-center space-x-2">
-                <RadioGroupItem
-                  value={option.value}
-                  id={`${name}-${option.value}`}
-                />
+                <RadioGroupItem value={option.value} id={`${name}-${option.value}`} />
                 <div className="grid gap-1.5 leading-none">
-                  <Label
-                    htmlFor={`${name}-${option.value}`}
-                    className="cursor-pointer font-normal"
-                  >
+                  <Label htmlFor={`${name}-${option.value}`} className="cursor-pointer font-normal">
                     {option.label}
                   </Label>
-                  {option.description && (
-                    <p className="text-sm text-muted-foreground">
-                      {option.description}
-                    </p>
-                  )}
+                  {option.description && <p className="text-sm text-muted-foreground">{option.description}</p>}
                 </div>
               </div>
             ))}
           </RadioGroup>
-          {fieldState.error && (
-            <p className="text-sm text-destructive">
-              {fieldState.error.message}
-            </p>
-          )}
+          {fieldState.error && <p className="text-sm text-destructive">{fieldState.error.message}</p>}
         </div>
       )}
     />
@@ -309,22 +257,11 @@ export function ControlledSwitchField<TFieldValues extends FieldValues>({
           <div className="flex items-center justify-between space-x-2">
             <div className="space-y-0.5">
               <Label htmlFor={name}>{label}</Label>
-              {description && (
-                <p className="text-sm text-muted-foreground">{description}</p>
-              )}
+              {description && <p className="text-sm text-muted-foreground">{description}</p>}
             </div>
-            <Switch
-              id={name}
-              checked={field.value}
-              onCheckedChange={field.onChange}
-              aria-invalid={fieldState.error ? "true" : "false"}
-            />
+            <Switch id={name} checked={field.value} onCheckedChange={field.onChange} aria-invalid={fieldState.error ? 'true' : 'false'} />
           </div>
-          {fieldState.error && (
-            <p className="text-sm text-destructive">
-              {fieldState.error.message}
-            </p>
-          )}
+          {fieldState.error && <p className="text-sm text-destructive">{fieldState.error.message}</p>}
         </div>
       )}
     />
@@ -357,17 +294,8 @@ export function ControlledDateField<TFieldValues extends FieldValues>({
             {label}
             {required && <span className="text-red-500 ml-1">*</span>}
           </Label>
-          <Input
-            {...field}
-            id={name}
-            type="date"
-            aria-invalid={fieldState.error ? "true" : "false"}
-          />
-          {fieldState.error && (
-            <p className="text-sm text-destructive">
-              {fieldState.error.message}
-            </p>
-          )}
+          <Input {...field} id={name} type="date" aria-invalid={fieldState.error ? 'true' : 'false'} />
+          {fieldState.error && <p className="text-sm text-destructive">{fieldState.error.message}</p>}
         </div>
       )}
     />

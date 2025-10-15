@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 /**
  * メールアドレスのバリデーションスキーマ
@@ -6,5 +6,5 @@ import { z } from "zod";
  */
 export const emailSchema = z
   .string()
-  .min(1, { message: "メールアドレスは必須です" })
-  .email({ message: "有効なメールアドレスを入力してください" });
+  .min(1, { message: 'メールアドレスは必須です' })
+  .email({ message: '有効なメールアドレスを入力してください' });

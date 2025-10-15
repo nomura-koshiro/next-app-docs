@@ -1,8 +1,8 @@
-import { PageHeader } from "@/components/layout/page-header";
-import { PageLayout } from "@/components/layout/page-layout";
-import { SAMPLES } from "@/features/sample-page-list/constants/samples";
+import { PageHeader } from '@/components/layout/page-header';
+import { PageLayout } from '@/components/layout/page-layout';
+import { SAMPLES } from '@/features/sample-page-list/constants/samples';
 
-import { SampleListContent } from "./components/sample-list-content";
+import { SampleListContent } from './components/sample-list-content';
 
 /**
  * サンプルページ一覧

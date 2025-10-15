@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { useEffect } from "react";
+import { useEffect } from 'react';
 
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
 
 type ErrorProps = {
   error: Error & { digest?: string };
@@ -21,32 +21,22 @@ type ErrorProps = {
 export default function Error({ error, reset }: ErrorProps) {
   useEffect(() => {
     // エラーログをコンソールに出力（本番環境ではエラートラッキングサービスに送信）
-    console.error("Error boundary caught:", error);
+    console.error('Error boundary caught:', error);
   }, [error]);
 
   return (
     <div className="flex min-h-screen items-center justify-center p-4">
       <Card className="w-full max-w-md">
         <CardHeader>
-          <h2 className="text-2xl font-bold text-destructive">
-            エラーが発生しました
-          </h2>
+          <h2 className="text-2xl font-bold text-destructive">エラーが発生しました</h2>
         </CardHeader>
         <CardContent className="space-y-4">
-          <p className="text-muted-foreground">
-            申し訳ございません。予期しないエラーが発生しました。
-          </p>
+          <p className="text-muted-foreground">申し訳ございません。予期しないエラーが発生しました。</p>
 
-          {process.env.NODE_ENV === "development" && (
+          {process.env.NODE_ENV === 'development' && (
             <div className="rounded-md bg-destructive/10 p-4">
-              <p className="text-sm font-mono text-destructive">
-                {error.message}
-              </p>
-              {error.digest && (
-                <p className="mt-2 text-xs text-muted-foreground">
-                  エラーID: {error.digest}
-                </p>
-              )}
+              <p className="text-sm font-mono text-destructive">{error.message}</p>
+              {error.digest && <p className="mt-2 text-xs text-muted-foreground">エラーID: {error.digest}</p>}
             </div>
           )}
 
@@ -54,11 +44,7 @@ export default function Error({ error, reset }: ErrorProps) {
             <Button onClick={reset} className="flex-1">
               再試行
             </Button>
-            <Button
-              variant="outline"
-              onClick={() => (window.location.href = "/")}
-              className="flex-1"
-            >
+            <Button variant="outline" onClick={() => (window.location.href = '/')} className="flex-1">
               ホームに戻る
             </Button>
           </div>

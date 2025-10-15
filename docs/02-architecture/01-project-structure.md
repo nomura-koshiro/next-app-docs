@@ -20,7 +20,10 @@ src/
 ├── app/                    # App Router (Next.js 15+)
 │   ├── (sample)/           # ルートグループ（サンプル実装）
 │   │   ├── sample-login/   # ログインページ
-│   │   └── sample-users/   # ユーザー管理ページ
+│   │   ├── sample-users/   # ユーザー管理ページ
+│   │   ├── sample-form/    # フォームサンプル
+│   │   ├── sample-file/    # ファイルアップロード・ダウンロード
+│   │   └── sample-chat/    # チャットボット
 │   ├── layout.tsx          # ルートレイアウト
 │   ├── page.tsx            # ホームページ
 │   ├── not-found.tsx       # 404ページ
@@ -31,7 +34,11 @@ src/
 │
 ├── features/              # 機能モジュール（bulletproof-react）
 │   ├── sample-auth/        # 認証機能（サンプル）
-│   └── sample-users/       # ユーザー管理機能（サンプル）
+│   ├── sample-users/       # ユーザー管理機能（サンプル）
+│   ├── sample-form/        # フォーム機能（サンプル）
+│   ├── sample-file/        # ファイル操作機能（サンプル）
+│   ├── sample-chat/        # チャット機能（サンプル）
+│   └── sample-page-list/   # サンプルページ一覧
 │
 ├── components/            # 共通コンポーネント
 │   ├── ui/                # 基本UI（shadcn/ui風）

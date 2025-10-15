@@ -1,17 +1,15 @@
-import Axios, { InternalAxiosRequestConfig } from "axios";
+import Axios, { InternalAxiosRequestConfig } from 'axios';
 
-import { env } from "@/config/env";
+import { env } from '@/config/env';
 
 /**
  * リクエストインターセプター
  * - Accept ヘッダーを設定
  * - Cookie を含むリクエストを有効化
  */
-const authRequestInterceptor = (
-  config: InternalAxiosRequestConfig,
-): InternalAxiosRequestConfig => {
+const authRequestInterceptor = (config: InternalAxiosRequestConfig): InternalAxiosRequestConfig => {
   if (config.headers !== undefined) {
-    config.headers.Accept = "application/json";
+    config.headers.Accept = 'application/json';
   }
 
   config.withCredentials = true;
@@ -40,11 +38,10 @@ api.interceptors.response.use(
   },
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   (error: any) => {
-    const message =
-      error.response?.data?.message ?? error.message ?? "An error occurred";
+    const message = error.response?.data?.message ?? error.message ?? 'An error occurred';
 
     // クライアントサイドでエラーログ出力
-    if (typeof window !== "undefined") {
+    if (typeof window !== 'undefined') {
       console.error(`[API Error] ${message}`);
       // TODO: 通知システムと統合
       // useNotifications.getState().addNotification({
@@ -62,5 +59,5 @@ api.interceptors.response.use(
     // }
 
     return Promise.reject(error);
-  },
+  }
 );

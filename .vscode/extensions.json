@@ -30,6 +30,7 @@
 
     // ========== マークダウン ==========
     "davidanson.vscode-markdownlint",
+    "bierner.markdown-mermaid",
 
     // ========== その他便利ツール ==========
     "editorconfig.editorconfig",

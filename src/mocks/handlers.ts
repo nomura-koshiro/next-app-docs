@@ -1,5 +1,7 @@
-import { authHandlers } from "./handlers/api/v1/sample/auth-handlers";
-import { userHandlers } from "./handlers/api/v1/sample/user-handlers";
+import { authHandlers } from './handlers/api/v1/sample/auth-handlers';
+import { chatHandlers } from './handlers/api/v1/sample/chat-handlers';
+import { fileHandlers } from './handlers/api/v1/sample/file-handlers';
+import { userHandlers } from './handlers/api/v1/sample/user-handlers';
 
 /**
  * MSW (Mock Service Worker) リクエストハンドラー
@@ -27,4 +29,6 @@ import { userHandlers } from "./handlers/api/v1/sample/user-handlers";
 export const handlers = [
   ...authHandlers, // サンプル認証関連 (/api/v1/sample/auth/*)
   ...userHandlers, // サンプルユーザー管理 (/api/v1/sample/users/*)
+  ...fileHandlers, // サンプルファイル操作 (/api/v1/sample/files/*)
+  ...chatHandlers, // サンプルチャット (/api/v1/sample/chat/*)
 ];
