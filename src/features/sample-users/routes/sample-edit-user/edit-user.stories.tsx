@@ -117,7 +117,7 @@ export const Loading: Story = {
     },
     msw: {
       handlers: [
-        http.get('/api/v1/sample/users/:id', async () => {
+        http.get('*/api/v1/sample/users/:id', async () => {
           await delay(5000); // 長い遅延でローディング状態を確認
 
           return HttpResponse.json({
@@ -158,7 +158,7 @@ export const WithError: Story = {
     },
     msw: {
       handlers: [
-        http.get('/api/v1/sample/users/:id', () => {
+        http.get('*/api/v1/sample/users/:id', () => {
           return HttpResponse.json({ message: 'User not found' }, { status: 404 });
         }),
       ],

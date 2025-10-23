@@ -20,6 +20,7 @@
     "check": "pnpm run format:check && pnpm run lint && pnpm run stylelint && pnpm run typecheck",
     "check:fix": "pnpm run format && pnpm run lint:fix && pnpm run stylelint:fix && pnpm run typecheck",
     "test": "vitest",
+    "test:quiet": "vitest --reporter=basic --silent",
     "test:ui": "vitest --ui",
     "e2e": "playwright test",
     "ci": "pnpm run check && pnpm run build",
@@ -102,6 +103,7 @@
     "stylelint-plugin-logical-css": "^1.2.3",
     "tailwindcss": "^4",
     "typescript": "^5",
+    "vite": "^7.1.11",
     "vitest": "^3.2.4"
   },
   "msw": {

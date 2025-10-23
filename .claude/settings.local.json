@@ -4,9 +4,11 @@
       "Bash(pnpm add:*)",
       "Bash(ls:*)",
       "Bash(mkdir:*)",
-      "Bash(pnpm run check:fix:*)",
-      "Bash(pnpm run:*)",
-      "Bash(pnpm check:fix:*)"
+      "Bash(git add:*)",
+      "Bash(for dir in docs/04-development/*/)",
+      "Bash(do echo \"=== $dir ===\")",
+      "Bash(git ls-tree:*)",
+      "Bash(pnpm install:*)"
     ],
     "deny": [],
     "ask": []

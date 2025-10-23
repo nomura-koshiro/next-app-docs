@@ -77,7 +77,7 @@ const meta = {
     // ================================================================================
     msw: {
       handlers: [
-        http.post('/api/v1/sample/auth/login', async () => {
+        http.post('*/api/v1/sample/auth/login', async () => {
           await delay(500);
 
           return HttpResponse.json({
@@ -132,7 +132,7 @@ export const WithError: Story = {
     },
     msw: {
       handlers: [
-        http.post('/api/v1/sample/auth/login', async () => {
+        http.post('*/api/v1/sample/auth/login', async () => {
           await delay(500);
 
           return HttpResponse.json({ message: 'Unauthorized' }, { status: 401 });

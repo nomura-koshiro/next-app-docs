@@ -110,7 +110,7 @@ export const WithError: Story = {
     },
     msw: {
       handlers: [
-        http.post('/api/v1/sample/users', async () => {
+        http.post('*/api/v1/sample/users', async () => {
           await delay(500);
 
           return HttpResponse.json({ message: 'Internal Server Error' }, { status: 500 });

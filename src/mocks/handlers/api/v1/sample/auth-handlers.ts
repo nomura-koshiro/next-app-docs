@@ -19,7 +19,7 @@ export const authHandlers = [
    * - email: 任意のメールアドレス
    * - password: 任意のパスワード（空でなければOK）
    */
-  http.post('/api/v1/sample/auth/login', async ({ request }) => {
+  http.post('*/api/v1/sample/auth/login', async ({ request }) => {
     const body = (await request.json()) as { email: string; password: string };
 
     // 簡易的な認証チェック（モック用）
@@ -51,7 +51,7 @@ export const authHandlers = [
    *
    * @returns 成功レスポンス
    */
-  http.post('/api/v1/sample/auth/logout', () => {
+  http.post('*/api/v1/sample/auth/logout', () => {
     return HttpResponse.json({
       success: true,
       message: 'Logged out successfully',
@@ -70,7 +70,7 @@ export const authHandlers = [
    * - 有効: "Bearer mock-jwt-token-xxxxx"
    * - 無効: headerなし or 不正なフォーマット
    */
-  http.get('/api/v1/sample/auth/me', ({ request }) => {
+  http.get('*/api/v1/sample/auth/me', ({ request }) => {
     const authHeader = request.headers.get('Authorization');
 
     // トークンチェック（モック用）
