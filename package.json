@@ -16,6 +16,7 @@
     "check": "pnpm run format:check && pnpm run lint && pnpm run stylelint && pnpm run typecheck",
     "check:fix": "pnpm run format && pnpm run lint:fix && pnpm run stylelint:fix && pnpm run typecheck",
     "test": "vitest",
+    "test:quiet": "vitest --reporter=basic --silent",
     "test:ui": "vitest --ui",
     "e2e": "playwright test",
     "ci": "pnpm run check && pnpm run build",
