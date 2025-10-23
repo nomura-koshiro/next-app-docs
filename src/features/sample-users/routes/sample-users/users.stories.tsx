@@ -127,7 +127,7 @@ export const Loading: Story = {
     },
     msw: {
       handlers: [
-        http.get("/api/v1/sample/users", async () => {
+        http.get("*/api/v1/sample/users", async () => {
           await delay(5000);
 
           return HttpResponse.json({
@@ -168,7 +168,7 @@ export const WithError: Story = {
     },
     msw: {
       handlers: [
-        http.get("/api/v1/sample/users", () => {
+        http.get("*/api/v1/sample/users", () => {
           return HttpResponse.json(
             { message: "Internal Server Error" },
             { status: 500 },
@@ -201,7 +201,7 @@ export const EmptyState: Story = {
     },
     msw: {
       handlers: [
-        http.get("/api/v1/sample/users", () => {
+        http.get("*/api/v1/sample/users", () => {
           return HttpResponse.json({ data: [] });
         }),
       ],
@@ -230,7 +230,7 @@ export const ManyUsers: Story = {
     },
     msw: {
       handlers: [
-        http.get("/api/v1/sample/users", () => {
+        http.get("*/api/v1/sample/users", () => {
           const users = Array.from({ length: 20 }, (_, i) => ({
             id: String(i + 1),
             name: `User ${i + 1}`,

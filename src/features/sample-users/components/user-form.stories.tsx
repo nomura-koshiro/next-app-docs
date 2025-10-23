@@ -1,6 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { fn } from "@storybook/test";
+import { useEffect } from "react";
 import { type Control, useForm } from "react-hook-form";
 
 import {
@@ -279,7 +280,9 @@ export const ValidationError: Story = {
     });
 
     // エラーを表示するために初期バリデーションを実行
-    trigger();
+    useEffect(() => {
+      void trigger();
+    }, [trigger]);
 
     return (
       <UserForm
@@ -290,6 +293,9 @@ export const ValidationError: Story = {
         isSubmitting={isSubmitting}
       />
     );
+  },
+  play: async () => {
+    // ストーリーの表示のみを目的としているため、特別なテストは不要
   },
   parameters: {
     docs: {
@@ -337,6 +343,9 @@ export const Submitting: Story = {
         isSubmitting={true}
       />
     );
+  },
+  play: async () => {
+    // ストーリーの表示のみを目的としているため、特別なテストは不要
   },
   parameters: {
     docs: {
@@ -392,6 +401,9 @@ export const WithError: Story = {
       />
     );
   },
+  play: async () => {
+    // ストーリーの表示のみを目的としているため、特別なテストは不要
+  },
   parameters: {
     docs: {
       description: {
@@ -440,6 +452,9 @@ export const EditMode: Story = {
         isEditMode={true}
       />
     );
+  },
+  play: async () => {
+    // ストーリーの表示のみを目的としているため、特別なテストは不要
   },
   parameters: {
     docs: {
