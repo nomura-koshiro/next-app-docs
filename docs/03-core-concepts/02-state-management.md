@@ -38,12 +38,12 @@ flowchart TD
     Zustand --> ZustandEx[例: 認証情報<br/>テーマ設定<br/>サイドバー状態]
     UseState --> UseStateEx[例: モーダル開閉<br/>フォーム入力値<br/>タブ選択状態]
 
-    style TQ fill:#e1f5ff
-    style Zustand fill:#fff4e6
-    style UseState fill:#c8e6c9
-    style TQEx fill:#e1f5ff
-    style ZustandEx fill:#fff4e6
-    style UseStateEx fill:#c8e6c9
+    style TQ fill:#b3e5fc,stroke:#01579b,stroke-width:2px,color:#000
+    style Zustand fill:#ffe0b2,stroke:#e65100,stroke-width:2px,color:#000
+    style UseState fill:#a5d6a7,stroke:#1b5e20,stroke-width:2px,color:#000
+    style TQEx fill:#b3e5fc,stroke:#01579b,stroke-width:2px,color:#000
+    style ZustandEx fill:#ffe0b2,stroke:#e65100,stroke-width:2px,color:#000
+    style UseStateEx fill:#a5d6a7,stroke:#1b5e20,stroke-width:2px,color:#000
 ```
 
 ### 状態管理の全体像
@@ -90,10 +90,10 @@ graph TB
     Local --> CompC
     Storage <--> Zustand
 
-    style Server fill:#e8f5e9
-    style TQ fill:#e1f5ff
-    style Zustand fill:#fff4e6
-    style Local fill:#c8e6c9
+    style Server fill:#a5d6a7,stroke:#1b5e20,stroke-width:2px,color:#000
+    style TQ fill:#b3e5fc,stroke:#01579b,stroke-width:2px,color:#000
+    style Zustand fill:#ffe0b2,stroke:#e65100,stroke-width:2px,color:#000
+    style Local fill:#a5d6a7,stroke:#1b5e20,stroke-width:2px,color:#000
 ```
 
 ---

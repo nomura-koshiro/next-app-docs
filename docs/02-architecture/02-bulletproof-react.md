@@ -72,9 +72,9 @@ graph TD
     A[共通コード<br/>components, hooks, lib, utils] --> B[features<br/>各機能モジュール]
     B --> C[app<br/>Next.js App Router]
 
-    style A fill:#e1f5fe
-    style B fill:#fff3e0
-    style C fill:#f3e5f5
+    style A fill:#b3e5fc,stroke:#01579b,stroke-width:2px,color:#000
+    style B fill:#ffe0b2,stroke:#e65100,stroke-width:2px,color:#000
+    style C fill:#ce93d8,stroke:#4a148c,stroke-width:2px,color:#000
 ```
 
 **ルール:**
@@ -103,9 +103,9 @@ graph LR
     A --> C[app]
     B --> C
 
-    style A fill:#ffebee
-    style B fill:#ffebee
-    style C fill:#e8f5e9
+    style A fill:#ef9a9a,stroke:#b71c1c,stroke-width:2px,color:#000
+    style B fill:#ef9a9a,stroke:#b71c1c,stroke-width:2px,color:#000
+    style C fill:#a5d6a7,stroke:#1b5e20,stroke-width:2px,color:#000
 ```
 
 **ルール:**

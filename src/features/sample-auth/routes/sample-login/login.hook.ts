@@ -1,13 +1,12 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
+'use client';
 
-import { useLogin as useLoginMutation } from "@/features/sample-auth/api/login";
-import {
-  loginFormSchema,
-  type LoginFormValues,
-} from "@/features/sample-auth/schemas/login-form.schema";
-import { useAuthStore } from "@/features/sample-auth/stores/auth-store";
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter } from 'next/navigation';
+import { useForm } from 'react-hook-form';
+
+import { useLogin as useLoginMutation } from '@/features/sample-auth/api/login';
+import { loginFormSchema, type LoginFormValues } from '@/features/sample-auth/schemas/login-form.schema';
+import { useAuthStore } from '@/features/sample-auth/stores/auth-store';
 
 /**
  * ログインページのロジックを管理するカスタムフック
@@ -32,8 +31,8 @@ export const useLogin = () => {
   } = useForm<LoginFormValues>({
     resolver: zodResolver(loginFormSchema),
     defaultValues: {
-      email: "",
-      password: "",
+      email: '',
+      password: '',
     },
   });
 
@@ -44,14 +43,13 @@ export const useLogin = () => {
     loginMutation
       .mutateAsync(values)
       .then((data) => {
-        localStorage.setItem("token", data.token);
+        localStorage.setItem('token', data.token);
         setUser(data.user);
-        router.push("/users");
+        router.push('/users');
       })
       .catch(() => {
-        setError("root", {
-          message:
-            "ログインに失敗しました。メールアドレスとパスワードを確認してください。",
+        setError('root', {
+          message: 'ログインに失敗しました。メールアドレスとパスワードを確認してください。',
         });
       });
   });

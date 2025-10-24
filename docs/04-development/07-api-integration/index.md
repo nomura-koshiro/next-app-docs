@@ -43,10 +43,10 @@ graph TB
     QueryOpts --> APIFn
     APIFn --> Server
 
-    style API fill:#e1f5ff
-    style Hooks fill:#fff4e6
-    style Component fill:#f3e5f5
-    style Backend fill:#e8f5e9
+    style API fill:#b3e5fc,stroke:#01579b,stroke-width:2px,color:#000
+    style Hooks fill:#ffe0b2,stroke:#e65100,stroke-width:2px,color:#000
+    style Component fill:#ce93d8,stroke:#4a148c,stroke-width:2px,color:#000
+    style Backend fill:#a5d6a7,stroke:#1b5e20,stroke-width:2px,color:#000
 ```
 
 ### データフロー（Query）

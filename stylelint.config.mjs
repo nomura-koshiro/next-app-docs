@@ -19,6 +19,9 @@ const config = {
     '@stylistic/declaration-colon-space-before': 'never',
     '@stylistic/block-opening-brace-space-before': 'always',
     '@stylistic/block-closing-brace-newline-after': 'always',
+    '@stylistic/declaration-block-semicolon-newline-after': 'always',
+    '@stylistic/declaration-block-semicolon-space-after': 'always-single-line',
+    '@stylistic/declaration-block-semicolon-space-before': 'never',
 
     // 論理プロパティの推奨
     'plugin/use-logical-properties-and-values': [

@@ -1,11 +1,11 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 /**
  * 利用規約同意のバリデーションスキーマ
  * 必ずtrueである必要がある
  */
 export const termsSchema = z.boolean().refine((val) => val === true, {
-  message: "利用規約に同意する必要があります",
+  message: '利用規約に同意する必要があります',
 });
 
 /**

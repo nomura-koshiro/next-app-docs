@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { useDevTools } from "@/hooks/use-devtools";
+import { useDevTools } from '@/hooks/use-devtools';
 
-import { LoginForm } from "./components/login";
-import { useLogin } from "./login.hook";
+import { LoginForm } from './components/login';
+import { useLogin } from './login.hook';
 
 /**
  * ログインページ
@@ -17,12 +17,7 @@ export default function LoginPage() {
 
   return (
     <>
-      <LoginForm
-        control={control}
-        onSubmit={onSubmit}
-        errors={errors}
-        isSubmitting={isSubmitting}
-      />
+      <LoginForm control={control} onSubmit={onSubmit} errors={errors} isSubmitting={isSubmitting} />
       {DevTools}
     </>
   );

@@ -1,27 +1,22 @@
-"use client";
+'use client';
 
-import { Suspense } from "react";
-import { ErrorBoundary } from "react-error-boundary";
+import { Suspense } from 'react';
+import { ErrorBoundary } from 'react-error-boundary';
 
-import { MainErrorFallback } from "@/components/errors/main";
-import { PageHeader } from "@/components/layout/page-header";
-import { PageLayout } from "@/components/layout/page-layout";
-import { ErrorMessage } from "@/components/ui/error-message";
-import { LoadingSpinner } from "@/components/ui/loading-spinner";
+import { MainErrorFallback } from '@/components/errors/main';
+import { PageHeader } from '@/components/layout/page-header';
+import { PageLayout } from '@/components/layout/page-layout';
+import { ErrorMessage } from '@/components/ui/error-message';
+import { LoadingSpinner } from '@/components/ui/loading-spinner';
 
-import { DeleteUserConfirmation } from "./components/delete-user-confirmation";
-import { useDeleteUser } from "./delete-user.hook";
+import { DeleteUserConfirmation } from './components/delete-user-confirmation';
+import { useDeleteUser } from './delete-user.hook';
 
 /**
  * ユーザー削除確認ページのコンテンツ
  */
-const DeleteUserPageContent = ({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) => {
-  const { user, handleDelete, handleCancel, isDeleting } =
-    useDeleteUser(params);
+const DeleteUserPageContent = ({ params }: { params: Promise<{ id: string }> }) => {
+  const { user, handleDelete, handleCancel, isDeleting } = useDeleteUser(params);
 
   if (user === undefined) {
     return <ErrorMessage message="ユーザーが見つかりません" fullScreen />;
@@ -29,17 +24,9 @@ const DeleteUserPageContent = ({
 
   return (
     <PageLayout maxWidth="2xl">
-      <PageHeader
-        title="ユーザー削除"
-        description="本当に削除してもよろしいですか?この操作は取り消せません。"
-      />
+      <PageHeader title="ユーザー削除" description="本当に削除してもよろしいですか?この操作は取り消せません。" />
 
-      <DeleteUserConfirmation
-        user={user}
-        onDelete={handleDelete}
-        onCancel={handleCancel}
-        isDeleting={isDeleting}
-      />
+      <DeleteUserConfirmation user={user} onDelete={handleDelete} onCancel={handleCancel} isDeleting={isDeleting} />
     </PageLayout>
   );
 };

@@ -2,7 +2,7 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Launch Chrome",
+      "name": "Next.js: Chrome デバッグ",
       "type": "chrome",
       "request": "launch",
       "url": "http://localhost:3000",
@@ -11,7 +11,7 @@
       "sourceMapPathOverrides": {
         "webpack:///./*": "${webRoot}/*"
       },
-      "preLaunchTask": "pnpm: dev"
+      "preLaunchTask": "Next.js: 開発サーバー起動"
     }
   ]
 }

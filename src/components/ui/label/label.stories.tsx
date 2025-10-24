@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from "@storybook/nextjs-vite";
+import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 
-import { Input } from "@/components/ui/input";
+import { Input } from '@/components/ui/input';
 
-import { Label } from "./label";
+import { Label } from './label';
 
 /**
  * Labelコンポーネントのストーリー
@@ -20,7 +20,7 @@ const meta = {
   // ================================================================================
   // Storybookのナビゲーション階層
   // ================================================================================
-  title: "components/ui/Label",
+  title: 'components/ui/Label',
 
   // ================================================================================
   // 表示するコンポーネント
@@ -34,7 +34,7 @@ const meta = {
     // - "padded": 周囲にパディングを追加（フォームやカード向け）
     // - "fullscreen": 全画面表示（ページレイアウト向け）
     // ================================================================================
-    layout: "padded",
+    layout: 'padded',
 
     // ================================================================================
     // コンポーネントの詳細説明
@@ -43,16 +43,16 @@ const meta = {
     docs: {
       description: {
         component:
-          "フォーム要素のラベルコンポーネント。Radix UI Labelをベースに構築されています。\n\n" +
-          "**主な機能:**\n" +
-          "- 入力フィールドとの関連付け（htmlFor属性）\n" +
-          "- アクセシビリティサポート\n" +
-          "- 必須マークの表示\n" +
-          "- 無効化状態のサポート\n\n" +
-          "**使用場面:**\n" +
-          "- すべてのフォーム入力フィールド\n" +
-          "- チェックボックス\n" +
-          "- ラジオボタン",
+          'フォーム要素のラベルコンポーネント。Radix UI Labelをベースに構築されています。\n\n' +
+          '**主な機能:**\n' +
+          '- 入力フィールドとの関連付け（htmlFor属性）\n' +
+          '- アクセシビリティサポート\n' +
+          '- 必須マークの表示\n' +
+          '- 無効化状態のサポート\n\n' +
+          '**使用場面:**\n' +
+          '- すべてのフォーム入力フィールド\n' +
+          '- チェックボックス\n' +
+          '- ラジオボタン',
       },
     },
 
@@ -61,11 +61,11 @@ const meta = {
     // 異なる背景色でコンポーネントの見た目を確認できます
     // ================================================================================
     backgrounds: {
-      default: "light",
+      default: 'light',
       values: [
-        { name: "light", value: "#ffffff" },
-        { name: "dark", value: "#1a1a1a" },
-        { name: "gray", value: "#f3f4f6" },
+        { name: 'light', value: '#ffffff' },
+        { name: 'dark', value: '#1a1a1a' },
+        { name: 'gray', value: '#f3f4f6' },
       ],
     },
 
@@ -74,14 +74,14 @@ const meta = {
     // on* で始まるプロパティを自動的にアクションパネルに表示
     // ================================================================================
     actions: {
-      argTypesRegex: "^on[A-Z].*",
+      argTypesRegex: '^on[A-Z].*',
     },
   },
 
   // ================================================================================
   // ドキュメント自動生成を有効化
   // ================================================================================
-  tags: ["autodocs"],
+  tags: ['autodocs'],
 
   // ================================================================================
   // コントロールパネルの設定
@@ -89,27 +89,27 @@ const meta = {
   // ================================================================================
   argTypes: {
     children: {
-      control: "text",
-      description: "ラベルのテキスト内容",
+      control: 'text',
+      description: 'ラベルのテキスト内容',
       table: {
-        type: { summary: "ReactNode" },
-        category: "コンテンツ",
+        type: { summary: 'ReactNode' },
+        category: 'コンテンツ',
       },
     },
     htmlFor: {
-      control: "text",
-      description: "関連付ける入力フィールドのid",
+      control: 'text',
+      description: '関連付ける入力フィールドのid',
       table: {
-        type: { summary: "string" },
-        category: "アクセシビリティ",
+        type: { summary: 'string' },
+        category: 'アクセシビリティ',
       },
     },
     className: {
-      control: "text",
-      description: "追加のCSSクラス名",
+      control: 'text',
+      description: '追加のCSSクラス名',
       table: {
-        type: { summary: "string" },
-        category: "スタイリング",
+        type: { summary: 'string' },
+        category: 'スタイリング',
       },
     },
   },
@@ -120,7 +120,7 @@ const meta = {
   // 個々のストーリーで上書き可能
   // ================================================================================
   args: {
-    children: "ラベル",
+    children: 'ラベル',
   },
 } satisfies Meta<typeof Label>;
 
@@ -131,15 +131,14 @@ type Story = StoryObj<typeof meta>;
  * デフォルトのLabel
  */
 export const Default: Story = {
-  name: "デフォルト",
+  name: 'デフォルト',
   args: {
-    children: "ラベル",
+    children: 'ラベル',
   },
   parameters: {
     docs: {
       description: {
-        story:
-          "基本的なラベル表示。単独で使用されることは少なく、通常は入力フィールドと組み合わせます。",
+        story: '基本的なラベル表示。単独で使用されることは少なく、通常は入力フィールドと組み合わせます。',
       },
     },
   },
@@ -149,7 +148,7 @@ export const Default: Story = {
  * Input付きLabel
  */
 export const WithInput: Story = {
-  name: "入力フィールド付き",
+  name: '入力フィールド付き',
   render: () => (
     <div className="space-y-2">
       <Label htmlFor="name">名前</Label>
@@ -159,8 +158,7 @@ export const WithInput: Story = {
   parameters: {
     docs: {
       description: {
-        story:
-          "入力フィールドと組み合わせた実用的な使用例。htmlForとidを関連付けることでアクセシビリティが向上します。",
+        story: '入力フィールドと組み合わせた実用的な使用例。htmlForとidを関連付けることでアクセシビリティが向上します。',
       },
     },
   },
@@ -170,7 +168,7 @@ export const WithInput: Story = {
  * 必須マーク付きLabel
  */
 export const Required: Story = {
-  name: "必須",
+  name: '必須',
   render: () => (
     <div className="space-y-2">
       <Label htmlFor="email">
@@ -183,8 +181,7 @@ export const Required: Story = {
   parameters: {
     docs: {
       description: {
-        story:
-          "必須フィールドであることを示すアスタリスク（*）付きのラベル。赤色で視覚的に強調します。",
+        story: '必須フィールドであることを示すアスタリスク（*）付きのラベル。赤色で視覚的に強調します。',
       },
     },
   },
@@ -194,7 +191,7 @@ export const Required: Story = {
  * 無効化されたLabel
  */
 export const Disabled: Story = {
-  name: "無効",
+  name: '無効',
   render: () => (
     <div className="space-y-2" data-disabled="true">
       <Label htmlFor="disabled">無効化されたフィールド</Label>

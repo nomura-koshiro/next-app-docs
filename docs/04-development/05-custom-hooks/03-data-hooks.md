@@ -61,9 +61,9 @@ graph TB
     Logic --> Page
     Page --> UI
 
-    style API fill:#e1f5ff
-    style Hooks fill:#fff4e6
-    style Component fill:#f3e5f5
+    style API fill:#b3e5fc,stroke:#01579b,stroke-width:2px,color:#000
+    style Hooks fill:#ffe0b2,stroke:#e65100,stroke-width:2px,color:#000
+    style Component fill:#ce93d8,stroke:#4a148c,stroke-width:2px,color:#000
 ```
 
 ### いつHooks層が必要か？
@@ -89,10 +89,10 @@ flowchart TD
     Direct --> End1[シンプルで保守しやすい]
     Create --> End2[責任が明確に分離]
 
-    style Direct fill:#c8e6c9
-    style Create fill:#fff9c4
-    style End1 fill:#c8e6c9
-    style End2 fill:#fff9c4
+    style Direct fill:#a5d6a7,stroke:#1b5e20,stroke-width:2px,color:#000
+    style Create fill:#fff59d,stroke:#f57f17,stroke-width:2px,color:#000
+    style End1 fill:#a5d6a7,stroke:#1b5e20,stroke-width:2px,color:#000
+    style End2 fill:#fff59d,stroke:#f57f17,stroke-width:2px,color:#000
 ```
 
 ### Suspenseパターン（推奨）
@@ -341,9 +341,9 @@ graph LR
         D3 --> D4[個別削除 + リスト更新]
     end
 
-    style Create fill:#e1f5ff
-    style Update fill:#fff4e6
-    style Delete fill:#ffcdd2
+    style Create fill:#b3e5fc,stroke:#01579b,stroke-width:2px,color:#000
+    style Update fill:#ffe0b2,stroke:#e65100,stroke-width:2px,color:#000
+    style Delete fill:#ef9a9a,stroke:#b71c1c,stroke-width:2px,color:#000
 ```
 
 ### 新規作成

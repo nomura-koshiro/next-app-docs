@@ -1,22 +1,13 @@
-import Image from "next/image";
-import Link from "next/link";
+import Image from 'next/image';
+import Link from 'next/link';
 
 export default function Home(): React.ReactElement {
   return (
     <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
       <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
+        <Image className="dark:invert" src="/next.svg" alt="Next.js logo" width={180} height={38} priority />
         <div>
-          <h1 className="text-3xl font-bold mb-4">
-            Welcome to Plain Next.js Template
-          </h1>
+          <h1 className="text-3xl font-bold mb-4">Welcome to Plain Next.js Template</h1>
           <p className="text-lg text-gray-600 dark:text-gray-400 mb-6">
             このプロジェクトには、フォーム、認証、CRUD操作など、実装パターンのサンプルが含まれています。
           </p>
@@ -42,21 +33,15 @@ export default function Home(): React.ReactElement {
         <div className="mt-8 grid gap-4 sm:grid-cols-3">
           <div className="rounded-lg border p-4">
             <h3 className="font-semibold mb-2">📝 フォーム</h3>
-            <p className="text-sm text-gray-600 dark:text-gray-400">
-              React Hook Form + Zodによるバリデーション
-            </p>
+            <p className="text-sm text-gray-600 dark:text-gray-400">React Hook Form + Zodによるバリデーション</p>
           </div>
           <div className="rounded-lg border p-4">
             <h3 className="font-semibold mb-2">🔐 認証</h3>
-            <p className="text-sm text-gray-600 dark:text-gray-400">
-              ログイン・ログアウト機能の実装例
-            </p>
+            <p className="text-sm text-gray-600 dark:text-gray-400">ログイン・ログアウト機能の実装例</p>
           </div>
           <div className="rounded-lg border p-4">
             <h3 className="font-semibold mb-2">📊 データ管理</h3>
-            <p className="text-sm text-gray-600 dark:text-gray-400">
-              TanStack QueryでのCRUD操作
-            </p>
+            <p className="text-sm text-gray-600 dark:text-gray-400">TanStack QueryでのCRUD操作</p>
           </div>
         </div>
       </main>
@@ -67,13 +52,7 @@ export default function Home(): React.ReactElement {
           target="_blank"
           rel="noopener noreferrer"
         >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
+          <Image aria-hidden src="/file.svg" alt="File icon" width={16} height={16} />
           Learn
         </a>
         <a
@@ -82,13 +61,7 @@ export default function Home(): React.ReactElement {
           target="_blank"
           rel="noopener noreferrer"
         >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
+          <Image aria-hidden src="/window.svg" alt="Window icon" width={16} height={16} />
           Examples
         </a>
         <a
@@ -97,13 +70,7 @@ export default function Home(): React.ReactElement {
           target="_blank"
           rel="noopener noreferrer"
         >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
+          <Image aria-hidden src="/globe.svg" alt="Globe icon" width={16} height={16} />
           Go to nextjs.org →
         </a>
       </footer>

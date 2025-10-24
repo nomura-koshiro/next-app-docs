@@ -1,37 +1,29 @@
-"use client";
+'use client';
 
-import { Suspense } from "react";
-import { ErrorBoundary } from "react-error-boundary";
+import { Suspense } from 'react';
+import { ErrorBoundary } from 'react-error-boundary';
 
-import { MainErrorFallback } from "@/components/errors/main";
-import { PageHeader } from "@/components/layout/page-header";
-import { PageLayout } from "@/components/layout/page-layout";
-import { LoadingSpinner } from "@/components/ui/loading-spinner";
-import { UserForm } from "@/features/sample-users/components/user-form";
-import { useDevTools } from "@/hooks/use-devtools";
+import { MainErrorFallback } from '@/components/errors/main';
+import { PageHeader } from '@/components/layout/page-header';
+import { PageLayout } from '@/components/layout/page-layout';
+import { LoadingSpinner } from '@/components/ui/loading-spinner';
+import { UserForm } from '@/features/sample-users/components/user-form';
+import { useDevTools } from '@/hooks/use-devtools';
 
-import { useEditUser } from "./edit-user.hook";
+import { useEditUser } from './edit-user.hook';
 
 /**
  * ユーザー編集ページのコンテンツ
  */
-const EditUserPageContent = ({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) => {
-  const { control, onSubmit, handleCancel, errors, isSubmitting } =
-    useEditUser(params);
+const EditUserPageContent = ({ params }: { params: Promise<{ id: string }> }) => {
+  const { control, onSubmit, handleCancel, errors, isSubmitting } = useEditUser(params);
 
   const DevTools = useDevTools(control);
 
   return (
     <>
       <PageLayout maxWidth="2xl">
-        <PageHeader
-          title="ユーザー情報編集"
-          description="ユーザーの情報を編集してください"
-        />
+        <PageHeader title="ユーザー情報編集" description="ユーザーの情報を編集してください" />
 
         <UserForm
           control={control}

@@ -1,14 +1,11 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import type { Meta, StoryObj } from "@storybook/nextjs-vite";
-import { fn } from "@storybook/test";
-import { Control, useForm } from "react-hook-form";
+import { zodResolver } from '@hookform/resolvers/zod';
+import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import { fn } from '@storybook/test';
+import { Control, useForm } from 'react-hook-form';
 
-import {
-  loginFormSchema,
-  type LoginFormValues,
-} from "@/features/sample-auth/schemas/login-form.schema";
+import { loginFormSchema, type LoginFormValues } from '@/features/sample-auth/schemas/login-form.schema';
 
-import { LoginForm } from "./login";
+import { LoginForm } from './login';
 
 /**
  * LoginFormコンポーネントのストーリー
@@ -30,7 +27,7 @@ const meta = {
   // ================================================================================
   // Storybookのナビゲーション階層
   // ================================================================================
-  title: "features/sample-auth/routes/sample-login/components/LoginForm",
+  title: 'features/sample-auth/routes/sample-login/components/LoginForm',
 
   // ================================================================================
   // 表示するコンポーネント
@@ -44,7 +41,7 @@ const meta = {
     // - "padded": 周囲にパディングを追加（フォームやカード向け）
     // - "fullscreen": 全画面表示（ページレイアウト向け）
     // ================================================================================
-    layout: "fullscreen",
+    layout: 'fullscreen',
 
     // ================================================================================
     // コンポーネントの詳細説明
@@ -53,16 +50,16 @@ const meta = {
     docs: {
       description: {
         component:
-          "ユーザー認証のためのログインフォームコンポーネント。メールアドレスとパスワードによる認証を提供します。\n\n" +
-          "**主な機能:**\n" +
-          "- メールアドレスとパスワードの入力\n" +
-          "- React Hook Formによる制御\n" +
-          "- Zodスキーマによるバリデーション\n" +
-          "- ローディング状態の表示\n" +
-          "- エラーメッセージの表示\n\n" +
-          "**使用場面:**\n" +
-          "- ログインページ\n" +
-          "- 認証が必要な機能へのアクセス前",
+          'ユーザー認証のためのログインフォームコンポーネント。メールアドレスとパスワードによる認証を提供します。\n\n' +
+          '**主な機能:**\n' +
+          '- メールアドレスとパスワードの入力\n' +
+          '- React Hook Formによる制御\n' +
+          '- Zodスキーマによるバリデーション\n' +
+          '- ローディング状態の表示\n' +
+          '- エラーメッセージの表示\n\n' +
+          '**使用場面:**\n' +
+          '- ログインページ\n' +
+          '- 認証が必要な機能へのアクセス前',
       },
     },
 
@@ -71,11 +68,11 @@ const meta = {
     // 異なる背景色でコンポーネントの見た目を確認できます
     // ================================================================================
     backgrounds: {
-      default: "light",
+      default: 'light',
       values: [
-        { name: "light", value: "#ffffff" },
-        { name: "dark", value: "#1a1a1a" },
-        { name: "gray", value: "#f3f4f6" },
+        { name: 'light', value: '#ffffff' },
+        { name: 'dark', value: '#1a1a1a' },
+        { name: 'gray', value: '#f3f4f6' },
       ],
     },
 
@@ -84,14 +81,14 @@ const meta = {
     // on* で始まるプロパティを自動的にアクションパネルに表示
     // ================================================================================
     actions: {
-      argTypesRegex: "^on[A-Z].*",
+      argTypesRegex: '^on[A-Z].*',
     },
   },
 
   // ================================================================================
   // ドキュメント自動生成を有効化
   // ================================================================================
-  tags: ["autodocs"],
+  tags: ['autodocs'],
 
   // ================================================================================
   // デフォルトの args 値
@@ -111,7 +108,7 @@ type Story = StoryObj<typeof meta>;
  * ログインフォームの初期状態
  */
 export const Default: Story = {
-  name: "デフォルト",
+  name: 'デフォルト',
   args: {
     control: {} as Control<LoginFormValues>,
     onSubmit: fn(),
@@ -122,26 +119,19 @@ export const Default: Story = {
     const form = useForm<LoginFormValues>({
       resolver: zodResolver(loginFormSchema),
       defaultValues: {
-        email: "",
-        password: "",
+        email: '',
+        password: '',
       },
     });
 
     return (
-      <LoginForm
-        control={form.control}
-        onSubmit={args.onSubmit}
-        errors={form.formState.errors}
-        isSubmitting={false}
-        idPrefix="default"
-      />
+      <LoginForm control={form.control} onSubmit={args.onSubmit} errors={form.formState.errors} isSubmitting={false} idPrefix="default" />
     );
   },
   parameters: {
     docs: {
       description: {
-        story:
-          "ログインフォームの初期状態。メールアドレスとパスワードの入力フィールドが表示されます。",
+        story: 'ログインフォームの初期状態。メールアドレスとパスワードの入力フィールドが表示されます。',
       },
     },
   },
@@ -152,7 +142,7 @@ export const Default: Story = {
  * ログイン処理中でボタンが無効化されている状態
  */
 export const Loading: Story = {
-  name: "ローディング中",
+  name: 'ローディング中',
   args: {
     control: {} as Control<LoginFormValues>,
     onSubmit: fn(),
@@ -163,26 +153,19 @@ export const Loading: Story = {
     const form = useForm<LoginFormValues>({
       resolver: zodResolver(loginFormSchema),
       defaultValues: {
-        email: "user@example.com",
-        password: "password123",
+        email: 'user@example.com',
+        password: 'password123',
       },
     });
 
     return (
-      <LoginForm
-        control={form.control}
-        onSubmit={args.onSubmit}
-        errors={form.formState.errors}
-        isSubmitting={true}
-        idPrefix="loading"
-      />
+      <LoginForm control={form.control} onSubmit={args.onSubmit} errors={form.formState.errors} isSubmitting={true} idPrefix="loading" />
     );
   },
   parameters: {
     docs: {
       description: {
-        story:
-          "ログイン処理中の状態。送信ボタンが無効化され、ローディングインジケーターが表示されます。",
+        story: 'ログイン処理中の状態。送信ボタンが無効化され、ローディングインジケーターが表示されます。',
       },
     },
   },
@@ -193,7 +176,7 @@ export const Loading: Story = {
  * ログインに失敗してエラーメッセージが表示されている状態
  */
 export const WithError: Story = {
-  name: "エラー",
+  name: 'エラー',
   args: {
     control: {} as Control<LoginFormValues>,
     onSubmit: fn(),
@@ -204,34 +187,24 @@ export const WithError: Story = {
     const form = useForm<LoginFormValues>({
       resolver: zodResolver(loginFormSchema),
       defaultValues: {
-        email: "user@example.com",
-        password: "wrongpassword",
+        email: 'user@example.com',
+        password: 'wrongpassword',
       },
     });
 
     const errors = {
       root: {
-        message:
-          "ログインに失敗しました。メールアドレスとパスワードを確認してください。",
-        type: "manual" as const,
+        message: 'ログインに失敗しました。メールアドレスとパスワードを確認してください。',
+        type: 'manual' as const,
       },
     };
 
-    return (
-      <LoginForm
-        control={form.control}
-        onSubmit={args.onSubmit}
-        errors={errors}
-        isSubmitting={false}
-        idPrefix="error"
-      />
-    );
+    return <LoginForm control={form.control} onSubmit={args.onSubmit} errors={errors} isSubmitting={false} idPrefix="error" />;
   },
   parameters: {
     docs: {
       description: {
-        story:
-          "ログイン失敗時の状態。エラーメッセージが表示され、ユーザーに認証情報の確認を促します。",
+        story: 'ログイン失敗時の状態。エラーメッセージが表示され、ユーザーに認証情報の確認を促します。',
       },
     },
   },

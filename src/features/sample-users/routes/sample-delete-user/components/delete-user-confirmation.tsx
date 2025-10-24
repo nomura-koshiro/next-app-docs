@@ -1,9 +1,9 @@
-import { AlertTriangle } from "lucide-react";
+import { AlertTriangle } from 'lucide-react';
 
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import type { User } from "@/features/sample-users/types";
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import type { User } from '@/features/sample-users/types';
 
 type DeleteUserConfirmationProps = {
   /** 削除対象のユーザー */
@@ -31,12 +31,7 @@ type DeleteUserConfirmationProps = {
  * @param props - DeleteUserConfirmationコンポーネントのプロパティ
  * @returns ユーザー削除確認要素
  */
-export const DeleteUserConfirmation = ({
-  user,
-  onDelete,
-  onCancel,
-  isDeleting,
-}: DeleteUserConfirmationProps) => {
+export const DeleteUserConfirmation = ({ user, onDelete, onCancel, isDeleting }: DeleteUserConfirmationProps) => {
   return (
     <Card className="border-red-200">
       <CardContent className="pt-6">
@@ -66,20 +61,10 @@ export const DeleteUserConfirmation = ({
         </Alert>
 
         <div className="flex gap-4">
-          <Button
-            variant="destructive"
-            onClick={onDelete}
-            disabled={isDeleting}
-            className="flex-1"
-          >
-            {isDeleting ? "削除中..." : "削除する"}
+          <Button variant="destructive" onClick={onDelete} disabled={isDeleting} className="flex-1">
+            {isDeleting ? '削除中...' : '削除する'}
           </Button>
-          <Button
-            variant="outline"
-            onClick={onCancel}
-            disabled={isDeleting}
-            className="flex-1"
-          >
+          <Button variant="outline" onClick={onCancel} disabled={isDeleting} className="flex-1">
             キャンセル
           </Button>
         </div>
