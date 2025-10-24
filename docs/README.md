@@ -10,6 +10,7 @@
 
 - [01. セットアップガイド](./01-getting-started/01-setup.md) - 開発環境の構築手順
 - [02. クイックスタート](./01-getting-started/02-quick-start.md) - 最速で起動するガイド
+- [03. コードリーディングガイド](./01-getting-started/03-code-reading-guide.md) - コードベースの効率的な読み方
 
 ### 02. Architecture
 
