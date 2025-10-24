@@ -60,11 +60,13 @@ export const useFeatureForm = () => {
   // Handlers
   // ================================================================================
   const onSubmit = handleSubmit(async (data) => {
-    try {
-      // 送信処理
-    } catch (error) {
-      // エラーハンドリング
-    }
+    await Promise.resolve()
+      .then(() => {
+        // 送信処理
+      })
+      .catch((error) => {
+        // エラーハンドリング
+      })
   });
 
   // ================================================================================
@@ -375,14 +377,15 @@ return {
 
 ```tsx
 const onSubmit = handleSubmit(async (values) => {
-  try {
-    await createUser(values);
-    router.push("/users");
-  } catch (error) {
-    setError("root", {
-      message: "ユーザーの作成に失敗しました。",
-    });
-  }
+  await createUser(values)
+    .then(() => {
+      router.push("/users");
+    })
+    .catch((error) => {
+      setError("root", {
+        message: "ユーザーの作成に失敗しました。",
+      });
+    })
 });
 ```
 
@@ -412,13 +415,14 @@ reset({
 
 ```tsx
 const onSubmit = handleSubmit(async (data) => {
-  try {
-    await submitForm(data);
-    // 成功後にリセット
-    reset();
-  } catch (error) {
-    // エラーハンドリング
-  }
+  await submitForm(data)
+    .then(() => {
+      // 成功後にリセット
+      reset();
+    })
+    .catch((error) => {
+      // エラーハンドリング
+    })
 });
 ```
 

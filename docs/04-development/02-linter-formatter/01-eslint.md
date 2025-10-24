@@ -354,20 +354,21 @@ const validateUser = async () => {
 
 // エラーハンドリングを含める
 const saveData = async (data: unknown) => {
-  try {
-    const response = await fetch('/api/save', {
-      method: 'POST',
-      body: JSON.stringify(data),
-    });
-    if (!response.ok) {
-      throw new Error('Failed to save');
-    }
+  await fetch('/api/save', {
+    method: 'POST',
+    body: JSON.stringify(data),
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error('Failed to save');
+      }
 
-    return response.json();
-  } catch (error) {
-    console.error('Save error:', error);
-    throw error;
-  }
+      return response.json();
+    })
+    .catch((error) => {
+      console.error('Save error:', error);
+      throw error;
+    })
 };
 
 // React Server Actionsでの使用（checksVoidReturn: falseにより許可）

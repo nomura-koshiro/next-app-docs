@@ -58,31 +58,31 @@ export const useAuthStore = create<AuthStore>()(
       login: async (email: string, _password: string) => {
         set({ isLoading: true });
 
-        try {
-          // TODO: 実際のAPI呼び出しに置き換える
-          // const response = await api.post('/auth/login', { email, password })
-          // const user = response.data
+        // TODO: 実際のAPI呼び出しに置き換える
+        // const response = await api.post('/auth/login', { email, password })
+        // const user = response.data
 
-          // サンプルデータ（実際は削除）
-          await new Promise((resolve) => setTimeout(resolve, 1000)); // 擬似的な非同期処理
+        // サンプルデータ（実際は削除）
+        await new Promise((resolve) => setTimeout(resolve, 1000))
+          .then(() => {
+            const mockUser: User = {
+              id: "1",
+              email: email,
+              name: "Sample User",
+              role: "user",
+            };
 
-          const mockUser: User = {
-            id: "1",
-            email: email,
-            name: "Sample User",
-            role: "user",
-          };
-
-          set({
-            user: mockUser,
-            isAuthenticated: true,
-            isLoading: false,
+            set({
+              user: mockUser,
+              isAuthenticated: true,
+              isLoading: false,
+            });
+          })
+          .catch((error) => {
+            // TODO: エラーハンドリング
+            set({ isLoading: false });
+            throw error;
           });
-        } catch (error) {
-          // TODO: エラーハンドリング
-          set({ isLoading: false });
-          throw error;
-        }
       },
 
       /**

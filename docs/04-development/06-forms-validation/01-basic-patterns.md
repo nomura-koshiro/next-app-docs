@@ -115,13 +115,13 @@ const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<
 
 ```typescript
 const onSubmit = async (data: LoginFormData) => {
-  try {
-    // API呼び出し
-    await loginUser(data)
-    // 成功時の処理
-  } catch (error) {
-    // エラー処理
-  }
+  await loginUser(data)
+    .then(() => {
+      // 成功時の処理
+    })
+    .catch((error) => {
+      // エラー処理
+    })
 }
 ```
 

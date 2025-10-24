@@ -535,11 +535,10 @@ export const useNewUser = () => {
   })
 
   const handleSubmit = async (data: CreateUserInput) => {
-    try {
-      await createUser.mutateAsync(data)
-    } catch (error) {
-      // エラーハンドリング
-    }
+    await createUser.mutateAsync(data)
+      .catch((error) => {
+        // エラーハンドリング
+      })
   }
 
   return {

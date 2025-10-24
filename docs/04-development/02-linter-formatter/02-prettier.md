@@ -227,17 +227,18 @@ tabWidth: 2
 
 ```typescript
 const fetchData = async () => {
-  try {
-    const response = await fetch('/api/data');
-    if (!response.ok) {
-      throw new Error('Failed');
-    }
+  await fetch('/api/data')
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error('Failed');
+      }
 
-    return response.json();
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
+      return response.json();
+    })
+    .catch((error) => {
+      console.error(error);
+      throw error;
+    })
 };
 ```
 
