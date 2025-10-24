@@ -41,7 +41,9 @@
       "Bash(for dir in docs/04-development/*/)",
       "Bash(do echo \"=== $dir ===\")",
       "Bash(git ls-tree:*)",
-      "Bash(pnpm install:*)"
+      "Bash(pnpm install:*)",
+      "Read(//c/developments/genai-app-docs/docs/01-getting-started/**)",
+      "Bash(git commit:*)"
     ],
     "deny": [],
     "ask": []
