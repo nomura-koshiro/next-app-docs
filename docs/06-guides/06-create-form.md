@@ -713,16 +713,15 @@ const createUserMutation = useCreateUser()
 
 ```typescript
 const onSubmit = async (data: FormValues) => {
-  try {
-    await createUserMutation.mutateAsync(data)
-  } catch (error) {
-    if (error.response?.status === 409) {
-      setError('email', {
-        type: 'manual',
-        message: 'このメールアドレスは既に使用されています',
-      })
-    }
-  }
+  await createUserMutation.mutateAsync(data)
+    .catch((error) => {
+      if (error.response?.status === 409) {
+        setError('email', {
+          type: 'manual',
+          message: 'このメールアドレスは既に使用されています',
+        })
+      }
+    })
 }
 ```
 
@@ -811,11 +810,10 @@ const onSubmit = (data) => {
 
 // mutateAsync: エラーをcatchできる
 const onSubmit = async (data) => {
-  try {
-    await createUser.mutateAsync(data)
-  } catch (error) {
-    // カスタムエラー処理
-  }
+  await createUser.mutateAsync(data)
+    .catch((error) => {
+      // カスタムエラー処理
+    })
 }
 ```
 

@@ -390,15 +390,18 @@ export default function Loading() {
   return <div>読み込み中...</div>;
 }
 
-// ✅ Good: try-catchでエラーハンドリング
+// ✅ Good: .catch()でエラーハンドリング
 export default async function Page() {
-  try {
-    const data = await fetchData();
+  const data = await fetchData()
+    .catch((error) => {
+      return null;
+    });
 
-    return <div>{data.title}</div>;
-  } catch (error) {
+  if (!data) {
     return <div>データの取得に失敗しました</div>;
   }
+
+  return <div>{data.title}</div>;
 }
 ```
 

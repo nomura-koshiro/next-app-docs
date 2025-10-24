@@ -167,20 +167,21 @@ export const useAuthStore = create<AuthStore>()(
 
       login: async (email: string, password: string) => {
         set({ isLoading: true })
-        try {
-          // API呼び出し
-          const response = await api.post('/auth/login', { email, password })
-          const user = response.data
 
-          set({
-            user,
-            isAuthenticated: true,
-            isLoading: false,
+        await api.post('/auth/login', { email, password })
+          .then((response) => {
+            const user = response.data
+
+            set({
+              user,
+              isAuthenticated: true,
+              isLoading: false,
+            })
           })
-        } catch (error) {
-          set({ isLoading: false })
-          throw error
-        }
+          .catch((error) => {
+            set({ isLoading: false })
+            throw error
+          })
       },
 
       logout: () => {
@@ -408,12 +409,13 @@ export const CreateUserForm = () => {
   const createUser = useCreateUser()
 
   const handleSubmit = async (data: CreateUserInput) => {
-    try {
-      await createUser.mutateAsync(data)
-      alert('作成しました')
-    } catch (error) {
-      alert('エラーが発生しました')
-    }
+    await createUser.mutateAsync(data)
+      .then(() => {
+        alert('作成しました')
+      })
+      .catch(() => {
+        alert('エラーが発生しました')
+      })
   }
 
   return <form onSubmit={handleSubmit}>...</form>

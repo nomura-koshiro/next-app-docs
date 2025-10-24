@@ -31,21 +31,19 @@ export const CreateUserForm = () => {
   const onSubmit = async (data: UserFormValues) => {
     setServerError(null)
 
-    try {
-      await createUser.mutateAsync(data)
-      // 成功時の処理
-    } catch (error: any) {
-      // サーバーからのエラーをフィールドにセット
-      if (error.data?.errors) {
-        Object.entries(error.data.errors).forEach(([field, messages]) => {
-          setError(field as keyof UserFormValues, {
-            message: Array.isArray(messages) ? messages[0] : String(messages),
+    await createUser.mutateAsync(data)
+      .catch((error: any) => {
+        // サーバーからのエラーをフィールドにセット
+        if (error.data?.errors) {
+          Object.entries(error.data.errors).forEach(([field, messages]) => {
+            setError(field as keyof UserFormValues, {
+              message: Array.isArray(messages) ? messages[0] : String(messages),
+            })
           })
-        })
-      } else {
-        setServerError(error.message || 'エラーが発生しました')
-      }
-    }
+        } else {
+          setServerError(error.message || 'エラーが発生しました')
+        }
+      })
   }
 
   return (
@@ -200,11 +198,10 @@ export const handleServerError = <T extends FieldValues>(
 import { handleServerError } from '@/utils/form-error-handler'
 
 const onSubmit = async (data: UserFormValues) => {
-  try {
-    await createUser.mutateAsync(data)
-  } catch (error: any) {
-    handleServerError(error, setError)
-  }
+  await createUser.mutateAsync(data)
+    .catch((error: any) => {
+      handleServerError(error, setError)
+    })
 }
 ```
 
@@ -251,17 +248,18 @@ clearErrors()
 import { toast } from 'sonner'
 
 const onSubmit = async (data: UserFormValues) => {
-  try {
-    await createUser.mutateAsync(data)
-    toast.success('ユーザーを作成しました')
-  } catch (error: any) {
-    if (error.status === 422) {
-      handleServerError(error, setError)
-      toast.error('入力内容を確認してください')
-    } else {
-      toast.error('エラーが発生しました')
-    }
-  }
+  await createUser.mutateAsync(data)
+    .then(() => {
+      toast.success('ユーザーを作成しました')
+    })
+    .catch((error: any) => {
+      if (error.status === 422) {
+        handleServerError(error, setError)
+        toast.error('入力内容を確認してください')
+      } else {
+        toast.error('エラーが発生しました')
+      }
+    })
 }
 ```
 

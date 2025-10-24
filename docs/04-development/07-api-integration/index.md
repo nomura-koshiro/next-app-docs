@@ -415,12 +415,13 @@ export const CreateUserForm = () => {
   const createUser = useCreateUser()
 
   const handleSubmit = async (data: CreateUserInput) => {
-    try {
-      await createUser.mutateAsync(data)
-      alert('作成しました')
-    } catch (error) {
-      alert('エラーが発生しました')
-    }
+    await createUser.mutateAsync(data)
+      .then(() => {
+        alert('作成しました')
+      })
+      .catch(() => {
+        alert('エラーが発生しました')
+      })
   }
 
   return <form onSubmit={handleSubmit}>...</form>

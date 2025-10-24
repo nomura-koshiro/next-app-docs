@@ -279,11 +279,10 @@ const schema = z.object({
 
 // 2. サーバーサイドバリデーション
 const onSubmit = async (data) => {
-  try {
-    await api.post('/users', data)
-  } catch (error) {
-    handleServerError(error, setError)
-  }
+  await api.post('/users', data)
+    .catch((error) => {
+      handleServerError(error, setError)
+    })
 }
 ```
 
