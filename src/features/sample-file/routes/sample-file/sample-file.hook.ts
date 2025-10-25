@@ -34,10 +34,10 @@ export const useSampleFile = () => {
 
   // 楽観的UI更新のためのuseOptimistic
   // ファイル選択後、即座にリストに表示し、バックグラウンドでアップロード
-  const [optimisticFiles, addOptimisticFiles] = useOptimistic(
-    uploadedFiles,
-    (state, newFiles: UploadedFile[]) => [...state, ...newFiles]
-  );
+  const [optimisticFiles, addOptimisticFiles] = useOptimistic(uploadedFiles, (state: UploadedFile[], newFiles: UploadedFile[]) => [
+    ...state,
+    ...newFiles,
+  ]);
 
   // ================================================================================
   // Upload Handlers
@@ -66,7 +66,7 @@ export const useSampleFile = () => {
       addOptimisticFiles(newFiles);
 
       // ベースとなる状態も更新（楽観的更新を確定）
-      setUploadedFiles((prev) => [...prev, ...newFiles]);
+      setUploadedFiles((prev: UploadedFile[]) => [...prev, ...newFiles]);
       setIsUploading(true);
 
       // 各ファイルを順次アップロード
@@ -75,19 +75,25 @@ export const useSampleFile = () => {
 
         try {
           // ステータスを「アップロード中」に更新
-          setUploadedFiles((prev) => prev.map((f, idx) => (idx === fileIndex ? { ...f, status: 'uploading' as const } : f)));
+          setUploadedFiles((prev: UploadedFile[]) =>
+            prev.map((f: UploadedFile, idx: number) => (idx === fileIndex ? { ...f, status: 'uploading' as const } : f))
+          );
 
           // アップロード実行（MSWでモック）
           await uploadFile(files[i], (progress) => {
-            setUploadedFiles((prev) => prev.map((f, idx) => (idx === fileIndex ? { ...f, progress } : f)));
+            setUploadedFiles((prev: UploadedFile[]) =>
+              prev.map((f: UploadedFile, idx: number) => (idx === fileIndex ? { ...f, progress } : f))
+            );
           });
 
           // ✅ ステータスを「成功」に更新
-          setUploadedFiles((prev) => prev.map((f, idx) => (idx === fileIndex ? { ...f, status: 'success' as const } : f)));
+          setUploadedFiles((prev: UploadedFile[]) =>
+            prev.map((f: UploadedFile, idx: number) => (idx === fileIndex ? { ...f, status: 'success' as const } : f))
+          );
         } catch (error) {
           // ❌ エラー時の処理
-          setUploadedFiles((prev) =>
-            prev.map((f, idx) =>
+          setUploadedFiles((prev: UploadedFile[]) =>
+            prev.map((f: UploadedFile, idx: number) =>
               idx === fileIndex
                 ? {
                     ...f,
@@ -115,7 +121,7 @@ export const useSampleFile = () => {
    * 注意: サーバーへの削除リクエストは不要（クライアント側の状態のみ）
    */
   const handleFileRemove = useCallback((index: number) => {
-    setUploadedFiles((prev) => prev.filter((_, i) => i !== index));
+    setUploadedFiles((prev: UploadedFile[]) => prev.filter((_: UploadedFile, i: number) => i !== index));
   }, []);
 
   // ================================================================================

@@ -51,7 +51,7 @@ export const useNewUser = () => {
    * 3. 遷移中もUIが応答性を保つ
    * 4. エラー時: フォームにエラーメッセージを表示
    */
-  const onSubmit = handleSubmit(async (data) => {
+  const onSubmit = handleSubmit(async (data: UserFormValues) => {
     try {
       await createUserMutation.mutateAsync(data);
 

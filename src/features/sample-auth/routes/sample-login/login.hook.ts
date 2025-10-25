@@ -20,7 +20,9 @@ export const useLogin = () => {
   // Hooks
   // ================================================================================
   const router = useRouter();
-  const setUser = useAuthStore((state) => state.setUser);
+  const setUser = useAuthStore(
+    (state: { setUser: (user: { id: string; email: string; name: string; role: string }) => void }) => state.setUser
+  );
 
   const loginMutation = useLoginMutation();
   const [isPending, startTransition] = useTransition();
@@ -55,7 +57,7 @@ export const useLogin = () => {
    *    - useTransitionでノンブロッキングなページ遷移
    * 3. エラー時: フォームにエラーメッセージを表示
    */
-  const onSubmit = handleSubmit(async (values) => {
+  const onSubmit = handleSubmit(async (values: LoginFormValues) => {
     try {
       const data = await loginMutation.mutateAsync(values);
 

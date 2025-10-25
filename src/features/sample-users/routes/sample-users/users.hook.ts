@@ -24,9 +24,8 @@ export const useUsers = () => {
 
   // 楽観的UI更新のためのuseOptimistic
   // ユーザー削除を即座に表示し、FastAPIのレスポンスを待たずにUIを更新
-  const [optimisticUsers, removeOptimisticUser] = useOptimistic(
-    users,
-    (state, deletedUserId: string) => state.filter((user) => user.id !== deletedUserId)
+  const [optimisticUsers, removeOptimisticUser] = useOptimistic(users, (state: User[], deletedUserId: string) =>
+    state.filter((user: User) => user.id !== deletedUserId)
   );
 
   // ================================================================================
@@ -49,7 +48,7 @@ export const useUsers = () => {
    * 注意: 削除確認ページ(/sample-users/[id]/delete)への遷移は廃止されました
    */
   const handleDelete = async (userId: string) => {
-    const user = users.find((u) => u.id === userId);
+    const user = users.find((u: User) => u.id === userId);
     if (!user) return;
 
     // ブラウザ標準の確認ダイアログ

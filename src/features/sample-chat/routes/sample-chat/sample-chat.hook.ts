@@ -27,10 +27,10 @@ export const useSampleChat = () => {
 
   // 楽観的UI更新のためのuseOptimistic
   // ユーザーメッセージを即座に表示し、FastAPIのレスポンスを待たずにUIを更新
-  const [optimisticMessages, addOptimisticMessage] = useOptimistic(
-    messages,
-    (state, newMessage: Message) => [...state, newMessage]
-  );
+  const [optimisticMessages, addOptimisticMessage] = useOptimistic(messages, (state: Message[], newMessage: Message) => [
+    ...state,
+    newMessage,
+  ]);
 
   // ================================================================================
   // Handlers
@@ -76,7 +76,7 @@ export const useSampleChat = () => {
 
       // ✅ 実際のメッセージで状態を更新
       // useOptimisticのベースとなる状態を更新することで、楽観的更新を確定
-      setMessages((prev) => [...prev, userMessage, response.message]);
+      setMessages((prev: Message[]) => [...prev, userMessage, response.message]);
     } catch (error) {
       console.error('Failed to send message:', error);
 
@@ -88,7 +88,7 @@ export const useSampleChat = () => {
         content: 'エラーが発生しました。もう一度お試しください。',
         timestamp: new Date(),
       };
-      setMessages((prev) => [...prev, errorMessage]);
+      setMessages((prev: Message[]) => [...prev, errorMessage]);
     }
   }, [inputMessage, sendMessageMutation, conversationId, addOptimisticMessage]);
 
