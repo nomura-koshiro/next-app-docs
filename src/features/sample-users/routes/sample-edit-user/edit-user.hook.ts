@@ -2,7 +2,7 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
-import { use, useEffect } from 'react';
+import { use, useEffect, useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { useUpdateUser } from '@/features/sample-users';
@@ -12,6 +12,8 @@ import { userFormSchema, type UserFormValues } from '@/features/sample-users/sch
 /**
  * ユーザー編集ページのロジックを管理するカスタムフック
  *
+ * React 19のuseフックとuseTransitionを使用して、
+ * Promise型のparamsの解決とノンブロッキングなページ遷移を実現します。
  * API層のuseUserを呼び出し、フォーム処理とナビゲーションを追加
  */
 export const useEditUser = (params: Promise<{ id: string }>) => {
@@ -24,6 +26,7 @@ export const useEditUser = (params: Promise<{ id: string }>) => {
   const { data } = useUser({ userId });
 
   const updateUserMutation = useUpdateUser();
+  const [isPending, startTransition] = useTransition();
 
   // ================================================================================
   // Form
@@ -57,24 +60,38 @@ export const useEditUser = (params: Promise<{ id: string }>) => {
   // ================================================================================
   // Handlers
   // ================================================================================
-  const onSubmit = handleSubmit((formData: UserFormValues) => {
-    updateUserMutation
-      .mutateAsync({
+  /**
+   * フォーム送信ハンドラー（useTransition対応版）
+   *
+   * 処理フロー:
+   * 1. FastAPIにユーザー更新リクエスト送信
+   * 2. 成功時: useTransitionでノンブロッキングなページ遷移
+   * 3. 遷移中もUIが応答性を保つ
+   * 4. エラー時: フォームにエラーメッセージを表示
+   */
+  const onSubmit = handleSubmit(async (formData: UserFormValues) => {
+    try {
+      await updateUserMutation.mutateAsync({
         userId,
         data: formData,
-      })
-      .then(() => {
-        router.push('/sample-users');
-      })
-      .catch(() => {
-        setError('root', {
-          message: 'ユーザーの更新に失敗しました',
-        });
       });
+
+      // 🚀 Non-blocking navigation with useTransition
+      startTransition(() => {
+        router.push('/sample-users');
+      });
+    } catch (error) {
+      setError('root', {
+        message: 'ユーザーの更新に失敗しました',
+      });
+    }
   });
 
   const handleCancel = () => {
-    router.push('/sample-users');
+    // キャンセル時もuseTransitionを使用
+    startTransition(() => {
+      router.push('/sample-users');
+    });
   };
 
   return {
@@ -82,6 +99,7 @@ export const useEditUser = (params: Promise<{ id: string }>) => {
     onSubmit,
     handleCancel,
     errors,
-    isSubmitting: updateUserMutation.isPending,
+    // Mutationのpending と Transitionのpending を統合
+    isSubmitting: updateUserMutation.isPending || isPending,
   };
 };

@@ -2,6 +2,7 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
+import { useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { useCreateUser } from '@/features/sample-users';
@@ -9,6 +10,9 @@ import { userFormSchema, type UserFormValues } from '@/features/sample-users/sch
 
 /**
  * 新規ユーザー作成ページのロジックを管理するカスタムフック
+ *
+ * React 19のuseTransitionを使用して、ページ遷移をノンブロッキングにします。
+ * フォーム送信後のナビゲーション中もUIが応答性を保ちます。
  */
 export const useNewUser = () => {
   // ================================================================================
@@ -16,6 +20,7 @@ export const useNewUser = () => {
   // ================================================================================
   const router = useRouter();
   const createUserMutation = useCreateUser();
+  const [isPending, startTransition] = useTransition();
 
   // ================================================================================
   // Form
@@ -37,21 +42,37 @@ export const useNewUser = () => {
   // ================================================================================
   // Handlers
   // ================================================================================
-  const onSubmit = handleSubmit((data) => {
-    createUserMutation
-      .mutateAsync(data)
-      .then(() => {
+  /**
+   * フォーム送信ハンドラー（useTransition対応版）
+   *
+   * 処理フロー:
+   * 1. FastAPIにユーザー作成リクエスト送信
+   * 2. 成功時: useTransitionでノンブロッキングなページ遷移
+   * 3. 遷移中もUIが応答性を保つ
+   * 4. エラー時: フォームにエラーメッセージを表示
+   */
+  const onSubmit = handleSubmit(async (data) => {
+    try {
+      await createUserMutation.mutateAsync(data);
+
+      // 🚀 Non-blocking navigation with useTransition
+      // ページ遷移中もUIが応答性を保ち、ユーザーがブロックされない
+      startTransition(() => {
         router.push('/sample-users');
-      })
-      .catch(() => {
-        setError('root', {
-          message: 'ユーザーの作成に失敗しました',
-        });
       });
+    } catch (error) {
+      // エラー時の処理
+      setError('root', {
+        message: 'ユーザーの作成に失敗しました',
+      });
+    }
   });
 
   const handleCancel = () => {
-    router.push('/sample-users');
+    // キャンセル時もuseTransitionを使用
+    startTransition(() => {
+      router.push('/sample-users');
+    });
   };
 
   return {
@@ -59,6 +80,7 @@ export const useNewUser = () => {
     onSubmit,
     handleCancel,
     errors,
-    isSubmitting: createUserMutation.isPending,
+    // Mutationのpending と Transitionのpending を統合
+    isSubmitting: createUserMutation.isPending || isPending,
   };
 };

@@ -1,12 +1,16 @@
 'use client';
 
-import { useCallback, useState } from 'react';
+import { useCallback, useOptimistic, useState } from 'react';
 
 import { useSendMessage } from '../../api';
 import type { Message } from '../../types';
 
 /**
  * チャット機能のカスタムフック
+ *
+ * React 19のuseOptimisticを使用して、メッセージ送信時の即座のUI反映を実現します。
+ * FastAPIのレスポンスを待たずにユーザーメッセージを画面に表示し、
+ * エラー時は自動的にロールバックされます。
  */
 export const useSampleChat = () => {
   // ================================================================================
@@ -21,19 +25,32 @@ export const useSampleChat = () => {
   const [inputMessage, setInputMessage] = useState('');
   const [conversationId, setConversationId] = useState<string | undefined>(undefined);
 
+  // 楽観的UI更新のためのuseOptimistic
+  // ユーザーメッセージを即座に表示し、FastAPIのレスポンスを待たずにUIを更新
+  const [optimisticMessages, addOptimisticMessage] = useOptimistic(
+    messages,
+    (state, newMessage: Message) => [...state, newMessage]
+  );
+
   // ================================================================================
   // Handlers
   // ================================================================================
 
   /**
-   * メッセージ送信ハンドラー
+   * メッセージ送信ハンドラー（useOptimistic対応版）
+   *
+   * 処理フロー:
+   * 1. ユーザーメッセージを即座にUIに反映（楽観的更新）
+   * 2. FastAPIにリクエスト送信
+   * 3. 成功時: 実際のメッセージで状態を更新
+   * 4. エラー時: 楽観的更新が自動的にロールバック、エラーメッセージを追加
    */
   const handleSendMessage = useCallback(async () => {
     if (!inputMessage.trim() || sendMessageMutation.isPending) {
       return;
     }
 
-    // ユーザーメッセージを追加
+    // ユーザーメッセージを作成
     const userMessage: Message = {
       id: `user-${Date.now()}`,
       role: 'user',
@@ -41,11 +58,12 @@ export const useSampleChat = () => {
       timestamp: new Date(),
     };
 
-    setMessages((prev) => [...prev, userMessage]);
+    // 🚀 即座にUIに反映（楽観的更新）
+    addOptimisticMessage(userMessage);
     setInputMessage('');
 
     try {
-      // アシスタントの返信を取得
+      // FastAPIにメッセージを送信
       const response = await sendMessageMutation.mutateAsync({
         message: userMessage.content,
         conversationId,
@@ -56,12 +74,14 @@ export const useSampleChat = () => {
         setConversationId(response.conversationId);
       }
 
-      // アシスタントメッセージを追加
-      setMessages((prev) => [...prev, response.message]);
+      // ✅ 実際のメッセージで状態を更新
+      // useOptimisticのベースとなる状態を更新することで、楽観的更新を確定
+      setMessages((prev) => [...prev, userMessage, response.message]);
     } catch (error) {
       console.error('Failed to send message:', error);
 
-      // エラーメッセージを表示
+      // ❌ エラー時: 楽観的更新が自動的にロールバック
+      // エラーメッセージのみを追加
       const errorMessage: Message = {
         id: `error-${Date.now()}`,
         role: 'assistant',
@@ -70,7 +90,7 @@ export const useSampleChat = () => {
       };
       setMessages((prev) => [...prev, errorMessage]);
     }
-  }, [inputMessage, sendMessageMutation, conversationId]);
+  }, [inputMessage, sendMessageMutation, conversationId, addOptimisticMessage]);
 
   /**
    * 入力変更ハンドラー
@@ -83,7 +103,7 @@ export const useSampleChat = () => {
   // Return
   // ================================================================================
   return {
-    messages,
+    messages: optimisticMessages, // 楽観的更新を反映したメッセージリストを返す
     inputMessage,
     isSending: sendMessageMutation.isPending,
     handleSendMessage,
