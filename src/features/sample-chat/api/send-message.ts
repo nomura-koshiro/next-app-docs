@@ -2,6 +2,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { api } from '@/lib/api-client';
 import { MutationConfig } from '@/lib/tanstack-query';
+import { logger } from '@/utils/logger';
 
 import type { SendMessageRequest, SendMessageResponse } from '../types';
 
@@ -35,7 +36,7 @@ export const useSendMessage = ({ mutationConfig }: UseSendMessageOptions = {}) =
   return useMutation({
     onSuccess: (...args) => {
       queryClient.invalidateQueries({ queryKey: ['sample', 'chat', 'messages'] }).catch((error) => {
-        console.error('Failed to invalidate chat messages query:', error);
+        logger.error('Failed to invalidate chat messages query', error);
       });
       onSuccess?.(...args);
     },

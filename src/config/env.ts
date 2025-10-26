@@ -1,5 +1,7 @@
 import * as z from 'zod';
 
+import { logger } from '@/utils/logger';
+
 /**
  * 環境変数を検証して型安全に取得する
  *
@@ -14,8 +16,8 @@ const createEnv = () => {
   const apiUrl = storybookPort ? `http://localhost:${storybookPort}/api/v1` : process.env.NEXT_PUBLIC_API_URL;
 
   if (process.env.NODE_ENV === 'development' && storybookPort) {
-    console.log('[env] Storybook port detected:', storybookPort);
-    console.log('[env] API_URL overridden to:', apiUrl);
+    logger.info(`[env] Storybook port detected: ${storybookPort}`);
+    logger.info(`[env] API_URL overridden to: ${apiUrl}`);
   }
 
   // 環境変数のスキーマ定義
