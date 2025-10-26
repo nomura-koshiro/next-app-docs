@@ -1,0 +1,62 @@
+import { Control, FieldErrors } from "react-hook-form";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { ControlledInputField } from "@/components/ui/form-field/controlled-form-field";
+import { ErrorMessage } from "@/components/ui/error-message";
+import type { {{pascalCase featureName}}Values } from "@/features/{{kebabCase featureName}}/schemas/{{kebabCase featureName}}.schema";
+
+type {{pascalCase routeName}}FormProps = {
+  /** React Hook Formのcontrolオブジェクト */
+  control: Control<{{pascalCase featureName}}Values>;
+  /** フォーム送信ハンドラー */
+  onSubmit: (e?: React.BaseSyntheticEvent) => void;
+  /** フォームエラー */
+  errors: FieldErrors<{{pascalCase featureName}}Values>;
+  /** 送信中かどうか */
+  isSubmitting?: boolean;
+};
+
+/**
+ * {{pascalCase routeName}}フォームコンポーネント（プレゼンテーション）
+ *
+ * ロジックは含まず、純粋な表示とイベント通知のみを行います。
+ *
+ * @param props - {{pascalCase routeName}}Formコンポーネントのプロパティ
+ * @returns {{pascalCase routeName}}フォーム要素
+ */
+export const {{pascalCase routeName}}Form = ({
+  control,
+  onSubmit,
+  errors,
+  isSubmitting = false,
+}: {{pascalCase routeName}}FormProps) => {
+  // ================================================================================
+  // Variables
+  // ================================================================================
+  // ※使用しないコメントブロックは削除すること
+  // TODO: 必要に応じて変数を追加
+
+  return (
+    <Card>
+      <CardContent className="pt-6">
+        <form onSubmit={onSubmit} className="space-y-6">
+          <ControlledInputField
+            control={control}
+            name="name"
+            label="名前"
+            placeholder="名前を入力してください"
+            required
+          />
+
+          {errors.root && <ErrorMessage message={errors.root.message ?? ""} />}
+
+          <div className="flex gap-4">
+            <Button type="submit" disabled={isSubmitting} className="flex-1">
+              {isSubmitting ? "送信中..." : "送信"}
+            </Button>
+          </div>
+        </form>
+      </CardContent>
+    </Card>
+  );
+};

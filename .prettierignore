@@ -1,0 +1,29 @@
+# Dependencies
+node_modules
+
+# Build output
+.next
+out
+dist
+build
+
+# Storybook
+storybook-static
+
+# Logs
+*.log
+
+# Environment files
+.env*
+
+# Lock files
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+
+# Coverage
+coverage
+.nyc_output
+
+# Other
+.DS_Store

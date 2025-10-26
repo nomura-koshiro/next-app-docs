@@ -1,0 +1,39 @@
+import type { Meta, StoryObj } from "@storybook/react";
+import { {{pascalCase componentName}} } from "./{{kebabCase componentName}}";
+
+const meta = {
+  title: "Components/UI/{{pascalCase componentName}}",
+  component: {{pascalCase componentName}},
+  parameters: {
+    layout: "centered",
+  },
+  tags: ["autodocs"],
+  argTypes: {
+    children: {
+      control: "text",
+      description: "コンポーネントの子要素",
+    },
+  },
+} satisfies Meta<typeof {{pascalCase componentName}}>;
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+/**
+ * デフォルト表示
+ */
+export const Default: Story = {
+  args: {
+    children: "{{pascalCase componentName}} content",
+  },
+};
+
+/**
+ * カスタマイズ例
+ */
+export const CustomStyle: Story = {
+  args: {
+    children: "Custom styled {{pascalCase componentName}}",
+    className: "p-4 bg-gray-100 rounded",
+  },
+};

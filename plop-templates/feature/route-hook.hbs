@@ -1,0 +1,49 @@
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  {{camelCase featureName}}Schema,
+  type {{pascalCase featureName}}Values,
+} from "../../schemas/{{kebabCase featureName}}.schema";
+
+/**
+ * {{pascalCase routeName}}ページのカスタムフック
+ *
+ * フォームの状態管理とロジックを担当します。
+ */
+export const use{{pascalCase routeName}} = () => {
+  // ================================================================================
+  // Hooks
+  // ================================================================================
+  // TODO: 必要なフックを追加
+
+  // ================================================================================
+  // Form
+  // ================================================================================
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<{{pascalCase featureName}}Values>({
+    resolver: zodResolver({{camelCase featureName}}Schema),
+    defaultValues: {
+      name: "",
+    },
+  });
+
+  // ================================================================================
+  // Handlers
+  // ================================================================================
+  // ※使用しないコメントブロックは削除すること
+  const onSubmit = handleSubmit(async (data) => {
+    // TODO: 送信処理を実装
+    console.log("Form Data:", data);
+  });
+
+  return {
+    control,
+    onSubmit,
+    errors,
+    reset,
+  };
+};

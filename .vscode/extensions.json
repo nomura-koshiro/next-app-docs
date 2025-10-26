@@ -1,0 +1,89 @@
+{
+  "recommendations": [
+    // ========================================
+    // 必須 (Core)
+    // ========================================
+    // JavaScriptとTypeScriptのリンター
+    "dbaeumer.vscode-eslint",
+    // コードフォーマッター
+    "esbenp.prettier-vscode",
+
+    // ========================================
+    // スタイリング
+    // ========================================
+    // Tailwind CSSの補完とシンタックスハイライト
+    "bradlc.vscode-tailwindcss",
+    // CSSリンター
+    "stylelint.vscode-stylelint",
+
+    // ========================================
+    // React/TypeScript開発
+    // ========================================
+    // React向けのコードスニペット集
+    "dsznajder.es7-react-js-snippets",
+    // TypeScriptのエラーメッセージを読みやすく表示
+    "yoavbls.pretty-ts-errors",
+    // AIベースのコード補完
+    "visualstudioexptteam.vscodeintellicode",
+    // API使用例の表示
+    "visualstudioexptteam.intellicode-api-usage-examples",
+
+    // ========================================
+    // コード補完・ナビゲーション
+    // ========================================
+    // npmパッケージ名の補完
+    "christian-kohler.npm-intellisense",
+    // ファイルパスの補完
+    "christian-kohler.path-intellisense",
+    // パスの自動補完
+    "ionutvmi.path-autocomplete",
+
+    // ========================================
+    // コード品質・視覚化
+    // ========================================
+    // エラーや警告をインラインで表示
+    "usernamehw.errorlens",
+    // インデントレベルを色分けして可読性向上
+    "oderwat.indent-rainbow",
+    // HTMLタグの自動リネーム
+    "formulahendry.auto-rename-tag",
+
+    // ========================================
+    // Git/GitHub連携
+    // ========================================
+    // 強力なGit履歴とblame機能
+    "eamodio.gitlens",
+    // VS Code内でPRのレビューと管理
+    "github.vscode-pull-request-github",
+
+    // ========================================
+    // Markdown/ドキュメント
+    // ========================================
+    // Markdownリンター（スタイルと構文チェック）
+    "davidanson.vscode-markdownlint",
+    // MarkdownプレビューでMermaidダイアグラムを表示
+    "bierner.markdown-mermaid",
+
+    // ========================================
+    // 開発体験向上
+    // ========================================
+    // チーム全体でのコーディング規約統一
+    "editorconfig.editorconfig",
+    // TODO/FIXMEコメントの一覧表示
+    "gruntfuggly.todo-tree",
+    // ウィンドウのリロード
+    "natqe.reload",
+
+    // ========================================
+    // テーマ・アイコン
+    // ========================================
+    // ファイルタイプ別のアイコン表示
+    "vscode-icons-team.vscode-icons",
+
+    // ========================================
+    // 言語パック
+    // ========================================
+    // VS Codeの日本語化
+    "ms-ceintl.vscode-language-pack-ja"
+  ]
+}

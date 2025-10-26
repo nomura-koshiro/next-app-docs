@@ -1,0 +1,33 @@
+import type { Meta, StoryObj } from "@storybook/react";
+import { within, userEvent, expect, fn } from "@storybook/test";
+import {{pascalCase routeName}}Page from "./{{kebabCase routeName}}";
+
+const meta = {
+  title: "Features/{{pascalCase featureName}}/{{pascalCase routeName}}",
+  component: {{pascalCase routeName}}Page,
+  parameters: {
+    layout: "fullscreen",
+  },
+  tags: ["autodocs"],
+} satisfies Meta<typeof {{pascalCase routeName}}Page>;
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+/**
+ * デフォルト表示
+ */
+export const Default: Story = {};
+
+/**
+ * インタラクションテスト
+ */
+export const Interaction: Story = {
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    // TODO: インタラクションテストを実装
+    // const button = canvas.getByRole("button", { name: /アクション/i });
+    // await userEvent.click(button);
+  },
+};

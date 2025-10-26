@@ -1,0 +1,39 @@
+import type { Meta, StoryObj } from "@storybook/react";
+import { within, userEvent, expect, fn } from "@storybook/test";
+import {{pascalCase routeName}}Page from "./{{kebabCase routeName}}";
+
+const meta = {
+  title: "Features/{{pascalCase featureName}}/{{pascalCase routeName}}",
+  component: {{pascalCase routeName}}Page,
+  parameters: {
+    layout: "fullscreen",
+  },
+  tags: ["autodocs"],
+} satisfies Meta<typeof {{pascalCase routeName}}Page>;
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+/**
+ * デフォルト表示
+ */
+export const Default: Story = {};
+
+/**
+ * フォーム送信のインタラクションテスト
+ */
+export const FormSubmission: Story = {
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    // 名前を入力
+    const nameInput = canvas.getByLabelText(/名前/i);
+    await userEvent.type(nameInput, "テスト太郎");
+
+    // 送信ボタンをクリック
+    const submitButton = canvas.getByRole("button", { name: /送信/i });
+    await userEvent.click(submitButton);
+
+    // TODO: 送信後の検証を追加
+  },
+};

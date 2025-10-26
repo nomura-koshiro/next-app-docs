@@ -1,0 +1,39 @@
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+
+type {{pascalCase routeName}}ContentProps = {
+  /** アクションハンドラー */
+  onAction: () => void;
+};
+
+/**
+ * {{pascalCase routeName}}コンテンツコンポーネント（プレゼンテーション）
+ *
+ * ロジックは含まず、純粋な表示とイベント通知のみを行います。
+ *
+ * @param props - {{pascalCase routeName}}Contentコンポーネントのプロパティ
+ * @returns {{pascalCase routeName}}コンテンツ要素
+ */
+export const {{pascalCase routeName}}Content = ({
+  onAction,
+}: {{pascalCase routeName}}ContentProps) => {
+  // ================================================================================
+  // Variables
+  // ================================================================================
+  // ※使用しないコメントブロックは削除すること
+  // TODO: 必要に応じて変数を追加
+
+  return (
+    <Card>
+      <CardContent className="pt-6">
+        <div className="space-y-4">
+          <p>{{pascalCase routeName}} content</p>
+
+          <Button onClick={onAction}>
+            アクション
+          </Button>
+        </div>
+      </CardContent>
+    </Card>
+  );
+};

@@ -1,0 +1,14 @@
+import { z } from "zod";
+
+/**
+ * {{pascalCase featureName}}のバリデーションスキーマ
+ */
+export const {{camelCase featureName}}Schema = z.object({
+  // TODO: フィールド定義を追加
+  name: z.string().min(1, { message: "名前は必須です" }),
+});
+
+/**
+ * {{pascalCase featureName}}の型定義
+ */
+export type {{pascalCase featureName}}Values = z.infer<typeof {{camelCase featureName}}Schema>;

@@ -1,0 +1,36 @@
+"use client";
+
+import { PageLayout } from "@/components/layout/page-layout";
+import { PageHeader } from "@/components/layout/page-header";
+import { use{{pascalCase routeName}} } from "./{{kebabCase routeName}}.hook";
+
+/**
+ * {{pascalCase routeName}}ページ
+ */
+export default function {{pascalCase routeName}}Page() {
+  // ================================================================================
+  // Hooks
+  // ================================================================================
+  // ※使用しないコメントブロックは削除すること
+  const { handleAction } = use{{pascalCase routeName}}();
+
+  // ================================================================================
+  // Conditional Rendering
+  // ================================================================================
+  // ※使用しないコメントブロックは削除すること
+  // TODO: ローディング・エラー処理を追加
+
+  return (
+    <PageLayout maxWidth="2xl">
+      <PageHeader
+        title="{{pascalCase routeName}}"
+        description="{{pascalCase routeName}}の説明"
+      />
+
+      {/* TODO: コンテンツを追加 */}
+      <div>
+        <p>{{pascalCase routeName}} page content</p>
+      </div>
+    </PageLayout>
+  );
+}
