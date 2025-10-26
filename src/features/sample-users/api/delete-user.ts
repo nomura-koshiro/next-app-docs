@@ -2,6 +2,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { api } from '@/lib/api-client';
 import { MutationConfig } from '@/lib/tanstack-query';
+import { logger } from '@/utils/logger';
 
 // ================================================================================
 // API Functions
@@ -27,7 +28,7 @@ export const useDeleteUser = ({ mutationConfig }: UseDeleteUserOptions = {}) => 
   return useMutation({
     onSuccess: (...args) => {
       queryClient.invalidateQueries({ queryKey: ['users'] }).catch((error) => {
-        console.error('Failed to invalidate users query:', error);
+        logger.error('Failed to invalidate users query', error);
       });
       onSuccess?.(...args);
     },

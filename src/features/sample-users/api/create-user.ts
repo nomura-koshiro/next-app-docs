@@ -1,26 +1,17 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { z } from 'zod';
 
 import { api } from '@/lib/api-client';
 import { MutationConfig } from '@/lib/tanstack-query';
+import { userFormSchema } from '@/features/sample-users/schemas/user-form.schema';
+import { logger } from '@/utils/logger';
 
-import type { CreateUserInput, User } from '../types';
-
-// ================================================================================
-// Schemas
-// ================================================================================
-
-export const createUserInputSchema = z.object({
-  name: z.string().min(1, '名前は必須です'),
-  email: z.string().min(1, 'メールアドレスは必須です').email('正しいメールアドレスを入力してください'),
-  role: z.string().min(1, 'ロールは必須です'),
-});
+import type { CreateUserDTO, User } from '../types';
 
 // ================================================================================
 // API Functions
 // ================================================================================
 
-export const createUser = (data: CreateUserInput): Promise<User> => {
+export const createUser = (data: CreateUserDTO): Promise<User> => {
   return api.post('/sample/users', data);
 };
 
@@ -40,7 +31,7 @@ export const useCreateUser = ({ mutationConfig }: UseCreateUserOptions = {}) => 
   return useMutation({
     onSuccess: (...args) => {
       queryClient.invalidateQueries({ queryKey: ['users'] }).catch((error) => {
-        console.error('Failed to invalidate users query:', error);
+        logger.error('Failed to invalidate users query', error);
       });
       onSuccess?.(...args);
     },
@@ -48,3 +39,8 @@ export const useCreateUser = ({ mutationConfig }: UseCreateUserOptions = {}) => 
     mutationFn: createUser,
   });
 };
+
+// ================================================================================
+// Exports for validation
+// ================================================================================
+export { userFormSchema as createUserInputSchema };

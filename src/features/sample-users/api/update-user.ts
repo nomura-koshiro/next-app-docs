@@ -1,27 +1,18 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { z } from 'zod';
 
 import { api } from '@/lib/api-client';
 import { MutationConfig } from '@/lib/tanstack-query';
+import { userFormSchema } from '@/features/sample-users/schemas/user-form.schema';
+import { logger } from '@/utils/logger';
 
-import type { UpdateUserInput, User } from '../types';
-
-// ================================================================================
-// Schemas
-// ================================================================================
-
-export const updateUserInputSchema = z.object({
-  name: z.string().min(1, '名前は必須です'),
-  email: z.string().min(1, 'メールアドレスは必須です').email('正しいメールアドレスを入力してください'),
-  role: z.string().min(1, 'ロールは必須です'),
-});
+import type { UpdateUserDTO, User } from '../types';
 
 // ================================================================================
 // API Functions
 // ================================================================================
 
-export const updateUser = ({ userId, data }: { userId: string; data: UpdateUserInput }): Promise<User> => {
-  return api.put(`/users/${userId}`, data);
+export const updateUser = ({ userId, data }: { userId: string; data: UpdateUserDTO }): Promise<User> => {
+  return api.put(`/sample/users/${userId}`, data);
 };
 
 // ================================================================================
@@ -40,10 +31,10 @@ export const useUpdateUser = ({ mutationConfig }: UseUpdateUserOptions = {}) => 
   return useMutation({
     onSuccess: (data, ...args) => {
       queryClient.invalidateQueries({ queryKey: ['users'] }).catch((error) => {
-        console.error('Failed to invalidate users query:', error);
+        logger.error('Failed to invalidate users query', error);
       });
       queryClient.invalidateQueries({ queryKey: ['users', data.id] }).catch((error) => {
-        console.error('Failed to invalidate user query:', error);
+        logger.error('Failed to invalidate user query', error, { userId: data.id });
       });
       onSuccess?.(data, ...args);
     },
@@ -51,3 +42,8 @@ export const useUpdateUser = ({ mutationConfig }: UseUpdateUserOptions = {}) => 
     mutationFn: updateUser,
   });
 };
+
+// ================================================================================
+// Exports for validation
+// ================================================================================
+export { userFormSchema as updateUserInputSchema };
