@@ -1,0 +1,158 @@
+import type { Meta, StoryObj } from "@storybook/nextjs-vite";
+import { fn } from "@storybook/test";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { {{pascalCase featureName}}Form } from "./{{kebabCase featureName}}-form";
+import {
+  {{kebabCase featureName}}FormSchema,
+  type {{pascalCase featureName}}FormValues,
+} from "@/features/{{kebabCase featureName}}/schemas/{{kebabCase featureName}}.schema";
+
+/**
+ * {{pascalCase featureName}}Formのストーリー
+ *
+ * {{pascalCase featureName}}の作成・編集フォームコンポーネント
+ */
+const meta = {
+  // ================================================================================
+  // Storybookのナビゲーション階層
+  // ================================================================================
+  title: "features/{{kebabCase featureName}}/components/{{pascalCase featureName}}Form",
+
+  // ================================================================================
+  // 表示するコンポーネント
+  // ================================================================================
+  component: {{pascalCase featureName}}Form,
+
+  parameters: {
+    // ================================================================================
+    // レイアウト設定
+    // ================================================================================
+    layout: "centered",
+
+    // ================================================================================
+    // コンポーネントの詳細説明
+    // ================================================================================
+    docs: {
+      description: {
+        component:
+          "{{pascalCase featureName}}の作成・編集フォームコンポーネント。\n\n" +
+          "**主な機能:**\n" +
+          "- {{pascalCase featureName}}データの入力\n" +
+          "- バリデーション\n" +
+          "- 作成/編集モードの切り替え",
+      },
+    },
+
+    // ================================================================================
+    // 背景色のテストオプション
+    // ================================================================================
+    backgrounds: {
+      default: "light",
+      values: [
+        { name: "light", value: "#ffffff" },
+        { name: "dark", value: "#1a1a1a" },
+        { name: "gray", value: "#f3f4f6" },
+      ],
+    },
+  },
+
+  // ================================================================================
+  // ドキュメント自動生成を有効化
+  // ================================================================================
+  tags: ["autodocs"],
+
+  // ================================================================================
+  // デフォルトの args 値
+  // ================================================================================
+  args: {
+    onSubmit: fn(),
+    onCancel: fn(),
+  },
+
+  // ================================================================================
+  // デコレーター（React Hook Formのセットアップ）
+  // ================================================================================
+  decorators: [
+    (Story, context) => {
+      const { control, formState } = useForm<{{pascalCase featureName}}FormValues>({
+        resolver: zodResolver({{kebabCase featureName}}FormSchema),
+        defaultValues: context.args.isEditMode
+          ? { name: "サンプル名" }
+          : { name: "" },
+      });
+
+      return (
+        <Story
+          args={{
+            ...context.args,
+            control,
+            errors: formState.errors,
+            isSubmitting: context.args.isSubmitting || false,
+          }}
+        />
+      );
+    },
+  ],
+} satisfies Meta<typeof {{pascalCase featureName}}Form>;
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+// ================================================================================
+// ストーリー定義
+// ================================================================================
+
+/**
+ * デフォルト状態（作成モード）
+ */
+export const Default: Story = {
+  name: "デフォルト（作成モード）",
+  args: {
+    isEditMode: false,
+    isSubmitting: false,
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: "新規作成モードのフォーム",
+      },
+    },
+  },
+};
+
+/**
+ * 編集モード
+ */
+export const EditMode: Story = {
+  name: "編集モード",
+  args: {
+    isEditMode: true,
+    isSubmitting: false,
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: "既存データの編集モード",
+      },
+    },
+  },
+};
+
+/**
+ * 送信中
+ */
+export const Submitting: Story = {
+  name: "送信中",
+  args: {
+    isEditMode: false,
+    isSubmitting: true,
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: "フォーム送信中の状態",
+      },
+    },
+  },
+};

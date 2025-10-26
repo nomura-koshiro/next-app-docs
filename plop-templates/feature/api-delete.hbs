@@ -1,0 +1,40 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+
+import { api } from "@/lib/api-client";
+import { MutationConfig } from "@/lib/tanstack-query";
+
+// ================================================================================
+// API Functions
+// ================================================================================
+
+/**
+ * {{pascalCase featureName}}を削除
+ *
+ * TODO: APIエンドポイントを実際のパスに修正してください
+ */
+export const delete{{pascalCase featureName}} = (id: string): Promise<void> => {
+  return api.delete(`/api/v1/{{kebabCase featureName}}s/${id}`);
+};
+
+// ================================================================================
+// Hooks
+// ================================================================================
+
+type UseDelete{{pascalCase featureName}}Options = {
+  mutationConfig?: MutationConfig<typeof delete{{pascalCase featureName}}>;
+};
+
+/**
+ * {{pascalCase featureName}}を削除するフック
+ */
+export const useDelete{{pascalCase featureName}} = ({ mutationConfig }: UseDelete{{pascalCase featureName}}Options = {}) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: delete{{pascalCase featureName}},
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["{{kebabCase featureName}}s"] });
+    },
+    ...mutationConfig,
+  });
+};

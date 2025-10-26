@@ -1,0 +1,43 @@
+"use client";
+
+import { PageLayout } from "@/components/layout/page-layout";
+import { PageHeader } from "@/components/layout/page-header";
+import { {{pascalCase routeName}}Form } from "./components/{{kebabCase routeName}}-form";
+import { use{{pascalCase routeName}} } from "./{{kebabCase routeName}}.hook";
+import { useDevTools } from "@/hooks/use-devtools";
+
+/**
+ * {{pascalCase routeName}}ページ
+ */
+export default function {{pascalCase routeName}}Page() {
+  // ================================================================================
+  // Hooks
+  // ================================================================================
+  // ※使用しないコメントブロックは削除すること
+  const { control, onSubmit, errors, reset } = use{{pascalCase routeName}}();
+  const DevTools = useDevTools(control);
+
+  // ================================================================================
+  // Conditional Rendering
+  // ================================================================================
+  // ※使用しないコメントブロックは削除すること
+  // TODO: ローディング・エラー処理を追加
+
+  return (
+    <>
+      <PageLayout maxWidth="2xl">
+        <PageHeader
+          title="{{pascalCase routeName}}"
+          description="{{pascalCase routeName}}の説明"
+        />
+
+        <{{pascalCase routeName}}Form
+          control={control}
+          onSubmit={onSubmit}
+          errors={errors}
+        />
+      </PageLayout>
+      {DevTools}
+    </>
+  );
+}

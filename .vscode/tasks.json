@@ -1,0 +1,117 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Next.js: 開発サーバー起動",
+      "type": "shell",
+      "command": "pnpm",
+      "args": ["run", "dev"],
+      "isBackground": true,
+      "problemMatcher": {
+        "pattern": {
+          "regexp": "^.*$",
+          "file": 1,
+          "location": 2,
+          "message": 3
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": ".*",
+          "endsPattern": "(Local|Ready)"
+        }
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "Next.js: 本番ビルド",
+      "type": "shell",
+      "command": "pnpm",
+      "args": ["run", "build"],
+      "problemMatcher": [],
+      "group": {
+        "kind": "build"
+      }
+    },
+    {
+      "label": "テスト実行",
+      "type": "shell",
+      "command": "pnpm",
+      "args": ["run", "test"],
+      "problemMatcher": [],
+      "group": {
+        "kind": "test",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "ESLint チェック",
+      "type": "shell",
+      "command": "pnpm",
+      "args": ["run", "lint"],
+      "problemMatcher": []
+    },
+    {
+      "label": "ESLint 修正",
+      "type": "shell",
+      "command": "pnpm",
+      "args": ["run", "lint:fix"],
+      "problemMatcher": []
+    },
+    {
+      "label": "Prettier フォーマット",
+      "type": "shell",
+      "command": "pnpm",
+      "args": ["run", "format"],
+      "problemMatcher": []
+    },
+    {
+      "label": "型チェック",
+      "type": "shell",
+      "command": "pnpm",
+      "args": ["run", "typecheck"],
+      "problemMatcher": []
+    },
+    {
+      "label": "すべてのチェック実行",
+      "type": "shell",
+      "command": "pnpm",
+      "args": ["run", "check:fix"],
+      "problemMatcher": []
+    },
+    {
+      "label": "Storybook起動",
+      "type": "shell",
+      "command": "pnpm",
+      "args": ["run", "storybook"],
+      "isBackground": true,
+      "problemMatcher": {
+        "pattern": {
+          "regexp": "^.*$"
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": ".*",
+          "endsPattern": "(Storybook.*started|Local:.*6006)"
+        }
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      }
+    },
+    {
+      "label": "依存関係インストール",
+      "type": "shell",
+      "command": "pnpm",
+      "args": ["install"],
+      "problemMatcher": []
+    }
+  ]
+}

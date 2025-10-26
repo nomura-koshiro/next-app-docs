@@ -1,0 +1,32 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pnpm add:*)",
+      "Bash(ls:*)",
+      "Bash(mkdir:*)",
+      "Bash(git add:*)",
+      "Bash(for dir in docs/04-development/*/)",
+      "Bash(do echo \"=== $dir ===\")",
+      "Bash(git ls-tree:*)",
+      "Bash(pnpm install:*)",
+      "Read(//c/developments/genai-app-docs/docs/01-getting-started/**)",
+      "Bash(git commit:*)",
+      "Bash(git mv:*)",
+      "Bash(cat:*)",
+      "Bash(git rm:*)",
+      "WebSearch",
+      "Bash(find:*)",
+      "Bash(for dir in docs/04-development/05-custom-hooks/guides/*/)",
+      "Bash(done)",
+      "Bash(grep:*)",
+      "Bash(pnpm lint:*)",
+      "Bash(pnpm lint:fix:*)",
+      "Bash(git restore:*)",
+      "Bash(git push:*)",
+      "Bash(npx markdownlint:*)",
+      "Bash(pnpm markdownlint:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
