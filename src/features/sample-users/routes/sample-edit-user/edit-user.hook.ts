@@ -7,6 +7,7 @@ import { useForm } from 'react-hook-form';
 import { useUpdateUser } from '@/features/sample-users';
 import { useUser } from '@/features/sample-users/api/get-user';
 import { userFormSchema, type UserFormValues } from '@/features/sample-users/schemas/user-form.schema';
+import type { UserRole } from '@/types/models/user';
 
 /**
  * ユーザー編集ページのロジックを管理するカスタムフック
@@ -39,7 +40,7 @@ export const useEditUser = (userId: string) => {
     defaultValues: {
       name: data.data.name,
       email: data.data.email,
-      role: data.data.role as 'user' | 'admin',
+      role: data.data.role as UserRole,
     },
   });
 

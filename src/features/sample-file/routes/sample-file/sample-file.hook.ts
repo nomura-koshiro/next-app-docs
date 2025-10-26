@@ -75,7 +75,7 @@ export const useSampleFile = () => {
 
         // ステータスを「アップロード中」に更新
         setUploadedFiles((prev: UploadedFile[]) =>
-          prev.map((f: UploadedFile, idx: number) => (idx === fileIndex ? { ...f, status: 'uploading' as const } : f))
+          prev.map((f: UploadedFile, idx: number) => (idx === fileIndex ? { ...f, status: 'uploading' } : f))
         );
 
         // アップロード実行（MSWでモック）
@@ -87,7 +87,7 @@ export const useSampleFile = () => {
           .then(() => {
             // ✅ ステータスを「成功」に更新
             setUploadedFiles((prev: UploadedFile[]) =>
-              prev.map((f: UploadedFile, idx: number) => (idx === fileIndex ? { ...f, status: 'success' as const } : f))
+              prev.map((f: UploadedFile, idx: number) => (idx === fileIndex ? { ...f, status: 'success' } : f))
             );
           })
           .catch((error) => {
@@ -97,7 +97,7 @@ export const useSampleFile = () => {
                 idx === fileIndex
                   ? {
                       ...f,
-                      status: 'error' as const,
+                      status: 'error',
                       error: error instanceof Error ? error.message : 'アップロードに失敗しました',
                     }
                   : f
