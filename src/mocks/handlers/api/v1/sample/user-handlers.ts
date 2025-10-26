@@ -4,7 +4,7 @@
 
 import { http, HttpResponse } from 'msw';
 
-import type { User } from '@/types/models/user';
+import type { CreateUserDTO, UpdateUserDTO, User, UserRole } from '@/types/models/user';
 
 // モックデータ
 let mockUsers: User[] = [
@@ -69,17 +69,13 @@ export const userHandlers = [
    * ユーザー作成
    */
   http.post('*/api/v1/sample/users', async ({ request }) => {
-    const body = (await request.json()) as {
-      name: string;
-      email: string;
-      role: string;
-    };
+    const body = (await request.json()) as CreateUserDTO;
 
     const newUser: User = {
       id: String(mockUsers.length + 1),
       name: body.name,
       email: body.email,
-      role: body.role,
+      role: body.role as UserRole,
       createdAt: new Date().toISOString().split('T')[0],
     };
 
@@ -94,11 +90,7 @@ export const userHandlers = [
    */
   http.put('*/api/v1/sample/users/:id', async ({ params, request }) => {
     const { id } = params;
-    const body = (await request.json()) as {
-      name: string;
-      email: string;
-      role: string;
-    };
+    const body = (await request.json()) as CreateUserDTO;
 
     const userIndex = mockUsers.findIndex((u) => u.id === id);
 
@@ -115,7 +107,7 @@ export const userHandlers = [
       ...mockUsers[userIndex],
       name: body.name,
       email: body.email,
-      role: body.role,
+      role: body.role as UserRole,
     };
 
     return HttpResponse.json({ data: mockUsers[userIndex] });
@@ -127,11 +119,7 @@ export const userHandlers = [
    */
   http.patch('*/api/v1/sample/users/:id', async ({ params, request }) => {
     const { id } = params;
-    const body = (await request.json()) as Partial<{
-      name: string;
-      email: string;
-      role: string;
-    }>;
+    const body = (await request.json()) as UpdateUserDTO;
 
     const userIndex = mockUsers.findIndex((u) => u.id === id);
 
