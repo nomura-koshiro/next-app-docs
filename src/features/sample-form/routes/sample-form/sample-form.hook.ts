@@ -17,7 +17,7 @@ export const useSampleForm = () => {
   const {
     control,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
     reset,
   } = useForm<SampleFormValues>({
     resolver: zodResolver(sampleFormSchema),
@@ -53,5 +53,6 @@ export const useSampleForm = () => {
     onSubmit,
     errors,
     reset,
+    isSubmitting,
   };
 };

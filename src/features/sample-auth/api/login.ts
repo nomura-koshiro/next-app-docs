@@ -51,7 +51,7 @@ export type LoginResponse = {
  */
 export const login = (data: LoginInput): Promise<LoginResponse> => {
   // TODO: 実際のAPI呼び出しに置き換える
-  return api.post('/sample/auth/login', data);
+  return api.post('/api/v1/sample/auth/login', data);
 
   // モック実装（テスト用）
   // return new Promise((resolve) => {

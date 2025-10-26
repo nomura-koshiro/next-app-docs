@@ -15,12 +15,12 @@ export default function SampleFormPage() {
   // ================================================================================
   // Hooks
   // ================================================================================
-  const { control, onSubmit, reset } = useSampleForm();
+  const { control, onSubmit, reset, isSubmitting } = useSampleForm();
   const DevTools = useDevTools(control);
 
   return (
     <>
-      <SampleForm control={control} onSubmit={onSubmit} onReset={reset} isSubmitting={false} />
+      <SampleForm control={control} onSubmit={onSubmit} onReset={reset} isSubmitting={isSubmitting} />
       {DevTools}
     </>
   );

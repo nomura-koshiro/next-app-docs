@@ -2,6 +2,7 @@ import { useMutation } from '@tanstack/react-query';
 
 import { api } from '@/lib/api-client';
 import { MutationConfig } from '@/lib/tanstack-query';
+import { logger } from '@/utils/logger';
 
 // ================================================================================
 // Types
@@ -30,7 +31,7 @@ export const uploadFile = async (file: File, onProgress?: (progress: number) => 
   formData.append('file', file);
 
   return await api
-    .post('/api/files/upload', formData, {
+    .post('/api/v1/sample/files/upload', formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
@@ -46,7 +47,7 @@ export const uploadFile = async (file: File, onProgress?: (progress: number) => 
       return response as UploadFileResponse;
     })
     .catch((error) => {
-      console.error('File upload failed:', error);
+      logger.error('File upload failed', error);
       throw error;
     });
 };
