@@ -136,14 +136,6 @@ const eslintConfig = [
     ],
     // floating Promiseを禁止（await忘れを防ぐ）
     "@typescript-eslint/no-floating-promises": "error",
-    // try-catch文を禁止し、.catch()の使用を強制
-    "no-restricted-syntax": [
-      "error",
-      {
-        "selector": "TryStatement",
-        "message": "try-catchは禁止されています。代わりに.catch()メソッドを使用してください。例: await somePromise().catch(error => { ... })"
-      }
-    ],
     // 厳格なboolean式を強制
     "@typescript-eslint/strict-boolean-expressions": [
       "error",
@@ -188,20 +180,6 @@ const eslintConfig = [
     rules: {
       // UIコンポーネントでは関数宣言を許可
       "func-style": "off",
-    },
-  },
-  {
-    // Error BoundaryやMiddlewareなど、try-catchが必須の場所では許可
-    files: [
-      "**/error.tsx",
-      "**/error.ts",
-      "**/*.middleware.{ts,tsx}",
-      "**/middleware.{ts,tsx}",
-      "**/*-error-boundary.{ts,tsx}",
-      "**/error-boundary.{ts,tsx}",
-    ],
-    rules: {
-      "no-restricted-syntax": "off",
     },
   },
   {

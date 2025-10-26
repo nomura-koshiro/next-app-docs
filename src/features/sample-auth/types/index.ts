@@ -2,15 +2,12 @@
  * 認証関連の型定義
  */
 
+import type { User } from '@/types/models/user';
+
 /**
- * ユーザー情報
+ * 共通User型をre-export
  */
-export type User = {
-  id: string;
-  email: string;
-  name: string;
-  role: 'admin' | 'user';
-};
+export type { User } from '@/types/models/user';
 
 /**
  * 認証状態

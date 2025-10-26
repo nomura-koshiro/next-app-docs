@@ -8,5 +8,12 @@ export { cn } from './cn';
 // 日付操作
 export { formatDate, formatDateJa, formatRelativeTime, parseDate } from './date';
 
+// エラーハンドリング
+export { getErrorMessage, handleAsync, isAxiosError, isHttpError } from './error-handling';
+export type { AsyncResult } from './error-handling';
+
 // フォーマット
 export { formatCurrency, formatNumber } from './format';
+
+// ロギング
+export { logger } from './logger';
