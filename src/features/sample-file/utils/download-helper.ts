@@ -2,6 +2,7 @@ import { format } from 'date-fns';
 import { saveAs } from 'file-saver';
 
 import { api } from '@/lib/api-client';
+import { logger } from '@/utils/logger';
 
 /**
  * Blobをファイルとしてダウンロード
@@ -38,7 +39,7 @@ export const downloadFromApi = async (url: string, filename: string, onProgress?
       downloadBlob(blob as Blob, filename);
     })
     .catch((error) => {
-      console.error('Download failed:', error);
+      logger.error('Download failed', error);
       throw error;
     });
 };
