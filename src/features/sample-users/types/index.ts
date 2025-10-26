@@ -1,19 +1,5 @@
-export type User = {
-  id: string;
-  name: string;
-  email: string;
-  role: string;
-  createdAt?: string;
-};
-
-export type CreateUserInput = {
-  name: string;
-  email: string;
-  role: string;
-};
-
-export type UpdateUserInput = {
-  name: string;
-  email: string;
-  role: string;
-};
+/**
+ * 共通User型をre-export
+ * アプリケーション全体で統一されたUser型を使用
+ */
+export type { CreateUserDTO, UpdateUserDTO, User, UserRole } from '@/types/models/user';

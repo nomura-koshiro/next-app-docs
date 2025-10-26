@@ -91,7 +91,7 @@ export const useSampleChat = () => {
         };
         setMessages((prev: Message[]) => [...prev, errorMessage]);
       });
-  }, [inputMessage, sendMessageMutation, conversationId, addOptimisticMessage]);
+  }, [sendMessageMutation, conversationId, addOptimisticMessage]);
 
   /**
    * 入力変更ハンドラー
