@@ -168,6 +168,19 @@ const eslintConfig = [
     ],
 
     // ================================================================================
+    // コードスタイル - エラーハンドリング
+    // ================================================================================
+    // try-catchを禁止（.catch()またはエラーハンドリングユーティリティの使用を強制）
+    // ※ 必要な箇所（api-client.ts、error-handling.tsなど）は個別に許可
+    "no-restricted-syntax": [
+      "error",
+      {
+        "selector": "TryStatement",
+        "message": "try-catchの使用は禁止されています。エラーハンドリングが必要な場合は、.catch()を使用するか、許可されたファイル（api-client.ts、error-handling.tsなど）で実装してください。"
+      }
+    ],
+
+    // ================================================================================
     // コードスタイル - インポート/エクスポート
     // ================================================================================
     // インポートの自動ソート
@@ -194,6 +207,18 @@ const eslintConfig = [
     rules: {
       // TanStack Query: exhaustive-deps を warn に変更（厳格すぎる場合）
       "@tanstack/query/exhaustive-deps": "warn",
+    },
+  },
+  {
+    // try-catchを許可するファイル（Axiosやエラーハンドリングが必要な箇所）
+    files: [
+      "src/lib/api-client.ts",
+      "src/utils/error-handling.ts",
+      "src/features/**/api/**/*.{ts,tsx}",
+      "src/features/**/stores/**/*.{ts,tsx}",
+    ],
+    rules: {
+      "no-restricted-syntax": "off",
     },
   },
   ...storybook.configs["flat/recommended"]

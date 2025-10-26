@@ -1,8 +1,8 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
+import { userFormSchema } from '@/features/sample-users/schemas/user-form.schema';
 import { api } from '@/lib/api-client';
 import { MutationConfig } from '@/lib/tanstack-query';
-import { userFormSchema } from '@/features/sample-users/schemas/user-form.schema';
 import { logger } from '@/utils/logger';
 
 import type { CreateUserDTO, User } from '../types';
