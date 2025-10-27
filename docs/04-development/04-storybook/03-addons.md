@@ -280,71 +280,6 @@ export const Desktop: Story = {
 
 ---
 
-## Backgrounds
-
-Backgroundsアドオンは、異なる背景色でコンポーネントをテストできます。
-
-### 基本的な使い方
-
-```typescript
-const meta = {
-  title: "components/ui/Button",
-  component: Button,
-  parameters: {
-    backgrounds: {
-      default: "light",
-      values: [
-        { name: "light", value: "#ffffff" },
-        { name: "dark", value: "#1a1a1a" },
-        { name: "gray", value: "#f3f4f6" },
-      ],
-    },
-  },
-} satisfies Meta<typeof Button>;
-```
-
-### ストーリー別の背景
-
-```typescript
-export const OnDark: Story = {
-  name: "ダークモード",
-  parameters: {
-    backgrounds: {
-      default: "dark",
-    },
-  },
-};
-
-export const OnLight: Story = {
-  name: "ライトモード",
-  parameters: {
-    backgrounds: {
-      default: "light",
-    },
-  },
-};
-```
-
-### グリッド表示
-
-```typescript
-export const WithGrid: Story = {
-  parameters: {
-    backgrounds: {
-      default: "light",
-    },
-    // グリッド線を表示
-    grid: {
-      cellSize: 8,
-      opacity: 0.5,
-      cellAmount: 4,
-    },
-  },
-};
-```
-
----
-
 ## Accessibility
 
 Accessibilityアドオン（A11y）は、アクセシビリティの問題を検出します。
@@ -456,10 +391,6 @@ export const Complete: Story = {
     // Viewport
     viewport: {
       defaultViewport: "iphone12",
-    },
-    // Background
-    backgrounds: {
-      default: "dark",
     },
     // A11y
     a11y: {

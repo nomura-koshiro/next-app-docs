@@ -289,23 +289,6 @@ parameters: {
 }
 ```
 
-#### parameters.backgrounds
-
-異なる背景色でコンポーネントをテストできます。
-
-```typescript
-parameters: {
-  backgrounds: {
-    default: "light",
-    values: [
-      { name: "light", value: "#ffffff" },
-      { name: "dark", value: "#1a1a1a" },
-      { name: "gray", value: "#f3f4f6" },
-    ],
-  }
-}
-```
-
 #### tags
 
 ドキュメント自動生成を有効化します。

@@ -168,18 +168,6 @@ const meta = {
     },
 
     // ================================================================================
-    // 背景色のテストオプション
-    // ================================================================================
-    backgrounds: {
-      default: "light",
-      values: [
-        { name: "light", value: "#ffffff" },
-        { name: "dark", value: "#1a1a1a" },
-        { name: "gray", value: "#f3f4f6" },
-      ],
-    },
-
-    // ================================================================================
     // アクション設定
     // ================================================================================
     actions: {
@@ -273,9 +261,6 @@ export const DarkMode: Story = {
     children: "ダークモード",
   },
   parameters: {
-    backgrounds: {
-      default: "dark",
-    },
     docs: {
       description: {
         story: "ダークモードでの表示例",
@@ -528,7 +513,6 @@ title: "components/ui/Modal",
 #### 5. ベストプラクティス
 
 - `parameters.docs.description.component`
-- `parameters.backgrounds`
 - `parameters.actions`
 - `argTypes` のカテゴリ分類
 - `tags: ["autodocs"]`

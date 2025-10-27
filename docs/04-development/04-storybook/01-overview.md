@@ -335,7 +335,6 @@ export const LongName: Story = {
 | **Controls** | Propsを動的に変更 |
 | **Actions** | イベントハンドラをログ出力 |
 | **Viewport** | レスポンシブ表示をテスト |
-| **Backgrounds** | 背景色を変更 |
 | **Accessibility** | a11yチェック |
 
 ### Controlsアドオン
@@ -403,25 +402,6 @@ export const Tablet: Story = {
       defaultViewport: 'tablet',
     },
   },
-}
-```
-
-### Backgroundsアドオン
-
-異なる背景色でテストできます。
-
-```typescript
-export const OnDark: Story = {
-  parameters: {
-    backgrounds: {
-      default: 'dark',
-    },
-  },
-  render: () => (
-    <Button variant="primary" className="text-white">
-      ダークモード
-    </Button>
-  ),
 }
 ```
 
