@@ -14,7 +14,7 @@ import { useUsers as useUsersQuery } from '@/features/sample-users/api/get-users
  */
 export const useUsers = () => {
   // ================================================================================
-  // Hooks
+  // フック
   // ================================================================================
   const router = useRouter();
   const { data } = useUsersQuery();
@@ -29,7 +29,7 @@ export const useUsers = () => {
   );
 
   // ================================================================================
-  // Handlers
+  // ハンドラー
   // ================================================================================
   const handleEdit = (userId: string) => {
     router.push(`/sample-users/${userId}/edit`);

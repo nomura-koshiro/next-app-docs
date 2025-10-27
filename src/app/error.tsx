@@ -21,7 +21,7 @@ type ErrorProps = {
 export default function Error({ error, reset }: ErrorProps) {
   useEffect(() => {
     // エラーログをコンソールに出力（本番環境ではエラートラッキングサービスに送信）
-    console.error('Error boundary caught:', error);
+    console.error('エラーバウンダリでエラーを捕捉しました:', error);
   }, [error]);
 
   return (

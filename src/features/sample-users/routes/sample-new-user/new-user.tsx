@@ -12,7 +12,7 @@ import { useNewUser } from './new-user.hook';
  */
 export default function NewUserPage() {
   // ================================================================================
-  // Hooks
+  // フック
   // ================================================================================
   const { control, onSubmit, handleCancel, errors, isSubmitting } = useNewUser();
   const DevTools = useDevTools(control);

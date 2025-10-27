@@ -39,7 +39,7 @@ export const downloadFromApi = async (url: string, filename: string, onProgress?
       downloadBlob(blob as Blob, filename);
     })
     .catch((error) => {
-      logger.error('Download failed', error);
+      logger.error('ダウンロードに失敗しました', error);
       throw error;
     });
 };

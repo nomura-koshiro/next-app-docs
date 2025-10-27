@@ -208,7 +208,7 @@ export const generateImageBlob = (): Promise<Blob> => {
       if (blob) {
         resolve(blob);
       } else {
-        reject(new Error('Failed to generate image blob'));
+        reject(new Error('画像Blobの生成に失敗しました'));
       }
     }, 'image/png');
   });

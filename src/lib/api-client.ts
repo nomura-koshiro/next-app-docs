@@ -53,11 +53,11 @@ api.interceptors.response.use(
     return response.data;
   },
   (error: AxiosError<ApiErrorResponse>) => {
-    const message = error.response?.data?.message ?? error.message ?? 'An error occurred';
+    const message = error.response?.data?.message ?? error.message ?? 'エラーが発生しました';
 
     // クライアントサイドでエラーログ出力
     if (typeof window !== 'undefined') {
-      console.error(`[API Error] ${message}`);
+      console.error(`[APIエラー] ${message}`);
       // TODO: 通知システムと統合
       // useNotifications.getState().addNotification({
       //   type: 'error',

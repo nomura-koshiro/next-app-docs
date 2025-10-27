@@ -5,7 +5,7 @@ import { MutationConfig } from '@/lib/tanstack-query';
 import { logger } from '@/utils/logger';
 
 // ================================================================================
-// API Functions
+// API関数
 // ================================================================================
 
 export const deleteUser = (userId: string): Promise<void> => {
@@ -13,7 +13,7 @@ export const deleteUser = (userId: string): Promise<void> => {
 };
 
 // ================================================================================
-// Hooks
+// フック
 // ================================================================================
 
 type UseDeleteUserOptions = {
@@ -28,7 +28,7 @@ export const useDeleteUser = ({ mutationConfig }: UseDeleteUserOptions = {}) => 
   return useMutation({
     onSuccess: (...args) => {
       queryClient.invalidateQueries({ queryKey: ['users'] }).catch((error) => {
-        logger.error('Failed to invalidate users query', error);
+        logger.error('ユーザークエリの無効化に失敗しました', error);
       });
       onSuccess?.(...args);
     },

@@ -54,7 +54,7 @@ export const getErrorMessage = (error: unknown): string => {
   if (error instanceof AxiosError) {
     const apiError = error.response?.data as ApiErrorResponse | undefined;
 
-    return apiError?.message ?? error.message ?? 'An error occurred';
+    return apiError?.message ?? error.message ?? 'エラーが発生しました';
   }
 
   if (error instanceof Error) {

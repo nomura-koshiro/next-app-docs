@@ -7,8 +7,8 @@
 // API
 export * from './api';
 
-// Stores
+// ストア
 export * from './stores/auth-store';
 
-// Types
+// 型定義
 export * from './types';

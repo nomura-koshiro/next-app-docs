@@ -5,7 +5,7 @@ import { MutationConfig } from '@/lib/tanstack-query';
 import { logger } from '@/utils/logger';
 
 // ================================================================================
-// Types
+// 型定義
 // ================================================================================
 
 export type UploadFileResponse = {
@@ -16,7 +16,7 @@ export type UploadFileResponse = {
 };
 
 // ================================================================================
-// API Functions
+// API関数
 // ================================================================================
 
 /**
@@ -47,7 +47,7 @@ export const uploadFile = async (file: File, onProgress?: (progress: number) => 
       return response as UploadFileResponse;
     })
     .catch((error) => {
-      logger.error('File upload failed', error);
+      logger.error('ファイルのアップロードに失敗しました', error);
       throw error;
     });
 };
@@ -60,7 +60,7 @@ export const uploadFileSimple = async (file: File): Promise<UploadFileResponse> 
 };
 
 // ================================================================================
-// Hooks
+// フック
 // ================================================================================
 
 type UseUploadFileOptions = {

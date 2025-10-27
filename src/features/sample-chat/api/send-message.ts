@@ -7,7 +7,7 @@ import { logger } from '@/utils/logger';
 import type { SendMessageRequest, SendMessageResponse } from '../types';
 
 // ================================================================================
-// API Functions
+// API関数
 // ================================================================================
 
 /**
@@ -21,7 +21,7 @@ export const sendMessage = (request: SendMessageRequest): Promise<SendMessageRes
 };
 
 // ================================================================================
-// Hooks
+// フック
 // ================================================================================
 
 type UseSendMessageOptions = {
@@ -36,7 +36,7 @@ export const useSendMessage = ({ mutationConfig }: UseSendMessageOptions = {}) =
   return useMutation({
     onSuccess: (...args) => {
       queryClient.invalidateQueries({ queryKey: ['sample', 'chat', 'messages'] }).catch((error) => {
-        logger.error('Failed to invalidate chat messages query', error);
+        logger.error('チャットメッセージクエリの無効化に失敗しました', error);
       });
       onSuccess?.(...args);
     },

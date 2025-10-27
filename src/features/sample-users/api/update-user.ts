@@ -8,7 +8,7 @@ import { logger } from '@/utils/logger';
 import type { UpdateUserDTO, User } from '../types';
 
 // ================================================================================
-// API Functions
+// API関数
 // ================================================================================
 
 export const updateUser = ({ userId, data }: { userId: string; data: UpdateUserDTO }): Promise<User> => {
@@ -16,7 +16,7 @@ export const updateUser = ({ userId, data }: { userId: string; data: UpdateUserD
 };
 
 // ================================================================================
-// Hooks
+// フック
 // ================================================================================
 
 type UseUpdateUserOptions = {
@@ -31,10 +31,10 @@ export const useUpdateUser = ({ mutationConfig }: UseUpdateUserOptions = {}) => 
   return useMutation({
     onSuccess: (data, ...args) => {
       queryClient.invalidateQueries({ queryKey: ['users'] }).catch((error) => {
-        logger.error('Failed to invalidate users query', error);
+        logger.error('ユーザークエリの無効化に失敗しました', error);
       });
       queryClient.invalidateQueries({ queryKey: ['users', data.id] }).catch((error) => {
-        logger.error('Failed to invalidate user query', error, { userId: data.id });
+        logger.error('ユーザークエリの無効化に失敗しました', error, { userId: data.id });
       });
       onSuccess?.(data, ...args);
     },
@@ -44,6 +44,6 @@ export const useUpdateUser = ({ mutationConfig }: UseUpdateUserOptions = {}) => 
 };
 
 // ================================================================================
-// Exports for validation
+// バリデーション用のエクスポート
 // ================================================================================
 export { userFormSchema as updateUserInputSchema };

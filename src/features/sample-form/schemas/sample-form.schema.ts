@@ -18,24 +18,24 @@ export const sampleFormSchema = z.object({
   email: emailSchema,
   age: ageSchema,
 
-  // Select
+  // セレクト
   country: countrySchema,
 
-  // Textarea
+  // テキストエリア
   bio: bioSchema,
 
-  // Checkbox
+  // チェックボックス
   terms: termsSchema,
   newsletter: optionalCheckboxSchema,
 
-  // RadioGroup
+  // ラジオグループ
   gender: genderSchema,
 
-  // Switch
+  // スイッチ
   notifications: z.boolean(),
   darkMode: z.boolean(),
 
-  // Date
+  // 日付
   birthdate: birthdateSchema,
 });
 

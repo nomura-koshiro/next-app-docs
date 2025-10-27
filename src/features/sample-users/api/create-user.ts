@@ -8,7 +8,7 @@ import { logger } from '@/utils/logger';
 import type { CreateUserDTO, User } from '../types';
 
 // ================================================================================
-// API Functions
+// API関数
 // ================================================================================
 
 export const createUser = (data: CreateUserDTO): Promise<User> => {
@@ -16,7 +16,7 @@ export const createUser = (data: CreateUserDTO): Promise<User> => {
 };
 
 // ================================================================================
-// Hooks
+// フック
 // ================================================================================
 
 type UseCreateUserOptions = {
@@ -31,7 +31,7 @@ export const useCreateUser = ({ mutationConfig }: UseCreateUserOptions = {}) => 
   return useMutation({
     onSuccess: (...args) => {
       queryClient.invalidateQueries({ queryKey: ['users'] }).catch((error) => {
-        logger.error('Failed to invalidate users query', error);
+        logger.error('ユーザークエリの無効化に失敗しました', error);
       });
       onSuccess?.(...args);
     },
@@ -41,6 +41,6 @@ export const useCreateUser = ({ mutationConfig }: UseCreateUserOptions = {}) => 
 };
 
 // ================================================================================
-// Exports for validation
+// バリデーション用のエクスポート
 // ================================================================================
 export { userFormSchema as createUserInputSchema };
