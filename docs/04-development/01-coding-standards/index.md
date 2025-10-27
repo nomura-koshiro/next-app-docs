@@ -35,7 +35,7 @@
 
 ### Next.js・TypeScript・React
 
-4. **[Next.js開発ベストプラクティス](./04-nextjs-best-practices.md)**
+1. **[Next.js開発ベストプラクティス](./04-nextjs-best-practices.md)**
    - Server ComponentとClient Componentの使い分け
    - データフェッチングの最適化
    - キャッシュ戦略の適切な使用
@@ -47,24 +47,24 @@
    - パフォーマンス最適化
    - 型安全性の確保
 
-5. **[命名規則](./05-naming-conventions.md)**
+2. **[命名規則](./05-naming-conventions.md)**
    - コンポーネント、フック、ストア、API、型定義、定数の命名規則
    - boolean変数・関数の命名パターン
 
-6. **[TypeScript規約](./06-typescript-rules.md)**
+3. **[TypeScript規約](./06-typescript-rules.md)**
    - エクスポート関数の型明示
    - Nullish coalescing演算子
    - Optional Chaining
    - Type Guards
 
-7. **[React/Next.js規約](./07-react-nextjs-rules.md)**
+4. **[React/Next.js規約](./07-react-nextjs-rules.md)**
    - Reactのimportは不要
    - Props型定義
    - Server/Client Components
 
 ### ツール設定
 
-8. **[ツール設定](./08-tools-setup.md)**
+1. **[ツール設定](./08-tools-setup.md)**
    - ESLint主要ルール
    - Prettier設定
    - コマンド一覧

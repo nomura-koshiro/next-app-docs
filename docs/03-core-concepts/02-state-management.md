@@ -287,7 +287,7 @@ TanStack Queryはこれらを自動的に管理します。
 ```mermaid
 stateDiagram-v2
     [*] --> Fresh: データ取得成功
-    Fresh --> Stale: staleTime経過<br/>(1分)
+    Fresh --> Stale: staleTime経過<br/>(5分)
     Stale --> Fetching: 再フェッチトリガー<br/>・ウィンドウフォーカス<br/>・手動invalidate<br/>・コンポーネント再マウント
     Fetching --> Fresh: 取得成功
     Fetching --> Error: 取得失敗

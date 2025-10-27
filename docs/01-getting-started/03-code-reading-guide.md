@@ -596,7 +596,7 @@ export const useNewUserPage = () => {
 
 - ユニットテスト: `*.test.tsx`
 - Storybook: `*.stories.tsx`
-- E2Eテスト: `e2e/` ディレクトリ
+- E2Eテスト: 現在は未実装（Playwrightのパッケージと`pnpm e2e`コマンドは準備済み）
 
 ### Q7: 新しいfeatureを追加するにはどうすればいいですか？
 
