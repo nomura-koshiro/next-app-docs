@@ -146,26 +146,7 @@ api.interceptors.response.use(
 );
 ```
 
-### 2. エラーハンドリングユーティリティ
-
-```typescript
-// ✅ 許可: エラーハンドリング専用のユーティリティ
-// ファイル: src/utils/error-handling.ts
-
-export const handleAsync = async <T>(promise: Promise<T>): Promise<AsyncResult<T>> => {
-  try {
-    const data = await promise;
-    return [data, null];
-  } catch (error) {
-    if (error instanceof Error) {
-      return [null, error];
-    }
-    return [null, new Error(String(error))];
-  }
-};
-```
-
-### 3. API関連ファイル
+### 2. API関連ファイル
 
 ```typescript
 // ✅ 許可: features内のAPIファイル
@@ -188,7 +169,7 @@ export const useCreateUser = () => {
 };
 ```
 
-### 4. ストア関連ファイル
+### 3. ストア関連ファイル
 
 ```typescript
 // ✅ 許可: features内のストアファイル
@@ -379,7 +360,6 @@ export const useUsers = () => {
 以下のファイルパターンではtry-catchが許可されます：
 
 - `src/lib/api-client.ts` - Axiosクライアントの初期化とインターセプター
-- `src/utils/error-handling.ts` - エラーハンドリング専用ユーティリティ
 - `src/features/**/api/**/*.{ts,tsx}` - features内のAPI関連ファイル
 - `src/features/**/stores/**/*.{ts,tsx}` - features内のストア関連ファイル
 

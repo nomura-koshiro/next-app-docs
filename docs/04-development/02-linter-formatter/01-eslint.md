@@ -811,7 +811,6 @@ const saveUserData = async (data: UserData) => {
 以下のファイルでは try-catch の使用が許可されます：
 
 - API Client (`src/lib/api-client.ts`)
-- エラーハンドリングユーティリティ (`src/utils/error-handling.ts`)
 - API関連ファイル (`src/features/**/api/**/*.{ts,tsx}`)
 - ストア関連ファイル (`src/features/**/stores/**/*.{ts,tsx}`)
 
@@ -1265,7 +1264,6 @@ const formatCurrency = (amount: number) => {
 {
   files: [
     "src/lib/api-client.ts",
-    "src/utils/error-handling.ts",
     "src/features/**/api/**/*.{ts,tsx}",
     "src/features/**/stores/**/*.{ts,tsx}",
   ],
@@ -1278,13 +1276,12 @@ const formatCurrency = (amount: number) => {
 #### 対象ファイル
 
 - **API Client**: `src/lib/api-client.ts` - Axiosクライアントの初期化とインターセプター
-- **エラーハンドリングユーティリティ**: `src/utils/error-handling.ts` - エラーハンドリング専用のユーティリティ関数
 - **API関連ファイル**: `src/features/**/api/**/*.{ts,tsx}` - features内のAPI呼び出しファイル
 - **ストア関連ファイル**: `src/features/**/stores/**/*.{ts,tsx}` - features内の状態管理ファイル
 
 #### 理由
 
-これらのファイルでは、外部APIとの通信やエラーハンドリングユーティリティの実装において、`try-catch`の使用が必要となる場合があります。
+これらのファイルでは、外部APIとの通信において、`try-catch`の使用が必要となる場合があります。
 
 #### 使用例
 
@@ -1308,21 +1305,6 @@ api.interceptors.response.use(
     return Promise.reject(error);
   }
 );
-```
-
-```typescript
-// src/utils/error-handling.ts - エラーハンドリングユーティリティ
-export const handleAsync = async <T>(promise: Promise<T>): Promise<AsyncResult<T>> => {
-  try {
-    const data = await promise;
-    return [data, null];
-  } catch (error) {
-    if (error instanceof Error) {
-      return [null, error];
-    }
-    return [null, new Error(String(error))];
-  }
-};
 ```
 
 ```typescript

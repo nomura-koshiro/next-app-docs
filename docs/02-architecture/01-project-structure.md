@@ -72,7 +72,6 @@ src/
 │   ├── index.ts            # バレルエクスポート
 │   ├── cn.ts               # clsx + tailwind-merge
 │   ├── date.ts             # 日付関連ユーティリティ
-│   ├── error-handling.ts   # エラーハンドリングユーティリティ
 │   ├── format.ts           # フォーマット関連ユーティリティ
 │   └── logger.ts           # ログ出力ユーティリティ
 │

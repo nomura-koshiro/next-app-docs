@@ -7,10 +7,9 @@
 1. [概要](#概要)
 2. [日付操作 (date.ts)](#日付操作-datets)
 3. [フォーマット (format.ts)](#フォーマット-formatts)
-4. [エラーハンドリング (error-handling.ts)](#エラーハンドリング-error-handlingts)
-5. [ロギング (logger.ts)](#ロギング-loggerts)
-6. [スタイル (cn.ts)](#スタイル-cnts)
-7. [使用例](#使用例)
+4. [ロギング (logger.ts)](#ロギング-loggerts)
+5. [スタイル (cn.ts)](#スタイル-cnts)
+6. [使用例](#使用例)
 
 ---
 
@@ -22,7 +21,6 @@
 |---------|---------|------|
 | **日付操作** | `date.ts` | date-fnsを使用した日付のフォーマットと解析 |
 | **フォーマット** | `format.ts` | 数値と通貨のフォーマット処理 |
-| **エラーハンドリング** | `error-handling.ts` | 型安全なエラーハンドリングとAxiosエラー処理 |
 | **ロギング** | `logger.ts` | 構造化ログ出力（開発/本番環境対応） |
 | **スタイル** | `cn.ts` | clsx + tailwind-merge によるクラス名結合 |
 
@@ -150,97 +148,6 @@ import { formatCurrency } from '@/utils'
 
 formatCurrency(1234567)         // "¥1,234,567"
 formatCurrency(1234.56, 'USD')  // "$1,234.56"
-```
-
----
-
-## エラーハンドリング (error-handling.ts)
-
-型安全なエラーハンドリングとAxiosエラー処理を提供します。
-
-### handleAsync
-
-非同期処理の結果を型安全にハンドリングします（Go言語スタイル）。
-
-```typescript
-handleAsync<T>(promise: Promise<T>): Promise<AsyncResult<T>>
-```
-
-**使用例:**
-
-```typescript
-import { handleAsync } from '@/utils'
-
-const [data, error] = await handleAsync(fetchUser(userId))
-
-if (error) {
-  console.error('Failed to fetch user:', error)
-  return
-}
-
-// dataは型安全に使用可能
-console.log(data.name)
-```
-
-### getErrorMessage
-
-Axiosエラーからユーザーフレンドリーなエラーメッセージを抽出します。
-
-```typescript
-getErrorMessage(error: unknown): string
-```
-
-**使用例:**
-
-```typescript
-import { getErrorMessage } from '@/utils'
-
-try {
-  await api.post('/users', data)
-} catch (error) {
-  const message = getErrorMessage(error)
-  alert(message)
-}
-```
-
-### isAxiosError
-
-エラーがAxiosエラーかどうかを判定する型ガードです。
-
-```typescript
-isAxiosError(error: unknown): error is AxiosError<ApiErrorResponse>
-```
-
-**使用例:**
-
-```typescript
-import { isAxiosError } from '@/utils'
-
-if (isAxiosError(error)) {
-  console.log('Status:', error.response?.status)
-}
-```
-
-### isHttpError
-
-エラーが特定のHTTPステータスコードかどうかを判定します。
-
-```typescript
-isHttpError(error: unknown, status: number | number[]): boolean
-```
-
-**使用例:**
-
-```typescript
-import { isHttpError } from '@/utils'
-
-if (isHttpError(error, 404)) {
-  console.log('Not found')
-}
-
-if (isHttpError(error, [401, 403])) {
-  console.log('Unauthorized or Forbidden')
-}
 ```
 
 ---
