@@ -105,7 +105,7 @@ pnpm --version
 
 ```bash
 git clone <リポジトリURL>
-cd next-app-docs
+cd CAMP_front
 ```
 
 ### 2. 依存関係インストール
