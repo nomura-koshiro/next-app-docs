@@ -7,18 +7,24 @@
 1. [概要](#概要)
 2. [日付操作 (date.ts)](#日付操作-datets)
 3. [フォーマット (format.ts)](#フォーマット-formatts)
-4. [使用例](#使用例)
+4. [エラーハンドリング (error-handling.ts)](#エラーハンドリング-error-handlingts)
+5. [ロギング (logger.ts)](#ロギング-loggerts)
+6. [スタイル (cn.ts)](#スタイル-cnts)
+7. [使用例](#使用例)
 
 ---
 
 ## 概要
 
-ユーティリティ関数は `src/utils/` ディレクトリに配置されており、以下の2つのカテゴリに分類されています：
+ユーティリティ関数は `src/utils/` ディレクトリに配置されており、以下のカテゴリに分類されています：
 
 | カテゴリ | ファイル | 用途 |
 |---------|---------|------|
 | **日付操作** | `date.ts` | date-fnsを使用した日付のフォーマットと解析 |
 | **フォーマット** | `format.ts` | 数値と通貨のフォーマット処理 |
+| **エラーハンドリング** | `error-handling.ts` | 型安全なエラーハンドリングとAxiosエラー処理 |
+| **ロギング** | `logger.ts` | 構造化ログ出力（開発/本番環境対応） |
+| **スタイル** | `cn.ts` | clsx + tailwind-merge によるクラス名結合 |
 
 ### インポート方法
 
@@ -144,6 +150,204 @@ import { formatCurrency } from '@/utils'
 
 formatCurrency(1234567)         // "¥1,234,567"
 formatCurrency(1234.56, 'USD')  // "$1,234.56"
+```
+
+---
+
+## エラーハンドリング (error-handling.ts)
+
+型安全なエラーハンドリングとAxiosエラー処理を提供します。
+
+### handleAsync
+
+非同期処理の結果を型安全にハンドリングします（Go言語スタイル）。
+
+```typescript
+handleAsync<T>(promise: Promise<T>): Promise<AsyncResult<T>>
+```
+
+**使用例:**
+
+```typescript
+import { handleAsync } from '@/utils'
+
+const [data, error] = await handleAsync(fetchUser(userId))
+
+if (error) {
+  console.error('Failed to fetch user:', error)
+  return
+}
+
+// dataは型安全に使用可能
+console.log(data.name)
+```
+
+### getErrorMessage
+
+Axiosエラーからユーザーフレンドリーなエラーメッセージを抽出します。
+
+```typescript
+getErrorMessage(error: unknown): string
+```
+
+**使用例:**
+
+```typescript
+import { getErrorMessage } from '@/utils'
+
+try {
+  await api.post('/users', data)
+} catch (error) {
+  const message = getErrorMessage(error)
+  alert(message)
+}
+```
+
+### isAxiosError
+
+エラーがAxiosエラーかどうかを判定する型ガードです。
+
+```typescript
+isAxiosError(error: unknown): error is AxiosError<ApiErrorResponse>
+```
+
+**使用例:**
+
+```typescript
+import { isAxiosError } from '@/utils'
+
+if (isAxiosError(error)) {
+  console.log('Status:', error.response?.status)
+}
+```
+
+### isHttpError
+
+エラーが特定のHTTPステータスコードかどうかを判定します。
+
+```typescript
+isHttpError(error: unknown, status: number | number[]): boolean
+```
+
+**使用例:**
+
+```typescript
+import { isHttpError } from '@/utils'
+
+if (isHttpError(error, 404)) {
+  console.log('Not found')
+}
+
+if (isHttpError(error, [401, 403])) {
+  console.log('Unauthorized or Forbidden')
+}
+```
+
+---
+
+## ロギング (logger.ts)
+
+構造化ログ出力を提供します。開発環境と本番環境で動作を切り替え、将来的にSentry等のエラートラッキングサービスとの統合を想定しています。
+
+### logger.error
+
+エラーログを出力します（本番環境では外部サービスへの送信を推奨）。
+
+```typescript
+logger.error(message: string, error?: Error | unknown, context?: Record<string, unknown>): void
+```
+
+**使用例:**
+
+```typescript
+import { logger } from '@/utils'
+
+logger.error('Failed to fetch user', error, { userId: '123' })
+```
+
+### logger.warn
+
+警告ログを出力します。
+
+```typescript
+logger.warn(message: string, context?: Record<string, unknown>): void
+```
+
+**使用例:**
+
+```typescript
+import { logger } from '@/utils'
+
+logger.warn('Slow API response', { duration: 3000 })
+```
+
+### logger.info
+
+情報ログを出力します（開発環境のみ）。
+
+```typescript
+logger.info(message: string, context?: Record<string, unknown>): void
+```
+
+**使用例:**
+
+```typescript
+import { logger } from '@/utils'
+
+logger.info('User logged in', { userId: '123' })
+```
+
+### logger.debug
+
+デバッグログを出力します（開発環境のみ）。
+
+```typescript
+logger.debug(message: string, context?: Record<string, unknown>): void
+```
+
+**使用例:**
+
+```typescript
+import { logger } from '@/utils'
+
+logger.debug('API request details', { url: '/api/users', method: 'GET' })
+```
+
+---
+
+## スタイル (cn.ts)
+
+clsxとtailwind-mergeを組み合わせた、Tailwind CSSクラス名の結合と競合解決を行うユーティリティです。
+
+### cn
+
+条件付きクラス名の結合と、Tailwindクラスの競合を自動で解決します。
+
+```typescript
+cn(...inputs: ClassValue[]): string
+```
+
+**使用例:**
+
+```typescript
+import { cn } from '@/utils'
+
+// 基本的な使用
+cn('text-red-500', 'font-bold') // "text-red-500 font-bold"
+
+// 条件付きクラス
+cn('base-class', isActive && 'active-class') // "base-class active-class" or "base-class"
+
+// Tailwindの競合を自動解決
+cn('px-2 py-1', 'px-4') // "py-1 px-4" (px-2が上書きされる)
+
+// コンポーネントでの使用
+const Button = ({ className, ...props }) => (
+  <button
+    className={cn('bg-blue-500 hover:bg-blue-600 px-4 py-2', className)}
+    {...props}
+  />
+)
 ```
 
 ---
