@@ -119,69 +119,95 @@ const handleSubmit = async (data: FormData) => {
 
 以下のファイルでは、try-catch文の使用が**許可**されています：
 
-### 1. Error Boundary
+### 1. API Client
 
 ```typescript
-// ✅ 許可: Error Boundaryコンポーネント
-// ファイル: **/error.tsx, **/*-error-boundary.tsx
+// ✅ 許可: Axiosクライアントの初期化
+// ファイル: src/lib/api-client.ts
 
-import { Component, ErrorInfo, ReactNode } from 'react';
+import Axios, { AxiosError, AxiosResponse } from 'axios';
 
-type Props = {
-  children: ReactNode;
-};
+export const api = Axios.create({
+  baseURL: env.API_URL,
+});
 
-type State = {
-  hasError: boolean;
-};
+// レスポンスインターセプターではtry-catchが許可される
+api.interceptors.response.use(
+  <T = unknown>(response: AxiosResponse<T>): T => {
+    return response.data;
+  },
+  (error: AxiosError<ApiErrorResponse>) => {
+    // エラーハンドリング処理
+    const message = error.response?.data?.message ?? error.message ?? 'エラーが発生しました';
+    console.error(`[APIエラー] ${message}`);
 
-export class ErrorBoundary extends Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    this.state = { hasError: false };
+    return Promise.reject(error);
   }
-
-  static getDerivedStateFromError(): State {
-    return { hasError: true };
-  }
-
-  componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    console.error('Error caught by boundary:', error, errorInfo);
-  }
-
-  render() {
-    if (this.state.hasError) {
-      return <h1>Something went wrong.</h1>;
-    }
-
-    return this.props.children;
-  }
-}
+);
 ```
 
-### 2. Middleware
+### 2. エラーハンドリングユーティリティ
 
 ```typescript
-// ✅ 許可: Next.js Middleware
-// ファイル: **/middleware.ts, **/*.middleware.ts
+// ✅ 許可: エラーハンドリング専用のユーティリティ
+// ファイル: src/utils/error-handling.ts
 
-import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
-
-export const middleware = (request: NextRequest) => {
+export const handleAsync = async <T>(promise: Promise<T>): Promise<AsyncResult<T>> => {
   try {
-    // 認証チェックなど
-    const token = request.cookies.get('token');
-    if (!token) {
-      return NextResponse.redirect(new URL('/login', request.url));
-    }
-
-    return NextResponse.next();
+    const data = await promise;
+    return [data, null];
   } catch (error) {
-    console.error('Middleware error:', error);
-    return NextResponse.redirect(new URL('/error', request.url));
+    if (error instanceof Error) {
+      return [null, error];
+    }
+    return [null, new Error(String(error))];
   }
 };
+```
+
+### 3. API関連ファイル
+
+```typescript
+// ✅ 許可: features内のAPIファイル
+// ファイル: src/features/**/api/**/*.{ts,tsx}
+
+// 例: src/features/sample-users/api/create-user.ts
+export const useCreateUser = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (data: CreateUserDTO) => {
+      // API呼び出しは通常.catch()を使用するが、
+      // 特殊なエラーハンドリングが必要な場合はtry-catchも許可
+      return api.post<User>('/api/v1/sample/users', data);
+    },
+    onSuccess: () => {
+      void queryClient.invalidateQueries({ queryKey: ['users'] });
+    },
+  });
+};
+```
+
+### 4. ストア関連ファイル
+
+```typescript
+// ✅ 許可: features内のストアファイル
+// ファイル: src/features/**/stores/**/*.{ts,tsx}
+
+// 例: src/features/sample-auth/stores/auth-store.ts
+export const useAuthStore = create<AuthStore>((set) => ({
+  user: null,
+  login: async (credentials) => {
+    // ストア内でのエラーハンドリングでtry-catchが許可される
+    try {
+      const response = await api.post('/api/auth/login', credentials);
+      set({ user: response.data });
+    } catch (error) {
+      console.error('Login failed:', error);
+      throw error;
+    }
+  },
+}));
 ```
 
 ---
@@ -352,12 +378,10 @@ export const useUsers = () => {
 
 以下のファイルパターンではtry-catchが許可されます：
 
-- `**/error.tsx`
-- `**/error.ts`
-- `**/*.middleware.{ts,tsx}`
-- `**/middleware.{ts,tsx}`
-- `**/*-error-boundary.{ts,tsx}`
-- `**/error-boundary.{ts,tsx}`
+- `src/lib/api-client.ts` - Axiosクライアントの初期化とインターセプター
+- `src/utils/error-handling.ts` - エラーハンドリング専用ユーティリティ
+- `src/features/**/api/**/*.{ts,tsx}` - features内のAPI関連ファイル
+- `src/features/**/stores/**/*.{ts,tsx}` - features内のストア関連ファイル
 
 ---
 
