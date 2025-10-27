@@ -2,12 +2,12 @@
  * 認証関連の型定義
  */
 
-import type { User } from '@/types/models/user';
+import type { User } from '@/features/sample-users/types';
 
 /**
- * 共通User型をre-export
+ * User型をre-export（認証機能で使用）
  */
-export type { User } from '@/types/models/user';
+export type { User } from '@/features/sample-users/types';
 
 /**
  * 認証状態

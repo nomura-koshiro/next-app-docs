@@ -4,7 +4,7 @@
 
 import { http, HttpResponse } from 'msw';
 
-import type { CreateUserDTO, UpdateUserDTO, User, UserRole } from '@/types/models/user';
+import type { CreateUserDTO, UpdateUserDTO, User, UserRole } from '@/features/sample-users/types';
 
 // モックデータ
 let mockUsers: User[] = [
