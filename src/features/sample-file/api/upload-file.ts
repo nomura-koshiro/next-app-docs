@@ -30,7 +30,7 @@ export const uploadFile = async (file: File, onProgress?: (progress: number) => 
   const formData = new FormData();
   formData.append('file', file);
 
-  return await api
+  const response = await api
     .post('/api/v1/sample/files/upload', formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
@@ -42,14 +42,12 @@ export const uploadFile = async (file: File, onProgress?: (progress: number) => 
         }
       },
     })
-    .then((response) => {
-      // api-clientのインターセプターがresponse.dataを返すため、型アサーションが必要
-      return response as UploadFileResponse;
-    })
     .catch((error) => {
       logger.error('ファイルのアップロードに失敗しました', error);
       throw error;
     });
+
+  return response as unknown as UploadFileResponse;
 };
 
 /**

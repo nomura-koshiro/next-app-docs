@@ -16,9 +16,7 @@ export const useLogin = () => {
   // フック
   // ================================================================================
   const router = useRouter();
-  const setUser = useAuthStore(
-    (state: { setUser: (user: { id: string; email: string; name: string; role: string }) => void }) => state.setUser
-  );
+  const setUser = useAuthStore((state) => state.setUser);
 
   const loginMutation = useLoginMutation();
 

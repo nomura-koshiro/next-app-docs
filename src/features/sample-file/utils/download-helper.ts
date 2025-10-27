@@ -24,7 +24,7 @@ export const generateFilename = (baseName: string, extension: string): string =>
  * API経由でファイルをダウンロード（進捗コールバック付き）
  */
 export const downloadFromApi = async (url: string, filename: string, onProgress?: (progress: number) => void): Promise<void> => {
-  await api
+  const blob = await api
     .get(url, {
       responseType: 'blob',
       onDownloadProgress: (progressEvent) => {
@@ -34,12 +34,10 @@ export const downloadFromApi = async (url: string, filename: string, onProgress?
         }
       },
     })
-    .then((blob) => {
-      // api-clientのインターセプターがresponse.dataを返すため、Blobとして扱う
-      downloadBlob(blob as Blob, filename);
-    })
     .catch((error) => {
       logger.error('ダウンロードに失敗しました', error);
       throw error;
     });
+
+  downloadBlob(blob as unknown as Blob, filename);
 };

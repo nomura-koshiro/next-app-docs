@@ -5,6 +5,7 @@ import { useOptimistic } from 'react';
 
 import { useDeleteUser as useDeleteUserMutation } from '@/features/sample-users';
 import { useUsers as useUsersQuery } from '@/features/sample-users/api/get-users';
+import type { User } from '@/features/sample-users/types';
 
 /**
  * ユーザー一覧ページのロジックを管理するカスタムフック
