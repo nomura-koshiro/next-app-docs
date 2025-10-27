@@ -64,11 +64,17 @@ src/
 │
 ├── lib/                   # 外部ライブラリ設定
 │   ├── api-client.ts      # Axios設定（インターセプター含む）
+│   ├── csrf.ts            # CSRFトークン管理
 │   ├── tanstack-query.ts  # TanStack Query設定
 │   └── msw.tsx            # MSWProvider
 │
 ├── utils/                 # ユーティリティ関数
-│   └── cn.ts              # clsx + tailwind-merge
+│   ├── index.ts            # バレルエクスポート
+│   ├── cn.ts               # clsx + tailwind-merge
+│   ├── date.ts             # 日付関連ユーティリティ
+│   ├── error-handling.ts   # エラーハンドリングユーティリティ
+│   ├── format.ts           # フォーマット関連ユーティリティ
+│   └── logger.ts           # ログ出力ユーティリティ
 │
 ├── config/                # 設定
 │   ├── env.ts             # 環境変数（Zod検証）
@@ -76,7 +82,13 @@ src/
 │   └── constants.ts       # 定数定義
 │
 ├── types/                 # 共通型定義
-│   └── global.d.ts        # グローバル型定義
+│   ├── env.d.ts            # 環境変数の型定義
+│   ├── global.d.ts         # グローバル型定義
+│   └── models/             # モデル型定義
+│       └── user.ts         # ユーザー型定義
+│
+├── hooks/                 # 共通カスタムフック
+│   └── use-devtools.tsx    # React Query Devtools表示制御
 │
 ├── schemas/               # 共通バリデーションスキーマ
 │   ├── index.ts            # バレルエクスポート
