@@ -82,7 +82,9 @@ src/
 │
 ├── types/                 # 共通型定義
 │   ├── env.d.ts            # 環境変数の型定義
-│   └── global.d.ts         # グローバル型定義
+│   ├── global.d.ts         # グローバル型定義
+│   └── models/             # ドメインモデル型定義
+│       └── user.ts         # User, UserRole, CreateUserDTO, UpdateUserDTO
 │
 ├── hooks/                 # 共通カスタムフック
 │   └── use-devtools.tsx    # React Query Devtools表示制御
@@ -187,8 +189,8 @@ features/sample-users/
 ├── schemas/                    # Zodバリデーションスキーマ
 │   └── user-form.schema.ts     # ユーザーフォームスキーマ
 │
-├── types/                      # 型定義
-│   └── index.ts                # User, UserRole, CreateUserDTO, UpdateUserDTO
+├── types/                      # 型定義（共通型のre-export）
+│   └── index.ts                # User型などをre-export
 │
 └── index.ts                    # エクスポート
 ```
