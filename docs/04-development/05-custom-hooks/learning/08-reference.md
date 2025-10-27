@@ -69,7 +69,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 const {
   control,           // フィールドに渡す
-  handleSubmit,      // フォーム送信
+  handleSubmit,      // Form送信
   formState: { errors, isDirty },
   setError,          // エラー設定
   reset,             // リセット
@@ -150,10 +150,7 @@ const onSubmit = async (data) => {
 
 ```typescript
 // useOptimistic: 楽観的UI更新（✅ 推奨）
-const [optimisticState, addOptimistic] = useOptimistic(
-  state,
-  (current, optimisticValue) => [...current, optimisticValue]
-);
+const [optimisticState, addOptimistic] = useOptimistic(state, (current, optimisticValue) => [...current, optimisticValue]);
 
 addOptimistic(newItem); // 即座にUI反映
 
@@ -280,7 +277,7 @@ queryClient.invalidateQueries({ queryKey: ['users'] });
 
 **A:** 非同期的なルーティングをサポートするためです。
 
-```typescript
+````typescript
 // Next.js 14以前
 type PageProps = {
   params: { id: string };
@@ -330,7 +327,7 @@ const expensiveValue = useMemo(() => {
 
 // ❌ 不要
 const length = useMemo(() => items.length, [items]);
-```
+````
 
 **useCallback:**
 
@@ -569,7 +566,7 @@ startTransition(() => {
 ### 新規ユーザー作成ページ
 
 ```typescript
-// スキーマ
+// Schemas
 export const userFormSchema = z.object({
   name: z.string().min(1, "名前を入力してください"),
   email: z.string().email("有効なメールアドレスを入力してください"),

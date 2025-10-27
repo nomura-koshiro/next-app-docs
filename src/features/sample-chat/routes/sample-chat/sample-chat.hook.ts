@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useOptimistic, useState } from 'react';
+import { startTransition, useCallback, useOptimistic, useState } from 'react';
 
 import { logger } from '@/utils/logger';
 
@@ -16,12 +16,12 @@ import type { Message } from '../../types';
  */
 export const useSampleChat = () => {
   // ================================================================================
-  // フック
+  // Hooks
   // ================================================================================
   const sendMessageMutation = useSendMessage();
 
   // ================================================================================
-  // 状態
+  // State
   // ================================================================================
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputMessage, setInputMessage] = useState('');
@@ -35,7 +35,7 @@ export const useSampleChat = () => {
   ]);
 
   // ================================================================================
-  // ハンドラー
+  // Handlers
   // ================================================================================
 
   /**
@@ -61,7 +61,9 @@ export const useSampleChat = () => {
     };
 
     // 🚀 即座にUIに反映（楽観的更新）
-    addOptimisticMessage(userMessage);
+    startTransition(() => {
+      addOptimisticMessage(userMessage);
+    });
     setInputMessage('');
 
     // FastAPIにメッセージを送信

@@ -50,9 +50,9 @@ graph TD
 
 ### フックの使い分け
 
-| フック            | 用途                      | タイミング | ロールバック  | 推奨度 |
-| ----------------- | ------------------------- | ---------- | ------------- | ------ |
-| **useOptimistic** | 楽観的UI更新              | 即座       | 自動          | ⭐⭐⭐  |
+| フック            | 用途                      | タイミング | ロールバック  | 推奨度    |
+| ----------------- | ------------------------- | ---------- | ------------- | --------- |
+| **useOptimistic** | 楽観的UI更新              | 即座       | 自動          | ⭐⭐⭐    |
 | **useTransition** | 非緊急な状態更新          | 遅延可能   | なし          | ❌ 非推奨 |
 | **use**           | Promise/Contextの読み取り | 同期的     | ErrorBoundary | ❌ 非推奨 |
 
@@ -362,7 +362,7 @@ const [isPending, startTransition] = useTransition();
 
 // 非緊急な状態更新をラップ
 startTransition(() => {
-  // 状態更新
+  // State更新
 });
 ```
 
@@ -510,7 +510,8 @@ const onSubmit = async (data) => {
 
 // ❌ 悪い例: useTransitionを使用（非推奨）
 const handleCancel = () => {
-  startTransition(() => { // 冗長！
+  startTransition(() => {
+    // 冗長！
     router.push('/users');
   });
 };

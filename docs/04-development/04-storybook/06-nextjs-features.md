@@ -393,7 +393,7 @@ MSWは既にプロジェクトにセットアップされています：
 
 ```typescript
 // .storybook/preview.tsx
-import { initialize, mswLoader } from "msw-storybook-addon";
+import { initialize, mswLoader } from 'msw-storybook-addon';
 
 initialize();
 
@@ -403,17 +403,17 @@ export const loaders = [mswLoader];
 ### APIモックの基本
 
 ```typescript
-import { http, HttpResponse } from "msw";
+import { http, HttpResponse } from 'msw';
 
 export const Default: Story = {
   parameters: {
     msw: {
       handlers: [
-        http.get("/api/v1/sample/users", () => {
+        http.get('/api/v1/sample/users', () => {
           return HttpResponse.json({
             data: [
-              { id: "1", name: "User 1", email: "user1@example.com" },
-              { id: "2", name: "User 2", email: "user2@example.com" },
+              { id: '1', name: 'User 1', email: 'user1@example.com' },
+              { id: '2', name: 'User 2', email: 'user2@example.com' },
             ],
           });
         }),
@@ -426,13 +426,13 @@ export const Default: Story = {
 ### ローディング状態のモック
 
 ```typescript
-import { delay } from "msw";
+import { delay } from 'msw';
 
 export const Loading: Story = {
   parameters: {
     msw: {
       handlers: [
-        http.get("/api/v1/sample/users", async () => {
+        http.get('/api/v1/sample/users', async () => {
           await delay(5000); // 5秒待機
           return HttpResponse.json({ data: [] });
         }),
@@ -449,11 +449,8 @@ export const WithError: Story = {
   parameters: {
     msw: {
       handlers: [
-        http.get("/api/v1/sample/users", () => {
-          return HttpResponse.json(
-            { message: "Internal Server Error" },
-            { status: 500 }
-          );
+        http.get('/api/v1/sample/users', () => {
+          return HttpResponse.json({ message: 'Internal Server Error' }, { status: 500 });
         }),
       ],
     },
@@ -469,23 +466,20 @@ export const Complete: Story = {
     msw: {
       handlers: [
         // ユーザー一覧
-        http.get("/api/v1/sample/users", () => {
+        http.get('/api/v1/sample/users', () => {
           return HttpResponse.json({
             data: mockUsers,
           });
         }),
         // ユーザー詳細
-        http.get("/api/v1/sample/users/:id", ({ params }) => {
+        http.get('/api/v1/sample/users/:id', ({ params }) => {
           const user = mockUsers.find((u) => u.id === params.id);
           return HttpResponse.json({ data: user });
         }),
         // ユーザー作成
-        http.post("/api/v1/sample/users", async ({ request }) => {
+        http.post('/api/v1/sample/users', async ({ request }) => {
           const body = await request.json();
-          return HttpResponse.json(
-            { data: { id: "new-id", ...body } },
-            { status: 201 }
-          );
+          return HttpResponse.json({ data: { id: 'new-id', ...body } }, { status: 201 });
         }),
       ],
     },
@@ -500,21 +494,15 @@ export const CreateUser: Story = {
   parameters: {
     msw: {
       handlers: [
-        http.post("/api/v1/sample/users", async ({ request }) => {
+        http.post('/api/v1/sample/users', async ({ request }) => {
           const body = await request.json();
 
           // バリデーション
           if (!body.name || !body.email) {
-            return HttpResponse.json(
-              { message: "Validation Error" },
-              { status: 400 }
-            );
+            return HttpResponse.json({ message: 'Validation Error' }, { status: 400 });
           }
 
-          return HttpResponse.json(
-            { data: { id: "new-id", ...body } },
-            { status: 201 }
-          );
+          return HttpResponse.json({ data: { id: 'new-id', ...body } }, { status: 201 });
         }),
       ],
     },
@@ -522,12 +510,12 @@ export const CreateUser: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
 
-    // フォームに入力
-    await userEvent.type(canvas.getByLabelText(/名前/i), "New User");
-    await userEvent.type(canvas.getByLabelText(/メール/i), "new@example.com");
+    // Formに入力
+    await userEvent.type(canvas.getByLabelText(/名前/i), 'New User');
+    await userEvent.type(canvas.getByLabelText(/メール/i), 'new@example.com');
 
     // 送信
-    await userEvent.click(canvas.getByRole("button", { name: /作成/i }));
+    await userEvent.click(canvas.getByRole('button', { name: /作成/i }));
 
     // 成功メッセージを確認
     await expect(canvas.findByText(/作成しました/i)).resolves.toBeInTheDocument();
@@ -557,7 +545,7 @@ export default {
     config.resolve = {
       ...config.resolve,
       alias: {
-        "@": path.resolve(__dirname, "../src"),
+        '@': path.resolve(__dirname, '../src'),
       },
     };
     return config;

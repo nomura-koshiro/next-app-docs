@@ -121,7 +121,7 @@ export const WithError: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
 
-    // フォームに入力
+    // Formに入力
     await userEvent.type(canvas.getByLabelText(/名前/i), '山田太郎');
     await userEvent.type(canvas.getByLabelText(/メールアドレス/i), 'yamada@example.com');
 

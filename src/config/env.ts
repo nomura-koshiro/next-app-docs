@@ -47,7 +47,7 @@ const createEnv = () => {
     STORYBOOK_PORT: storybookPort,
   };
 
-  // スキーマで検証
+  // Schemasで検証
   const parsedEnv = EnvSchema.safeParse(envVars);
 
   // 検証失敗時はエラーメッセージを出力

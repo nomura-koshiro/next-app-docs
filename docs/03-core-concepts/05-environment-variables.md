@@ -16,12 +16,12 @@
 
 ## なぜenv.tsが必要か？
 
-| 問題 | 解決 |
-|------|------|
-| `process.env.*`は型が`string \| undefined` | ✅ 明示的な型定義 |
-| 必須変数が未定義でも実行時まで気づかない | ✅ 起動時に自動チェック |
-| boolean/numberへの変換が必要 | ✅ 自動型変換 |
-| 不正な値が設定されていてもエラーにならない | ✅ Zodでバリデーション |
+| 問題                                       | 解決                    |
+| ------------------------------------------ | ----------------------- |
+| `process.env.*`は型が`string \| undefined` | ✅ 明示的な型定義       |
+| 必須変数が未定義でも実行時まで気づかない   | ✅ 起動時に自動チェック |
+| boolean/numberへの変換が必要               | ✅ 自動型変換           |
+| 不正な値が設定されていてもエラーにならない | ✅ Zodでバリデーション  |
 
 ---
 
@@ -29,23 +29,21 @@
 
 ```typescript
 // src/config/env.ts
-import * as z from 'zod'
+import * as z from 'zod';
 
 const createEnv = () => {
   // Storybookポート番号を取得（Storybook環境でのみ設定される）
   const storybookPort = process.env.NEXT_PUBLIC_STORYBOOK_PORT;
 
   // StorybookポートがあればAPI URLを動的に構築
-  const apiUrl = storybookPort
-    ? `http://localhost:${storybookPort}/api/v1`
-    : process.env.NEXT_PUBLIC_API_URL;
+  const apiUrl = storybookPort ? `http://localhost:${storybookPort}/api/v1` : process.env.NEXT_PUBLIC_API_URL;
 
   if (storybookPort) {
     console.log('[env] Storybook port detected:', storybookPort);
     console.log('[env] API_URL overridden to:', apiUrl);
   }
 
-  // スキーマ定義
+  // Schemas定義
   const EnvSchema = z.object({
     // 必須の環境変数
     API_URL: z.string(),
@@ -63,7 +61,7 @@ const createEnv = () => {
 
     // Storybookポート番号（オプション、Storybook環境でのみ設定される）
     STORYBOOK_PORT: z.string().optional(),
-  })
+  });
 
   // 環境変数を取得
   const envVars = {
@@ -72,10 +70,10 @@ const createEnv = () => {
     APP_URL: process.env.NEXT_PUBLIC_URL,
     APP_MOCK_API_PORT: process.env.NEXT_PUBLIC_MOCK_API_PORT,
     STORYBOOK_PORT: storybookPort,
-  }
+  };
 
   // 検証
-  const parsedEnv = EnvSchema.safeParse(envVars)
+  const parsedEnv = EnvSchema.safeParse(envVars);
 
   if (!parsedEnv.success) {
     throw new Error(
@@ -85,13 +83,13 @@ const createEnv = () => {
     .map(([k, v]) => `- ${k}: ${v}`)
     .join('\n')}
   `
-    )
+    );
   }
 
-  return parsedEnv.data
-}
+  return parsedEnv.data;
+};
 
-export const env = createEnv()
+export const env = createEnv();
 ```
 
 ---
@@ -124,21 +122,22 @@ NEXT_PUBLIC_STORYBOOK_PORT=6006
 ### APIクライアントで使用
 
 ```typescript
-import { env } from '@/config/env'
+import { env } from '@/config/env';
 
 export const api = Axios.create({
-  baseURL: env.API_URL,  // 型安全: string
-})
+  baseURL: env.API_URL, // 型安全: string
+});
 ```
 
 ### boolean値の使用
 
 ```typescript
-import { env } from '@/config/env'
+import { env } from '@/config/env';
 
-if (env.ENABLE_API_MOCKING) {  // boolean | undefined
-  const { worker } = await import('@/mocks/browser')
-  await worker.start()
+if (env.ENABLE_API_MOCKING) {
+  // boolean | undefined
+  const { worker } = await import('@/mocks/browser');
+  await worker.start();
 }
 ```
 
@@ -147,7 +146,7 @@ if (env.ENABLE_API_MOCKING) {  // boolean | undefined
 Storybook環境では、`NEXT_PUBLIC_STORYBOOK_PORT`を設定することでAPI URLが自動的に上書きされます。
 
 ```typescript
-import { env } from '@/config/env'
+import { env } from '@/config/env';
 
 // NEXT_PUBLIC_STORYBOOK_PORT=6006 の場合
 // env.API_URL は "http://localhost:6006/api/v1" に自動変更される
@@ -220,7 +219,7 @@ const EnvSchema = z.object({
     .refine((s) => s === 'true' || s === 'false')
     .transform((s) => s === 'true')
     .optional(),
-})
+});
 ```
 
 ### 2. envVarsに追加
@@ -229,7 +228,7 @@ const EnvSchema = z.object({
 const envVars = {
   API_URL: process.env.NEXT_PUBLIC_API_URL,
   NEW_FEATURE_ENABLED: process.env.NEXT_PUBLIC_NEW_FEATURE_ENABLED,
-}
+};
 ```
 
 ### 3. .env.localに追加
@@ -241,7 +240,7 @@ NEXT_PUBLIC_NEW_FEATURE_ENABLED=true
 ### 4. 使用
 
 ```typescript
-import { env } from '@/config/env'
+import { env } from '@/config/env';
 
 if (env.NEW_FEATURE_ENABLED) {
   // 新機能を有効化
@@ -256,15 +255,15 @@ if (env.NEW_FEATURE_ENABLED) {
 
 ```typescript
 // 型安全で、バリデーション済み
-import { env } from '@/config/env'
-const apiUrl = env.API_URL
+import { env } from '@/config/env';
+const apiUrl = env.API_URL;
 ```
 
 ### ❌ Bad
 
 ```typescript
 // 型安全性がなく、バリデーションもない
-const apiUrl = process.env.NEXT_PUBLIC_API_URL
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 ```
 
 ---

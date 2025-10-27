@@ -10,7 +10,7 @@ import { useLogin } from './login.hook';
  */
 export default function LoginPage() {
   // ================================================================================
-  // フック
+  // Hooks
   // ================================================================================
   const { control, onSubmit, errors, isSubmitting } = useLogin();
   const DevTools = useDevTools(control);

@@ -12,34 +12,34 @@ Vitest（単体テスト・統合テスト）とPlaywright（E2Eテスト）で�
 
 ```typescript
 // vitest.setup.ts
-import { beforeAll, afterEach, afterAll } from 'vitest'
-import { server } from './src/mocks/server'
+import { beforeAll, afterEach, afterAll } from 'vitest';
+import { server } from './src/mocks/server';
 
 // すべてのテスト開始前にMSWサーバーを起動
 beforeAll(() => {
   server.listen({
     onUnhandledRequest: 'error', // 未処理リクエストでエラー
-  })
-})
+  });
+});
 
 // 各テスト後にハンドラーをリセット
 afterEach(() => {
-  server.resetHandlers()
-})
+  server.resetHandlers();
+});
 
 // すべてのテスト終了後にMSWサーバーを停止
 afterAll(() => {
-  server.close()
-})
+  server.close();
+});
 ```
 
 ### vitest.config.ts
 
 ```typescript
 // vitest.config.ts
-import { defineConfig } from 'vitest/config'
-import react from '@vitejs/plugin-react'
-import path from 'path'
+import { defineConfig } from 'vitest/config';
+import react from '@vitejs/plugin-react';
+import path from 'path';
 
 export default defineConfig({
   plugins: [react()],
@@ -53,7 +53,7 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
-})
+});
 ```
 
 ---
@@ -190,7 +190,7 @@ describe('CreateUserForm', () => {
       </AppProvider>
     )
 
-    // フォーム入力
+    // Form入力
     await user.type(screen.getByLabelText('名前'), 'John Doe')
     await user.type(screen.getByLabelText('メールアドレス'), 'john@example.com')
 
@@ -244,7 +244,7 @@ describe('CreateUserForm', () => {
 
 ```typescript
 // playwright.config.ts
-import { defineConfig, devices } from '@playwright/test'
+import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
   testDir: './e2e',
@@ -271,55 +271,55 @@ export default defineConfig({
       NEXT_PUBLIC_ENABLE_API_MOCKING: 'true', // MSWを有効化
     },
   },
-})
+});
 ```
 
 ### E2Eテストの例
 
 ```typescript
 // e2e/users.spec.ts
-import { test, expect } from '@playwright/test'
+import { test, expect } from '@playwright/test';
 
 test.beforeEach(async ({ page }) => {
   // MSWを起動してからページ遷移
-  await page.goto('/')
-  await page.waitForLoadState('networkidle')
-})
+  await page.goto('/');
+  await page.waitForLoadState('networkidle');
+});
 
 test('ユーザー一覧ページ', async ({ page }) => {
-  await page.goto('/users')
+  await page.goto('/users');
 
   // MSWがモックデータを返す
-  await expect(page.locator('text=John Doe')).toBeVisible()
-  await expect(page.locator('text=Jane Smith')).toBeVisible()
-})
+  await expect(page.locator('text=John Doe')).toBeVisible();
+  await expect(page.locator('text=Jane Smith')).toBeVisible();
+});
 
 test('ユーザー作成', async ({ page }) => {
-  await page.goto('/users/new')
+  await page.goto('/users/new');
 
-  // フォーム入力
-  await page.fill('input[name="name"]', 'New User')
-  await page.fill('input[name="email"]', 'newuser@example.com')
+  // Form入力
+  await page.fill('input[name="name"]', 'New User');
+  await page.fill('input[name="email"]', 'newuser@example.com');
 
   // 送信
-  await page.click('button[type="submit"]')
+  await page.click('button[type="submit"]');
 
   // MSWがPOSTリクエストをモック
-  await expect(page.locator('text=ユーザーを作成しました')).toBeVisible()
-})
+  await expect(page.locator('text=ユーザーを作成しました')).toBeVisible();
+});
 
 test('ユーザー削除', async ({ page }) => {
-  await page.goto('/users')
+  await page.goto('/users');
 
   // 削除ボタンをクリック
-  await page.click('button:has-text("削除"):first')
+  await page.click('button:has-text("削除"):first');
 
   // 確認ダイアログ
-  page.on('dialog', (dialog) => dialog.accept())
+  page.on('dialog', (dialog) => dialog.accept());
 
   // MSWがDELETEリクエストをモック
-  await expect(page.locator('text=ユーザーを削除しました')).toBeVisible()
-})
+  await expect(page.locator('text=ユーザーを削除しました')).toBeVisible();
+});
 ```
 
 ---
@@ -329,36 +329,36 @@ test('ユーザー削除', async ({ page }) => {
 ### テストごとにハンドラーをリセット
 
 ```typescript
-import { afterEach } from 'vitest'
-import { server } from '@/mocks/server'
+import { afterEach } from 'vitest';
+import { server } from '@/mocks/server';
 
 afterEach(() => {
-  server.resetHandlers() // グローバルハンドラーに戻す
-})
+  server.resetHandlers(); // グローバルハンドラーに戻す
+});
 ```
 
 ### 特定のテストでハンドラーを追加
 
 ```typescript
-import { beforeEach } from 'vitest'
+import { beforeEach } from 'vitest';
 
 describe('特定の条件でのテスト', () => {
   beforeEach(() => {
     server.use(
       http.get('/api/v1/users', () => {
-        return HttpResponse.json({ data: [] })
+        return HttpResponse.json({ data: [] });
       })
-    )
-  })
+    );
+  });
 
   it('テスト1', async () => {
     // このテストでは空データが返される
-  })
+  });
 
   it('テスト2', async () => {
     // このテストでも空データが返される
-  })
-})
+  });
+});
 ```
 
 ---
@@ -372,16 +372,16 @@ describe('特定の条件でのテスト', () => {
 export const mockUsers = [
   { id: '1', name: 'John Doe', email: 'john@example.com' },
   { id: '2', name: 'Jane Smith', email: 'jane@example.com' },
-]
+];
 
 // テストで使用
-import { mockUsers } from '@/mocks/data/users'
+import { mockUsers } from '@/mocks/data/users';
 
 server.use(
   http.get('/api/v1/sample/users', () => {
-    return HttpResponse.json({ data: mockUsers })
+    return HttpResponse.json({ data: mockUsers });
   })
-)
+);
 
 // Storybookで使用
 export const Default: Story = {
@@ -389,12 +389,12 @@ export const Default: Story = {
     msw: {
       handlers: [
         http.get('/api/v1/sample/users', () => {
-          return HttpResponse.json({ data: mockUsers })
+          return HttpResponse.json({ data: mockUsers });
         }),
       ],
     },
   },
-}
+};
 ```
 
 ---
@@ -408,34 +408,32 @@ export const Default: Story = {
 // 基本的なレスポンスを定義
 export const handlers = [
   http.get('/api/v1/sample/users', () => {
-    return HttpResponse.json({ data: mockUsers })
+    return HttpResponse.json({ data: mockUsers });
   }),
-]
+];
 
 // テストで必要に応じてオーバーライド
 server.use(
   http.get('/api/v1/sample/users', () => {
-    return HttpResponse.json({ data: [] })
+    return HttpResponse.json({ data: [] });
   })
-)
+);
 ```
 
 ### 2. afterEachでハンドラーをリセット
 
 ```typescript
 afterEach(() => {
-  server.resetHandlers()
-})
+  server.resetHandlers();
+});
 ```
 
 ### 3. 型安全なモックデータ
 
 ```typescript
-import type { User } from '@/types'
+import type { User } from '@/types';
 
-const mockUsers: User[] = [
-  { id: '1', name: 'John Doe', email: 'john@example.com' },
-]
+const mockUsers: User[] = [{ id: '1', name: 'John Doe', email: 'john@example.com' }];
 ```
 
 ---

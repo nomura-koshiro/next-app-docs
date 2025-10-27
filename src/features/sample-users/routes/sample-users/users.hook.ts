@@ -15,7 +15,7 @@ import type { User } from '@/features/sample-users/types';
  */
 export const useUsers = () => {
   // ================================================================================
-  // フック
+  // Hooks
   // ================================================================================
   const router = useRouter();
   const { data } = useUsersQuery();
@@ -30,7 +30,7 @@ export const useUsers = () => {
   );
 
   // ================================================================================
-  // ハンドラー
+  // Handlers
   // ================================================================================
   const handleEdit = (userId: string) => {
     router.push(`/sample-users/${userId}/edit`);
@@ -61,14 +61,12 @@ export const useUsers = () => {
     removeOptimisticUser(userId);
 
     // FastAPIに削除リクエスト
-    await deleteUserMutation
-      .mutateAsync(userId)
-      .catch((error) => {
-        // ❌ エラー時: 楽観的更新が自動的にロールバック
-        console.error('ユーザーの削除に失敗しました:', error);
-        // エラー通知を表示（オプション）
-        alert('ユーザーの削除に失敗しました。もう一度お試しください。');
-      });
+    await deleteUserMutation.mutateAsync(userId).catch((error) => {
+      // ❌ エラー時: 楽観的更新が自動的にロールバック
+      console.error('ユーザーの削除に失敗しました:', error);
+      // エラー通知を表示（オプション）
+      alert('ユーザーの削除に失敗しました。もう一度お試しください。');
+    });
     // ✅ 削除成功（キャッシュ無効化はuseDeleteUserMutation内で実行）
   };
 

@@ -22,7 +22,7 @@ import {
  */
 export const useSampleFile = () => {
   // ================================================================================
-  // 状態
+  // State
   // ================================================================================
   const [uploadedFiles, setUploadedFiles] = useState<UploadedFile[]>([]);
   const [isUploading, setIsUploading] = useState(false);

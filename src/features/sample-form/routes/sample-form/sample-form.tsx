@@ -13,7 +13,7 @@ import { useSampleForm } from './sample-form.hook';
  */
 export default function SampleFormPage() {
   // ================================================================================
-  // フック
+  // Hooks
   // ================================================================================
   const { control, onSubmit, reset, isSubmitting } = useSampleForm();
   const DevTools = useDevTools(control);

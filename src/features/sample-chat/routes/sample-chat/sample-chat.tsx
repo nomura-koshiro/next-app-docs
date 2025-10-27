@@ -15,12 +15,12 @@ import { useSampleChat } from './sample-chat.hook';
  */
 export default function SampleChatPage() {
   // ================================================================================
-  // フック
+  // Hooks
   // ================================================================================
   const { messages, inputMessage, isSending, handleSendMessage, handleInputChange } = useSampleChat();
 
   // ================================================================================
-  // レンダリング
+  // Render
   // ================================================================================
   return (
     <PageLayout maxWidth="4xl">

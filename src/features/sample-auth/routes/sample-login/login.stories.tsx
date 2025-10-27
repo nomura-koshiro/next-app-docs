@@ -143,7 +143,7 @@ export const WithError: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
 
-    // フォームに入力
+    // Formに入力
     await userEvent.type(canvas.getByLabelText(/メールアドレス/i), 'user@example.com');
     await userEvent.type(canvas.getByLabelText(/パスワード/i), 'wrongpassword');
 
@@ -173,7 +173,7 @@ export const Success: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
 
-    // フォームに入力
+    // Formに入力
     await userEvent.type(canvas.getByLabelText(/メールアドレス/i), 'yamada@example.com');
     await userEvent.type(canvas.getByLabelText(/パスワード/i), 'password123');
 

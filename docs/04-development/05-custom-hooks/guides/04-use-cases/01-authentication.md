@@ -52,20 +52,14 @@ sequenceDiagram
 **ファイル**: `src/features/sample-auth/schemas/login-form.schema.ts`
 
 ```typescript
-import { z } from "zod";
+import { z } from 'zod';
 
 /**
  * ログインフォームのバリデーションスキーマ
  */
 export const loginFormSchema = z.object({
-  email: z
-    .string()
-    .min(1, "メールアドレスを入力してください")
-    .email("有効なメールアドレスを入力してください"),
-  password: z
-    .string()
-    .min(1, "パスワードを入力してください")
-    .min(8, "パスワードは8文字以上で入力してください"),
+  email: z.string().min(1, 'メールアドレスを入力してください').email('有効なメールアドレスを入力してください'),
+  password: z.string().min(1, 'パスワードを入力してください').min(8, 'パスワードは8文字以上で入力してください'),
 });
 
 /**
@@ -79,8 +73,8 @@ export type LoginFormValues = z.infer<typeof loginFormSchema>;
 **ファイル**: `src/features/sample-auth/api/auth.api.ts`
 
 ```typescript
-import { api } from "@/lib/api-client";
-import type { LoginFormValues } from "../schemas/login-form.schema";
+import { api } from '@/lib/api-client';
+import type { LoginFormValues } from '../schemas/login-form.schema';
 
 /**
  * ユーザー型定義
@@ -106,10 +100,8 @@ export type LoginResponse = {
  * @param data - ログインフォームの値
  * @returns トークンとユーザー情報
  */
-export const loginUser = async (
-  data: LoginFormValues
-): Promise<LoginResponse> => {
-  return api.post("/auth/login", data);
+export const loginUser = async (data: LoginFormValues): Promise<LoginResponse> => {
+  return api.post('/auth/login', data);
 };
 ```
 
@@ -118,9 +110,9 @@ export const loginUser = async (
 **ファイル**: `src/features/sample-auth/api/login.ts`
 
 ```typescript
-import { useMutation } from "@tanstack/react-query";
-import { MutationConfig } from "@/lib/tanstack-query";
-import { loginUser } from "./auth.api";
+import { useMutation } from '@tanstack/react-query';
+import { MutationConfig } from '@/lib/tanstack-query';
+import { loginUser } from './auth.api';
 
 /**
  * ログインミューテーションのオプション型
@@ -147,9 +139,9 @@ export const useLoginMutation = ({ mutationConfig }: UseLoginOptions = {}) => {
 **ファイル**: `src/features/sample-auth/stores/auth.store.ts`
 
 ```typescript
-import { create } from "zustand";
-import { persist } from "zustand/middleware";
-import type { User } from "../api/auth.api";
+import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
+import type { User } from '../api/auth.api';
 
 /**
  * 認証ストアの状態型定義
@@ -193,7 +185,7 @@ export const useAuthStore = create<AuthState & AuthActions>()(
         }),
     }),
     {
-      name: "auth-storage", // localStorageのキー名
+      name: 'auth-storage', // localStorageのキー名
     }
   )
 );
@@ -203,19 +195,16 @@ export const useAuthStore = create<AuthState & AuthActions>()(
 
 **ファイル**: `src/features/sample-auth/routes/sample-login/login.hook.ts`
 
-```typescript
-"use client";
+````typescript
+'use client';
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter } from 'next/navigation';
+import { useForm } from 'react-hook-form';
 
-import { useLoginMutation } from "../../api/login";
-import { useAuthStore } from "../../stores/auth.store";
-import {
-  loginFormSchema,
-  type LoginFormValues,
-} from "../../schemas/login-form.schema";
+import { useLoginMutation } from '../../api/login';
+import { useAuthStore } from '../../stores/auth.store';
+import { loginFormSchema, type LoginFormValues } from '../../schemas/login-form.schema';
 
 /**
  * ログインページのカスタムフック
@@ -252,8 +241,8 @@ export const useLogin = () => {
   } = useForm<LoginFormValues>({
     resolver: zodResolver(loginFormSchema),
     defaultValues: {
-      email: "",
-      password: "",
+      email: '',
+      password: '',
     },
   });
 
@@ -273,19 +262,18 @@ export const useLogin = () => {
       .mutateAsync(values)
       .then((data) => {
         // トークンをlocalStorageに保存
-        localStorage.setItem("token", data.token);
+        localStorage.setItem('token', data.token);
 
         // ユーザー情報をストアに保存
         setUser(data.user);
 
         // ユーザー一覧ページに遷移
-        router.push("/sample-users");
+        router.push('/sample-users');
       })
       .catch((error) => {
         // ログイン失敗時のエラーメッセージ
-        setError("root", {
-          message:
-            "ログインに失敗しました。メールアドレスとパスワードを確認してください。",
+        setError('root', {
+          message: 'ログインに失敗しました。メールアドレスとパスワードを確認してください。',
         });
       });
   });
@@ -297,7 +285,7 @@ export const useLogin = () => {
     isSubmitting: loginMutation.isPending,
   };
 };
-```
+````
 
 ### 6. ログインページコンポーネント
 
@@ -383,7 +371,7 @@ export default LoginPage;
  * サーバー側でセッションを無効化します。
  */
 export const logoutUser = async (): Promise<void> => {
-  return api.post("/auth/logout");
+  return api.post('/auth/logout');
 };
 ```
 
@@ -391,14 +379,14 @@ export const logoutUser = async (): Promise<void> => {
 
 **ファイル**: `src/features/sample-auth/hooks/use-logout.ts`
 
-```typescript
-"use client";
+````typescript
+'use client';
 
-import { useRouter } from "next/navigation";
-import { useMutation } from "@tanstack/react-query";
+import { useRouter } from 'next/navigation';
+import { useMutation } from '@tanstack/react-query';
 
-import { logoutUser } from "../api/auth.api";
-import { useAuthStore } from "../stores/auth.store";
+import { logoutUser } from '../api/auth.api';
+import { useAuthStore } from '../stores/auth.store';
 
 /**
  * ログアウト機能のカスタムフック
@@ -443,17 +431,17 @@ export const useLogout = () => {
       .mutateAsync()
       .catch((error) => {
         // ログアウト失敗時もクライアント側はクリア
-        console.error("Logout failed:", error);
+        console.error('Logout failed:', error);
       })
       .finally(() => {
         // トークンを削除
-        localStorage.removeItem("token");
+        localStorage.removeItem('token');
 
-        // ストアをクリア
+        // Storesをクリア
         clearUser();
 
         // ログインページに遷移
-        router.push("/sample-login");
+        router.push('/sample-login');
       });
   };
 
@@ -462,7 +450,7 @@ export const useLogout = () => {
     isLoggingOut: logoutMutation.isPending,
   };
 };
-```
+````
 
 ### 3. ログアウトボタンコンポーネント
 
@@ -647,8 +635,8 @@ async def logout():
 
 ```typescript
 // エラーをフォームに表示
-setError("root", {
-  message: "ログインに失敗しました。メールアドレスとパスワードを確認してください。",
+setError('root', {
+  message: 'ログインに失敗しました。メールアドレスとパスワードを確認してください。',
 });
 ```
 
@@ -661,9 +649,9 @@ api.interceptors.response.use(
   (error) => {
     if (error.response?.status === 401) {
       // トークン期限切れ
-      localStorage.removeItem("token");
+      localStorage.removeItem('token');
       useAuthStore.getState().clearUser();
-      window.location.href = "/sample-login";
+      window.location.href = '/sample-login';
     }
     return Promise.reject(error);
   }
@@ -677,13 +665,13 @@ try {
   await loginMutation.mutateAsync(values);
 } catch (error) {
   if (error instanceof Error) {
-    if (error.message.includes("network")) {
-      setError("root", {
-        message: "ネットワークエラーが発生しました。接続を確認してください。",
+    if (error.message.includes('network')) {
+      setError('root', {
+        message: 'ネットワークエラーが発生しました。接続を確認してください。',
       });
     } else {
-      setError("root", {
-        message: "ログインに失敗しました。もう一度お試しください。",
+      setError('root', {
+        message: 'ログインに失敗しました。もう一度お試しください。',
       });
     }
   }
@@ -697,31 +685,31 @@ try {
 ### ログインフックのテスト
 
 ```typescript
-import { renderHook, waitFor } from "@testing-library/react";
-import { useLogin } from "./login.hook";
+import { renderHook, waitFor } from '@testing-library/react';
+import { useLogin } from './login.hook';
 
-describe("useLogin", () => {
-  it("ログイン成功時にユーザー一覧ページに遷移する", async () => {
+describe('useLogin', () => {
+  it('ログイン成功時にユーザー一覧ページに遷移する', async () => {
     const { result } = renderHook(() => useLogin());
 
     // ログイン実行
     await result.current.onSubmit({
-      email: "test@example.com",
-      password: "password123",
+      email: 'test@example.com',
+      password: 'password123',
     });
 
     await waitFor(() => {
-      expect(mockRouter.push).toHaveBeenCalledWith("/sample-users");
+      expect(mockRouter.push).toHaveBeenCalledWith('/sample-users');
     });
   });
 
-  it("ログイン失敗時にエラーメッセージを表示する", async () => {
+  it('ログイン失敗時にエラーメッセージを表示する', async () => {
     const { result } = renderHook(() => useLogin());
 
     // 失敗するログイン
     await result.current.onSubmit({
-      email: "wrong@example.com",
-      password: "wrongpassword",
+      email: 'wrong@example.com',
+      password: 'wrongpassword',
     });
 
     await waitFor(() => {

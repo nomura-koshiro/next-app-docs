@@ -12,7 +12,7 @@ import { sampleFormSchema, type SampleFormValues } from '../../schemas/sample-fo
  */
 export const useSampleForm = () => {
   // ================================================================================
-  // フォーム
+  // Form
   // ================================================================================
   const {
     control,
@@ -37,14 +37,14 @@ export const useSampleForm = () => {
   });
 
   // ================================================================================
-  // ハンドラー
+  // Handlers
   // ================================================================================
   const onSubmit = handleSubmit(async (data) => {
-    // フォームデータを表示
+    // Formデータを表示
     console.log('フォームデータ:', data);
     alert(`フォームが送信されました！\n\n${JSON.stringify(data, null, 2)}`);
 
-    // フォームをリセット
+    // Formをリセット
     reset();
   });
 

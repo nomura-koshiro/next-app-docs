@@ -13,7 +13,7 @@ export const useFeatureName = () => {
   // ================================================================================
   // State / Form Setup
   // ================================================================================
-  // 状態管理、フォーム初期化など
+  // State管理、フォーム初期化など
 
   // ================================================================================
   // Queries / Mutations
@@ -51,19 +51,19 @@ export const useFeatureName = () => {
 
 ```tsx
 // ✅ 良い例
-useLogin
-useUsers
-useNewUser
-useEditUser
-useDeleteUser
-useSampleForm
-useModal
-useToggle
+useLogin;
+useUsers;
+useNewUser;
+useEditUser;
+useDeleteUser;
+useSampleForm;
+useModal;
+useToggle;
 
 // ❌ 悪い例
-loginHook      // useがない
-handleLogin    // handleはイベントハンドラー用
-fetchUsers     // fetchは関数用
+loginHook; // useがない
+handleLogin; // handleはイベントハンドラー用
+fetchUsers; // fetchは関数用
 ```
 
 ### 戻り値のプロパティ名
@@ -72,47 +72,47 @@ fetchUsers     // fetchは関数用
 
 ```tsx
 // 単数形
-user
-product
-post
+user;
+product;
+post;
 
 // 複数形
-users
-products
-posts
+users;
+products;
+posts;
 ```
 
 #### ローディング状態
 
 ```tsx
-isLoading      // 初回ローディング
-isSubmitting   // 送信中
-isDeleting     // 削除中
-isFetching     // 再取得中（バックグラウンド）
+isLoading; // 初回ローディング
+isSubmitting; // 送信中
+isDeleting; // 削除中
+isFetching; // 再取得中（バックグラウンド）
 ```
 
 #### エラー
 
 ```tsx
-error          // エラーオブジェクト
-errors         // フォームエラー（複数）
+error; // エラーオブジェクト
+errors; // Formエラー（複数）
 ```
 
 #### 関数
 
 ```tsx
 // イベントハンドラー
-onSubmit
-onReset
-onCancel
+onSubmit;
+onReset;
+onCancel;
 
 // 操作関数
-open / close
-toggle
-createUser
-updateUser
-deleteUser
-refetch
+open / close;
+toggle;
+createUser;
+updateUser;
+deleteUser;
+refetch;
 ```
 
 ---
@@ -134,7 +134,7 @@ export const useModal = () => {
 
   const open = () => setIsOpen(true);
   const close = () => setIsOpen(false);
-  const toggle = () => setIsOpen(prev => !prev);
+  const toggle = () => setIsOpen((prev) => !prev);
 
   return {
     isOpen,
@@ -182,7 +182,7 @@ import { useState } from 'react';
 export const useToggle = (initialValue: boolean = false) => {
   const [value, setValue] = useState(initialValue);
 
-  const toggle = () => setValue(prev => !prev);
+  const toggle = () => setValue((prev) => !prev);
   const setTrue = () => setValue(true);
   const setFalse = () => setValue(false);
 
@@ -237,22 +237,19 @@ type UseCounterOptions = {
 /**
  * カウンターの状態を管理するフック
  */
-export const useCounter = (
-  initialValue: number = 0,
-  options: UseCounterOptions = {}
-) => {
+export const useCounter = (initialValue: number = 0, options: UseCounterOptions = {}) => {
   const { min, max, step = 1 } = options;
   const [count, setCount] = useState(initialValue);
 
   const increment = () => {
-    setCount(prev => {
+    setCount((prev) => {
       const newValue = prev + step;
       return max !== undefined ? Math.min(newValue, max) : newValue;
     });
   };
 
   const decrement = () => {
-    setCount(prev => {
+    setCount((prev) => {
       const newValue = prev - step;
       return min !== undefined ? Math.max(newValue, min) : newValue;
     });
@@ -308,11 +305,11 @@ export const useArray = <T,>(initialValue: T[] = []) => {
   const [array, setArray] = useState<T[]>(initialValue);
 
   const push = (item: T) => {
-    setArray(prev => [...prev, item]);
+    setArray((prev) => [...prev, item]);
   };
 
   const remove = (index: number) => {
-    setArray(prev => prev.filter((_, i) => i !== index));
+    setArray((prev) => prev.filter((_, i) => i !== index));
   };
 
   const clear = () => {
@@ -320,7 +317,7 @@ export const useArray = <T,>(initialValue: T[] = []) => {
   };
 
   const update = (index: number, item: T) => {
-    setArray(prev => prev.map((val, i) => (i === index ? item : val)));
+    setArray((prev) => prev.map((val, i) => (i === index ? item : val)));
   };
 
   return {
@@ -352,7 +349,7 @@ export const TodoList = () => {
 
   return (
     <div>
-      <input value={input} onChange={e => setInput(e.target.value)} />
+      <input value={input} onChange={(e) => setInput(e.target.value)} />
       <button onClick={handleAdd}>追加</button>
 
       <ul>
@@ -393,7 +390,7 @@ flowchart TD
 
 ```tsx
 // ❌ 悪い例
-"use client";
+'use client';
 
 export const useModal = () => {
   // ...
@@ -411,9 +408,9 @@ export const useModal = () => {
 
 ```tsx
 // コンポーネント側
-"use client";
+'use client';
 
-import { useModal } from "./modal.hook";
+import { useModal } from './modal.hook';
 
 export default function Page() {
   const { isOpen, open } = useModal();
@@ -452,8 +449,8 @@ export const useCounter = (initialValue: number = 0) => {
 
   return {
     count,
-    increment: () => setCount(prev => prev + 1),
-    decrement: () => setCount(prev => prev - 1),
+    increment: () => setCount((prev) => prev + 1),
+    decrement: () => setCount((prev) => prev - 1),
   };
 };
 
@@ -529,8 +526,8 @@ export const useCounter = (initialValue: number = 0) => {
 };
 
 // 使用側
-const counter1 = useCounter();     // 0から開始
-const counter2 = useCounter(10);   // 10から開始
+const counter1 = useCounter(); // 0から開始
+const counter2 = useCounter(10); // 10から開始
 ```
 
 ### 3. クリーンアップを忘れずに

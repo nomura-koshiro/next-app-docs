@@ -19,17 +19,17 @@ Storybookストーリーの基本的な書き方と実践的なパターン
 Storybookのストーリーは以下の構造で作成します：
 
 ```typescript
-import type { Meta, StoryObj } from "@storybook/nextjs-vite";
-import { Button } from "./button";
+import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import { Button } from './button';
 
 // meta定義
 const meta = {
-  title: "components/ui/Button",
+  title: 'components/ui/Button',
   component: Button,
   parameters: {
-    layout: "centered",
+    layout: 'centered',
   },
-  tags: ["autodocs"],
+  tags: ['autodocs'],
 } satisfies Meta<typeof Button>;
 
 export default meta;
@@ -38,22 +38,22 @@ type Story = StoryObj<typeof meta>;
 // ストーリー定義
 export const Primary: Story = {
   args: {
-    children: "Button",
-    variant: "primary",
+    children: 'Button',
+    variant: 'primary',
   },
 };
 ```
 
 ### meta定義の主要プロパティ
 
-| プロパティ | 説明 | 例 |
-|-----------|------|-----|
-| `title` | ナビゲーション階層 | `"components/ui/Button"` |
-| `component` | 表示するコンポーネント | `Button` |
-| `parameters` | 表示設定 | `{ layout: "centered" }` |
-| `tags` | 自動ドキュメント生成 | `["autodocs"]` |
-| `argTypes` | コントロールパネル設定 | `{ variant: { control: "select" } }` |
-| `args` | デフォルト値 | `{ children: "Button" }` |
+| プロパティ   | 説明                   | 例                                   |
+| ------------ | ---------------------- | ------------------------------------ |
+| `title`      | ナビゲーション階層     | `"components/ui/Button"`             |
+| `component`  | 表示するコンポーネント | `Button`                             |
+| `parameters` | 表示設定               | `{ layout: "centered" }`             |
+| `tags`       | 自動ドキュメント生成   | `["autodocs"]`                       |
+| `argTypes`   | コントロールパネル設定 | `{ variant: { control: "select" } }` |
+| `args`       | デフォルト値           | `{ children: "Button" }`             |
 
 ---
 
@@ -65,15 +65,15 @@ export const Primary: Story = {
 
 ```typescript
 // UIコンポーネント
-title: "components/ui/Button"
+title: 'components/ui/Button';
 // → Components > UI > Button
 
 // レイアウトコンポーネント
-title: "components/layout/PageHeader"
+title: 'components/layout/PageHeader';
 // → Components > Layout > PageHeader
 
 // Featureコンポーネント
-title: "features/sample-users/routes/users/Users"
+title: 'features/sample-users/routes/users/Users';
 // → Features > Sample Users > Routes > Users > Users
 ```
 
@@ -97,13 +97,13 @@ features/
 
 ```typescript
 // ボタンコンポーネント
-title: "components/ui/Button"
+title: 'components/ui/Button';
 
 // ユーザー一覧ページ
-title: "features/sample-users/routes/users/Users"
+title: 'features/sample-users/routes/users/Users';
 
 // ユーザーフォーム（共有コンポーネント）
-title: "features/sample-users/components/UserForm"
+title: 'features/sample-users/components/UserForm';
 ```
 
 ---
@@ -114,26 +114,26 @@ title: "features/sample-users/components/UserForm"
 
 ```typescript
 export const Primary: Story = {
-  name: "プライマリ",
+  name: 'プライマリ',
   args: {
-    variant: "primary",
-    children: "Primary Button",
+    variant: 'primary',
+    children: 'Primary Button',
   },
 };
 
 export const Secondary: Story = {
-  name: "セカンダリ",
+  name: 'セカンダリ',
   args: {
-    variant: "secondary",
-    children: "Secondary Button",
+    variant: 'secondary',
+    children: 'Secondary Button',
   },
 };
 
 export const Outline: Story = {
-  name: "アウトライン",
+  name: 'アウトライン',
   args: {
-    variant: "outline",
-    children: "Outline Button",
+    variant: 'outline',
+    children: 'Outline Button',
   },
 };
 ```
@@ -142,26 +142,26 @@ export const Outline: Story = {
 
 ```typescript
 export const Small: Story = {
-  name: "小サイズ",
+  name: '小サイズ',
   args: {
-    size: "sm",
-    children: "Small Button",
+    size: 'sm',
+    children: 'Small Button',
   },
 };
 
 export const Medium: Story = {
-  name: "中サイズ",
+  name: '中サイズ',
   args: {
-    size: "md",
-    children: "Medium Button",
+    size: 'md',
+    children: 'Medium Button',
   },
 };
 
 export const Large: Story = {
-  name: "大サイズ",
+  name: '大サイズ',
   args: {
-    size: "lg",
-    children: "Large Button",
+    size: 'lg',
+    children: 'Large Button',
   },
 };
 ```
@@ -242,7 +242,7 @@ const meta = {
 
 ```typescript
 export const Empty: Story = {
-  name: "空の状態",
+  name: '空の状態',
   args: {
     defaultValues: {},
     onSubmit: fn(),
@@ -251,12 +251,12 @@ export const Empty: Story = {
 };
 
 export const WithData: Story = {
-  name: "データ入力済み",
+  name: 'データ入力済み',
   args: {
     defaultValues: {
-      name: "山田太郎",
-      email: "yamada@example.com",
-      role: "user",
+      name: '山田太郎',
+      email: 'yamada@example.com',
+      role: 'user',
     },
     onSubmit: fn(),
     onCancel: fn(),
@@ -264,12 +264,12 @@ export const WithData: Story = {
 };
 
 export const EditMode: Story = {
-  name: "編集モード",
+  name: '編集モード',
   args: {
     defaultValues: {
-      name: "山田太郎",
-      email: "yamada@example.com",
-      role: "admin",
+      name: '山田太郎',
+      email: 'yamada@example.com',
+      role: 'admin',
     },
     isEditMode: true,
     onSubmit: fn(),
@@ -287,19 +287,19 @@ export const EditMode: Story = {
 `play`関数を使用して、ユーザーインタラクションを自動テストできます：
 
 ```typescript
-import { expect, within, userEvent } from "@storybook/test";
+import { expect, within, userEvent } from '@storybook/test';
 
 export const ClickTest: Story = {
-  name: "クリックテスト",
+  name: 'クリックテスト',
   args: {
-    children: "Click Me",
+    children: 'Click Me',
     onClick: fn(),
   },
   play: async ({ canvasElement, args }) => {
     const canvas = within(canvasElement);
 
     // ボタンを見つける
-    const button = canvas.getByRole("button", { name: /click me/i });
+    const button = canvas.getByRole('button', { name: /click me/i });
 
     // ボタンが表示されているか確認
     await expect(button).toBeInTheDocument();
@@ -317,7 +317,7 @@ export const ClickTest: Story = {
 
 ```typescript
 export const FormSubmitTest: Story = {
-  name: "フォーム送信テスト",
+  name: 'フォーム送信テスト',
   args: {
     onSubmit: fn(),
     onCancel: fn(),
@@ -325,14 +325,14 @@ export const FormSubmitTest: Story = {
   play: async ({ canvasElement, args }) => {
     const canvas = within(canvasElement);
 
-    // フォームフィールドを見つける
+    // Formフィールドを見つける
     const nameInput = canvas.getByLabelText(/名前/i);
     const emailInput = canvas.getByLabelText(/メールアドレス/i);
-    const submitButton = canvas.getByRole("button", { name: /作成/i });
+    const submitButton = canvas.getByRole('button', { name: /作成/i });
 
-    // フォームに入力
-    await userEvent.type(nameInput, "山田太郎");
-    await userEvent.type(emailInput, "yamada@example.com");
+    // Formに入力
+    await userEvent.type(nameInput, '山田太郎');
+    await userEvent.type(emailInput, 'yamada@example.com');
 
     // 送信ボタンをクリック
     await userEvent.click(submitButton);
@@ -347,7 +347,7 @@ export const FormSubmitTest: Story = {
 
 ```typescript
 export const ErrorStateTest: Story = {
-  name: "エラー状態テスト",
+  name: 'エラー状態テスト',
   args: {
     onSubmit: fn(),
   },
@@ -355,7 +355,7 @@ export const ErrorStateTest: Story = {
     const canvas = within(canvasElement);
 
     // 送信ボタンをクリック（空の状態）
-    const submitButton = canvas.getByRole("button", { name: /作成/i });
+    const submitButton = canvas.getByRole('button', { name: /作成/i });
     await userEvent.click(submitButton);
 
     // エラーメッセージが表示されるか確認
@@ -372,12 +372,12 @@ export const ErrorStateTest: Story = {
 
 ```typescript
 export const LoadingTest: Story = {
-  name: "ローディングテスト",
+  name: 'ローディングテスト',
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
 
     // ローディングスピナーが表示されているか確認
-    const spinner = canvas.getByTestId("loading-spinner");
+    const spinner = canvas.getByTestId('loading-spinner');
     await expect(spinner).toBeInTheDocument();
 
     // データが読み込まれるまで待機
@@ -399,7 +399,7 @@ export const LoadingTest: Story = {
 ```typescript
 // ✅ Good: わかりやすい日本語名
 export const Primary: Story = {
-  name: "プライマリ",
+  name: 'プライマリ',
   // ...
 };
 
@@ -429,14 +429,14 @@ export const WithText: Story = {
 
 ```typescript
 export const Primary: Story = {
-  name: "プライマリ",
+  name: 'プライマリ',
   args: {
-    variant: "primary",
+    variant: 'primary',
   },
   parameters: {
     docs: {
       description: {
-        story: "プライマリボタンのデフォルト状態。重要なアクションに使用します。",
+        story: 'プライマリボタンのデフォルト状態。重要なアクションに使用します。',
       },
     },
   },

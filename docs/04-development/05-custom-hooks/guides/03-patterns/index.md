@@ -28,7 +28,7 @@ export const useFeatureName = () => {
   // ================================================================================
   // State / Form Setup
   // ================================================================================
-  // 状態管理、フォーム初期化など
+  // State管理、フォーム初期化など
 
   // ================================================================================
   // Queries / Mutations
@@ -56,13 +56,13 @@ export const useFeatureName = () => {
 
 ### セクション説明
 
-| セクション | 目的 | 含まれるもの |
-|-----------|------|------------|
-| **State / Form Setup** | 状態の初期化 | useState, useForm, useOptimistic |
-| **Queries / Mutations** | データ操作 | useQuery, useMutation |
-| **Data Transformation** | データ変換 | map, filter, reduce |
-| **Handlers** | イベント処理 | onSubmit, onClick, onChange |
-| **Return** | インターフェース | 外部に公開する値・関数 |
+| セクション              | 目的             | 含まれるもの                     |
+| ----------------------- | ---------------- | -------------------------------- |
+| **State / Form Setup**  | 状態の初期化     | useState, useForm, useOptimistic |
+| **Queries / Mutations** | データ操作       | useQuery, useMutation            |
+| **Data Transformation** | データ変換       | map, filter, reduce              |
+| **Handlers**            | イベント処理     | onSubmit, onClick, onChange      |
+| **Return**              | インターフェース | 外部に公開する値・関数           |
 
 ---
 
@@ -204,8 +204,8 @@ export const useLogin = () => {
   } = useForm<LoginFormValues>({
     resolver: zodResolver(loginFormSchema),
     defaultValues: {
-      email: "",
-      password: "",
+      email: '',
+      password: '',
     },
   });
 
@@ -300,8 +300,8 @@ export const useSampleForm = () => {
   } = useForm<SampleFormValues>({
     resolver: zodResolver(sampleFormSchema),
     defaultValues: {
-      username: "",
-      email: "",
+      username: '',
+      email: '',
     },
   });
 
@@ -309,7 +309,7 @@ export const useSampleForm = () => {
   // Handlers
   // ================================================================================
   const onSubmit = handleSubmit(async (data) => {
-    console.log("Form Data:", data);
+    console.log('Form Data:', data);
     alert(`フォームが送信されました！\n\n${JSON.stringify(data, null, 2)}`);
     reset();
   });
@@ -364,7 +364,7 @@ export const useLogin = () => {
         // 成功処理
       })
       .catch(() => {
-        // フォームエラーとして設定
+        // Formエラーとして設定
         setError("root", {
           message: "ログインに失敗しました。メールアドレスとパスワードを確認してください。",
         });
@@ -387,7 +387,7 @@ export const useDeleteUser = () => {
   const deleteUserMutation = useMutation({
     mutationFn: deleteUser,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["users"] });
+      queryClient.invalidateQueries({ queryKey: ['users'] });
     },
   });
 
@@ -413,15 +413,16 @@ export const useDeleteUser = () => {
 // Pattern A: フック内で変換 ✅
 export const useUsers = () => {
   const { data, isLoading } = useQuery({
-    queryKey: ["users"],
+    queryKey: ['users'],
     queryFn: fetchUsers,
   });
 
-  // フック内で変換
-  const users = data?.map(user => ({
-    ...user,
-    fullName: `${user.firstName} ${user.lastName}`,
-  })) ?? [];
+  // Hooks内で変換
+  const users =
+    data?.map((user) => ({
+      ...user,
+      fullName: `${user.firstName} ${user.lastName}`,
+    })) ?? [];
 
   return { users, isLoading };
 };
@@ -433,7 +434,7 @@ const { users } = useUsers();
 // Pattern B: コンポーネント内で変換
 export const useUsers = () => {
   const { data, isLoading } = useQuery({
-    queryKey: ["users"],
+    queryKey: ['users'],
     queryFn: fetchUsers,
   });
 
@@ -442,10 +443,11 @@ export const useUsers = () => {
 
 // 使用側
 const { users: rawUsers } = useUsers();
-const users = rawUsers?.map(user => ({
-  ...user,
-  fullName: `${user.firstName} ${user.lastName}`,
-})) ?? [];
+const users =
+  rawUsers?.map((user) => ({
+    ...user,
+    fullName: `${user.firstName} ${user.lastName}`,
+  })) ?? [];
 ```
 
 #### 理由
@@ -463,7 +465,7 @@ export const useUsers = () => {
   // Queries
   // ================================================================================
   const usersQuery = useQuery({
-    queryKey: ["users"],
+    queryKey: ['users'],
     queryFn: getUsers,
   });
 
@@ -474,7 +476,7 @@ export const useUsers = () => {
     usersQuery.data?.map((user) => ({
       ...user,
       fullName: `${user.firstName} ${user.lastName}`,
-      displayAge: user.age ? `${user.age}歳` : "未設定",
+      displayAge: user.age ? `${user.age}歳` : '未設定',
     })) ?? [];
 
   return {
@@ -497,17 +499,17 @@ export const useUsers = () => {
 
 ```typescript
 // ✅ 良い例
-useLogin
-useUsers
-useNewUser
-useEditUser
-useDeleteUser
-useSampleForm
+useLogin;
+useUsers;
+useNewUser;
+useEditUser;
+useDeleteUser;
+useSampleForm;
 
 // ❌ 悪い例
-loginHook
-handleLogin
-fetchUsers
+loginHook;
+handleLogin;
+fetchUsers;
 ```
 
 ### 戻り値のプロパティ名
@@ -516,43 +518,43 @@ fetchUsers
 
 ```typescript
 // 単数形
-user
-product
+user;
+product;
 
 // 複数形
-users
-products
+users;
+products;
 ```
 
 #### ローディング状態
 
 ```typescript
-isLoading     // 初回読み込み
-isSubmitting  // フォーム送信中
-isDeleting    // 削除処理中
-isFetching    // バックグラウンド更新を含む
+isLoading; // 初回読み込み
+isSubmitting; // フォーム送信中
+isDeleting; // 削除処理中
+isFetching; // バックグラウンド更新を含む
 ```
 
 #### エラー
 
 ```typescript
-error   // 単一エラー
-errors  // フォームエラー（複数）
+error; // 単一エラー
+errors; // フォームエラー（複数）
 ```
 
 #### 関数
 
 ```typescript
 // イベントハンドラー
-onSubmit
-onReset
-onClick
+onSubmit;
+onReset;
+onClick;
 
 // 操作関数
-createUser
-updateUser
-deleteUser
-refetch
+createUser;
+updateUser;
+deleteUser;
+refetch;
 ```
 
 ---
@@ -619,9 +621,9 @@ src/
 ### 1. シンプルなフォームフック
 
 ```typescript
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { schema, type SchemaValues } from "./schema";
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { schema, type SchemaValues } from './schema';
 
 /**
  * {機能名}フォームのカスタムフック
@@ -663,11 +665,11 @@ export const useFeatureForm = () => {
 ### 2. API連携フォームフック
 
 ```typescript
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
-import { useCreateItem } from "../../api/create-item";
-import { schema, type SchemaValues } from "./schema";
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter } from 'next/navigation';
+import { useCreateItem } from '../../api/create-item';
+import { schema, type SchemaValues } from './schema';
 
 /**
  * {機能名}作成ページのカスタムフック
@@ -697,16 +699,16 @@ export const useNewItem = () => {
   const onSubmit = handleSubmit(async (values) => {
     await createItemMutation
       .mutateAsync(values)
-      .then(() => router.push("/items"))
+      .then(() => router.push('/items'))
       .catch((error) => {
-        setError("root", {
-          message: "作成に失敗しました。もう一度お試しください。",
+        setError('root', {
+          message: '作成に失敗しました。もう一度お試しください。',
         });
       });
   });
 
   const handleCancel = () => {
-    router.push("/items");
+    router.push('/items');
   };
 
   return {
@@ -722,16 +724,16 @@ export const useNewItem = () => {
 ### 3. データ取得フック（API層）
 
 ```typescript
-import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
-import { api } from "@/lib/api-client";
-import { QueryConfig } from "@/lib/tanstack-query";
-import type { Item } from "../types";
+import { queryOptions, useSuspenseQuery } from '@tanstack/react-query';
+import { api } from '@/lib/api-client';
+import { QueryConfig } from '@/lib/tanstack-query';
+import type { Item } from '../types';
 
 /**
  * アイテム一覧を取得するAPI関数
  */
 export const getItems = (): Promise<{ data: Item[] }> => {
-  return api.get("/items");
+  return api.get('/items');
 };
 
 /**
@@ -739,7 +741,7 @@ export const getItems = (): Promise<{ data: Item[] }> => {
  */
 export const getItemsQueryOptions = () => {
   return queryOptions({
-    queryKey: ["items"],
+    queryKey: ['items'],
     queryFn: getItems,
   });
 };
@@ -762,16 +764,16 @@ export const useItems = ({ queryConfig }: UseItemsOptions = {}) => {
 ### 4. ミューテーションフック（API層）
 
 ```typescript
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { api } from "@/lib/api-client";
-import { MutationConfig } from "@/lib/tanstack-query";
-import type { Item } from "../types";
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { api } from '@/lib/api-client';
+import { MutationConfig } from '@/lib/tanstack-query';
+import type { Item } from '../types';
 
 /**
  * アイテム作成のAPI関数
  */
 export const createItem = (data: CreateItemInput): Promise<{ data: Item }> => {
-  return api.post("/items", data);
+  return api.post('/items', data);
 };
 
 /**
@@ -787,7 +789,7 @@ export const useCreateItem = ({ mutationConfig }: UseCreateItemOptions = {}) => 
   return useMutation({
     mutationFn: createItem,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["items"] });
+      queryClient.invalidateQueries({ queryKey: ['items'] });
     },
     ...mutationConfig,
   });
@@ -797,8 +799,8 @@ export const useCreateItem = ({ mutationConfig }: UseCreateItemOptions = {}) => 
 ### 5. 楽観的更新フック
 
 ```typescript
-import { useOptimistic, useState } from "react";
-import { useMutation } from "@tanstack/react-query";
+import { useOptimistic, useState } from 'react';
+import { useMutation } from '@tanstack/react-query';
 
 /**
  * {機能名}の楽観的更新フック
@@ -810,10 +812,7 @@ export const useOptimisticItems = () => {
   // ================================================================================
   // Optimistic Updates
   // ================================================================================
-  const [optimisticItems, addOptimisticItem] = useOptimistic(
-    items,
-    (state, newItem: Item) => [...state, newItem]
-  );
+  const [optimisticItems, addOptimisticItem] = useOptimistic(items, (state, newItem: Item) => [...state, newItem]);
 
   // ================================================================================
   // Handlers
@@ -830,7 +829,7 @@ export const useOptimisticItems = () => {
       setItems((prev) => [...prev, response.data]);
     } catch (error) {
       // エラー時: 自動ロールバック
-      console.error("Failed to create item:", error);
+      console.error('Failed to create item:', error);
     }
   };
 
@@ -845,12 +844,12 @@ export const useOptimisticItems = () => {
 ### 6. Next.js 15 編集フック（useSuspenseQuery活用）
 
 ```typescript
-import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useItem } from "../../api/get-item";
-import { useUpdateItem } from "../../api/update-item";
-import { itemFormSchema, type ItemFormValues } from "./schema";
+import { useRouter } from 'next/navigation';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useItem } from '../../api/get-item';
+import { useUpdateItem } from '../../api/update-item';
+import { itemFormSchema, type ItemFormValues } from './schema';
 
 /**
  * {機能名}編集ページのカスタムフック
@@ -882,16 +881,16 @@ export const useEditItem = (itemId: string) => {
   const onSubmit = handleSubmit(async (formData) => {
     await updateItemMutation
       .mutateAsync({ itemId, data: formData })
-      .then(() => router.push("/items"))
+      .then(() => router.push('/items'))
       .catch((error) => {
-        setError("root", {
-          message: "更新に失敗しました",
+        setError('root', {
+          message: '更新に失敗しました',
         });
       });
   });
 
   const handleCancel = () => {
-    router.push("/items");
+    router.push('/items');
   };
 
   return {

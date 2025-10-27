@@ -256,10 +256,10 @@ export const useLogin = () => {
 2. **型安全性の確保**
 
    ```typescript
-   // スキーマから型を自動生成
+   // Schemasから型を自動生成
    export type LoginFormValues = z.infer<typeof loginFormSchema>;
 
-   // フックで型を指定
+   // Hooksで型を指定
    useForm<LoginFormValues>({...})
    ```
 
@@ -433,7 +433,7 @@ export const useNewUser = () => {
 Zodスキーマで定義したバリデーションエラーは、自動的に各フィールドに表示されます。
 
 ```typescript
-// スキーマ
+// Schemas
 email: z
   .string()
   .min(1, "メールアドレスを入力してください")  // ← このメッセージが表示される
@@ -452,7 +452,7 @@ const onSubmit = handleSubmit(async (data) => {
     // API呼び出し
     await loginUser(data);
   } catch (error) {
-    // フォームレベルのエラーを設定
+    // Formレベルのエラーを設定
     setError("root", {
       message: "ログインに失敗しました。メールアドレスとパスワードを確認してください。",
     });
@@ -543,7 +543,7 @@ const onSubmit = handleSubmit(async (data) => {
 <summary>解答例を見る</summary>
 
 ```typescript
-// スキーマ
+// Schemas
 export const contactFormSchema = z.object({
   name: z.string().min(2, '名前は2文字以上で入力してください'),
   email: z.string().email('有効なメールアドレスを入力してください'),
@@ -553,7 +553,7 @@ export const contactFormSchema = z.object({
 
 export type ContactFormValues = z.infer<typeof contactFormSchema>;
 
-// フック
+// Hooks
 export const useContact = () => {
   const {
     control,

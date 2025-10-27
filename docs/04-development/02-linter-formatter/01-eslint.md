@@ -31,13 +31,7 @@ const eslintConfig = [...compat.extends("next/core-web-vitals", "next/typescript
 ### 無視するファイル/ディレクトリ
 
 ```javascript
-ignores: [
-  "node_modules/**",
-  ".next/**",
-  "out/**",
-  "build/**",
-  "next-env.d.ts",
-]
+ignores: ['node_modules/**', '.next/**', 'out/**', 'build/**', 'next-env.d.ts'];
 ```
 
 **なぜこれらを無視するのか:**
@@ -53,11 +47,11 @@ ignores: [
 このプロジェクトでは、以下のESLintプラグインを使用しています。
 
 ```javascript
-import tanstackQuery from "@tanstack/eslint-plugin-query";
-import simpleImportSort from "eslint-plugin-simple-import-sort";
-import unusedImports from "eslint-plugin-unused-imports";
+import tanstackQuery from '@tanstack/eslint-plugin-query';
+import simpleImportSort from 'eslint-plugin-simple-import-sort';
+import unusedImports from 'eslint-plugin-unused-imports';
 // import tailwindcss from "eslint-plugin-tailwindcss"; // Tailwind CSS v4と互換性がないため一時的にコメントアウト
-import storybook from "eslint-plugin-storybook";
+import storybook from 'eslint-plugin-storybook';
 ```
 
 ### 1. @tanstack/eslint-plugin-query
@@ -444,19 +438,19 @@ const handleClick = () => {
 
 #### 主要なルール
 
-| 対象 | 形式 | 例 |
-|------|------|-----|
-| **デフォルト** | camelCase | `userName`, `fetchData` |
-| **変数** | camelCase または PascalCase | `userName`, `UserComponent` |
-| **const変数** | camelCase, PascalCase, UPPER_CASE | `apiUrl`, `UserList`, `API_KEY` |
-| **関数** | camelCase または PascalCase | `getUserName`, `UserList` |
-| **パラメータ** | camelCase | `userId`, `_unusedParam` |
-| **Type/Interface** | PascalCase | `UserProfile`, `ApiResponse` |
-| **Enum** | PascalCase | `UserRole`, `HttpStatus` |
-| **Enumメンバー** | UPPER_CASE | `ADMIN`, `NOT_FOUND` |
-| **クラス** | PascalCase | `UserService`, `ApiClient` |
-| **インポート** | camelCase, PascalCase, UPPER_CASE | `useState`, `Button`, `API_URL` |
-| **オブジェクトプロパティ** | 制限なし | `user_id`, `firstName` (API対応) |
+| 対象                       | 形式                              | 例                               |
+| -------------------------- | --------------------------------- | -------------------------------- |
+| **デフォルト**             | camelCase                         | `userName`, `fetchData`          |
+| **変数**                   | camelCase または PascalCase       | `userName`, `UserComponent`      |
+| **const変数**              | camelCase, PascalCase, UPPER_CASE | `apiUrl`, `UserList`, `API_KEY`  |
+| **関数**                   | camelCase または PascalCase       | `getUserName`, `UserList`        |
+| **パラメータ**             | camelCase                         | `userId`, `_unusedParam`         |
+| **Type/Interface**         | PascalCase                        | `UserProfile`, `ApiResponse`     |
+| **Enum**                   | PascalCase                        | `UserRole`, `HttpStatus`         |
+| **Enumメンバー**           | UPPER_CASE                        | `ADMIN`, `NOT_FOUND`             |
+| **クラス**                 | PascalCase                        | `UserService`, `ApiClient`       |
+| **インポート**             | camelCase, PascalCase, UPPER_CASE | `useState`, `Button`, `API_URL`  |
+| **オブジェクトプロパティ** | 制限なし                          | `user_id`, `firstName` (API対応) |
 
 #### ❌ 悪い例
 
@@ -567,7 +561,8 @@ const checkUser = async (userId: number) => {
   return fetch(`/api/users/${userId}`).then((res) => res.json());
 };
 
-if (checkUser(1)) { // エラー：Promiseは常にtruthy
+if (checkUser(1)) {
+  // エラー：Promiseは常にtruthy
   console.log('User exists');
 }
 
@@ -673,7 +668,7 @@ const handleClick = async () => {
 
 // .catch()でエラーハンドリング
 const handleClick = () => {
-  createUser(data).catch(error => {
+  createUser(data).catch((error) => {
     console.error(error);
   });
 };
@@ -685,7 +680,7 @@ const handleClick = () => {
 
 // 適切なエラーハンドリング
 const saveAndRedirect = async () => {
-  await saveData().catch(error => {
+  await saveData().catch((error) => {
     console.error('Save failed:', error);
 
     return;
@@ -788,11 +783,7 @@ const processData = async () => {
 
 // 複数の処理を一つの.catch()でハンドリング
 const saveUserData = async (data: UserData) => {
-  await Promise.all([
-    saveToDatabase(data),
-    sendNotification(data),
-    updateCache(data),
-  ]).catch((error) => {
+  await Promise.all([saveToDatabase(data), sendNotification(data), updateCache(data)]).catch((error) => {
     console.error('Save operation failed:', error);
     throw error;
   });
@@ -844,19 +835,22 @@ const saveUserData = async (data: UserData) => {
 ```typescript
 // 数値を直接条件式で使用
 const count = 0;
-if (count) { // エラー：数値を直接boolean評価
+if (count) {
+  // エラー：数値を直接boolean評価
   console.log('Has items');
 }
 
 // 配列を直接条件式で使用
 const items: string[] = [];
-if (items) { // エラー：配列は常にtruthy
+if (items) {
+  // エラー：配列は常にtruthy
   console.log('Has items');
 }
 
 // 空配列チェックの誤り
 const users: User[] = [];
-if (users) { // エラー：空配列でもtruthyになる
+if (users) {
+  // エラー：空配列でもtruthyになる
   console.log(`Found ${users.length} users`);
 }
 ```
@@ -878,19 +872,22 @@ if (items.length > 0) {
 
 // null/undefinedチェック（allowNullableObjectにより許可）
 const user: User | null = getUser();
-if (user) { // 許可される
+if (user) {
+  // 許可される
   console.log(user.name);
 }
 
 // 文字列チェック（allowNullableStringにより許可）
 const message: string | undefined = getMessage();
-if (message) { // 許可される
+if (message) {
+  // 許可される
   console.log(message);
 }
 
 // 明示的なboolean値
 const isValid: boolean = true;
-if (isValid) { // 正しい：boolean型
+if (isValid) {
+  // 正しい：boolean型
   console.log('Valid');
 }
 ```
@@ -1092,7 +1089,6 @@ const double = (num: number) => num * 2;
 // 早期リターンの場合
 const findUser = (users: User[], id: number) => {
   if (users.length === 0) {
-
     return null;
   }
 
@@ -1312,7 +1308,7 @@ api.interceptors.response.use(
 export const useAuthStore = create<AuthStore>((set) => ({
   user: null,
   login: async (credentials) => {
-    // ストア内でのエラーハンドリングでtry-catchが許可される
+    // Stores内でのエラーハンドリングでtry-catchが許可される
     try {
       const response = await api.post('/api/auth/login', credentials);
       set({ user: response.data });

@@ -5,7 +5,7 @@ import { MutationConfig } from '@/lib/tanstack-query';
 import { logger } from '@/utils/logger';
 
 // ================================================================================
-// 型定義
+// Types
 // ================================================================================
 
 export type UploadFileResponse = {
@@ -58,7 +58,7 @@ export const uploadFileSimple = async (file: File): Promise<UploadFileResponse> 
 };
 
 // ================================================================================
-// フック
+// Hooks
 // ================================================================================
 
 type UseUploadFileOptions = {

@@ -16,7 +16,7 @@ export const updateUser = ({ userId, data }: { userId: string; data: UpdateUserD
 };
 
 // ================================================================================
-// フック
+// Hooks
 // ================================================================================
 
 type UseUpdateUserOptions = {

@@ -34,13 +34,13 @@ Playwrightは、Microsoftが開発した次世代のE2Eテストフレームワ�
 
 ### 他ツールとの比較
 
-| 機能 | Playwright | Cypress | Selenium |
-|------|-----------|---------|----------|
-| **速度** | 高速 | 中速 | 低速 |
-| **並列実行** | ✅ | 有料版のみ | ✅ |
-| **マルチブラウザ** | ✅ | 限定的 | ✅ |
-| **APIモック** | ✅ | ✅ | ❌ |
-| **学習コスト** | 低 | 低 | 高 |
+| 機能               | Playwright | Cypress    | Selenium |
+| ------------------ | ---------- | ---------- | -------- |
+| **速度**           | 高速       | 中速       | 低速     |
+| **並列実行**       | ✅         | 有料版のみ | ✅       |
+| **マルチブラウザ** | ✅         | 限定的     | ✅       |
+| **APIモック**      | ✅         | ✅         | ❌       |
+| **学習コスト**     | 低         | 低         | 高       |
 
 ---
 
@@ -60,7 +60,7 @@ pnpm exec playwright install
 
 ```typescript
 // playwright.config.ts
-import { defineConfig, devices } from '@playwright/test'
+import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
   testDir: './e2e',
@@ -69,10 +69,7 @@ export default defineConfig({
   retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? 1 : undefined,
 
-  reporter: [
-    ['html'],
-    ['json', { outputFile: 'test-results.json' }],
-  ],
+  reporter: [['html'], ['json', { outputFile: 'test-results.json' }]],
 
   use: {
     baseURL: 'http://localhost:3000',
@@ -104,7 +101,7 @@ export default defineConfig({
     url: 'http://localhost:3000',
     reuseExistingServer: !process.env.CI,
   },
-})
+});
 ```
 
 ### ディレクトリ構造
@@ -134,74 +131,74 @@ e2e/
 
 ```typescript
 // e2e/login.spec.ts
-import { test, expect } from '@playwright/test'
+import { test, expect } from '@playwright/test';
 
 test.describe('ログイン機能', () => {
   test('正しい認証情報でログインできる', async ({ page }) => {
     // ログインページに移動
-    await page.goto('/login')
+    await page.goto('/login');
 
-    // フォーム入力
-    await page.fill('input[name="email"]', 'user@example.com')
-    await page.fill('input[name="password"]', 'password123')
+    // Form入力
+    await page.fill('input[name="email"]', 'user@example.com');
+    await page.fill('input[name="password"]', 'password123');
 
     // ログインボタンクリック
-    await page.click('button[type="submit"]')
+    await page.click('button[type="submit"]');
 
     // ダッシュボードにリダイレクト
-    await expect(page).toHaveURL('/dashboard')
+    await expect(page).toHaveURL('/dashboard');
 
     // ユーザー名が表示される
-    await expect(page.locator('text=ようこそ')).toBeVisible()
-  })
+    await expect(page.locator('text=ようこそ')).toBeVisible();
+  });
 
   test('無効な認証情報でログイン失敗する', async ({ page }) => {
-    await page.goto('/login')
+    await page.goto('/login');
 
-    await page.fill('input[name="email"]', 'wrong@example.com')
-    await page.fill('input[name="password"]', 'wrongpassword')
-    await page.click('button[type="submit"]')
+    await page.fill('input[name="email"]', 'wrong@example.com');
+    await page.fill('input[name="password"]', 'wrongpassword');
+    await page.click('button[type="submit"]');
 
     // エラーメッセージが表示される
-    await expect(page.locator('[role="alert"]')).toContainText('認証に失敗しました')
-  })
-})
+    await expect(page.locator('[role="alert"]')).toContainText('認証に失敗しました');
+  });
+});
 ```
 
 ### セレクタのベストプラクティス
 
 ```typescript
 // ❌ Bad: 実装詳細に依存
-await page.click('.css-abc123 > div > button')
+await page.click('.css-abc123 > div > button');
 
 // ✅ Good: ユーザー視点のセレクタ
-await page.getByRole('button', { name: 'ログイン' }).click()
+await page.getByRole('button', { name: 'ログイン' }).click();
 
 // ✅ Good: テストID（実装が変わっても安定）
-await page.getByTestId('login-button').click()
+await page.getByTestId('login-button').click();
 
 // ✅ Good: テキストベース
-await page.getByText('ログイン').click()
+await page.getByText('ログイン').click();
 
 // ✅ Good: ラベル
-await page.getByLabel('メールアドレス').fill('user@example.com')
+await page.getByLabel('メールアドレス').fill('user@example.com');
 ```
 
 ### 待機処理
 
 ```typescript
 // 自動待機（推奨）
-await page.click('button') // 要素がクリック可能になるまで自動待機
+await page.click('button'); // 要素がクリック可能になるまで自動待機
 
 // 明示的待機
-await page.waitForSelector('text=読み込み完了')
-await page.waitForURL('/dashboard')
-await page.waitForLoadState('networkidle')
+await page.waitForSelector('text=読み込み完了');
+await page.waitForURL('/dashboard');
+await page.waitForLoadState('networkidle');
 
 // カスタム待機条件
 await page.waitForFunction(() => {
-  return document.querySelectorAll('.list-item').length > 10
-})
+  return document.querySelectorAll('.list-item').length > 10;
+});
 ```
 
 ---
@@ -212,77 +209,77 @@ await page.waitForFunction(() => {
 
 ```typescript
 // e2e/pages/login-page.ts
-import { Page, Locator } from '@playwright/test'
+import { Page, Locator } from '@playwright/test';
 
 export class LoginPage {
-  readonly page: Page
-  readonly emailInput: Locator
-  readonly passwordInput: Locator
-  readonly submitButton: Locator
-  readonly errorMessage: Locator
+  readonly page: Page;
+  readonly emailInput: Locator;
+  readonly passwordInput: Locator;
+  readonly submitButton: Locator;
+  readonly errorMessage: Locator;
 
   constructor(page: Page) {
-    this.page = page
-    this.emailInput = page.getByLabel('メールアドレス')
-    this.passwordInput = page.getByLabel('パスワード')
-    this.submitButton = page.getByRole('button', { name: 'ログイン' })
-    this.errorMessage = page.locator('[role="alert"]')
+    this.page = page;
+    this.emailInput = page.getByLabel('メールアドレス');
+    this.passwordInput = page.getByLabel('パスワード');
+    this.submitButton = page.getByRole('button', { name: 'ログイン' });
+    this.errorMessage = page.locator('[role="alert"]');
   }
 
   async goto() {
-    await this.page.goto('/login')
+    await this.page.goto('/login');
   }
 
   async login(email: string, password: string) {
-    await this.emailInput.fill(email)
-    await this.passwordInput.fill(password)
-    await this.submitButton.click()
+    await this.emailInput.fill(email);
+    await this.passwordInput.fill(password);
+    await this.submitButton.click();
   }
 
   async getErrorText() {
-    return await this.errorMessage.textContent()
+    return await this.errorMessage.textContent();
   }
 
   async isErrorVisible() {
-    return await this.errorMessage.isVisible()
+    return await this.errorMessage.isVisible();
   }
 }
 ```
 
 ```typescript
 // e2e/pages/training-page.ts
-import { Page, Locator } from '@playwright/test'
+import { Page, Locator } from '@playwright/test';
 
 export class TrainingPage {
-  readonly page: Page
-  readonly addButton: Locator
-  readonly trainingList: Locator
+  readonly page: Page;
+  readonly addButton: Locator;
+  readonly trainingList: Locator;
 
   constructor(page: Page) {
-    this.page = page
-    this.addButton = page.getByRole('button', { name: '追加' })
-    this.trainingList = page.getByTestId('training-list')
+    this.page = page;
+    this.addButton = page.getByRole('button', { name: '追加' });
+    this.trainingList = page.getByTestId('training-list');
   }
 
   async goto() {
-    await this.page.goto('/training')
+    await this.page.goto('/training');
   }
 
   async addTraining(name: string, weight: number) {
-    await this.addButton.click()
-    await this.page.getByLabel('トレーニング名').fill(name)
-    await this.page.getByLabel('重量').fill(weight.toString())
-    await this.page.getByRole('button', { name: '保存' }).click()
+    await this.addButton.click();
+    await this.page.getByLabel('トレーニング名').fill(name);
+    await this.page.getByLabel('重量').fill(weight.toString());
+    await this.page.getByRole('button', { name: '保存' }).click();
   }
 
   async getTrainingByName(name: string) {
-    return this.trainingList.locator(`text=${name}`)
+    return this.trainingList.locator(`text=${name}`);
   }
 
   async deleteTraining(name: string) {
-    const training = await this.getTrainingByName(name)
-    await training.locator('button[aria-label="削除"]').click()
-    await this.page.getByRole('button', { name: '確認' }).click()
+    const training = await this.getTrainingByName(name);
+    await training.locator('button[aria-label="削除"]').click();
+    await this.page.getByRole('button', { name: '確認' }).click();
   }
 }
 ```
@@ -291,28 +288,28 @@ export class TrainingPage {
 
 ```typescript
 // e2e/training.spec.ts
-import { test, expect } from '@playwright/test'
-import { LoginPage } from './pages/login-page'
-import { TrainingPage } from './pages/training-page'
+import { test, expect } from '@playwright/test';
+import { LoginPage } from './pages/login-page';
+import { TrainingPage } from './pages/training-page';
 
 test.describe('トレーニング管理', () => {
   test('トレーニングを追加できる', async ({ page }) => {
-    const loginPage = new LoginPage(page)
-    const trainingPage = new TrainingPage(page)
+    const loginPage = new LoginPage(page);
+    const trainingPage = new TrainingPage(page);
 
     // ログイン
-    await loginPage.goto()
-    await loginPage.login('user@example.com', 'password123')
+    await loginPage.goto();
+    await loginPage.login('user@example.com', 'password123');
 
     // トレーニング追加
-    await trainingPage.goto()
-    await trainingPage.addTraining('ベンチプレス', 80)
+    await trainingPage.goto();
+    await trainingPage.addTraining('ベンチプレス', 80);
 
     // 追加されたことを確認
-    const training = await trainingPage.getTrainingByName('ベンチプレス')
-    await expect(training).toBeVisible()
-  })
-})
+    const training = await trainingPage.getTrainingByName('ベンチプレス');
+    await expect(training).toBeVisible();
+  });
+});
 ```
 
 ---
@@ -323,7 +320,7 @@ test.describe('トレーニング管理', () => {
 
 ```typescript
 // e2e/training-list.spec.ts
-import { test, expect } from '@playwright/test'
+import { test, expect } from '@playwright/test';
 
 test('トレーニング一覧を表示する', async ({ page }) => {
   // APIレスポンスをモック
@@ -335,15 +332,15 @@ test('トレーニング一覧を表示する', async ({ page }) => {
         { id: '1', name: 'ベンチプレス', weight: 80, date: '2025-01-15' },
         { id: '2', name: 'スクワット', weight: 100, date: '2025-01-16' },
       ]),
-    })
-  })
+    });
+  });
 
-  await page.goto('/training')
+  await page.goto('/training');
 
   // モックデータが表示される
-  await expect(page.getByText('ベンチプレス')).toBeVisible()
-  await expect(page.getByText('スクワット')).toBeVisible()
-})
+  await expect(page.getByText('ベンチプレス')).toBeVisible();
+  await expect(page.getByText('スクワット')).toBeVisible();
+});
 ```
 
 ### 条件付きモック
@@ -356,56 +353,56 @@ test('エラー時の表示を確認', async ({ page }) => {
       status: 500,
       contentType: 'application/json',
       body: JSON.stringify({ error: 'Internal Server Error' }),
-    })
-  })
+    });
+  });
 
-  await page.goto('/training')
+  await page.goto('/training');
 
   // エラーメッセージが表示される
-  await expect(page.getByText('データの取得に失敗しました')).toBeVisible()
-})
+  await expect(page.getByText('データの取得に失敗しました')).toBeVisible();
+});
 ```
 
 ### 動的なモック
 
 ```typescript
 test('トレーニングを作成する', async ({ page }) => {
-  let createdTraining: any = null
+  let createdTraining: any = null;
 
   // GET リクエストをモック
   await page.route('**/api/trainings', async (route) => {
     if (route.request().method() === 'GET') {
-      const trainings = createdTraining ? [createdTraining] : []
+      const trainings = createdTraining ? [createdTraining] : [];
       await route.fulfill({
         status: 200,
         body: JSON.stringify(trainings),
-      })
+      });
     }
-  })
+  });
 
   // POST リクエストをモック
   await page.route('**/api/trainings', async (route) => {
     if (route.request().method() === 'POST') {
-      const body = route.request().postDataJSON()
-      createdTraining = { id: '1', ...body }
+      const body = route.request().postDataJSON();
+      createdTraining = { id: '1', ...body };
 
       await route.fulfill({
         status: 201,
         body: JSON.stringify(createdTraining),
-      })
+      });
     }
-  })
+  });
 
-  await page.goto('/training')
+  await page.goto('/training');
 
   // トレーニング追加
-  await page.getByRole('button', { name: '追加' }).click()
-  await page.getByLabel('トレーニング名').fill('ベンチプレス')
-  await page.getByRole('button', { name: '保存' }).click()
+  await page.getByRole('button', { name: '追加' }).click();
+  await page.getByLabel('トレーニング名').fill('ベンチプレス');
+  await page.getByRole('button', { name: '保存' }).click();
 
   // 作成されたトレーニングが表示される
-  await expect(page.getByText('ベンチプレス')).toBeVisible()
-})
+  await expect(page.getByText('ベンチプレス')).toBeVisible();
+});
 ```
 
 ### ネットワーク監視
@@ -413,7 +410,7 @@ test('トレーニングを作成する', async ({ page }) => {
 ```typescript
 test('APIリクエストを検証', async ({ page }) => {
   // リクエストを記録
-  const requests: any[] = []
+  const requests: any[] = [];
 
   page.on('request', (request) => {
     if (request.url().includes('/api/')) {
@@ -421,20 +418,20 @@ test('APIリクエストを検証', async ({ page }) => {
         url: request.url(),
         method: request.method(),
         body: request.postDataJSON(),
-      })
+      });
     }
-  })
+  });
 
-  await page.goto('/training')
-  await page.getByRole('button', { name: '追加' }).click()
-  await page.getByLabel('トレーニング名').fill('ベンチプレス')
-  await page.getByRole('button', { name: '保存' }).click()
+  await page.goto('/training');
+  await page.getByRole('button', { name: '追加' }).click();
+  await page.getByLabel('トレーニング名').fill('ベンチプレス');
+  await page.getByRole('button', { name: '保存' }).click();
 
   // POSTリクエストが送信されたことを確認
-  const postRequest = requests.find((r) => r.method === 'POST')
-  expect(postRequest).toBeDefined()
-  expect(postRequest.body).toMatchObject({ name: 'ベンチプレス' })
-})
+  const postRequest = requests.find((r) => r.method === 'POST');
+  expect(postRequest).toBeDefined();
+  expect(postRequest.body).toMatchObject({ name: 'ベンチプレス' });
+});
 ```
 
 ---
@@ -445,72 +442,72 @@ test('APIリクエストを検証', async ({ page }) => {
 
 ```typescript
 // e2e/fixtures/auth.ts
-import { test as base } from '@playwright/test'
-import { LoginPage } from '../pages/login-page'
+import { test as base } from '@playwright/test';
+import { LoginPage } from '../pages/login-page';
 
 type AuthFixtures = {
-  authenticatedPage: Page
-}
+  authenticatedPage: Page;
+};
 
 export const test = base.extend<AuthFixtures>({
   authenticatedPage: async ({ page }, use) => {
-    const loginPage = new LoginPage(page)
+    const loginPage = new LoginPage(page);
 
     // ログイン処理
-    await loginPage.goto()
-    await loginPage.login('user@example.com', 'password123')
+    await loginPage.goto();
+    await loginPage.login('user@example.com', 'password123');
 
     // ログイン完了を待機
-    await page.waitForURL('/dashboard')
+    await page.waitForURL('/dashboard');
 
     // テストで使用
-    await use(page)
+    await use(page);
 
     // クリーンアップ（必要に応じて）
-    await page.context().clearCookies()
+    await page.context().clearCookies();
   },
-})
+});
 ```
 
 ### 認証済みテスト
 
 ```typescript
 // e2e/training.spec.ts
-import { test } from './fixtures/auth'
-import { expect } from '@playwright/test'
+import { test } from './fixtures/auth';
+import { expect } from '@playwright/test';
 
 test('認証済みユーザーがトレーニングを表示できる', async ({ authenticatedPage }) => {
-  await authenticatedPage.goto('/training')
+  await authenticatedPage.goto('/training');
 
   // トレーニング一覧が表示される
-  await expect(authenticatedPage.getByTestId('training-list')).toBeVisible()
-})
+  await expect(authenticatedPage.getByTestId('training-list')).toBeVisible();
+});
 ```
 
 ### ストレージステートの保存
 
 ```typescript
 // e2e/global-setup.ts
-import { chromium, FullConfig } from '@playwright/test'
+import { chromium, FullConfig } from '@playwright/test';
 
 async function globalSetup(config: FullConfig) {
-  const browser = await chromium.launch()
-  const page = await browser.newPage()
+  const browser = await chromium.launch();
+  const page = await browser.newPage();
 
   // ログイン
-  await page.goto('http://localhost:3000/login')
-  await page.fill('input[name="email"]', 'user@example.com')
-  await page.fill('input[name="password"]', 'password123')
-  await page.click('button[type="submit"]')
-  await page.waitForURL('**/dashboard')
+  await page.goto('http://localhost:3000/login');
+  await page.fill('input[name="email"]', 'user@example.com');
+  await page.fill('input[name="password"]', 'password123');
+  await page.click('button[type="submit"]');
+  await page.waitForURL('**/dashboard');
 
   // 認証状態を保存
-  await page.context().storageState({ path: 'e2e/.auth/user.json' })
+  await page.context().storageState({ path: 'e2e/.auth/user.json' });
 
-  await browser.close()
+  await browser.close();
 }
 
-export default globalSetup
+export default globalSetup;
 ```
 
 ```typescript
@@ -520,7 +517,7 @@ export default defineConfig({
   use: {
     storageState: 'e2e/.auth/user.json',
   },
-})
+});
 ```
 
 ---
@@ -531,56 +528,53 @@ export default defineConfig({
 
 ```typescript
 test('ファイルをアップロードできる', async ({ page }) => {
-  await page.goto('/profile')
+  await page.goto('/profile');
 
   // ファイル選択
-  const fileInput = page.locator('input[type="file"]')
-  await fileInput.setInputFiles('tests/fixtures/avatar.png')
+  const fileInput = page.locator('input[type="file"]');
+  await fileInput.setInputFiles('tests/fixtures/avatar.png');
 
   // アップロードボタンをクリック
-  await page.getByRole('button', { name: 'アップロード' }).click()
+  await page.getByRole('button', { name: 'アップロード' }).click();
 
   // 成功メッセージを確認
-  await expect(page.getByText('アップロードしました')).toBeVisible()
-})
+  await expect(page.getByText('アップロードしました')).toBeVisible();
+});
 ```
 
 ### 複数ファイルのアップロード
 
 ```typescript
 test('複数ファイルをアップロード', async ({ page }) => {
-  await page.goto('/documents')
+  await page.goto('/documents');
 
-  const fileInput = page.locator('input[type="file"]')
-  await fileInput.setInputFiles([
-    'tests/fixtures/file1.pdf',
-    'tests/fixtures/file2.pdf',
-  ])
+  const fileInput = page.locator('input[type="file"]');
+  await fileInput.setInputFiles(['tests/fixtures/file1.pdf', 'tests/fixtures/file2.pdf']);
 
-  await page.getByRole('button', { name: '送信' }).click()
+  await page.getByRole('button', { name: '送信' }).click();
 
-  await expect(page.getByText('2件のファイルをアップロードしました')).toBeVisible()
-})
+  await expect(page.getByText('2件のファイルをアップロードしました')).toBeVisible();
+});
 ```
 
 ### バッファからアップロード
 
 ```typescript
 test('動的に生成したファイルをアップロード', async ({ page }) => {
-  await page.goto('/upload')
+  await page.goto('/upload');
 
   // ファイル内容を動的に生成
-  const buffer = Buffer.from('テストデータ', 'utf-8')
+  const buffer = Buffer.from('テストデータ', 'utf-8');
 
   await page.locator('input[type="file"]').setInputFiles({
     name: 'test.txt',
     mimeType: 'text/plain',
     buffer: buffer,
-  })
+  });
 
-  await page.getByRole('button', { name: 'アップロード' }).click()
-  await expect(page.getByText('アップロード完了')).toBeVisible()
-})
+  await page.getByRole('button', { name: 'アップロード' }).click();
+  await expect(page.getByText('アップロード完了')).toBeVisible();
+});
 ```
 
 ---
@@ -591,21 +585,21 @@ test('動的に生成したファイルをアップロード', async ({ page }) 
 
 ```typescript
 test('スクリーンショットを撮る', async ({ page }) => {
-  await page.goto('/dashboard')
+  await page.goto('/dashboard');
 
   // ページ全体のスクリーンショット
-  await page.screenshot({ path: 'screenshots/dashboard.png' })
+  await page.screenshot({ path: 'screenshots/dashboard.png' });
 
   // 特定の要素のスクリーンショット
-  const element = page.getByTestId('training-chart')
-  await element.screenshot({ path: 'screenshots/chart.png' })
+  const element = page.getByTestId('training-chart');
+  await element.screenshot({ path: 'screenshots/chart.png' });
 
   // フルページスクリーンショット
   await page.screenshot({
     path: 'screenshots/full-page.png',
-    fullPage: true
-  })
-})
+    fullPage: true,
+  });
+});
 ```
 
 ### 失敗時のスクリーンショット
@@ -617,20 +611,20 @@ export default defineConfig({
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
   },
-})
+});
 ```
 
 ### ビジュアルリグレッションテスト
 
 ```typescript
 test('ビジュアルリグレッション', async ({ page }) => {
-  await page.goto('/dashboard')
+  await page.goto('/dashboard');
 
   // スクリーンショットを比較
   await expect(page).toHaveScreenshot('dashboard.png', {
     maxDiffPixels: 100, // 許容する差分ピクセル数
-  })
-})
+  });
+});
 ```
 
 ### トレース記録
@@ -641,7 +635,7 @@ export default defineConfig({
   use: {
     trace: 'on-first-retry', // 最初のリトライ時にトレースを記録
   },
-})
+});
 ```
 
 ```bash
@@ -660,61 +654,61 @@ pnpm exec playwright show-trace trace.zip
 export default defineConfig({
   workers: process.env.CI ? 1 : undefined, // CIでは1、ローカルでは自動
   fullyParallel: true, // ファイル内のテストも並列実行
-})
+});
 ```
 
 ### テストの分離
 
 ```typescript
-test.describe.configure({ mode: 'parallel' })
+test.describe.configure({ mode: 'parallel' });
 
 test.describe('トレーニング管理', () => {
   test('テスト1', async ({ page }) => {
     // 並列実行される
-  })
+  });
 
   test('テスト2', async ({ page }) => {
     // 並列実行される
-  })
-})
+  });
+});
 ```
 
 ### シリアル実行
 
 ```typescript
-test.describe.configure({ mode: 'serial' })
+test.describe.configure({ mode: 'serial' });
 
 test.describe('順次実行が必要なテスト', () => {
   test('ステップ1: データ作成', async ({ page }) => {
     // ...
-  })
+  });
 
   test('ステップ2: データ更新', async ({ page }) => {
     // ステップ1の後に実行
-  })
-})
+  });
+});
 ```
 
 ### ワーカー間でのデータ共有
 
 ```typescript
 // e2e/fixtures/test-data.ts
-import { test as base } from '@playwright/test'
+import { test as base } from '@playwright/test';
 
 type WorkerFixtures = {
-  sharedData: { userId: string }
-}
+  sharedData: { userId: string };
+};
 
 export const test = base.extend<{}, WorkerFixtures>({
   sharedData: [
     async ({}, use, workerInfo) => {
       // ワーカーごとに一度だけ実行
-      const userId = `worker-${workerInfo.workerIndex}`
-      await use({ userId })
+      const userId = `worker-${workerInfo.workerIndex}`;
+      await use({ userId });
     },
     { scope: 'worker' },
   ],
-})
+});
 ```
 
 ---
@@ -811,7 +805,7 @@ export default defineConfig({
       retries: 3, // プロジェクト別のリトライ設定
     },
   ],
-})
+});
 ```
 
 ### テストシャーディング

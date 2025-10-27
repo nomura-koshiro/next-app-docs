@@ -21,7 +21,7 @@ export const sendMessage = (request: SendMessageRequest): Promise<SendMessageRes
 };
 
 // ================================================================================
-// フック
+// Hooks
 // ================================================================================
 
 type UseSendMessageOptions = {

@@ -72,11 +72,7 @@ const handleSubmit = async (data: FormData) => {
 ```typescript
 // ✅ 推奨: Promise.all + .catch()
 const fetchAllData = async () => {
-  await Promise.all([
-    fetchUsers(),
-    fetchProducts(),
-    fetchOrders(),
-  ])
+  await Promise.all([fetchUsers(), fetchProducts(), fetchOrders()])
     .then(([users, products, orders]) => {
       setUsers(users);
       setProducts(products);
@@ -179,7 +175,7 @@ export const useCreateUser = () => {
 export const useAuthStore = create<AuthStore>((set) => ({
   user: null,
   login: async (credentials) => {
-    // ストア内でのエラーハンドリングでtry-catchが許可される
+    // Stores内でのエラーハンドリングでtry-catchが許可される
     try {
       const response = await api.post('/api/auth/login', credentials);
       set({ user: response.data });
@@ -296,9 +292,8 @@ export const useUsers = () => {
 
   const users = data?.data ?? [];
 
-  const [optimisticUsers, removeOptimisticUser] = useOptimistic(
-    users,
-    (state, deletedUserId: string) => state.filter((user) => user.id !== deletedUserId)
+  const [optimisticUsers, removeOptimisticUser] = useOptimistic(users, (state, deletedUserId: string) =>
+    state.filter((user) => user.id !== deletedUserId)
   );
 
   // ✅ 推奨: .catch()でエラーハンドリング
@@ -313,13 +308,11 @@ export const useUsers = () => {
     removeOptimisticUser(userId);
 
     // API呼び出し
-    deleteUserMutation
-      .mutateAsync(userId)
-      .catch((error) => {
-        console.error('削除エラー:', error);
-        alert('ユーザーの削除に失敗しました。');
-        // useOptimisticが自動でロールバック
-      });
+    deleteUserMutation.mutateAsync(userId).catch((error) => {
+      console.error('削除エラー:', error);
+      alert('ユーザーの削除に失敗しました。');
+      // useOptimisticが自動でロールバック
+    });
   };
 
   return {
