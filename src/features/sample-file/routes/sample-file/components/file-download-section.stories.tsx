@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { fn } from '@storybook/test';
 
-import type { DownloadProgress, FileType } from '../../../types';
+import type { FileType } from '../../../types';
 import { FileDownloadSection } from './file-download-section';
 
 /**

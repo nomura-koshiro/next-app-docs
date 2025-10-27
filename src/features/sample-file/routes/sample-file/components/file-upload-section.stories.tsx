@@ -143,7 +143,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 // モックファイルを作成するヘルパー関数
-const createMockFile = (name: string, size: number): File => {
+const createMockFile = (name: string, _size: number): File => {
   return new File(['mock content'], name, { type: 'text/plain' });
 };
 
