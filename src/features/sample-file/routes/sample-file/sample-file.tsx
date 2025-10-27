@@ -14,12 +14,12 @@ import { useSampleFile } from './sample-file.hook';
  */
 export default function SampleFilePage() {
   // ================================================================================
-  // Hooks
+  // フック
   // ================================================================================
   const { uploadedFiles, isUploading, handleFileDrop, handleFileRemove, downloadProgress, isDownloading, handleDownload } = useSampleFile();
 
   // ================================================================================
-  // Render
+  // レンダリング
   // ================================================================================
   return (
     <PageLayout maxWidth="6xl">

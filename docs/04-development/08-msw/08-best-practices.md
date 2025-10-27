@@ -51,15 +51,15 @@ export const handlers = [
 export const mockUsers = [
   { id: 1, name: 'John Doe', email: 'john@example.com' },
   { id: 2, name: 'Jane Smith', email: 'jane@example.com' },
-]
+];
 
 // handlers, stories, testsで共通使用
-import { mockUsers } from '@/mocks/data/users'
+import { mockUsers } from '@/mocks/data/users';
 
 // ハンドラーで使用
 http.get('/api/users', () => {
-  return HttpResponse.json(mockUsers)
-})
+  return HttpResponse.json(mockUsers);
+});
 
 // Storyで使用
 export const Default: Story = {
@@ -67,12 +67,12 @@ export const Default: Story = {
     msw: {
       handlers: [
         http.get('/api/users', () => {
-          return HttpResponse.json(mockUsers)
+          return HttpResponse.json(mockUsers);
         }),
       ],
     },
   },
-}
+};
 ```
 
 ### ❌ Bad: データを各所で重複定義
@@ -80,10 +80,8 @@ export const Default: Story = {
 ```typescript
 // handlers.ts
 http.get('/api/users', () => {
-  return HttpResponse.json([
-    { id: 1, name: 'John Doe', email: 'john@example.com' },
-  ])
-})
+  return HttpResponse.json([{ id: 1, name: 'John Doe', email: 'john@example.com' }]);
+});
 
 // users.stories.tsx
 export const Default: Story = {
@@ -93,12 +91,12 @@ export const Default: Story = {
         http.get('/api/users', () => {
           return HttpResponse.json([
             { id: 1, name: 'John Doe', email: 'john@example.com' }, // 重複
-          ])
+          ]);
         }),
       ],
     },
   },
-}
+};
 ```
 
 ---
@@ -108,27 +106,23 @@ export const Default: Story = {
 ### ✅ Good: 型定義を使用
 
 ```typescript
-import type { User } from '@/types'
+import type { User } from '@/types';
 
-const mockUsers: User[] = [
-  { id: 1, name: 'John Doe', email: 'john@example.com' },
-]
+const mockUsers: User[] = [{ id: 1, name: 'John Doe', email: 'john@example.com' }];
 
 http.get('/api/users', (): HttpResponse<User[]> => {
-  return HttpResponse.json<User[]>(mockUsers)
-})
+  return HttpResponse.json<User[]>(mockUsers);
+});
 ```
 
 ### ❌ Bad: 型なし
 
 ```typescript
-const mockUsers = [
-  { id: 1, name: 'John Doe', email: 'john@example.com' },
-]
+const mockUsers = [{ id: 1, name: 'John Doe', email: 'john@example.com' }];
 
 http.get('/api/users', () => {
-  return HttpResponse.json(mockUsers) // 型チェックなし
-})
+  return HttpResponse.json(mockUsers); // 型チェックなし
+});
 ```
 
 ---
@@ -139,7 +133,7 @@ http.get('/api/users', () => {
 
 ```typescript
 // 正常系
-export const Default: Story = {}
+export const Default: Story = {};
 
 // 空データ
 export const Empty: Story = {
@@ -147,12 +141,12 @@ export const Empty: Story = {
     msw: {
       handlers: [
         http.get('/api/users', () => {
-          return HttpResponse.json([])
+          return HttpResponse.json([]);
         }),
       ],
     },
   },
-}
+};
 
 // エラー
 export const Error: Story = {
@@ -160,15 +154,12 @@ export const Error: Story = {
     msw: {
       handlers: [
         http.get('/api/users', () => {
-          return HttpResponse.json(
-            { error: 'Server error' },
-            { status: 500 }
-          )
+          return HttpResponse.json({ error: 'Server error' }, { status: 500 });
         }),
       ],
     },
   },
-}
+};
 
 // ローディング
 export const Loading: Story = {
@@ -176,13 +167,13 @@ export const Loading: Story = {
     msw: {
       handlers: [
         http.get('/api/users', async () => {
-          await delay('infinite')
-          return HttpResponse.json([])
+          await delay('infinite');
+          return HttpResponse.json([]);
         }),
       ],
     },
   },
-}
+};
 ```
 
 ---
@@ -201,13 +192,13 @@ export const Loading: Story = {
  * @param limit - 1ページあたりの件数（デフォルト: 10）
  */
 http.get('/api/users', ({ request }) => {
-  const url = new URL(request.url)
-  const search = url.searchParams.get('search')
-  const page = Number(url.searchParams.get('page') || 1)
-  const limit = Number(url.searchParams.get('limit') || 10)
+  const url = new URL(request.url);
+  const search = url.searchParams.get('search');
+  const page = Number(url.searchParams.get('page') || 1);
+  const limit = Number(url.searchParams.get('limit') || 10);
 
   // ...
-})
+});
 ```
 
 ---
@@ -223,41 +214,41 @@ export const db = {
     { id: 1, name: 'John Doe', email: 'john@example.com' },
     { id: 2, name: 'Jane Smith', email: 'jane@example.com' },
   ],
-}
+};
 
 // src/mocks/handlers/users.ts
-import { db } from '../db'
+import { db } from '../db';
 
 export const userHandlers = [
   // 一覧取得
   http.get('/api/users', () => {
-    return HttpResponse.json(db.users)
+    return HttpResponse.json(db.users);
   }),
 
   // 作成
   http.post('/api/users', async ({ request }) => {
-    const body = await request.json()
+    const body = await request.json();
     const newUser = {
       id: db.users.length + 1,
       ...body,
-    }
-    db.users.push(newUser)
-    return HttpResponse.json(newUser, { status: 201 })
+    };
+    db.users.push(newUser);
+    return HttpResponse.json(newUser, { status: 201 });
   }),
 
   // 削除
   http.delete('/api/users/:id', ({ params }) => {
-    const { id } = params
-    const index = db.users.findIndex((u) => u.id === Number(id))
+    const { id } = params;
+    const index = db.users.findIndex((u) => u.id === Number(id));
 
     if (index !== -1) {
-      db.users.splice(index, 1)
-      return new HttpResponse(null, { status: 204 })
+      db.users.splice(index, 1);
+      return new HttpResponse(null, { status: 204 });
     }
 
-    return HttpResponse.json({ error: 'Not found' }, { status: 404 })
+    return HttpResponse.json({ error: 'Not found' }, { status: 404 });
   }),
-]
+];
 ```
 
 ---
@@ -267,12 +258,12 @@ export const userHandlers = [
 ### ✅ Good: afterEachでリセット
 
 ```typescript
-import { afterEach } from 'vitest'
-import { server } from '@/mocks/server'
+import { afterEach } from 'vitest';
+import { server } from '@/mocks/server';
 
 afterEach(() => {
-  server.resetHandlers() // グローバルハンドラーに戻す
-})
+  server.resetHandlers(); // グローバルハンドラーに戻す
+});
 ```
 
 ### ❌ Bad: リセットしない
@@ -282,14 +273,14 @@ afterEach(() => {
 it('test1', () => {
   server.use(
     http.get('/api/users', () => {
-      return HttpResponse.json([])
+      return HttpResponse.json([]);
     })
-  )
-})
+  );
+});
 
 it('test2', () => {
   // test1のハンドラーが残っている
-})
+});
 ```
 
 ---
@@ -301,12 +292,13 @@ it('test2', () => {
 ```typescript
 // src/lib/msw.tsx
 if (typeof window !== 'undefined' && env.ENABLE_API_MOCKING === true) {
-  const { worker } = await import('@/mocks/browser')
-  await worker.start()
+  const { worker } = await import('@/mocks/browser');
+  await worker.start();
 }
 ```
 
 **メリット:**
+
 - MSWの有効/無効を簡単に切り替え
 - 本番環境で誤って有効化されることを防ぐ
 
@@ -348,21 +340,18 @@ export const handlers = [
 worker.start({
   onUnhandledRequest: (req) => {
     // 静的ファイル、Next.jsの内部リクエストは無視
-    if (
-      req.url.includes('/_next/') ||
-      req.url.includes('/static/') ||
-      !req.url.includes('/api/')
-    ) {
-      return
+    if (req.url.includes('/_next/') || req.url.includes('/static/') || !req.url.includes('/api/')) {
+      return;
     }
 
     // APIリクエストのみ警告
-    console.warn('[MSW] Unhandled API request:', req.method, req.url)
+    console.warn('[MSW] Unhandled API request:', req.method, req.url);
   },
-})
+});
 ```
 
 **メリット:**
+
 - 不要な警告を減らす
 - 本当に問題のあるリクエストのみ表示
 
@@ -375,13 +364,14 @@ worker.start({
 ```typescript
 // ❌ Bad
 http.get('/api/users', async () => {
-  const res = await fetch('https://example.com/users') // 外部APIを呼ぶ
-  const data = await res.json()
-  return HttpResponse.json(data)
-})
+  const res = await fetch('https://example.com/users'); // 外部APIを呼ぶ
+  const data = await res.json();
+  return HttpResponse.json(data);
+});
 ```
 
 **問題:**
+
 - モックの意味がない
 - 外部APIに依存してしまう
 
@@ -418,10 +408,12 @@ http.get('/api/users', async ({ request }) => {
 ```
 
 **問題:**
+
 - ハンドラーが複雑すぎる
 - 保守が困難
 
 **解決策:**
+
 - ロジックを関数に分離
 - シンプルなモックデータを返す
 
@@ -432,15 +424,17 @@ http.get('/api/users', async ({ request }) => {
 http.get('/api/users', () => {
   return HttpResponse.json([
     { id: 1, username: 'john' }, // 実際のAPIは 'name' フィールド
-  ])
-})
+  ]);
+});
 ```
 
 **問題:**
+
 - 本番環境で動作しない
 - バグの原因になる
 
 **解決策:**
+
 - 実際のAPIと同じ形式を返す
 - 型定義を使用して一致させる
 

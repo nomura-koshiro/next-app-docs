@@ -22,7 +22,7 @@ import {
  */
 export const useSampleFile = () => {
   // ================================================================================
-  // State
+  // 状態
   // ================================================================================
   const [uploadedFiles, setUploadedFiles] = useState<UploadedFile[]>([]);
   const [isUploading, setIsUploading] = useState(false);
@@ -40,7 +40,7 @@ export const useSampleFile = () => {
   ]);
 
   // ================================================================================
-  // Upload Handlers
+  // アップロードハンドラー
   // ================================================================================
 
   /**
@@ -75,7 +75,7 @@ export const useSampleFile = () => {
 
         // ステータスを「アップロード中」に更新
         setUploadedFiles((prev: UploadedFile[]) =>
-          prev.map((f: UploadedFile, idx: number) => (idx === fileIndex ? { ...f, status: 'uploading' as const } : f))
+          prev.map((f: UploadedFile, idx: number) => (idx === fileIndex ? { ...f, status: 'uploading' } : f))
         );
 
         // アップロード実行（MSWでモック）
@@ -87,7 +87,7 @@ export const useSampleFile = () => {
           .then(() => {
             // ✅ ステータスを「成功」に更新
             setUploadedFiles((prev: UploadedFile[]) =>
-              prev.map((f: UploadedFile, idx: number) => (idx === fileIndex ? { ...f, status: 'success' as const } : f))
+              prev.map((f: UploadedFile, idx: number) => (idx === fileIndex ? { ...f, status: 'success' } : f))
             );
           })
           .catch((error) => {
@@ -97,7 +97,7 @@ export const useSampleFile = () => {
                 idx === fileIndex
                   ? {
                       ...f,
-                      status: 'error' as const,
+                      status: 'error',
                       error: error instanceof Error ? error.message : 'アップロードに失敗しました',
                     }
                   : f
@@ -125,7 +125,7 @@ export const useSampleFile = () => {
   }, []);
 
   // ================================================================================
-  // Download Handlers
+  // ダウンロードハンドラー
   // ================================================================================
 
   /**
@@ -185,7 +185,7 @@ export const useSampleFile = () => {
           break;
 
         default:
-          throw new Error('Unknown file type');
+          throw new Error('不明なファイルタイプです');
       }
 
       // 進捗を100%に更新
@@ -210,7 +210,7 @@ export const useSampleFile = () => {
   }, []);
 
   // ================================================================================
-  // Return
+  // 戻り値
   // ================================================================================
   return {
     // Upload

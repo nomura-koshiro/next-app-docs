@@ -31,6 +31,7 @@ CAMP_front/
 ```
 
 **注意:**
+
 - `mockServiceWorker.js`は自動生成されるファイルです
 - MSWのバージョンアップ時に再生成が必要な場合があります
 - 本番環境では使用されません
@@ -71,7 +72,7 @@ NEXT_PUBLIC_ENABLE_API_MOCKING=true
 
 ```typescript
 // src/config/env.ts
-import { z } from 'zod'
+import { z } from 'zod';
 
 const EnvSchema = z.object({
   ENABLE_API_MOCKING: z
@@ -80,12 +81,12 @@ const EnvSchema = z.object({
     .transform((s) => s === 'true')
     .optional(),
   // その他の環境変数...
-})
+});
 
 export const env = EnvSchema.parse({
   ENABLE_API_MOCKING: process.env.NEXT_PUBLIC_ENABLE_API_MOCKING,
   // その他の環境変数...
-})
+});
 ```
 
 ---
@@ -103,6 +104,7 @@ NEXT_PUBLIC_ENABLE_API_MOCKING=false
 ```
 
 **使い分け:**
+
 - `true`: バックエンドが未完成、またはモックデータで開発したい場合
 - `false`: 実際のAPIで動作確認したい場合
 
@@ -126,12 +128,14 @@ NEXT_PUBLIC_ENABLE_API_MOCKING=false
 ### Service Workerが生成されない
 
 **症状:**
+
 ```bash
 npx msw init public/ --save
 # エラーが出る
 ```
 
 **解決策:**
+
 ```bash
 # publicディレクトリが存在するか確認
 ls public/

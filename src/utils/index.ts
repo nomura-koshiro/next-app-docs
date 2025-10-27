@@ -10,3 +10,6 @@ export { formatDate, formatDateJa, formatRelativeTime, parseDate } from './date'
 
 // フォーマット
 export { formatCurrency, formatNumber } from './format';
+
+// ロギング
+export { logger } from './logger';

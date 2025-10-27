@@ -77,23 +77,24 @@ NEXT_PUBLIC_ENABLE_API_MOCKING=true
 
 ```typescript
 // src/features/users/components/user-list.stories.tsx
-import type { Meta, StoryObj } from '@storybook/react'
-import { UserList } from './user-list'
+import type { Meta, StoryObj } from '@storybook/react';
+import { UserList } from './user-list';
 
 const meta = {
   title: 'Features/Users/UserList',
   component: UserList,
   tags: ['autodocs'],
-} satisfies Meta<typeof UserList>
+} satisfies Meta<typeof UserList>;
 
-export default meta
-type Story = StoryObj<typeof meta>
+export default meta;
+type Story = StoryObj<typeof meta>;
 
 // デフォルトストーリー（グローバルハンドラーを使用）
-export const Default: Story = {}
+export const Default: Story = {};
 ```
 
 **動作:**
+
 - `src/mocks/handlers/api/v1/user-handlers.ts`で定義したハンドラーが自動適用
 - 特別な設定不要
 
@@ -106,19 +107,19 @@ export const Default: Story = {}
 ### 空データのStory
 
 ```typescript
-import { http, HttpResponse } from 'msw'
+import { http, HttpResponse } from 'msw';
 
 export const Empty: Story = {
   parameters: {
     msw: {
       handlers: [
         http.get('/api/v1/users', () => {
-          return HttpResponse.json({ data: [] })
+          return HttpResponse.json({ data: [] });
         }),
       ],
     },
   },
-}
+};
 ```
 
 ### エラー状態のStory
@@ -129,34 +130,31 @@ export const Error: Story = {
     msw: {
       handlers: [
         http.get('/api/v1/users', () => {
-          return HttpResponse.json(
-            { error: 'Internal Server Error' },
-            { status: 500 }
-          )
+          return HttpResponse.json({ error: 'Internal Server Error' }, { status: 500 });
         }),
       ],
     },
   },
-}
+};
 ```
 
 ### ローディング状態のStory
 
 ```typescript
-import { delay } from 'msw'
+import { delay } from 'msw';
 
 export const Loading: Story = {
   parameters: {
     msw: {
       handlers: [
         http.get('/api/v1/users', async () => {
-          await delay('infinite') // 無限ローディング
-          return HttpResponse.json({ data: [] })
+          await delay('infinite'); // 無限ローディング
+          return HttpResponse.json({ data: [] });
         }),
       ],
     },
   },
-}
+};
 ```
 
 ---
@@ -165,21 +163,21 @@ export const Loading: Story = {
 
 ```typescript
 // src/features/users/components/user-list.stories.tsx
-import type { Meta, StoryObj } from '@storybook/react'
-import { http, HttpResponse, delay } from 'msw'
-import { UserList } from './user-list'
+import type { Meta, StoryObj } from '@storybook/react';
+import { http, HttpResponse, delay } from 'msw';
+import { UserList } from './user-list';
 
 const meta = {
   title: 'Features/Users/UserList',
   component: UserList,
   tags: ['autodocs'],
-} satisfies Meta<typeof UserList>
+} satisfies Meta<typeof UserList>;
 
-export default meta
-type Story = StoryObj<typeof meta>
+export default meta;
+type Story = StoryObj<typeof meta>;
 
 // デフォルト（グローバルハンドラーを使用）
-export const Default: Story = {}
+export const Default: Story = {};
 
 // 空データ
 export const Empty: Story = {
@@ -187,12 +185,12 @@ export const Empty: Story = {
     msw: {
       handlers: [
         http.get('/api/v1/users', () => {
-          return HttpResponse.json({ data: [] })
+          return HttpResponse.json({ data: [] });
         }),
       ],
     },
   },
-}
+};
 
 // エラー
 export const Error: Story = {
@@ -200,15 +198,12 @@ export const Error: Story = {
     msw: {
       handlers: [
         http.get('/api/v1/users', () => {
-          return HttpResponse.json(
-            { error: 'Failed to fetch users' },
-            { status: 500 }
-          )
+          return HttpResponse.json({ error: 'Failed to fetch users' }, { status: 500 });
         }),
       ],
     },
   },
-}
+};
 
 // ローディング
 export const Loading: Story = {
@@ -216,13 +211,13 @@ export const Loading: Story = {
     msw: {
       handlers: [
         http.get('/api/v1/users', async () => {
-          await delay('infinite')
-          return HttpResponse.json({ data: [] })
+          await delay('infinite');
+          return HttpResponse.json({ data: [] });
         }),
       ],
     },
   },
-}
+};
 
 // 大量データ
 export const ManyUsers: Story = {
@@ -234,13 +229,13 @@ export const ManyUsers: Story = {
             id: String(i + 1),
             name: `User ${i + 1}`,
             email: `user${i + 1}@example.com`,
-          }))
-          return HttpResponse.json({ data: users })
+          }));
+          return HttpResponse.json({ data: users });
         }),
       ],
     },
   },
-}
+};
 ```
 
 ---
@@ -334,6 +329,7 @@ export const ManyUsers: Story = {
 ### Storybook起動時にエラー
 
 **症状:**
+
 ```text
 Cannot find module '@/mocks/browser'
 ```

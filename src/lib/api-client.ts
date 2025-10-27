@@ -1,15 +1,32 @@
-import Axios, { InternalAxiosRequestConfig } from 'axios';
+import Axios, { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 
 import { env } from '@/config/env';
+import { getCsrfHeaderName, getCsrfToken } from '@/lib/csrf';
+
+/**
+ * API エラーレスポンスの型定義
+ */
+export type ApiErrorResponse = {
+  message: string;
+  code?: string;
+  details?: Record<string, unknown>;
+};
 
 /**
  * リクエストインターセプター
  * - Accept ヘッダーを設定
  * - Cookie を含むリクエストを有効化
+ * - CSRFトークンをヘッダーに追加
  */
 const authRequestInterceptor = (config: InternalAxiosRequestConfig): InternalAxiosRequestConfig => {
   if (config.headers !== undefined) {
     config.headers.Accept = 'application/json';
+
+    // CSRFトークンをヘッダーに追加
+    const csrfToken = getCsrfToken();
+    if (csrfToken) {
+      config.headers[getCsrfHeaderName()] = csrfToken;
+    }
   }
 
   config.withCredentials = true;
@@ -31,18 +48,16 @@ api.interceptors.request.use(authRequestInterceptor);
 
 // レスポンスインターセプターを適用
 api.interceptors.response.use(
-  (response) => {
+  <T = unknown>(response: AxiosResponse<T>): T => {
     // 成功時はレスポンスデータのみを返す
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return response.data as any;
+    return response.data;
   },
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  (error: any) => {
-    const message = error.response?.data?.message ?? error.message ?? 'An error occurred';
+  (error: AxiosError<ApiErrorResponse>) => {
+    const message = error.response?.data?.message ?? error.message ?? 'エラーが発生しました';
 
     // クライアントサイドでエラーログ出力
     if (typeof window !== 'undefined') {
-      console.error(`[API Error] ${message}`);
+      console.error(`[APIエラー] ${message}`);
       // TODO: 通知システムと統合
       // useNotifications.getState().addNotification({
       //   type: 'error',

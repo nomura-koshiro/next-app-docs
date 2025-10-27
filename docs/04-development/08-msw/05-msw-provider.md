@@ -6,7 +6,7 @@
 
 ## 完全な実装
 
-```typescript
+````typescript
 // src/lib/msw.tsx
 'use client'
 
@@ -79,7 +79,7 @@ export const MSWProvider = ({
 
   return <>{children}</>
 }
-```
+````
 
 ---
 
@@ -103,12 +103,13 @@ MSWProvider
 ### 1. クライアントコンポーネント
 
 ```typescript
-'use client'
+'use client';
 ```
 
 MSWはブラウザのService Workerを使用するため、クライアントコンポーネントとして実装する必要があります。
 
 **理由:**
+
 - Service WorkerはブラウザAPIのため、サーバーサイドでは動作しない
 - `window`オブジェクトにアクセスする必要がある
 
@@ -117,15 +118,17 @@ MSWはブラウザのService Workerを使用するため、クライアントコ
 ### 2. 動的インポート
 
 ```typescript
-const { worker } = await import('@/mocks/browser')
+const { worker } = await import('@/mocks/browser');
 ```
 
 **メリット:**
+
 - 本番環境でMSW関連のコードがバンドルされるのを防ぐ
 - 開発環境でのみMSWをロード
 - バンドルサイズの削減
 
 **仕組み:**
+
 ```typescript
 // ENABLE_API_MOCKING=false の場合
 // → import('@/mocks/browser') は実行されない
@@ -138,15 +141,17 @@ const { worker } = await import('@/mocks/browser')
 
 ```typescript
 if (!isReady && env.ENABLE_API_MOCKING === true) {
-  return null
+  return null;
 }
 ```
 
 **理由:**
+
 - MSW起動前にAPIリクエストが発行されるのを防ぐ
 - モックが適用されないリクエストを防止
 
 **動作:**
+
 ```text
 1. MSWProviderマウント
 2. isReady = false
@@ -163,36 +168,33 @@ if (!isReady && env.ENABLE_API_MOCKING === true) {
 ```typescript
 onUnhandledRequest: (req) => {
   if (!req.url.includes('/api/')) {
-    return
+    return;
   }
-  console.warn('[MSW] Unhandled request:', req.method, req.url)
-}
+  console.warn('[MSW] Unhandled request:', req.method, req.url);
+};
 ```
 
 **オプション:**
 
-| 値 | 動作 |
-|----|------|
-| `'bypass'` | モックされていないリクエストは通常通り処理 |
-| `'warn'` | 警告を出力し、リクエストを処理 |
-| `'error'` | エラーを出力し、リクエストを処理 |
+| 値           | 動作                                          |
+| ------------ | --------------------------------------------- |
+| `'bypass'`   | モックされていないリクエストは通常通り処理    |
+| `'warn'`     | 警告を出力し、リクエストを処理                |
+| `'error'`    | エラーを出力し、リクエストを処理              |
 | カスタム関数 | 柔軟な制御が可能（APIリクエストのみ警告など） |
 
 **カスタム関数の例:**
+
 ```typescript
 onUnhandledRequest: (req) => {
   // 静的ファイル、Next.jsの内部リクエストは無視
-  if (
-    req.url.includes('/_next/') ||
-    req.url.includes('/static/') ||
-    !req.url.includes('/api/')
-  ) {
-    return
+  if (req.url.includes('/_next/') || req.url.includes('/static/') || !req.url.includes('/api/')) {
+    return;
   }
 
   // APIリクエストのみ警告
-  console.warn('[MSW] Unhandled API request:', req.method, req.url)
-}
+  console.warn('[MSW] Unhandled API request:', req.method, req.url);
+};
 ```
 
 ---
@@ -211,7 +213,7 @@ NEXT_PUBLIC_ENABLE_API_MOCKING=true
 
 ```typescript
 // src/config/env.ts
-import { z } from 'zod'
+import { z } from 'zod';
 
 const EnvSchema = z.object({
   ENABLE_API_MOCKING: z
@@ -220,12 +222,12 @@ const EnvSchema = z.object({
     .transform((s) => s === 'true')
     .optional(),
   // その他の環境変数...
-})
+});
 
 export const env = EnvSchema.parse({
   ENABLE_API_MOCKING: process.env.NEXT_PUBLIC_ENABLE_API_MOCKING,
   // その他の環境変数...
-})
+});
 ```
 
 ---
@@ -264,6 +266,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
 ```
 
 **ポイント:**
+
 - MSWProviderを最外側に配置
 - MSW初期化後に他のプロバイダーを初期化
 
@@ -283,10 +286,10 @@ NEXT_PUBLIC_ENABLE_API_MOCKING=false
 
 ### 使い分け
 
-| 設定 | 用途 |
-|------|------|
-| `true` | バックエンドが未完成、モックデータで開発 |
-| `false` | 実際のAPIで動作確認 |
+| 設定    | 用途                                     |
+| ------- | ---------------------------------------- |
+| `true`  | バックエンドが未完成、モックデータで開発 |
+| `false` | 実際のAPIで動作確認                      |
 
 ---
 
@@ -358,6 +361,7 @@ quiet: false, // MSWの内部ログも表示
 ### ハイドレーションエラー
 
 **症状:**
+
 ```text
 Hydration failed because the initial UI does not match what was rendered on the server
 ```
@@ -368,7 +372,7 @@ MSWの初期化を待ってからレンダリングする（既に実装済み�
 
 ```typescript
 if (!isReady && env.ENABLE_API_MOCKING === true) {
-  return null // MSW起動まで待機
+  return null; // MSW起動まで待機
 }
 ```
 

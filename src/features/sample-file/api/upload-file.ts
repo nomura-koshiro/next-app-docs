@@ -2,9 +2,10 @@ import { useMutation } from '@tanstack/react-query';
 
 import { api } from '@/lib/api-client';
 import { MutationConfig } from '@/lib/tanstack-query';
+import { logger } from '@/utils/logger';
 
 // ================================================================================
-// Types
+// 型定義
 // ================================================================================
 
 export type UploadFileResponse = {
@@ -15,7 +16,7 @@ export type UploadFileResponse = {
 };
 
 // ================================================================================
-// API Functions
+// API関数
 // ================================================================================
 
 /**
@@ -29,8 +30,8 @@ export const uploadFile = async (file: File, onProgress?: (progress: number) => 
   const formData = new FormData();
   formData.append('file', file);
 
-  return await api
-    .post('/api/files/upload', formData, {
+  const response = await api
+    .post('/api/v1/sample/files/upload', formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
@@ -41,14 +42,12 @@ export const uploadFile = async (file: File, onProgress?: (progress: number) => 
         }
       },
     })
-    .then((response) => {
-      // api-clientのインターセプターがresponse.dataを返すため、型アサーションが必要
-      return response as UploadFileResponse;
-    })
     .catch((error) => {
-      console.error('File upload failed:', error);
+      logger.error('ファイルのアップロードに失敗しました', error);
       throw error;
     });
+
+  return response as unknown as UploadFileResponse;
 };
 
 /**
@@ -59,7 +58,7 @@ export const uploadFileSimple = async (file: File): Promise<UploadFileResponse> 
 };
 
 // ================================================================================
-// Hooks
+// フック
 // ================================================================================
 
 type UseUploadFileOptions = {

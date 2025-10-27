@@ -130,6 +130,7 @@ pnpm generate:component
 **生成されるファイル構造:**
 
 UIコンポーネント（サブディレクトリ構造）:
+
 ```text
 src/components/ui/modal/
 ├── modal.tsx
@@ -138,6 +139,7 @@ src/components/ui/modal/
 ```
 
 レイアウトコンポーネント（フラット構造）:
+
 ```text
 src/components/layout/
 ├── sidebar.tsx
@@ -180,14 +182,14 @@ src/app/(sample)/blog/
 **生成されるpage.tsx:**
 
 ```tsx
-import type { Metadata } from "next";
+import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: "ブログ一覧 | Sample App",
-  description: "ブログ記事の一覧ページです",
+  title: 'ブログ一覧 | Sample App',
+  description: 'ブログ記事の一覧ページです',
 };
 
-export { default } from "@/features/blog/routes/list";
+export { default } from '@/features/blog/routes/list';
 ```
 
 ## 命名規則

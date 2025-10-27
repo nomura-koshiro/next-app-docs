@@ -1,31 +1,22 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { z } from 'zod';
 
+import { userFormSchema } from '@/features/sample-users/schemas/user-form.schema';
 import { api } from '@/lib/api-client';
 import { MutationConfig } from '@/lib/tanstack-query';
+import { logger } from '@/utils/logger';
 
-import type { UpdateUserInput, User } from '../types';
-
-// ================================================================================
-// Schemas
-// ================================================================================
-
-export const updateUserInputSchema = z.object({
-  name: z.string().min(1, '名前は必須です'),
-  email: z.string().min(1, 'メールアドレスは必須です').email('正しいメールアドレスを入力してください'),
-  role: z.string().min(1, 'ロールは必須です'),
-});
+import type { UpdateUserDTO, User } from '../types';
 
 // ================================================================================
-// API Functions
+// API関数
 // ================================================================================
 
-export const updateUser = ({ userId, data }: { userId: string; data: UpdateUserInput }): Promise<User> => {
-  return api.put(`/users/${userId}`, data);
+export const updateUser = ({ userId, data }: { userId: string; data: UpdateUserDTO }): Promise<User> => {
+  return api.put(`/sample/users/${userId}`, data);
 };
 
 // ================================================================================
-// Hooks
+// フック
 // ================================================================================
 
 type UseUpdateUserOptions = {
@@ -40,10 +31,10 @@ export const useUpdateUser = ({ mutationConfig }: UseUpdateUserOptions = {}) => 
   return useMutation({
     onSuccess: (data, ...args) => {
       queryClient.invalidateQueries({ queryKey: ['users'] }).catch((error) => {
-        console.error('Failed to invalidate users query:', error);
+        logger.error('ユーザークエリの無効化に失敗しました', error);
       });
       queryClient.invalidateQueries({ queryKey: ['users', data.id] }).catch((error) => {
-        console.error('Failed to invalidate user query:', error);
+        logger.error('ユーザークエリの無効化に失敗しました', error, { userId: data.id });
       });
       onSuccess?.(data, ...args);
     },
@@ -51,3 +42,8 @@ export const useUpdateUser = ({ mutationConfig }: UseUpdateUserOptions = {}) => 
     mutationFn: updateUser,
   });
 };
+
+// ================================================================================
+// バリデーション用のエクスポート
+// ================================================================================
+export { userFormSchema as updateUserInputSchema };

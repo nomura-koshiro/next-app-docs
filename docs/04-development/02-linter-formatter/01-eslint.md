@@ -810,9 +810,9 @@ const saveUserData = async (data: UserData) => {
 
 以下のファイルでは try-catch の使用が許可されます：
 
-- Error Boundary (`**/error.tsx`, `**/error.ts`)
-- Middleware (`**/*.middleware.{ts,tsx}`, `**/middleware.{ts,tsx}`)
-- Error Boundary Component (`**/*-error-boundary.{ts,tsx}`, `**/error-boundary.{ts,tsx}`)
+- API Client (`src/lib/api-client.ts`)
+- API関連ファイル (`src/features/**/api/**/*.{ts,tsx}`)
+- ストア関連ファイル (`src/features/**/stores/**/*.{ts,tsx}`)
 
 詳しくは[ファイル別の例外設定](#ファイル別の例外設定)を参照してください。
 
@@ -1258,17 +1258,14 @@ const formatCurrency = (amount: number) => {
 
 ---
 
-### 2. Error BoundaryとMiddlewareの例外
+### 2. API関連とストア関連ファイルの例外
 
 ```javascript
 {
   files: [
-    "**/error.tsx",
-    "**/error.ts",
-    "**/*.middleware.{ts,tsx}",
-    "**/middleware.{ts,tsx}",
-    "**/*-error-boundary.{ts,tsx}",
-    "**/error-boundary.{ts,tsx}",
+    "src/lib/api-client.ts",
+    "src/features/**/api/**/*.{ts,tsx}",
+    "src/features/**/stores/**/*.{ts,tsx}",
   ],
   rules: {
     "no-restricted-syntax": "off",
@@ -1278,67 +1275,53 @@ const formatCurrency = (amount: number) => {
 
 #### 対象ファイル
 
-- **Error Boundary**: `error.tsx`, `error.ts`
-- **Middleware**: `*.middleware.ts`, `middleware.ts`
-- **Error Boundary Component**: `*-error-boundary.tsx`, `error-boundary.tsx`
+- **API Client**: `src/lib/api-client.ts` - Axiosクライアントの初期化とインターセプター
+- **API関連ファイル**: `src/features/**/api/**/*.{ts,tsx}` - features内のAPI呼び出しファイル
+- **ストア関連ファイル**: `src/features/**/stores/**/*.{ts,tsx}` - features内の状態管理ファイル
 
 #### 理由
 
-これらのファイルでは、Reactのライフサイクルやミドルウェアの仕様上、`try-catch`の使用が必須となる場合があります。
+これらのファイルでは、外部APIとの通信において、`try-catch`の使用が必要となる場合があります。
 
 #### 使用例
 
 ```typescript
-// app/error.tsx - Error Boundary
-'use client';
+// src/lib/api-client.ts - API Client
+import Axios, { AxiosError, AxiosResponse } from 'axios';
 
-import { useEffect } from 'react';
+export const api = Axios.create({
+  baseURL: env.API_URL,
+});
 
-export default function Error({
-  error,
-  reset,
-}: {
-  error: Error & { digest?: string };
-  reset: () => void;
-}) {
-  useEffect(() => {
-    // Error Boundaryではtry-catchが許可される
-    try {
-      console.error(error);
-    } catch (loggingError) {
-      console.error('Failed to log error:', loggingError);
-    }
-  }, [error]);
+// レスポンスインターセプターではtry-catchが許可される
+api.interceptors.response.use(
+  <T = unknown>(response: AxiosResponse<T>): T => {
+    return response.data;
+  },
+  (error: AxiosError<ApiErrorResponse>) => {
+    const message = error.response?.data?.message ?? error.message ?? 'エラーが発生しました';
+    console.error(`[APIエラー] ${message}`);
 
-  return (
-    <div>
-      <h2>Something went wrong!</h2>
-      <button onClick={() => reset()}>Try again</button>
-    </div>
-  );
-}
+    return Promise.reject(error);
+  }
+);
 ```
 
 ```typescript
-// middleware.ts - Middleware
-import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
-
-export const middleware = (request: NextRequest) => {
-  // Middlewareではtry-catchが許可される
-  try {
-    const token = request.cookies.get('token');
-    if (!token) {
-      return NextResponse.redirect(new URL('/login', request.url));
+// src/features/sample-auth/stores/auth-store.ts - ストア
+export const useAuthStore = create<AuthStore>((set) => ({
+  user: null,
+  login: async (credentials) => {
+    // ストア内でのエラーハンドリングでtry-catchが許可される
+    try {
+      const response = await api.post('/api/auth/login', credentials);
+      set({ user: response.data });
+    } catch (error) {
+      console.error('Login failed:', error);
+      throw error;
     }
-
-    return NextResponse.next();
-  } catch (error) {
-    console.error('Middleware error:', error);
-
-    return NextResponse.redirect(new URL('/error', request.url));
-  }
-};
+  },
+}));
 ```
 
 ### 3. Storybookファイルの例外

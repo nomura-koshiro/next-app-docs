@@ -176,7 +176,7 @@ const userId = '123';
 
 ### コンポーネント
 
-```
+```text
 src/components/
 ├── ui/
 │   ├── button/
@@ -194,7 +194,7 @@ src/components/
 
 ### フック
 
-```
+```text
 src/hooks/
 ├── use-users.ts       # kebab-case + use- prefix
 ├── use-auth.ts
@@ -203,7 +203,7 @@ src/hooks/
 
 ### ストア
 
-```
+```text
 src/stores/
 ├── auth-store.ts      # kebab-case + -store suffix
 ├── user-store.ts
@@ -212,7 +212,7 @@ src/stores/
 
 ### API
 
-```
+```text
 src/lib/api/
 ├── users/
 │   ├── get-users.ts   # kebab-case + HTTP method

@@ -1,5 +1,7 @@
 import * as z from 'zod';
 
+import { logger } from '@/utils/logger';
+
 /**
  * 環境変数を検証して型安全に取得する
  *
@@ -13,9 +15,9 @@ const createEnv = () => {
   // StorybookポートがあればAPI URLを動的に構築
   const apiUrl = storybookPort ? `http://localhost:${storybookPort}/api/v1` : process.env.NEXT_PUBLIC_API_URL;
 
-  if (storybookPort) {
-    console.log('[env] Storybook port detected:', storybookPort);
-    console.log('[env] API_URL overridden to:', apiUrl);
+  if (process.env.NODE_ENV === 'development' && storybookPort) {
+    logger.info(`[env] Storybookポートを検出しました: ${storybookPort}`);
+    logger.info(`[env] API_URLを上書きしました: ${apiUrl}`);
   }
 
   // 環境変数のスキーマ定義
@@ -51,8 +53,8 @@ const createEnv = () => {
   // 検証失敗時はエラーメッセージを出力
   if (!parsedEnv.success) {
     throw new Error(
-      `Invalid env provided.
-  The following variables are missing or invalid:
+      `不正な環境変数が提供されました。
+  以下の変数が不足しているか、不正な値が設定されています:
   ${Object.entries(parsedEnv.error.flatten().fieldErrors)
     .map(([k, v]) => `- ${k}: ${v}`)
     .join('\n')}

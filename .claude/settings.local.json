@@ -24,7 +24,9 @@
       "Bash(git restore:*)",
       "Bash(git push:*)",
       "Bash(npx markdownlint:*)",
-      "Bash(pnpm markdownlint:*)"
+      "Bash(pnpm markdownlint:*)",
+      "Bash(pnpm typecheck:*)",
+      "Bash(pnpm test)"
     ],
     "deny": [],
     "ask": []

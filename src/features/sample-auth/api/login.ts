@@ -14,7 +14,7 @@ import { MutationConfig } from '@/lib/tanstack-query';
 import type { User } from '../types';
 
 // ================================================================================
-// Schemas
+// スキーマ
 // ================================================================================
 
 /**
@@ -28,7 +28,7 @@ export const loginInputSchema = z.object({
 export type LoginInput = z.infer<typeof loginInputSchema>;
 
 // ================================================================================
-// Types
+// 型定義
 // ================================================================================
 
 /**
@@ -40,7 +40,7 @@ export type LoginResponse = {
 };
 
 // ================================================================================
-// API Functions
+// API関数
 // ================================================================================
 
 /**
@@ -51,7 +51,7 @@ export type LoginResponse = {
  */
 export const login = (data: LoginInput): Promise<LoginResponse> => {
   // TODO: 実際のAPI呼び出しに置き換える
-  return api.post('/sample/auth/login', data);
+  return api.post('/api/v1/sample/auth/login', data);
 
   // モック実装（テスト用）
   // return new Promise((resolve) => {
@@ -70,7 +70,7 @@ export const login = (data: LoginInput): Promise<LoginResponse> => {
 };
 
 // ================================================================================
-// Hooks
+// フック
 // ================================================================================
 
 type UseLoginOptions = {

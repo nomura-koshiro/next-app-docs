@@ -4,16 +4,36 @@
 
 ## 目次
 
-1. [作成するもの](#-作成するもの)
-2. [パターン1: データ取得(Query)](#パターン1-データ取得query)
-3. [パターン2: データ作成(Mutation - POST)](#パターン2-データ作成mutation---post)
-4. [パターン3: データ更新(Mutation - PATCH)](#パターン3-データ更新mutation---patch)
-5. [パターン4: データ削除(Mutation - DELETE)](#パターン4-データ削除mutation---delete)
-6. [ステップ2: index.tsでエクスポート](#ステップ2-indextsでエクスポート)
-7. [ステップ3: カスタムフックを作成](#ステップ3-カスタムフックを作成)
-8. [ステップ4: コンポーネントで使用](#ステップ4-コンポーネントで使用)
-9. [チェックリスト](#-チェックリスト)
-10. [Tips](#-tips)
+- [API関数作成手順(TanStack Query)](#api関数作成手順tanstack-query)
+  - [目次](#目次)
+  - [📋 作成するもの](#-作成するもの)
+    - [ファイル構成](#ファイル構成)
+    - [API層（`api/`）](#api層api)
+    - [Hooks層（`routes/{route-name}/*.hook.ts`）※必要に応じて](#hooks層routesroute-namehookts必要に応じて)
+    - [Hooks層が必要かどうかの判断フロー](#hooks層が必要かどうかの判断フロー)
+  - [パターン1: データ取得(Query)](#パターン1-データ取得query)
+    - [作成フロー](#作成フロー)
+    - [ステップ1: API関数ファイルを作成](#ステップ1-api関数ファイルを作成)
+      - [一覧取得](#一覧取得)
+      - [個別取得](#個別取得)
+  - [パターン2: データ作成(Mutation - POST)](#パターン2-データ作成mutation---post)
+    - [Mutation作成フロー](#mutation作成フロー)
+    - [Mutationのキャッシュ更新戦略](#mutationのキャッシュ更新戦略)
+  - [パターン3: データ更新(Mutation - PATCH)](#パターン3-データ更新mutation---patch)
+  - [パターン4: データ削除(Mutation - DELETE)](#パターン4-データ削除mutation---delete)
+  - [ステップ2: index.tsでエクスポート](#ステップ2-indextsでエクスポート)
+  - [ステップ3: ページ固有のカスタムフックを作成（必要に応じて）](#ステップ3-ページ固有のカスタムフックを作成必要に応じて)
+    - [Query(データ取得)のカスタムフック](#queryデータ取得のカスタムフック)
+  - [ステップ4: コンポーネントで使用](#ステップ4-コンポーネントで使用)
+    - [Mutation(データ作成)の使用](#mutationデータ作成の使用)
+  - [🎯 チェックリスト](#-チェックリスト)
+    - [Query(データ取得)](#queryデータ取得)
+    - [Mutation(データ更新)](#mutationデータ更新)
+  - [💡 Tips](#-tips)
+    - [queryKeyの命名規則](#querykeyの命名規則)
+    - [キャッシュ更新戦略](#キャッシュ更新戦略)
+    - [エラーハンドリング](#エラーハンドリング)
+  - [参考リンク](#参考リンク)
 
 ---
 
@@ -64,11 +84,13 @@ graph TB
 ```
 
 ### API層（`api/`）
+
 - API関数（データ取得・更新ロジック）
 - queryOptions（Queryの場合）
 - React Queryのカスタムフック（useUsers、useCreateUser など）
 
 ### Hooks層（`routes/{route-name}/*.hook.ts`）※必要に応じて
+
 - ページ固有のビジネスロジック（ナビゲーション、複数APIの組み合わせなど）
 - API層のカスタムフックを呼び出し、追加のロジックを適用
 
@@ -134,71 +156,71 @@ sequenceDiagram
 
 ```typescript
 // src/features/sample-users/api/get-users.ts
-import { queryOptions, useSuspenseQuery } from '@tanstack/react-query'
-import { api } from '@/lib/api-client'
-import { QueryConfig } from '@/lib/tanstack-query'
-import type { User } from '../types'
+import { queryOptions, useSuspenseQuery } from '@tanstack/react-query';
+import { api } from '@/lib/api-client';
+import { QueryConfig } from '@/lib/tanstack-query';
+import type { User } from '../types';
 
 // 1. API関数
 export const getUsers = (): Promise<{ data: User[] }> => {
-  return api.get('/sample/users')
-}
+  return api.get('/sample/users');
+};
 
 // 2. クエリオプション
 export const getUsersQueryOptions = () => {
   return queryOptions({
     queryKey: ['users'],
     queryFn: getUsers,
-  })
-}
+  });
+};
 
 // 3. カスタムフック（API層に含める）
 type UseUsersOptions = {
-  queryConfig?: QueryConfig<typeof getUsersQueryOptions>
-}
+  queryConfig?: QueryConfig<typeof getUsersQueryOptions>;
+};
 
 export const useUsers = ({ queryConfig }: UseUsersOptions = {}) => {
   return useSuspenseQuery({
     ...getUsersQueryOptions(),
     ...queryConfig,
-  })
-}
+  });
+};
 ```
 
 #### 個別取得
 
 ```typescript
 // src/features/sample-users/api/get-user.ts
-import { queryOptions, useSuspenseQuery } from '@tanstack/react-query'
-import { api } from '@/lib/api-client'
-import { QueryConfig } from '@/lib/tanstack-query'
-import type { User } from '../types'
+import { queryOptions, useSuspenseQuery } from '@tanstack/react-query';
+import { api } from '@/lib/api-client';
+import { QueryConfig } from '@/lib/tanstack-query';
+import type { User } from '../types';
 
 // 1. API関数
 export const getUser = (userId: string): Promise<{ data: User }> => {
-  return api.get(`/sample/users/${userId}`)
-}
+  return api.get(`/sample/users/${userId}`);
+};
 
 // 2. クエリオプション
 export const getUserQueryOptions = (userId: string) => {
   return queryOptions({
     queryKey: ['users', userId],
     queryFn: () => getUser(userId),
-  })
-}
+  });
+};
 
 // 3. カスタムフック（API層に含める）
 type UseUserOptions = {
-  userId: string
-  queryConfig?: QueryConfig<typeof getUserQueryOptions>
-}
+  userId: string;
+  queryConfig?: QueryConfig<typeof getUserQueryOptions>;
+};
 
 export const useUser = ({ userId, queryConfig }: UseUserOptions) => {
   return useSuspenseQuery({
     ...getUserQueryOptions(userId),
     ...queryConfig,
-  })
-}
+  });
+};
 ```
 
 ---
@@ -260,42 +282,42 @@ graph LR
 
 ```typescript
 // src/features/sample-users/api/create-user.ts
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { api } from '@/lib/api-client'
-import { MutationConfig } from '@/lib/tanstack-query'
-import type { User } from '../types'
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { api } from '@/lib/api-client';
+import { MutationConfig } from '@/lib/tanstack-query';
+import type { User } from '../types';
 
 // 入力型定義
 export type CreateUserInput = {
-  name: string
-  email: string
-}
+  name: string;
+  email: string;
+};
 
 // 1. API関数
 export const createUser = (data: CreateUserInput): Promise<{ data: User }> => {
-  return api.post('/sample/users', data)
-}
+  return api.post('/sample/users', data);
+};
 
 // 2. カスタムフック
 type UseCreateUserOptions = {
-  mutationConfig?: MutationConfig<typeof createUser>
-}
+  mutationConfig?: MutationConfig<typeof createUser>;
+};
 
 export const useCreateUser = ({ mutationConfig }: UseCreateUserOptions = {}) => {
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
 
-  const { onSuccess, ...restConfig } = mutationConfig || {}
+  const { onSuccess, ...restConfig } = mutationConfig || {};
 
   return useMutation({
     mutationFn: createUser,
     onSuccess: (data, ...args) => {
       // ユーザーリストのキャッシュを無効化
-      queryClient.invalidateQueries({ queryKey: ['users'] })
-      onSuccess?.(data, ...args)
+      queryClient.invalidateQueries({ queryKey: ['users'] });
+      onSuccess?.(data, ...args);
     },
     ...restConfig,
-  })
-}
+  });
+};
 ```
 
 ---
@@ -304,54 +326,48 @@ export const useCreateUser = ({ mutationConfig }: UseCreateUserOptions = {}) => 
 
 ```typescript
 // src/features/sample-users/api/update-user.ts
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { api } from '@/lib/api-client'
-import { MutationConfig } from '@/lib/tanstack-query'
-import type { User } from '../types'
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { api } from '@/lib/api-client';
+import { MutationConfig } from '@/lib/tanstack-query';
+import type { User } from '../types';
 
 // 入力型定義
 export type UpdateUserInput = {
-  name?: string
-  email?: string
-}
+  name?: string;
+  email?: string;
+};
 
 // 1. API関数
-export const updateUser = ({
-  userId,
-  data,
-}: {
-  userId: string
-  data: UpdateUserInput
-}): Promise<{ data: User }> => {
-  return api.patch(`/sample/users/${userId}`, data)
-}
+export const updateUser = ({ userId, data }: { userId: string; data: UpdateUserInput }): Promise<{ data: User }> => {
+  return api.patch(`/sample/users/${userId}`, data);
+};
 
 // 2. カスタムフック
 type UseUpdateUserOptions = {
-  mutationConfig?: MutationConfig<typeof updateUser>
-}
+  mutationConfig?: MutationConfig<typeof updateUser>;
+};
 
 export const useUpdateUser = ({ mutationConfig }: UseUpdateUserOptions = {}) => {
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
 
-  const { onSuccess, ...restConfig } = mutationConfig || {}
+  const { onSuccess, ...restConfig } = mutationConfig || {};
 
   return useMutation({
     mutationFn: updateUser,
     onSuccess: (response, variables, ...args) => {
-      const updatedUser = response.data
+      const updatedUser = response.data;
 
       // 個別ユーザーのキャッシュを更新
-      queryClient.setQueryData(['users', updatedUser.id], updatedUser)
+      queryClient.setQueryData(['users', updatedUser.id], updatedUser);
 
       // ユーザーリストのキャッシュを無効化
-      queryClient.invalidateQueries({ queryKey: ['users'] })
+      queryClient.invalidateQueries({ queryKey: ['users'] });
 
-      onSuccess?.(response, variables, ...args)
+      onSuccess?.(response, variables, ...args);
     },
     ...restConfig,
-  })
-}
+  });
+};
 ```
 
 ---
@@ -360,39 +376,39 @@ export const useUpdateUser = ({ mutationConfig }: UseUpdateUserOptions = {}) => 
 
 ```typescript
 // src/features/sample-users/api/delete-user.ts
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { api } from '@/lib/api-client'
-import { MutationConfig } from '@/lib/tanstack-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { api } from '@/lib/api-client';
+import { MutationConfig } from '@/lib/tanstack-query';
 
 // 1. API関数
 export const deleteUser = (userId: string): Promise<void> => {
-  return api.delete(`/sample/users/${userId}`)
-}
+  return api.delete(`/sample/users/${userId}`);
+};
 
 // 2. カスタムフック
 type UseDeleteUserOptions = {
-  mutationConfig?: MutationConfig<typeof deleteUser>
-}
+  mutationConfig?: MutationConfig<typeof deleteUser>;
+};
 
 export const useDeleteUser = ({ mutationConfig }: UseDeleteUserOptions = {}) => {
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
 
-  const { onSuccess, ...restConfig } = mutationConfig || {}
+  const { onSuccess, ...restConfig } = mutationConfig || {};
 
   return useMutation({
     mutationFn: deleteUser,
     onSuccess: (data, deletedUserId, ...args) => {
       // 削除されたユーザーのキャッシュを削除
-      queryClient.removeQueries({ queryKey: ['users', deletedUserId] })
+      queryClient.removeQueries({ queryKey: ['users', deletedUserId] });
 
       // ユーザーリストのキャッシュを無効化
-      queryClient.invalidateQueries({ queryKey: ['users'] })
+      queryClient.invalidateQueries({ queryKey: ['users'] });
 
-      onSuccess?.(data, deletedUserId, ...args)
+      onSuccess?.(data, deletedUserId, ...args);
     },
     ...restConfig,
-  })
-}
+  });
+};
 ```
 
 ---
@@ -401,11 +417,11 @@ export const useDeleteUser = ({ mutationConfig }: UseDeleteUserOptions = {}) => 
 
 ```typescript
 // src/features/sample-users/api/index.ts
-export * from './get-users'
-export * from './get-user'
-export * from './create-user'
-export * from './update-user'
-export * from './delete-user'
+export * from './get-users';
+export * from './get-user';
+export * from './create-user';
+export * from './update-user';
+export * from './delete-user';
 ```
 
 ---
@@ -418,8 +434,8 @@ routes層では、API層のカスタムフックを使用し、ページ固有�
 
 ```typescript
 // src/features/sample-users/routes/sample-users/users.hook.ts
-import { useRouter } from 'next/navigation'
-import { useUsers as useUsersQuery } from '@/features/sample-users/api/get-users'
+import { useRouter } from 'next/navigation';
+import { useUsers as useUsersQuery } from '@/features/sample-users/api/get-users';
 
 /**
  * ユーザー一覧ページのロジックを管理するカスタムフック
@@ -427,31 +443,31 @@ import { useUsers as useUsersQuery } from '@/features/sample-users/api/get-users
  * API層のuseUsersを呼び出し、ページ固有のビジネスロジック（ナビゲーション）を追加
  */
 export const useUsers = () => {
-  const router = useRouter()
-  const { data } = useUsersQuery()
+  const router = useRouter();
+  const { data } = useUsersQuery();
 
-  const users = data?.data ?? []
+  const users = data?.data ?? [];
 
   // ビジネスロジック
   const handleEdit = (userId: string) => {
-    router.push(`/sample-users/${userId}/edit`)
-  }
+    router.push(`/sample-users/${userId}/edit`);
+  };
 
   const handleDelete = (userId: string) => {
-    router.push(`/sample-users/${userId}/delete`)
-  }
+    router.push(`/sample-users/${userId}/delete`);
+  };
 
   const handleCreateNew = () => {
-    router.push('/sample-users/new')
-  }
+    router.push('/sample-users/new');
+  };
 
   return {
     users,
     handleEdit,
     handleDelete,
     handleCreateNew,
-  }
-}
+  };
+};
 ```
 
 **注意**: シンプルなページの場合、コンポーネント内で直接API層のuseUsersを使用することもできます。
@@ -521,31 +537,30 @@ export default function NewUserPage() {
 
 ```typescript
 // src/features/sample-users/routes/sample-new-user/new-user.hook.ts
-import { useRouter } from 'next/navigation'
-import { useCreateUser, type CreateUserInput } from '@/features/sample-users/api/create-user'
+import { useRouter } from 'next/navigation';
+import { useCreateUser, type CreateUserInput } from '@/features/sample-users/api/create-user';
 
 export const useNewUser = () => {
-  const router = useRouter()
+  const router = useRouter();
   const createUser = useCreateUser({
     mutationConfig: {
       onSuccess: () => {
-        router.push('/sample-users')
+        router.push('/sample-users');
       },
     },
-  })
+  });
 
   const handleSubmit = async (data: CreateUserInput) => {
-    await createUser.mutateAsync(data)
-      .catch((error) => {
-        // エラーハンドリング
-      })
-  }
+    await createUser.mutateAsync(data).catch((error) => {
+      // エラーハンドリング
+    });
+  };
 
   return {
     handleSubmit,
     isPending: createUser.isPending,
-  }
-}
+  };
+};
 ```
 
 ---
@@ -580,38 +595,38 @@ export const useNewUser = () => {
 
 ### queryKeyの命名規則
 
-| パターン | queryKey | 例 |
-|---------|----------|---|
-| **リスト** | `[resource]` | `['users']` |
-| **個別** | `[resource, id]` | `['users', '123']` |
-| **フィルター付き** | `[resource, filter]` | `['users', { status: 'active' }]` |
-| **ネスト** | `[parent, parentId, child]` | `['users', '123', 'posts']` |
+| パターン           | queryKey                    | 例                                |
+| ------------------ | --------------------------- | --------------------------------- |
+| **リスト**         | `[resource]`                | `['users']`                       |
+| **個別**           | `[resource, id]`            | `['users', '123']`                |
+| **フィルター付き** | `[resource, filter]`        | `['users', { status: 'active' }]` |
+| **ネスト**         | `[parent, parentId, child]` | `['users', '123', 'posts']`       |
 
 ### キャッシュ更新戦略
 
-| 操作 | 推奨方法 | 理由 |
-|------|---------|------|
-| **作成** | `invalidateQueries` | リストに新しい項目を追加 |
-| **更新** | `setQueryData` + `invalidateQueries` | 即座に反映 + リストも更新 |
+| 操作     | 推奨方法                              | 理由                        |
+| -------- | ------------------------------------- | --------------------------- |
+| **作成** | `invalidateQueries`                   | リストに新しい項目を追加    |
+| **更新** | `setQueryData` + `invalidateQueries`  | 即座に反映 + リストも更新   |
 | **削除** | `removeQueries` + `invalidateQueries` | キャッシュ削除 + リスト更新 |
 
 ### エラーハンドリング
 
 ```typescript
 export const useCreateUser = () => {
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: createUser,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['users'] })
+      queryClient.invalidateQueries({ queryKey: ['users'] });
     },
     onError: (error) => {
       // グローバルエラーハンドリング
-      console.error('Failed to create user:', error)
+      console.error('Failed to create user:', error);
     },
-  })
-}
+  });
+};
 ```
 
 ---

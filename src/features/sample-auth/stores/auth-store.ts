@@ -39,14 +39,14 @@ export const useAuthStore = create<AuthStore>()(
   persist(
     (set) => ({
       // ================================================================================
-      // State
+      // 状態
       // ================================================================================
       user: null,
       isAuthenticated: false,
       isLoading: false,
 
       // ================================================================================
-      // Actions
+      // アクション
       // ================================================================================
 
       /**
@@ -58,31 +58,31 @@ export const useAuthStore = create<AuthStore>()(
       login: async (email: string, _password: string) => {
         set({ isLoading: true });
 
-        // TODO: 実際のAPI呼び出しに置き換える
-        // const response = await api.post('/auth/login', { email, password })
-        // const user = response.data
+        try {
+          // TODO: 実際のAPI呼び出しに置き換える
+          // const response = await api.post('/auth/login', { email, password })
+          // const user = response.data
 
-        // サンプルデータ（実際は削除）
-        await new Promise((resolve) => setTimeout(resolve, 1000))
-          .then(() => {
-            const mockUser: User = {
-              id: '1',
-              email: email,
-              name: 'Sample User',
-              role: 'user',
-            };
+          // サンプルデータ（実際は削除）
+          await new Promise((resolve) => setTimeout(resolve, 1000));
 
-            set({
-              user: mockUser,
-              isAuthenticated: true,
-              isLoading: false,
-            });
-          })
-          .catch((error) => {
-            // TODO: エラーハンドリング
-            set({ isLoading: false });
-            throw error;
+          const mockUser: User = {
+            id: '1',
+            email: email,
+            name: 'Sample User',
+            role: 'user',
+            createdAt: new Date().toISOString(),
+          };
+
+          set({
+            user: mockUser,
+            isAuthenticated: true,
+            isLoading: false,
           });
+        } catch (error) {
+          set({ isLoading: false });
+          throw error;
+        }
       },
 
       /**
@@ -131,7 +131,7 @@ export const useAuthStore = create<AuthStore>()(
 );
 
 // ================================================================================
-// Selectors
+// セレクター
 // ================================================================================
 
 /**

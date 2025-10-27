@@ -31,8 +31,8 @@ src/
 
 ```typescript
 // src/mocks/handlers.ts
-import { authHandlers } from './handlers/api/v1/auth-handlers'
-import { userHandlers } from './handlers/api/v1/user-handlers'
+import { authHandlers } from './handlers/api/v1/auth-handlers';
+import { userHandlers } from './handlers/api/v1/user-handlers';
 
 /**
  * MSW (Mock Service Worker) リクエストハンドラー
@@ -43,37 +43,34 @@ import { userHandlers } from './handlers/api/v1/user-handlers'
 export const handlers = [
   ...authHandlers, // 認証関連 (/api/v1/auth/*)
   ...userHandlers, // ユーザー管理 (/api/v1/users/*)
-]
+];
 ```
 
 ### user-handlers.ts（個別ハンドラー）
 
 ```typescript
 // src/mocks/handlers/api/v1/user-handlers.ts
-import { http, HttpResponse, delay } from 'msw'
+import { http, HttpResponse, delay } from 'msw';
 
 export const userHandlers = [
   // GET /api/v1/users - ユーザー一覧取得
   http.get('/api/v1/users', async () => {
-    await delay(500) // 遅延シミュレーション
+    await delay(500); // 遅延シミュレーション
 
     return HttpResponse.json({
       data: [
         { id: '1', name: 'John Doe', email: 'john@example.com' },
         { id: '2', name: 'Jane Smith', email: 'jane@example.com' },
       ],
-    })
+    });
   }),
 
   // GET /api/v1/users/:id - 特定ユーザー取得
   http.get('/api/v1/users/:id', ({ params }) => {
-    const { id } = params
+    const { id } = params;
 
     if (id === '999') {
-      return HttpResponse.json(
-        { message: 'User not found' },
-        { status: 404 }
-      )
+      return HttpResponse.json({ message: 'User not found' }, { status: 404 });
     }
 
     return HttpResponse.json({
@@ -82,12 +79,12 @@ export const userHandlers = [
         name: 'John Doe',
         email: 'john@example.com',
       },
-    })
+    });
   }),
 
   // POST /api/v1/users - ユーザー作成
   http.post('/api/v1/users', async ({ request }) => {
-    const body = await request.json()
+    const body = await request.json();
 
     return HttpResponse.json(
       {
@@ -97,27 +94,27 @@ export const userHandlers = [
         },
       },
       { status: 201 }
-    )
+    );
   }),
 
   // PATCH /api/v1/users/:id - ユーザー更新
   http.patch('/api/v1/users/:id', async ({ params, request }) => {
-    const { id } = params
-    const body = await request.json()
+    const { id } = params;
+    const body = await request.json();
 
     return HttpResponse.json({
       data: {
         id,
         ...body,
       },
-    })
+    });
   }),
 
   // DELETE /api/v1/users/:id - ユーザー削除
   http.delete('/api/v1/users/:id', () => {
-    return new HttpResponse(null, { status: 204 })
+    return new HttpResponse(null, { status: 204 });
   }),
-]
+];
 ```
 
 ---
@@ -126,13 +123,14 @@ export const userHandlers = [
 
 ```typescript
 // src/mocks/browser.ts
-import { setupWorker } from 'msw/browser'
-import { handlers } from './handlers'
+import { setupWorker } from 'msw/browser';
+import { handlers } from './handlers';
 
-export const worker = setupWorker(...handlers)
+export const worker = setupWorker(...handlers);
 ```
 
 **用途:**
+
 - 開発環境（`pnpm dev`）
 - Storybook
 
@@ -142,13 +140,14 @@ export const worker = setupWorker(...handlers)
 
 ```typescript
 // src/mocks/server.ts
-import { setupServer } from 'msw/node'
-import { handlers } from './handlers'
+import { setupServer } from 'msw/node';
+import { handlers } from './handlers';
 
-export const server = setupServer(...handlers)
+export const server = setupServer(...handlers);
 ```
 
 **用途:**
+
 - Vitestでの単体テスト
 - Vitestでの統合テスト
 
@@ -156,32 +155,32 @@ export const server = setupServer(...handlers)
 
 ```typescript
 // vitest.setup.ts
-import { beforeAll, afterEach, afterAll } from 'vitest'
-import { server } from './src/mocks/server'
+import { beforeAll, afterEach, afterAll } from 'vitest';
+import { server } from './src/mocks/server';
 
 beforeAll(() => {
-  server.listen({ onUnhandledRequest: 'error' })
-})
+  server.listen({ onUnhandledRequest: 'error' });
+});
 
 afterEach(() => {
-  server.resetHandlers()
-})
+  server.resetHandlers();
+});
 
 afterAll(() => {
-  server.close()
-})
+  server.close();
+});
 ```
 
 ```typescript
 // vitest.config.ts
-import { defineConfig } from 'vitest/config'
+import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
   test: {
     setupFiles: ['./vitest.setup.ts'],
     environment: 'jsdom',
   },
-})
+});
 ```
 
 ---
@@ -228,9 +227,9 @@ export const handlers = [
 ```typescript
 // /api/users/:id
 http.get('/api/users/:id', ({ params }) => {
-  const { id } = params
-  return HttpResponse.json({ id, name: 'John Doe' })
-})
+  const { id } = params;
+  return HttpResponse.json({ id, name: 'John Doe' });
+});
 ```
 
 ### クエリパラメータ
@@ -238,14 +237,16 @@ http.get('/api/users/:id', ({ params }) => {
 ```typescript
 // /api/users?search=john
 http.get('/api/users', ({ request }) => {
-  const url = new URL(request.url)
-  const search = url.searchParams.get('search')
+  const url = new URL(request.url);
+  const search = url.searchParams.get('search');
 
   return HttpResponse.json({
     search,
-    users: [/* フィルタリングされたデータ */],
-  })
-})
+    users: [
+      /* フィルタリングされたデータ */
+    ],
+  });
+});
 ```
 
 ---
@@ -277,32 +278,23 @@ http.delete('/api/users/:id', () => {
 ```typescript
 // 400 Bad Request
 http.post('/api/users', () => {
-  return HttpResponse.json(
-    { error: 'Validation failed' },
-    { status: 400 }
-  )
-})
+  return HttpResponse.json({ error: 'Validation failed' }, { status: 400 });
+});
 
 // 404 Not Found
 http.get('/api/users/:id', () => {
-  return HttpResponse.json(
-    { error: 'User not found' },
-    { status: 404 }
-  )
-})
+  return HttpResponse.json({ error: 'User not found' }, { status: 404 });
+});
 
 // 500 Internal Server Error
 http.get('/api/users', () => {
-  return HttpResponse.json(
-    { error: 'Internal server error' },
-    { status: 500 }
-  )
-})
+  return HttpResponse.json({ error: 'Internal server error' }, { status: 500 });
+});
 
 // Network Error
 http.get('/api/users', () => {
-  return HttpResponse.error()
-})
+  return HttpResponse.error();
+});
 ```
 
 ---
@@ -319,6 +311,7 @@ http.get('/api/users', async () => {
 ```
 
 **用途:**
+
 - ローディング状態のテスト
 - タイムアウトのテスト
 - ネットワーク遅延のシミュレーション

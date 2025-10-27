@@ -21,7 +21,7 @@ export const queryConfig = {
   queries: {
     refetchOnWindowFocus: false,  // フォーカス時の再取得を無効化
     retry: false,                 // エラー時のリトライを無効化
-    staleTime: 1000 * 60,         // 1分間はデータが新鮮
+    staleTime: 1000 * 60 * 5,     // 5分間はデータが新鮮
   },
 } satisfies DefaultOptions
 ```
@@ -32,7 +32,7 @@ export const queryConfig = {
 |------|-------------|------|
 | **refetchOnWindowFocus** | `false` | ブラウザのタブがフォーカスされた時に再取得しない |
 | **retry** | `false` | エラー時にリトライしない（即座にエラー表示） |
-| **staleTime** | `1000 * 60` | 1分間はキャッシュを使用（パフォーマンス向上） |
+| **staleTime** | `1000 * 60 * 5` | 5分間はキャッシュを使用（パフォーマンス向上） |
 
 ---
 

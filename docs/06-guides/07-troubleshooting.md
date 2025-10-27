@@ -299,7 +299,7 @@ return <div>{data?.data.map(...)}</div>
 // src/lib/tanstack-query.ts で設定
 export const queryConfig = {
   queries: {
-    staleTime: 1000 * 60, // 1分間キャッシュ
+    staleTime: 1000 * 60 * 5, // 5分間キャッシュ
     refetchOnWindowFocus: false,
   },
 } satisfies DefaultOptions

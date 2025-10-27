@@ -6,9 +6,10 @@
 
 1. [実装](#実装)
 2. [インターセプターの役割](#インターセプターの役割)
-3. [基本的な使用方法](#基本的な使用方法)
-4. [TanStack Queryとの連携](#tanstack-queryとの連携)
-5. [Cookie認証](#cookie認証)
+3. [CSRF保護](#csrf保護)
+4. [基本的な使用方法](#基本的な使用方法)
+5. [TanStack Queryとの連携](#tanstack-queryとの連携)
+6. [Cookie認証](#cookie認証)
 
 ---
 
@@ -18,6 +19,7 @@
 // src/lib/api-client.ts
 import Axios, { InternalAxiosRequestConfig } from 'axios'
 import { env } from '@/config/env'
+import { getCsrfHeaderName, getCsrfToken } from '@/lib/csrf'
 
 // リクエストインターセプター
 const authRequestInterceptor = (
@@ -25,6 +27,12 @@ const authRequestInterceptor = (
 ): InternalAxiosRequestConfig => {
   if (config.headers) {
     config.headers.Accept = 'application/json'
+
+    // CSRFトークンをヘッダーに追加
+    const csrfToken = getCsrfToken()
+    if (csrfToken) {
+      config.headers[getCsrfHeaderName()] = csrfToken
+    }
   }
   config.withCredentials = true  // Cookie認証を有効化
   return config
@@ -92,11 +100,19 @@ sequenceDiagram
 すべてのリクエストに共通処理を追加します。
 
 ```typescript
+import { getCsrfHeaderName, getCsrfToken } from '@/lib/csrf'
+
 const authRequestInterceptor = (config: InternalAxiosRequestConfig) => {
   // 1. Acceptヘッダーを設定
   config.headers.Accept = 'application/json'
 
-  // 2. Cookie認証を有効化
+  // 2. CSRFトークンをヘッダーに追加
+  const csrfToken = getCsrfToken()
+  if (csrfToken) {
+    config.headers[getCsrfHeaderName()] = csrfToken
+  }
+
+  // 3. Cookie認証を有効化
   config.withCredentials = true
 
   return config
@@ -132,6 +148,89 @@ const users = await api.get<User[]>('/users')
 const response = await api.get<User[]>('/users')
 const users = response.data  // 毎回 .data が必要
 ```
+
+---
+
+## CSRF保護
+
+Cross-Site Request Forgery (CSRF) 攻撃を防ぐため、APIクライアントは自動的にCSRFトークンをリクエストヘッダーに追加します。
+
+### CSRF保護の仕組み
+
+```typescript
+// src/lib/csrf.ts
+const CSRF_COOKIE_NAME = 'csrftoken'
+const CSRF_HEADER_NAME = 'X-CSRF-Token'
+
+export const getCsrfToken = (): string | null => {
+  return getCookie(CSRF_COOKIE_NAME)
+}
+
+export const getCsrfHeaderName = (): string => {
+  return CSRF_HEADER_NAME
+}
+```
+
+### CSRFトークンのフロー
+
+```mermaid
+sequenceDiagram
+    participant Browser as Browser<br/>(Cookie Storage)
+    participant Client as API Client
+    participant CSRF as CSRF Utils<br/>(lib/csrf.ts)
+    participant Server as FastAPI Backend
+
+    Note over Browser,Server: 初回アクセス
+    Client->>Server: GET /api/some-endpoint
+    Server-->>Browser: Set-Cookie: csrftoken=xyz789<br/>HttpOnly, Secure
+    Browser->>Browser: CSRFトークンをCookieに保存
+
+    Note over Browser,Server: POST/PATCH/DELETEリクエスト
+    Client->>CSRF: getCsrfToken()
+    CSRF->>Browser: Cookieから'csrftoken'取得
+    Browser-->>CSRF: csrftoken=xyz789
+    CSRF-->>Client: xyz789
+    Client->>Client: リクエストヘッダーに追加<br/>X-CSRF-Token: xyz789
+    Client->>Server: POST /api/users<br/>Cookie: csrftoken=xyz789<br/>X-CSRF-Token: xyz789
+    Server->>Server: CookieとHeaderのトークン検証
+    Server-->>Client: レスポンス返却
+
+    style Browser fill:#ffe0b2,stroke:#e65100,stroke-width:2px,color:#000
+    style Client fill:#b3e5fc,stroke:#01579b,stroke-width:2px,color:#000
+    style CSRF fill:#fff9c4,stroke:#f57f17,stroke-width:2px,color:#000
+    style Server fill:#a5d6a7,stroke:#1b5e20,stroke-width:2px,color:#000
+```
+
+### FastAPIとの連携
+
+FastAPIバックエンドは、POST/PATCH/DELETEリクエストに対してCSRFトークンを検証します。
+
+**バックエンド側の設定例:**
+
+```python
+# FastAPI側のCSRF保護設定
+from fastapi import FastAPI, Request, HTTPException
+
+app = FastAPI()
+
+@app.middleware("http")
+async def csrf_protect(request: Request, call_next):
+    if request.method in ["POST", "PATCH", "DELETE"]:
+        csrf_cookie = request.cookies.get("csrftoken")
+        csrf_header = request.headers.get("X-CSRF-Token")
+
+        if not csrf_cookie or csrf_cookie != csrf_header:
+            raise HTTPException(status_code=403, detail="CSRF token validation failed")
+
+    response = await call_next(request)
+    return response
+```
+
+**重要な点:**
+
+- **GETリクエストは検証不要**: CSRFトークンの検証はPOST/PATCH/DELETEのみ
+- **自動処理**: フロントエンド側は自動的にトークンを送信するため、開発者が意識する必要なし
+- **Cookie + Header**: CookieとHeaderの両方でトークンを送信し、サーバー側で一致を検証
 
 ---
 

@@ -12,7 +12,7 @@ import { QueryConfig } from '@/lib/tanstack-query';
 import type { User } from '../types';
 
 // ================================================================================
-// API Functions
+// API関数
 // ================================================================================
 
 /**
@@ -23,7 +23,7 @@ import type { User } from '../types';
  */
 export const getUser = (): Promise<{ data: User }> => {
   // TODO: 実際のAPI呼び出しに置き換える
-  return api.get('/sample/auth/me');
+  return api.get('/api/v1/sample/auth/me');
 
   // モック実装（テスト用）
   // return Promise.resolve({

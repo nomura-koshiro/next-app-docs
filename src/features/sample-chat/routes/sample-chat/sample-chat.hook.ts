@@ -2,6 +2,8 @@
 
 import { useCallback, useOptimistic, useState } from 'react';
 
+import { logger } from '@/utils/logger';
+
 import { useSendMessage } from '../../api';
 import type { Message } from '../../types';
 
@@ -14,12 +16,12 @@ import type { Message } from '../../types';
  */
 export const useSampleChat = () => {
   // ================================================================================
-  // Hooks
+  // フック
   // ================================================================================
   const sendMessageMutation = useSendMessage();
 
   // ================================================================================
-  // State
+  // 状態
   // ================================================================================
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputMessage, setInputMessage] = useState('');
@@ -33,7 +35,7 @@ export const useSampleChat = () => {
   ]);
 
   // ================================================================================
-  // Handlers
+  // ハンドラー
   // ================================================================================
 
   /**
@@ -79,7 +81,7 @@ export const useSampleChat = () => {
         setMessages((prev: Message[]) => [...prev, userMessage, response.message]);
       })
       .catch((error) => {
-        console.error('Failed to send message:', error);
+        logger.error('メッセージの送信に失敗しました', error);
 
         // ❌ エラー時: 楽観的更新が自動的にロールバック
         // エラーメッセージのみを追加
@@ -101,7 +103,7 @@ export const useSampleChat = () => {
   }, []);
 
   // ================================================================================
-  // Return
+  // 戻り値
   // ================================================================================
   return {
     messages: optimisticMessages, // 楽観的更新を反映したメッセージリストを返す

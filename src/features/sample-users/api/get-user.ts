@@ -6,7 +6,7 @@ import { QueryConfig } from '@/lib/tanstack-query';
 import type { User } from '../types';
 
 // ================================================================================
-// API Functions
+// API関数
 // ================================================================================
 
 export const getUser = (userId: string): Promise<{ data: User }> => {

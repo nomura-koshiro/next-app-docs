@@ -17,7 +17,7 @@ type SampleListContentProps = {
  */
 export const SampleListContent = ({ samples }: SampleListContentProps) => {
   // ================================================================================
-  // Variables
+  // 変数
   // ================================================================================
   // カテゴリごとにグループ化
   const groupedSamples = samples.reduce(

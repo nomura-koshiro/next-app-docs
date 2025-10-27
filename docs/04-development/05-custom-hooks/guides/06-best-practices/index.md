@@ -283,14 +283,20 @@ const sanitizedContent = DOMPurify.sanitize(userInput);
 ### 3. CSRF対策
 
 ```typescript
-// ✅ Good: CSRFトークンをヘッダーに追加
+// ✅ Good: CSRFトークンをヘッダーに追加（自動処理）
+// src/lib/api-client.ts で実装済み
+import { getCsrfHeaderName, getCsrfToken } from '@/lib/csrf'
+
 api.interceptors.request.use((config) => {
-  const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content;
+  const csrfToken = getCsrfToken()  // Cookieから取得
   if (csrfToken) {
-    config.headers["X-CSRF-Token"] = csrfToken;
+    config.headers[getCsrfHeaderName()] = csrfToken  // X-CSRF-Token
   }
-  return config;
-});
+  return config
+})
+
+// 📝 開発者が意識する必要なし
+// api-client.tsで自動的にCSRFトークンが送信される
 ```
 
 ---

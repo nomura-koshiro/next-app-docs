@@ -11,7 +11,7 @@
 ### ✅ Good: 共通スキーマを使用
 
 ```typescript
-import { emailSchema, passwordSchema } from "@/schemas/fields";
+import { emailSchema, passwordSchema } from '@/schemas/fields';
 
 export const loginSchema = z.object({
   email: emailSchema,
@@ -29,6 +29,7 @@ export const loginSchema = z.object({
 ```
 
 **理由:**
+
 - 一貫性が保たれる
 - メンテナンスが容易
 - バリデーションルールの変更が1箇所で済む
@@ -62,10 +63,11 @@ const UserForm = () => {
     email: z.string().email(),
   });
   // ...
-}
+};
 ```
 
 **理由:**
+
 - 再利用可能
 - テストしやすい
 - 型定義を共有できる
@@ -89,8 +91,8 @@ export type User = z.infer<typeof userSchema>;
 
 ```typescript
 interface User {
-  name: string
-  email: string
+  name: string;
+  email: string;
 }
 
 const userSchema = z.object({
@@ -100,6 +102,7 @@ const userSchema = z.object({
 ```
 
 **理由:**
+
 - スキーマと型が常に一致する
 - メンテナンスの手間が減る
 - DRY原則を守れる
@@ -118,7 +121,7 @@ useForm<UserFormValues>({
     email: '',
     role: 'user',
   },
-})
+});
 ```
 
 ### ❌ Bad: デフォルト値なし
@@ -126,10 +129,11 @@ useForm<UserFormValues>({
 ```typescript
 useForm<UserFormValues>({
   resolver: zodResolver(userFormSchema),
-})
+});
 ```
 
 **理由:**
+
 - Controlled Componentとして動作する
 - 初期値が明確
 - 予期しない動作を防げる
@@ -141,19 +145,18 @@ useForm<UserFormValues>({
 ### ✅ Good: わかりやすいエラーメッセージ
 
 ```typescript
-z.string()
-  .min(1, { message: "メールアドレスは必須です" })
-  .email({ message: "有効なメールアドレスを入力してください" })
+z.string().min(1, { message: 'メールアドレスは必須です' }).email({ message: '有効なメールアドレスを入力してください' });
 ```
 
 ### ❌ Bad: 英語やあいまいなメッセージ
 
 ```typescript
-z.string().min(1).email()
+z.string().min(1).email();
 // エラー: "Invalid email" (デフォルトのエラーメッセージ)
 ```
 
 **理由:**
+
 - ユーザーが理解しやすい
 - エラーメッセージが統一される
 
@@ -180,6 +183,7 @@ return (
 ```
 
 **理由:**
+
 - 二重送信を防ぐ
 - ユーザーにフィードバックを提供
 
@@ -239,6 +243,7 @@ export const UserForm = () => {
 ```
 
 **理由:**
+
 - テストしやすい
 - 再利用可能
 - 責任が明確
@@ -261,6 +266,7 @@ import { ControlledInputField } from '@/components/ui/form-field/controlled-form
 ```
 
 **理由:**
+
 - UIが統一される
 - エラーハンドリングが自動化される
 - コード量が減る
@@ -275,18 +281,18 @@ import { ControlledInputField } from '@/components/ui/form-field/controlled-form
 // 1. クライアントサイドバリデーション（Zod）
 const schema = z.object({
   email: z.string().email(),
-})
+});
 
 // 2. サーバーサイドバリデーション
 const onSubmit = async (data) => {
-  await api.post('/users', data)
-    .catch((error) => {
-      handleServerError(error, setError)
-    })
-}
+  await api.post('/users', data).catch((error) => {
+    handleServerError(error, setError);
+  });
+};
 ```
 
 **理由:**
+
 - ユーザーエクスペリエンスの向上
 - サーバー負荷の軽減
 - セキュリティの確保
@@ -298,23 +304,26 @@ const onSubmit = async (data) => {
 ### ✅ Good: Discriminated Unions
 
 ```typescript
-const schema = z.discriminatedUnion("userType", [
-  z.object({ userType: z.literal("individual"), firstName: z.string() }),
-  z.object({ userType: z.literal("company"), companyName: z.string() }),
+const schema = z.discriminatedUnion('userType', [
+  z.object({ userType: z.literal('individual'), firstName: z.string() }),
+  z.object({ userType: z.literal('company'), companyName: z.string() }),
 ]);
 ```
 
 ### ❌ Bad: refineで全て処理
 
 ```typescript
-const schema = z.object({
-  userType: z.enum(["individual", "company"]),
-  firstName: z.string().optional(),
-  companyName: z.string().optional(),
-}).refine(/* 複雑な条件 */)
+const schema = z
+  .object({
+    userType: z.enum(['individual', 'company']),
+    firstName: z.string().optional(),
+    companyName: z.string().optional(),
+  })
+  .refine(/* 複雑な条件 */);
 ```
 
 **理由:**
+
 - 型安全性が高い
 - TypeScriptの型推論が効く
 - コンパイル時にエラーを検出できる
@@ -323,18 +332,18 @@ const schema = z.object({
 
 ## まとめ
 
-| ベストプラクティス | メリット |
-|------------------|---------|
-| 共通スキーマを再利用 | 一貫性、メンテナンス性 |
-| スキーマを別ファイルに | 再利用性、テスト容易性 |
-| 型推論を活用 | DRY、型安全性 |
-| デフォルト値を設定 | 予期しない動作を防ぐ |
-| 明確なエラーメッセージ | UX向上 |
-| 送信中の状態管理 | 二重送信防止 |
-| Container/Presentational | 責任の明確化 |
-| Controlled Component | UI統一、コード量削減 |
-| 段階的バリデーション | UX向上、セキュリティ |
-| Discriminated Unions | 型安全性、IDE補完 |
+| ベストプラクティス       | メリット               |
+| ------------------------ | ---------------------- |
+| 共通スキーマを再利用     | 一貫性、メンテナンス性 |
+| スキーマを別ファイルに   | 再利用性、テスト容易性 |
+| 型推論を活用             | DRY、型安全性          |
+| デフォルト値を設定       | 予期しない動作を防ぐ   |
+| 明確なエラーメッセージ   | UX向上                 |
+| 送信中の状態管理         | 二重送信防止           |
+| Container/Presentational | 責任の明確化           |
+| Controlled Component     | UI統一、コード量削減   |
+| 段階的バリデーション     | UX向上、セキュリティ   |
+| Discriminated Unions     | 型安全性、IDE補完      |
 
 ---
 

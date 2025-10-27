@@ -5,6 +5,7 @@ import { useOptimistic } from 'react';
 
 import { useDeleteUser as useDeleteUserMutation } from '@/features/sample-users';
 import { useUsers as useUsersQuery } from '@/features/sample-users/api/get-users';
+import type { User } from '@/features/sample-users/types';
 
 /**
  * ユーザー一覧ページのロジックを管理するカスタムフック
@@ -14,7 +15,7 @@ import { useUsers as useUsersQuery } from '@/features/sample-users/api/get-users
  */
 export const useUsers = () => {
   // ================================================================================
-  // Hooks
+  // フック
   // ================================================================================
   const router = useRouter();
   const { data } = useUsersQuery();
@@ -29,7 +30,7 @@ export const useUsers = () => {
   );
 
   // ================================================================================
-  // Handlers
+  // ハンドラー
   // ================================================================================
   const handleEdit = (userId: string) => {
     router.push(`/sample-users/${userId}/edit`);

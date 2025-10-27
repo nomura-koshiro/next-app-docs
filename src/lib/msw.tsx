@@ -44,12 +44,12 @@ export const MSWProvider = ({ children }: { children: React.ReactNode }): React.
             if (!req.url.includes('/api/')) {
               return;
             }
-            console.warn('[MSW] Unhandled request:', req.method, req.url);
+            console.warn('[MSW] 未処理のリクエスト:', req.method, req.url);
           },
         });
 
-        console.log('[MSW] Mock Service Worker initialized');
-        console.log('[MSW] Registered handlers:', worker.listHandlers().length);
+        console.log('[MSW] Mock Service Workerを初期化しました');
+        console.log('[MSW] 登録されたハンドラー数:', worker.listHandlers().length);
       }
 
       // 初期化完了をマーク（モッキング無効時も即座に完了）

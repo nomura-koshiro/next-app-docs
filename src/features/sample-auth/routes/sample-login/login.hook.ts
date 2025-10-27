@@ -13,17 +13,15 @@ import { useAuthStore } from '@/features/sample-auth/stores/auth-store';
  */
 export const useLogin = () => {
   // ================================================================================
-  // Hooks
+  // フック
   // ================================================================================
   const router = useRouter();
-  const setUser = useAuthStore(
-    (state: { setUser: (user: { id: string; email: string; name: string; role: string }) => void }) => state.setUser
-  );
+  const setUser = useAuthStore((state) => state.setUser);
 
   const loginMutation = useLoginMutation();
 
   // ================================================================================
-  // Form
+  // フォーム
   // ================================================================================
   const {
     control,
@@ -39,7 +37,7 @@ export const useLogin = () => {
   });
 
   // ================================================================================
-  // Handlers
+  // ハンドラー
   // ================================================================================
   /**
    * ログイン送信ハンドラー

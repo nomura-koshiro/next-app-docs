@@ -40,7 +40,7 @@ type UserFormProps = {
  */
 export const UserForm = ({ control, onSubmit, onCancel, errors, isSubmitting, isEditMode = false }: UserFormProps) => {
   // ================================================================================
-  // Variables
+  // 変数
   // ================================================================================
   const submitButtonText = isEditMode ? (isSubmitting ? '更新中...' : '更新') : isSubmitting ? '作成中...' : '作成';
 

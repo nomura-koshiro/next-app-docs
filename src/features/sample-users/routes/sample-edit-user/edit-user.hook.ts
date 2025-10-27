@@ -7,6 +7,7 @@ import { useForm } from 'react-hook-form';
 import { useUpdateUser } from '@/features/sample-users';
 import { useUser } from '@/features/sample-users/api/get-user';
 import { userFormSchema, type UserFormValues } from '@/features/sample-users/schemas/user-form.schema';
+import type { Role } from '@/schemas/fields/role.schema';
 
 /**
  * ユーザー編集ページのロジックを管理するカスタムフック
@@ -15,7 +16,7 @@ import { userFormSchema, type UserFormValues } from '@/features/sample-users/sch
  */
 export const useEditUser = (userId: string) => {
   // ================================================================================
-  // Hooks
+  // フック
   // ================================================================================
   const router = useRouter();
 
@@ -26,7 +27,7 @@ export const useEditUser = (userId: string) => {
   const updateUserMutation = useUpdateUser();
 
   // ================================================================================
-  // Form
+  // フォーム
   // ================================================================================
   const {
     control,
@@ -39,12 +40,12 @@ export const useEditUser = (userId: string) => {
     defaultValues: {
       name: data.data.name,
       email: data.data.email,
-      role: data.data.role as 'user' | 'admin',
+      role: data.data.role as Role,
     },
   });
 
   // ================================================================================
-  // Handlers
+  // ハンドラー
   // ================================================================================
   /**
    * フォーム送信ハンドラー
