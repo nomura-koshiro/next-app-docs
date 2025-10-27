@@ -262,13 +262,13 @@ export const MultipleSections: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
 
-    // アップロードセクションの見出しを確認
-    const uploadHeading = canvas.getByRole('heading', { name: /ファイルアップロード/i });
-    expect(uploadHeading).toBeInTheDocument();
+    // アップロードセクションの要素を確認
+    const uploadButton = canvas.getByRole('button', { name: /ファイルを選択/i });
+    expect(uploadButton).toBeInTheDocument();
 
-    // ダウンロードセクションの見出しを確認
-    const downloadHeading = canvas.getByRole('heading', { name: /ファイルダウンロード/i });
-    expect(downloadHeading).toBeInTheDocument();
+    // ダウンロードセクションの要素を確認（CSVボタン）
+    const csvButton = canvas.getByRole('button', { name: /CSV/i });
+    expect(csvButton).toBeInTheDocument();
   },
 };
 
