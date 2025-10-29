@@ -33,6 +33,8 @@
     "generate:app-page": "plop app-page"
   },
   "dependencies": {
+    "@azure/msal-browser": "^4.26.0",
+    "@azure/msal-react": "^3.0.21",
     "@hookform/resolvers": "^5.2.2",
     "@radix-ui/react-checkbox": "^1.3.3",
     "@radix-ui/react-label": "^2.1.7",

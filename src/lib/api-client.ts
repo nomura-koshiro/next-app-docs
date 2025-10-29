@@ -2,6 +2,7 @@ import Axios, { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from 'ax
 
 import { env } from '@/config/env';
 import { getCsrfHeaderName, getCsrfToken } from '@/lib/csrf';
+import { MOCK_AUTH } from '@/mocks/handlers/api/v1/auth-handlers';
 
 /**
  * API エラーレスポンスの型定義
@@ -15,12 +16,32 @@ export type ApiErrorResponse = {
 /**
  * リクエストインターセプター
  * - Accept ヘッダーを設定
+ * - Bearer Token認証対応（Azure AD）
  * - Cookie を含むリクエストを有効化
  * - CSRFトークンをヘッダーに追加
  */
-const authRequestInterceptor = (config: InternalAxiosRequestConfig): InternalAxiosRequestConfig => {
+const authRequestInterceptor = async (
+  config: InternalAxiosRequestConfig
+): Promise<InternalAxiosRequestConfig> => {
   if (config.headers !== undefined) {
     config.headers.Accept = 'application/json';
+
+    // Bearer Token認証（Azure AD対応）
+    if (env.AUTH_MODE === 'production') {
+      // 本番モード: MSALからトークン取得
+      try {
+        const { getAccessToken } = await import('@/features/auth/hooks/use-auth');
+        const token = await getAccessToken();
+        if (token) {
+          config.headers.Authorization = `Bearer ${token}`;
+        }
+      } catch (error) {
+        console.error('[API Client] トークン取得エラー:', error);
+      }
+    } else {
+      // 開発モード: モックトークン
+      config.headers.Authorization = `Bearer ${MOCK_AUTH.TOKEN}`;
+    }
 
     // CSRFトークンをヘッダーに追加
     const csrfToken = getCsrfToken();
@@ -66,12 +87,22 @@ api.interceptors.response.use(
       // });
     }
 
-    // 401エラー時の処理（将来的にログインページへリダイレクト）
-    // if (error.response?.status === 401) {
-    //   const searchParams = new URLSearchParams();
-    //   const redirectTo = searchParams.get('redirectTo') || window.location.pathname;
-    //   window.location.href = paths.auth.login.getHref(redirectTo);
-    // }
+    // 401エラー時はログインページへリダイレクト（ただし既にログインページにいる場合は除く）
+    if (error.response?.status === 401 && typeof window !== 'undefined') {
+      const currentPath = window.location.pathname;
+      if (currentPath !== '/login') {
+        // 認証ストアをクリア
+        import('@/features/auth/stores/auth-store')
+          .then(({ useAuthStore }) => {
+            useAuthStore.getState().logout();
+          })
+          .catch((err) => {
+            console.error('[API Client] ストアクリアエラー:', err);
+          });
+        // ログインページにリダイレクト
+        window.location.href = '/login';
+      }
+    }
 
     return Promise.reject(error);
   }

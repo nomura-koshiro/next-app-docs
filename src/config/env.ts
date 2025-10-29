@@ -36,6 +36,13 @@ const createEnv = () => {
     APP_MOCK_API_PORT: z.string().optional().default('8080'),
     // Storybookポート番号（オプション、Storybook環境でのみ設定される）
     STORYBOOK_PORT: z.string().optional(),
+
+    // 認証モード設定（development: モック認証, production: Azure AD認証）
+    AUTH_MODE: z.enum(['development', 'production']).optional().default('development'),
+    // Azure AD設定（本番モード用）
+    AZURE_CLIENT_ID: z.string().optional(),
+    AZURE_TENANT_ID: z.string().optional(),
+    AZURE_REDIRECT_URI: z.string().optional(),
   });
 
   // Next.jsの環境変数から値を取得
@@ -45,6 +52,12 @@ const createEnv = () => {
     APP_URL: process.env.NEXT_PUBLIC_URL,
     APP_MOCK_API_PORT: process.env.NEXT_PUBLIC_MOCK_API_PORT,
     STORYBOOK_PORT: storybookPort,
+
+    // Azure AD認証設定
+    AUTH_MODE: process.env.NEXT_PUBLIC_AUTH_MODE,
+    AZURE_CLIENT_ID: process.env.NEXT_PUBLIC_AZURE_CLIENT_ID,
+    AZURE_TENANT_ID: process.env.NEXT_PUBLIC_AZURE_TENANT_ID,
+    AZURE_REDIRECT_URI: process.env.NEXT_PUBLIC_AZURE_REDIRECT_URI,
   };
 
   // Schemasで検証

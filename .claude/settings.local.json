@@ -26,7 +26,10 @@
       "Bash(npx markdownlint:*)",
       "Bash(pnpm markdownlint:*)",
       "Bash(pnpm typecheck:*)",
-      "Bash(pnpm test)"
+      "Bash(pnpm test)",
+      "Bash(pnpm build-storybook:*)",
+      "Bash(git checkout:*)",
+      "Bash(tree:*)"
     ],
     "deny": [],
     "ask": []
