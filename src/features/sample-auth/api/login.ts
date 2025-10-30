@@ -48,6 +48,18 @@ export type LoginResponse = {
  *
  * エンドポイント: POST /api/v1/sample/auth/login
  * TODO: バックエンドから返されるレスポンス形式に合わせて修正してください
+ *
+ * @param data - ログイン情報（メールアドレスとパスワード）
+ * @returns ユーザー情報とJWTトークンを含むレスポンス
+ *
+ * @example
+ * ```tsx
+ * const response = await login({
+ *   email: 'user@example.com',
+ *   password: 'password123'
+ * });
+ * console.log(response.user, response.token);
+ * ```
  */
 export const login = (data: LoginInput): Promise<LoginResponse> => {
   // TODO: 実際のAPI呼び出しに置き換える
@@ -79,6 +91,10 @@ type UseLoginOptions = {
 
 /**
  * ログインMutation Hook
+ *
+ * @param options - フックオプション
+ * @param options.mutationConfig - React Queryのミューテーション設定
+ * @returns ログインミューテーションオブジェクト
  *
  * @example
  * ```tsx

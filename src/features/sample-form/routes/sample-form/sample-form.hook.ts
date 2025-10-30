@@ -9,6 +9,26 @@ import { sampleFormSchema, type SampleFormValues } from '../../schemas/sample-fo
  * サンプルフォームページのカスタムフック
  *
  * フォームの状態管理とロジックを担当します。
+ * react-hook-formとzodスキーマによるバリデーションを使用し、
+ * ユーザー入力を検証してから送信処理を実行します。
+ *
+ * @returns フォームの状態と操作関数
+ * @returns control - react-hook-formのcontrolオブジェクト
+ * @returns onSubmit - フォーム送信ハンドラー
+ * @returns errors - バリデーションエラー
+ * @returns reset - フォームリセット関数
+ * @returns isSubmitting - 送信中フラグ
+ *
+ * @example
+ * ```tsx
+ * const { control, onSubmit, errors, isSubmitting } = useSampleForm()
+ *
+ * <form onSubmit={onSubmit}>
+ *   <Controller name="username" control={control} />
+ *   {errors.username && <span>{errors.username.message}</span>}
+ *   <button disabled={isSubmitting}>送信</button>
+ * </form>
+ * ```
  */
 export const useSampleForm = () => {
   // ================================================================================
@@ -39,6 +59,15 @@ export const useSampleForm = () => {
   // ================================================================================
   // Handlers
   // ================================================================================
+  /**
+   * フォーム送信ハンドラー
+   *
+   * 処理フロー:
+   * 1. フォームデータをバリデーション
+   * 2. コンソールに送信データを出力
+   * 3. アラートで送信完了を通知
+   * 4. フォームをリセット
+   */
   const onSubmit = handleSubmit(async (data) => {
     // Formデータを表示
     console.log('フォームデータ:', data);
@@ -48,6 +77,9 @@ export const useSampleForm = () => {
     reset();
   });
 
+  // ================================================================================
+  // 戻り値
+  // ================================================================================
   return {
     control,
     onSubmit,

@@ -18,14 +18,21 @@
 ```text
 src/
 ├── app/                    # App Router (Next.js 15+)
+│   ├── (auth)/             # ルートグループ（認証ページ）
+│   │   └── login/          # ログインページ（Azure Entra ID）
+│   ├── (protected)/        # ルートグループ（認証が必要なページ）
+│   │   └── layout.tsx      # 認証チェック用レイアウト
 │   ├── (sample)/           # ルートグループ（サンプル実装）
-│   │   ├── sample-login/   # ログインページ
+│   │   ├── loading.tsx     # サンプルページ用ローディング
+│   │   ├── sample-login/   # ログインページ（サンプル）
 │   │   ├── sample-users/   # ユーザー管理ページ
 │   │   ├── sample-form/    # フォームサンプル
 │   │   ├── sample-file/    # ファイルアップロード・ダウンロード
 │   │   └── sample-chat/    # チャットボット
 │   ├── layout.tsx          # ルートレイアウト
 │   ├── page.tsx            # ホームページ
+│   ├── error.tsx           # エラーページ
+│   ├── loading.tsx         # ローディングページ
 │   ├── not-found.tsx       # 404ページ
 │   └── provider.tsx        # AppProvider（MSW, ErrorBoundary, ReactQuery）
 │
@@ -33,6 +40,7 @@ src/
 │   └── globals.css         # グローバルスタイル（Tailwind CSS）
 │
 ├── features/              # 機能モジュール（bulletproof-react）
+│   ├── auth/               # 認証機能（Azure Entra ID）
 │   ├── sample-auth/        # 認証機能（サンプル）
 │   ├── sample-users/       # ユーザー管理機能（サンプル）
 │   ├── sample-form/        # フォーム機能（サンプル）
@@ -41,8 +49,8 @@ src/
 │   └── sample-page-list/   # サンプルページ一覧
 │
 ├── components/            # 共通コンポーネント
-│   ├── ui/                # 基本UI（shadcn/ui風）
-│   │   ├── button/         # Button
+│   ├── sample-ui/         # 基本UI（shadcn/ui風サンプル）
+│   │   ├── button/         # Button（各ディレクトリに index.ts）
 │   │   ├── input/          # Input
 │   │   ├── textarea/       # Textarea
 │   │   ├── select/         # Select
@@ -54,7 +62,10 @@ src/
 │   │   ├── label/          # Label
 │   │   ├── form-field/     # FormField, ControlledFormField
 │   │   ├── error-message/  # ErrorMessage
-│   │   ├── loading-spinner/ # LoadingSpinner
+│   │   └── loading-spinner/ # LoadingSpinner
+│   ├── ui/                # ユーティリティコンポーネント
+│   │   ├── error-boundary/ # ErrorBoundary
+│   │   ├── loading-spinner/ # LoadingSpinner（共通）
 │   │   └── index.ts        # バレルエクスポート
 │   ├── layout/            # レイアウトコンポーネント
 │   │   ├── page-header.tsx
@@ -77,6 +88,7 @@ src/
 │
 ├── config/                # 設定
 │   ├── env.ts             # 環境変数（Zod検証）
+│   ├── msal.ts            # Microsoft Authentication Library設定
 │   ├── paths.ts           # ルーティングパス定義
 │   └── constants.ts       # 定数定義
 │
@@ -100,10 +112,13 @@ src/
 └── mocks/                 # MSW設定
     ├── browser.ts          # ブラウザ用worker
     ├── handlers.ts         # ハンドラー統合
-    └── handlers/           # 機能別ハンドラー
-        └── api/v1/sample/
-            ├── auth-handlers.ts
-            └── user-handlers.ts
+    ├── handlers/           # 機能別ハンドラー
+    │   └── api/v1/
+    │       ├── auth-handlers.ts     # 認証用ハンドラー（本番）
+    │       └── sample/
+    │           ├── auth-handlers.ts # 認証用ハンドラー（サンプル）
+    │           └── user-handlers.ts # ユーザー用ハンドラー
+    └── utils/              # モック用ユーティリティ（任意）
 ```
 
 ---
@@ -132,7 +147,7 @@ app (Next.js App Router)
 
 ```typescript
 // ✅ Good
-import { Button } from '@/components/ui/button'
+import { Button } from '@/components/sample-ui/button'
 import { useFeature } from './hooks/use-feature'
 
 // ❌ Bad: feature間でインポート
@@ -195,7 +210,43 @@ features/sample-users/
 └── index.ts                    # エクスポート
 ```
 
-### 最小構成（sample-auth feature）
+### 本番認証の構成（auth feature）
+
+```text
+features/auth/
+├── api/                        # API通信
+│   ├── get-me.ts               # 現在のユーザー情報取得
+│   └── index.ts
+│
+├── components/                 # 共有コンポーネント
+│   ├── auth-demo.tsx           # 認証デモコンポーネント
+│   ├── auth-demo.stories.tsx   # Storybook
+│   ├── storybook-helpers.ts    # Storybook用ヘルパー
+│   └── index.ts
+│
+├── hooks/                      # カスタムフック
+│   ├── use-auth.ts             # 環境別認証フック
+│   ├── use-auth.development.ts # 開発環境用
+│   ├── use-auth.production.ts  # 本番環境用（MSAL）
+│   └── index.ts
+│
+├── routes/                     # ルート（ページ）コンポーネント
+│   └── login/
+│       ├── login.tsx           # ログインページ
+│       ├── login.stories.tsx   # Storybook
+│       └── index.ts
+│
+├── stores/                     # Zustandストア
+│   ├── auth-store.ts           # 認証状態管理
+│   └── index.ts
+│
+├── types/                      # 型定義
+│   └── index.ts
+│
+└── index.ts
+```
+
+### サンプル認証の構成（sample-auth feature）
 
 ```text
 features/sample-auth/
@@ -228,10 +279,11 @@ features/sample-auth/
 
 ### ディレクトリ作成の方針
 
-- **必要なディレクトリのみ作成** - hooksやschemasは必要になったら追加
+- **必要なディレクトリのみ作成** - hooks, schemas, utils, constantsは必要になったら追加
 - **routesディレクトリ** - 各ルート（ページ）ごとにディレクトリを作成し、ページコンポーネント、フック、Storybookを一緒に管理
 - **ページ固有コンポーネント** - ルート内でのみ使用するコンポーネントは`routes/*/components/`に配置
 - **共有コンポーネント** - 複数のルートで使用するコンポーネントは`components/`に配置
+- **feature内のutils/constants** - 必要に応じてfeature内にutils/やconstants/ディレクトリも作成可能
 - **storesは認証など必要な場合のみ** - サーバーステートはTanStack Queryで管理
 
 ---
@@ -263,10 +315,10 @@ export const useUsers = () => { ... }
 
 ```typescript
 // ✅ Good
-import { Button } from '@/components/ui/button'
+import { Button } from '@/components/sample-ui/button'
 
 // ❌ Bad
-import { Button } from '../../../components/ui/button'
+import { Button } from '../../../components/sample-ui/button'
 ```
 
 ### 2. barrel exportsを避ける

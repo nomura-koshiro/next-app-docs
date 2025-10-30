@@ -110,7 +110,7 @@ pnpm test-storybook
 ### 最小構成
 
 ```typescript
-// components/ui/button.stories.tsx
+// components/sample-ui/button.stories.tsx
 import type { Meta, StoryObj } from '@storybook/nextjs-vite'
 import { expect, userEvent, within } from '@storybook/test'
 import { Button } from './button'

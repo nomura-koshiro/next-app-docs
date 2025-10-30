@@ -19,6 +19,34 @@ import {
  *
  * React 19のuseOptimisticを使用して、ファイル選択後の即座のUI反映を実現します。
  * ファイルがリストに追加された後、バックグラウンドでアップロード処理を実行します。
+ * アップロードはMSWでモック化され、リアルタイムでプログレスを更新します。
+ * ダウンロードはクライアント側でファイルを生成し、様々な形式（CSV、Excel、JSON、Text、Image）に対応します。
+ *
+ * @returns ファイル操作の状態と操作関数
+ * @returns uploadedFiles - 楽観的更新を反映したアップロード済みファイルリスト
+ * @returns isUploading - アップロード中フラグ
+ * @returns handleFileDrop - ファイルドロップハンドラー
+ * @returns handleFileRemove - ファイル削除ハンドラー
+ * @returns downloadProgress - ダウンロード進捗状態
+ * @returns isDownloading - ダウンロード中フラグ
+ * @returns handleDownload - ファイルダウンロードハンドラー
+ *
+ * @example
+ * ```tsx
+ * const {
+ *   uploadedFiles,
+ *   isUploading,
+ *   handleFileDrop,
+ *   handleFileRemove,
+ *   handleDownload
+ * } = useSampleFile()
+ *
+ * <FileDropZone onDrop={handleFileDrop} />
+ * {uploadedFiles.map((file, i) => (
+ *   <FileItem file={file} onRemove={() => handleFileRemove(i)} />
+ * ))}
+ * <button onClick={() => handleDownload('csv')}>CSV</button>
+ * ```
  */
 export const useSampleFile = () => {
   // ================================================================================
@@ -62,7 +90,7 @@ export const useSampleFile = () => {
         status: 'pending',
       }));
 
-      // 🚀 即座にUIに反映（楽観的更新）
+      // 即座にUIに反映（楽観的更新）
       addOptimisticFiles(newFiles);
 
       // ベースとなる状態も更新（楽観的更新を確定）
@@ -80,18 +108,19 @@ export const useSampleFile = () => {
 
         // アップロード実行（MSWでモック）
         await uploadFile(files[i], (progress) => {
+          // プログレスをリアルタイムで更新
           setUploadedFiles((prev: UploadedFile[]) =>
             prev.map((f: UploadedFile, idx: number) => (idx === fileIndex ? { ...f, progress } : f))
           );
         })
           .then(() => {
-            // ✅ ステータスを「成功」に更新
+            // ステータスを「成功」に更新
             setUploadedFiles((prev: UploadedFile[]) =>
               prev.map((f: UploadedFile, idx: number) => (idx === fileIndex ? { ...f, status: 'success' } : f))
             );
           })
           .catch((error) => {
-            // ❌ エラー時の処理
+            // エラー時の処理
             setUploadedFiles((prev: UploadedFile[]) =>
               prev.map((f: UploadedFile, idx: number) =>
                 idx === fileIndex
@@ -131,6 +160,13 @@ export const useSampleFile = () => {
   /**
    * ファイルダウンロードハンドラー
    *
+   * 処理フロー:
+   * 1. ダウンロード開始（進捗0%）
+   * 2. ファイルタイプに応じてBlobを生成
+   * 3. 進捗をシミュレート（10ステップで100%まで）
+   * 4. ダウンロード実行
+   * 5. 進捗をリセット
+   *
    * 注意: ダウンロードは楽観的更新の対象外
    * （ファイル生成が必要なため、即座の反映は不可能）
    */
@@ -140,12 +176,11 @@ export const useSampleFile = () => {
 
     const executeDownload = async () => {
       const sampleData = generateSampleData();
-      let blob: Blob;
-      let filename: string;
 
       // 進捗シミュレーション（実際のAPI経由の場合は不要）
       const simulateProgress = async () => {
-        for (let progress = 0; progress <= 90; progress += 10) {
+        const progressSteps = Array.from({ length: 10 }, (_, i) => i * 10);
+        for (const progress of progressSteps) {
           await new Promise((resolve) => setTimeout(resolve, 100));
           setDownloadProgress({ fileType: type, progress });
         }
@@ -153,40 +188,53 @@ export const useSampleFile = () => {
 
       const progressPromise = simulateProgress();
 
-      switch (type) {
-        case 'csv':
-          await progressPromise;
-          blob = generateCsvBlob(sampleData);
-          filename = generateFilename('sample_data', 'csv');
-          break;
+      // ファイルタイプに応じてBlobを生成
+      const { blob, filename } = await (async (): Promise<{ blob: Blob; filename: string }> => {
+        switch (type) {
+          case 'csv':
+            await progressPromise;
 
-        case 'excel':
-          await progressPromise;
-          blob = await generateExcelBlob(sampleData);
-          filename = generateFilename('sample_data', 'xlsx');
-          break;
+            return {
+              blob: generateCsvBlob(sampleData),
+              filename: generateFilename('sample_data', 'csv'),
+            };
 
-        case 'json':
-          await progressPromise;
-          blob = generateJsonBlob(sampleData);
-          filename = generateFilename('sample_data', 'json');
-          break;
+          case 'excel':
+            await progressPromise;
 
-        case 'text':
-          await progressPromise;
-          blob = generateTextBlob(sampleData);
-          filename = generateFilename('sample_data', 'txt');
-          break;
+            return {
+              blob: await generateExcelBlob(sampleData),
+              filename: generateFilename('sample_data', 'xlsx'),
+            };
 
-        case 'image':
-          await progressPromise;
-          blob = await generateImageBlob();
-          filename = generateFilename('sample_image', 'png');
-          break;
+          case 'json':
+            await progressPromise;
 
-        default:
-          throw new Error('不明なファイルタイプです');
-      }
+            return {
+              blob: generateJsonBlob(sampleData),
+              filename: generateFilename('sample_data', 'json'),
+            };
+
+          case 'text':
+            await progressPromise;
+
+            return {
+              blob: generateTextBlob(sampleData),
+              filename: generateFilename('sample_data', 'txt'),
+            };
+
+          case 'image':
+            await progressPromise;
+
+            return {
+              blob: await generateImageBlob(),
+              filename: generateFilename('sample_image', 'png'),
+            };
+
+          default:
+            throw new Error('不明なファイルタイプです');
+        }
+      })();
 
       // 進捗を100%に更新
       setDownloadProgress({ fileType: type, progress: 100 });

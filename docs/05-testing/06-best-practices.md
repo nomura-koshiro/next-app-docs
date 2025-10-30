@@ -487,7 +487,7 @@ export const handlers = [
 // ❌ Bad: すべてをモック
 vi.mock('@/lib/api-client')
 vi.mock('@/hooks/use-user')
-vi.mock('@/components/ui/button')
+vi.mock('@/components/sample-ui/button')
 
 // ✅ Good: 必要な部分だけモック
 vi.mock('@/lib/api-client', () => ({
@@ -795,8 +795,8 @@ it('データが表示される', async () => {
 
 ```typescript
 // ❌ Bad: すべてをモック
-vi.mock('@/components/ui/button')
-vi.mock('@/components/ui/input')
+vi.mock('@/components/sample-ui/button')
+vi.mock('@/components/sample-ui/input')
 vi.mock('@/lib/utils')
 
 // ✅ Good: 必要な部分だけモック

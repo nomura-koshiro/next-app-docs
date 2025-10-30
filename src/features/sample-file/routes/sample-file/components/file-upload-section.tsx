@@ -7,6 +7,10 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 
 import type { UploadedFile } from '../../../types';
 
+// ================================================================================
+// Props
+// ================================================================================
+
 type FileUploadSectionProps = {
   /** アップロード済みファイルリスト */
   uploadedFiles: UploadedFile[];
@@ -18,12 +22,45 @@ type FileUploadSectionProps = {
   isUploading: boolean;
 };
 
+// ================================================================================
+// Component
+// ================================================================================
+
 /**
  * ファイルアップロードセクション
  *
- * react-dropzone を使用したファイルアップロード機能を提供します。
+ * react-dropzone を使用したファイルアップロード機能を提供するセクションコンポーネントです。
+ *
+ * 機能:
+ * - ドラッグ&ドロップによるファイルアップロード
+ * - ファイル選択ダイアログによるアップロード
+ * - アップロード進捗の表示
+ * - アップロード済みファイルの一覧表示
+ * - ファイルの削除機能
+ * - ファイルサイズ制限（最大10MB）
+ *
+ * @param props - コンポーネントのプロパティ
+ * @param props.uploadedFiles - アップロード済みファイルの配列
+ * @param props.onFileDrop - ファイルドロップ時のコールバック関数
+ * @param props.onFileRemove - ファイル削除時のコールバック関数
+ * @param props.isUploading - アップロード中かどうかのフラグ
+ * @returns ファイルアップロードセクションコンポーネント
+ *
+ * @example
+ * ```tsx
+ * <FileUploadSection
+ *   uploadedFiles={files}
+ *   onFileDrop={handleFileDrop}
+ *   onFileRemove={handleFileRemove}
+ *   isUploading={false}
+ * />
+ * ```
  */
 export const FileUploadSection = ({ uploadedFiles, onFileDrop, onFileRemove, isUploading }: FileUploadSectionProps) => {
+  // ================================================================================
+  // Hooks
+  // ================================================================================
+
   const onDrop = useCallback(
     (acceptedFiles: File[]) => {
       onFileDrop(acceptedFiles);
@@ -39,6 +76,10 @@ export const FileUploadSection = ({ uploadedFiles, onFileDrop, onFileRemove, isU
 
   // 型推論のため明示的にboolean型として扱う
   const isActive: boolean = isDragActive;
+
+  // ================================================================================
+  // Helper Functions
+  // ================================================================================
 
   /**
    * ファイルサイズをフォーマット
@@ -65,6 +106,10 @@ export const FileUploadSection = ({ uploadedFiles, onFileDrop, onFileRemove, isU
         return <FileIcon className="size-5 text-gray-400" />;
     }
   };
+
+  // ================================================================================
+  // Render
+  // ================================================================================
 
   return (
     <Card>

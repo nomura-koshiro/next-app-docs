@@ -95,9 +95,9 @@ pnpm generate:component
 **生成されるファイル:**
 
 UIコンポーネント（サブディレクトリ構造）:
-- `components/ui/{{componentName}}/{{componentName}}.tsx` - コンポーネント本体
-- `components/ui/{{componentName}}/{{componentName}}.stories.tsx` - Storybookストーリー
-- `components/ui/{{componentName}}/index.ts` - エクスポート
+- `components/sample-ui/{{componentName}}/{{componentName}}.tsx` - コンポーネント本体
+- `components/sample-ui/{{componentName}}/{{componentName}}.stories.tsx` - Storybookストーリー
+- `components/sample-ui/{{componentName}}/index.ts` - エクスポート
 
 レイアウトコンポーネント（フラット構造）:
 - `components/layout/{{componentName}}.tsx` - コンポーネント本体（直接配置）

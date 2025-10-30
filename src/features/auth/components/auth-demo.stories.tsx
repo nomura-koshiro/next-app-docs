@@ -28,10 +28,10 @@ import {
  *
  * ストーリーの初期化時にsessionStorageとZustandストアを認証済み状態に設定します。
  *
- * @param Story - レンダリングするストーリーコンポーネント
+ * @param story - レンダリングするストーリーコンポーネント
  * @returns デコレートされたストーリー要素
  */
-const AuthenticatedDecorator = (Story: () => React.ReactElement) => {
+const AuthenticatedDecorator = (story: () => React.ReactElement) => {
   console.log('[AuthenticatedDecorator] Called');
 
   React.useEffect(() => {
@@ -39,7 +39,7 @@ const AuthenticatedDecorator = (Story: () => React.ReactElement) => {
     setAuthenticatedStorage();
   }, []);
 
-  return <Story />;
+  return story();
 };
 
 /**
@@ -47,10 +47,10 @@ const AuthenticatedDecorator = (Story: () => React.ReactElement) => {
  *
  * ストーリーの初期化時にsessionStorageとZustandストアを未認証状態に設定します。
  *
- * @param Story - レンダリングするストーリーコンポーネント
+ * @param story - レンダリングするストーリーコンポーネント
  * @returns デコレートされたストーリー要素
  */
-const UnauthenticatedDecorator = (Story: () => React.ReactElement) => {
+const UnauthenticatedDecorator = (story: () => React.ReactElement) => {
   console.log('[UnauthenticatedDecorator] Called');
 
   React.useEffect(() => {
@@ -58,7 +58,7 @@ const UnauthenticatedDecorator = (Story: () => React.ReactElement) => {
     setUnauthenticatedStorage();
   }, []);
 
-  return <Story />;
+  return story();
 };
 
 // ================================================================================
@@ -106,6 +106,7 @@ const meta = {
             return HttpResponse.json({ detail: 'Unauthorized' }, { status: 401 });
           }
           await delay(300);
+
           return HttpResponse.json(MOCK_AUTH.USER);
         }),
       ],
@@ -252,15 +253,14 @@ export const APIError: Story = {
   parameters: {
     docs: {
       description: {
-        story:
-          'バックエンドAPIからユーザー情報の取得に失敗した場合の状態。\n\n' +
-          'エラーハンドリングの動作を確認できます。',
+        story: 'バックエンドAPIからユーザー情報の取得に失敗した場合の状態。\n\n' + 'エラーハンドリングの動作を確認できます。',
       },
     },
     msw: {
       handlers: [
         http.get('*/auth/me', async () => {
           await delay(300);
+
           return HttpResponse.json({ detail: 'Internal Server Error' }, { status: 500 });
         }),
       ],

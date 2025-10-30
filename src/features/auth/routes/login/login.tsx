@@ -29,7 +29,7 @@ import { useAuth } from '../../hooks/use-auth';
  *
  * @returns ログインページ要素
  */
-export default function LoginPage() {
+const LoginPage = () => {
   // ================================================================================
   // Hooks
   // ================================================================================
@@ -66,24 +66,17 @@ export default function LoginPage() {
       <div className="w-full max-w-md space-y-8 rounded-lg bg-white p-8 shadow-md">
         <div className="space-y-2 text-center">
           <h1 className="text-2xl font-bold">ログイン</h1>
-          <p className="text-sm text-gray-600">
-            Azure Entra IDアカウントでログインしてください
-          </p>
+          <p className="text-sm text-gray-600">Azure Entra IDアカウントでログインしてください</p>
         </div>
         <div className="space-y-4">
-          <Button
-            onClick={handleLogin}
-            disabled={isLoading}
-            className="w-full"
-            size="lg"
-          >
+          <Button onClick={handleLogin} disabled={isLoading} className="w-full" size="lg">
             Microsoftアカウントでログイン
           </Button>
-          <p className="text-center text-xs text-gray-500">
-            開発モードでは自動的にモックユーザーでログインします
-          </p>
+          <p className="text-center text-xs text-gray-500">開発モードでは自動的にモックユーザーでログインします</p>
         </div>
       </div>
     </div>
   );
-}
+};
+
+export default LoginPage;

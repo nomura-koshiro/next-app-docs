@@ -32,14 +32,41 @@ function Select({ ...props }: React.ComponentProps<typeof SelectPrimitive.Root>)
   return <SelectPrimitive.Root data-slot="select" {...props} />;
 }
 
+/**
+ * セレクトグループコンポーネント
+ *
+ * セレクトオプションをグループ化するためのコンポーネント。
+ * ラベル付きのオプショングループを作成します。
+ *
+ * @param props - Radix UI SelectGroupコンポーネントのプロパティ
+ * @returns セレクトグループ要素
+ */
 function SelectGroup({ ...props }: React.ComponentProps<typeof SelectPrimitive.Group>) {
   return <SelectPrimitive.Group data-slot="select-group" {...props} />;
 }
 
+/**
+ * セレクト値コンポーネント
+ *
+ * 選択された値を表示するコンポーネント。
+ * トリガー内で現在の選択状態を表示します。
+ *
+ * @param props - Radix UI SelectValueコンポーネントのプロパティ
+ * @returns セレクト値要素
+ */
 function SelectValue({ ...props }: React.ComponentProps<typeof SelectPrimitive.Value>) {
   return <SelectPrimitive.Value data-slot="select-value" {...props} />;
 }
 
+/**
+ * セレクトトリガーコンポーネント
+ *
+ * セレクトメニューを開くためのトリガーボタン。
+ * クリックでドロップダウンメニューが開きます。
+ *
+ * @param props - Radix UI SelectTriggerコンポーネントのプロパティとサイズ
+ * @returns セレクトトリガー要素
+ */
 function SelectTrigger({
   className,
   size = 'default',
@@ -66,6 +93,15 @@ function SelectTrigger({
   );
 }
 
+/**
+ * セレクトコンテンツコンポーネント
+ *
+ * セレクトオプションを含むドロップダウンメニュー。
+ * アニメーション付きで表示され、スクロールをサポートします。
+ *
+ * @param props - Radix UI SelectContentコンポーネントのプロパティ
+ * @returns セレクトコンテンツ要素
+ */
 function SelectContent({
   className,
   children,
@@ -102,12 +138,30 @@ function SelectContent({
   );
 }
 
+/**
+ * セレクトラベルコンポーネント
+ *
+ * セレクトグループのラベルを表示するコンポーネント。
+ * グループの見出しとして使用します。
+ *
+ * @param props - Radix UI SelectLabelコンポーネントのプロパティ
+ * @returns セレクトラベル要素
+ */
 function SelectLabel({ className, ...props }: React.ComponentProps<typeof SelectPrimitive.Label>) {
   return (
     <SelectPrimitive.Label data-slot="select-label" className={cn('text-muted-foreground px-2 py-1.5 text-xs', className)} {...props} />
   );
 }
 
+/**
+ * セレクトアイテムコンポーネント
+ *
+ * 選択可能なオプション項目。
+ * 選択時にチェックマークが表示されます。
+ *
+ * @param props - Radix UI SelectItemコンポーネントのプロパティ
+ * @returns セレクトアイテム要素
+ */
 function SelectItem({ className, children, ...props }: React.ComponentProps<typeof SelectPrimitive.Item>) {
   return (
     <SelectPrimitive.Item
@@ -128,6 +182,15 @@ function SelectItem({ className, children, ...props }: React.ComponentProps<type
   );
 }
 
+/**
+ * セレクト区切り線コンポーネント
+ *
+ * オプション間に表示される水平の区切り線。
+ * グループやセクションを視覚的に分離します。
+ *
+ * @param props - Radix UI SelectSeparatorコンポーネントのプロパティ
+ * @returns セレクト区切り線要素
+ */
 function SelectSeparator({ className, ...props }: React.ComponentProps<typeof SelectPrimitive.Separator>) {
   return (
     <SelectPrimitive.Separator
@@ -138,6 +201,15 @@ function SelectSeparator({ className, ...props }: React.ComponentProps<typeof Se
   );
 }
 
+/**
+ * セレクト上スクロールボタンコンポーネント
+ *
+ * コンテンツが上にスクロール可能な場合に表示されるボタン。
+ * 上矢印アイコンが表示されます。
+ *
+ * @param props - Radix UI SelectScrollUpButtonコンポーネントのプロパティ
+ * @returns セレクト上スクロールボタン要素
+ */
 function SelectScrollUpButton({ className, ...props }: React.ComponentProps<typeof SelectPrimitive.ScrollUpButton>) {
   return (
     <SelectPrimitive.ScrollUpButton
@@ -150,6 +222,15 @@ function SelectScrollUpButton({ className, ...props }: React.ComponentProps<type
   );
 }
 
+/**
+ * セレクト下スクロールボタンコンポーネント
+ *
+ * コンテンツが下にスクロール可能な場合に表示されるボタン。
+ * 下矢印アイコンが表示されます。
+ *
+ * @param props - Radix UI SelectScrollDownButtonコンポーネントのプロパティ
+ * @returns セレクト下スクロールボタン要素
+ */
 function SelectScrollDownButton({ className, ...props }: React.ComponentProps<typeof SelectPrimitive.ScrollDownButton>) {
   return (
     <SelectPrimitive.ScrollDownButton

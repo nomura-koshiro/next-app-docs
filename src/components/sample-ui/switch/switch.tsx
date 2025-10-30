@@ -3,6 +3,30 @@ import * as React from 'react';
 
 import { cn } from '@/utils/cn';
 
+/**
+ * スイッチコンポーネント
+ *
+ * Radix UIのSwitchプリミティブをベースにしたトグルスイッチ。
+ * ON/OFFの2状態を切り替えるためのアクセシブルなUIコンポーネントです。
+ *
+ * 機能:
+ * - Radix UIによるアクセシビリティサポート
+ * - スムーズなアニメーション
+ * - チェック状態の視覚的フィードバック
+ * - フォーカス時のリングスタイル
+ * - 無効化状態のスタイル
+ *
+ * @example
+ * ```tsx
+ * <div className="flex items-center space-x-2">
+ *   <Switch id="airplane-mode" />
+ *   <Label htmlFor="airplane-mode">機内モード</Label>
+ * </div>
+ * ```
+ *
+ * @param props - Radix UI SwitchRootコンポーネントのプロパティ
+ * @returns スイッチ要素
+ */
 const Switch = React.forwardRef<
   React.ElementRef<typeof SwitchPrimitives.Root>,
   React.ComponentPropsWithoutRef<typeof SwitchPrimitives.Root>

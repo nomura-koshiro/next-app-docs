@@ -283,7 +283,7 @@ export const useLogin = () => {
 ```typescript
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/sample-ui/button";
 import { ControlledInputField } from "@/components/form/controlled-input-field";
 import { useLogin } from "./login.hook";
 

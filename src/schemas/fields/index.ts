@@ -1,9 +1,28 @@
 /**
  * フィールドスキーマのバレルエクスポート
- * すべての共通フィールドスキーマを一箇所からインポート可能
+ *
+ * @module schemas/fields
+ *
+ * @description
+ * アプリケーション全体で使用する再利用可能なフィールドスキーマを提供。
+ * Zodを使用したバリデーションスキーマをカテゴリ別に整理。
+ *
+ * @example
+ * ```typescript
+ * import { emailSchema, passwordSchema, nameSchema } from '@/schemas/fields'
+ *
+ * const userSchema = z.object({
+ *   name: nameSchema,
+ *   email: emailSchema,
+ *   password: passwordSchema
+ * })
+ * ```
  */
 
-// 基本フィールド
+// ================================================================================
+// 基本フィールドスキーマ
+// ================================================================================
+
 export * from './age.schema';
 export * from './bio.schema';
 export * from './birthdate.schema';

@@ -113,7 +113,7 @@ pnpm generate:component
 **生成されるファイル:**
 
 ```text
-src/components/ui/modal/
+src/components/sample-ui/modal/
 ├── modal.tsx                    # コンポーネント本体
 ├── modal.stories.tsx            # ストーリーファイル（自動生成！）
 └── index.ts                     # エクスポートファイル
@@ -135,7 +135,7 @@ const meta = {
   // ================================================================================
   // Storybookのナビゲーション階層
   // ================================================================================
-  title: "components/ui/Modal",
+  title: "components/sample-ui/Modal",
 
   // ================================================================================
   // 表示するコンポーネント
@@ -473,7 +473,7 @@ src/features/product/routes/detail/
 
 ```typescript
 // modal を生成した場合
-title: "components/ui/Modal",
+title: "components/sample-ui/Modal",
 component: Modal,
 
 // product feature を生成した場合
@@ -487,7 +487,7 @@ component: ProductPage,
 // ================================================================================
 // Storybookのナビゲーション階層
 // ================================================================================
-title: "components/ui/Modal",
+title: "components/sample-ui/Modal",
 ```
 
 すべてのパラメータに説明コメントが付いています。
@@ -647,7 +647,7 @@ pnpm generate:component
 #### 2. 生成されたファイルを確認
 
 ```bash
-ls src/components/ui/modal/
+ls src/components/sample-ui/modal/
 # modal.tsx
 # modal.stories.tsx  ← 自動生成された！
 # index.ts

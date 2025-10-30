@@ -10,6 +10,28 @@ import { useAuthStore } from '@/features/sample-auth/stores/auth-store';
 
 /**
  * ログインページのロジックを管理するカスタムフック
+ *
+ * react-hook-formとzodスキーマによるバリデーションを使用し、
+ * FastAPI経由でログイン認証を実行します。
+ * 成功時はZustandストアにユーザー情報を保存し、ユーザー一覧ページへ遷移します。
+ *
+ * @returns ログインフォームの状態と操作関数
+ * @returns control - react-hook-formのcontrolオブジェクト
+ * @returns onSubmit - ログイン送信ハンドラー
+ * @returns errors - バリデーションエラー
+ * @returns isSubmitting - 送信中フラグ
+ *
+ * @example
+ * ```tsx
+ * const { control, onSubmit, errors, isSubmitting } = useLogin()
+ *
+ * <form onSubmit={onSubmit}>
+ *   <Controller name="email" control={control} />
+ *   <Controller name="password" control={control} />
+ *   {errors.root && <span>{errors.root.message}</span>}
+ *   <button disabled={isSubmitting}>ログイン</button>
+ * </form>
+ * ```
  */
 export const useLogin = () => {
   // ================================================================================
@@ -54,17 +76,26 @@ export const useLogin = () => {
     await loginMutation
       .mutateAsync(values)
       .then((data) => {
+        // トークンをlocalStorageに保存
         localStorage.setItem('token', data.token);
+
+        // ユーザー情報をZustandストアに保存
         setUser(data.user);
+
+        // ユーザー一覧ページへ遷移
         router.push('/users');
       })
       .catch(() => {
+        // ログイン失敗時のエラーメッセージを表示
         setError('root', {
           message: 'ログインに失敗しました。メールアドレスとパスワードを確認してください。',
         });
       });
   });
 
+  // ================================================================================
+  // 戻り値
+  // ================================================================================
   return {
     control,
     onSubmit,

@@ -4,8 +4,8 @@
 
 import { MOCK_AUTH } from '@/mocks/handlers/api/v1/auth-handlers';
 
-import { useAuthStore } from '../stores/auth-store';
 import type { User } from '../stores/auth-store';
+import { useAuthStore } from '../stores/auth-store';
 
 // ================================================================================
 // 定数
@@ -37,6 +37,19 @@ type AuthStateData = {
 };
 
 // ================================================================================
+// ロギングユーティリティ
+// ================================================================================
+
+/**
+ * 開発環境のみでログを出力するユーティリティ関数
+ */
+const log = (message: string, ...args: unknown[]) => {
+  if (process.env.NODE_ENV === 'development') {
+    console.log(`[Storybook Auth] ${message}`, ...args);
+  }
+};
+
+// ================================================================================
 // 内部ヘルパー関数
 // ================================================================================
 
@@ -60,23 +73,23 @@ const createStorageAuthState = (data: AuthStateData) => ({
  * @param data - 認証状態データ
  */
 const applyAuthState = (data: AuthStateData): void => {
-  console.log('[applyAuthState] Called with:', { isAuthenticated: data.isAuthenticated, user: data.user?.name });
-
-  console.log('[applyAuthState] Applying auth state:', { isAuthenticated: data.isAuthenticated, user: data.user?.name });
+  log('Called with:', { isAuthenticated: data.isAuthenticated, user: data.user?.name });
 
   // sessionStorageを設定
   sessionStorage.removeItem(AUTH_STORAGE_KEY);
   sessionStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(createStorageAuthState(data)));
-  console.log('[applyAuthState] sessionStorage updated');
+  log('sessionStorage updated');
 
   // Zustandストアを設定
   useAuthStore.setState({
     user: data.user,
     isAuthenticated: data.isAuthenticated,
-    isLoading: false,
     account: null,
   });
-  console.log('[applyAuthState] Zustand store updated:', { isAuthenticated: useAuthStore.getState().isAuthenticated, user: useAuthStore.getState().user?.name });
+  log('Zustand store updated:', {
+    isAuthenticated: useAuthStore.getState().isAuthenticated,
+    user: useAuthStore.getState().user?.name,
+  });
 };
 
 // ================================================================================
@@ -89,21 +102,23 @@ const applyAuthState = (data: AuthStateData): void => {
  * Storybookのデコレーターから呼び出され、認証済み状態を初期化します。
  */
 export const setAuthenticatedStorage = (): void => {
-  console.log('[setAuthenticatedStorage] BEFORE clear:', sessionStorage.getItem(AUTH_STORAGE_KEY));
+  log('setAuthenticatedStorage - BEFORE clear:', sessionStorage.getItem(AUTH_STORAGE_KEY));
 
   // sessionStorageを設定
   sessionStorage.removeItem(AUTH_STORAGE_KEY);
   sessionStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(createStorageAuthState(AUTHENTICATED_DATA)));
-  console.log('[setAuthenticatedStorage] AFTER set:', sessionStorage.getItem(AUTH_STORAGE_KEY));
+  log('setAuthenticatedStorage - AFTER set:', sessionStorage.getItem(AUTH_STORAGE_KEY));
 
   // Zustandストアも設定
   useAuthStore.setState({
     user: AUTHENTICATED_DATA.user,
     isAuthenticated: AUTHENTICATED_DATA.isAuthenticated,
-    isLoading: false,
     account: null,
   });
-  console.log('[setAuthenticatedStorage] Zustand store updated:', { isAuthenticated: useAuthStore.getState().isAuthenticated, user: useAuthStore.getState().user?.name });
+  log('Zustand store updated:', {
+    isAuthenticated: useAuthStore.getState().isAuthenticated,
+    user: useAuthStore.getState().user?.name,
+  });
 };
 
 /**
@@ -112,21 +127,23 @@ export const setAuthenticatedStorage = (): void => {
  * Storybookのデコレーターから呼び出され、未認証状態を初期化します。
  */
 export const setUnauthenticatedStorage = (): void => {
-  console.log('[setUnauthenticatedStorage] BEFORE clear:', sessionStorage.getItem(AUTH_STORAGE_KEY));
+  log('setUnauthenticatedStorage - BEFORE clear:', sessionStorage.getItem(AUTH_STORAGE_KEY));
 
   // sessionStorageを設定
   sessionStorage.removeItem(AUTH_STORAGE_KEY);
   sessionStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(createStorageAuthState(UNAUTHENTICATED_DATA)));
-  console.log('[setUnauthenticatedStorage] AFTER set:', sessionStorage.getItem(AUTH_STORAGE_KEY));
+  log('setUnauthenticatedStorage - AFTER set:', sessionStorage.getItem(AUTH_STORAGE_KEY));
 
   // Zustandストアも設定
   useAuthStore.setState({
     user: UNAUTHENTICATED_DATA.user,
     isAuthenticated: UNAUTHENTICATED_DATA.isAuthenticated,
-    isLoading: false,
     account: null,
   });
-  console.log('[setUnauthenticatedStorage] Zustand store updated:', { isAuthenticated: useAuthStore.getState().isAuthenticated, user: useAuthStore.getState().user?.name });
+  log('Zustand store updated:', {
+    isAuthenticated: useAuthStore.getState().isAuthenticated,
+    user: useAuthStore.getState().user?.name,
+  });
 };
 
 // ================================================================================
@@ -142,7 +159,8 @@ export const setUnauthenticatedStorage = (): void => {
  * @returns 空のオブジェクト
  */
 export const authenticatedLoader = async () => {
-  console.log('[authenticatedLoader] Called (but does nothing in Node environment)');
+  log('authenticatedLoader called (but does nothing in Node environment)');
+
   return {};
 };
 
@@ -155,7 +173,8 @@ export const authenticatedLoader = async () => {
  * @returns 空のオブジェクト
  */
 export const unauthenticatedLoader = async () => {
-  console.log('[unauthenticatedLoader] Called (but does nothing in Node environment)');
+  log('unauthenticatedLoader called (but does nothing in Node environment)');
+
   return {};
 };
 
@@ -169,7 +188,7 @@ export const unauthenticatedLoader = async () => {
  * Storybookのplay関数から呼び出され、認証済み状態に更新します。
  */
 export const setAuthenticatedState = (): void => {
-  console.log('[setAuthenticatedState] Called');
+  log('setAuthenticatedState called');
   applyAuthState(AUTHENTICATED_DATA);
 };
 
@@ -179,6 +198,6 @@ export const setAuthenticatedState = (): void => {
  * Storybookのplay関数から呼び出され、未認証状態に更新します。
  */
 export const setUnauthenticatedState = (): void => {
-  console.log('[setUnauthenticatedState] Called');
+  log('setUnauthenticatedState called');
   applyAuthState(UNAUTHENTICATED_DATA);
 };

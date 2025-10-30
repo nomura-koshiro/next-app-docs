@@ -132,7 +132,7 @@ pnpm generate:component
 UIコンポーネント（サブディレクトリ構造）:
 
 ```text
-src/components/ui/modal/
+src/components/sample-ui/modal/
 ├── modal.tsx
 ├── modal.stories.tsx
 └── index.ts

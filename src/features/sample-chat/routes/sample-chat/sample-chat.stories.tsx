@@ -117,8 +117,7 @@ export const SendMessage: Story = {
   parameters: {
     docs: {
       description: {
-        story:
-          'ユーザーがメッセージを送信する操作をシミュレート。楽観的UI更新により、APIレスポンスを待たずにメッセージが表示されます。',
+        story: 'ユーザーがメッセージを送信する操作をシミュレート。楽観的UI更新により、APIレスポンスを待たずにメッセージが表示されます。',
       },
     },
   },

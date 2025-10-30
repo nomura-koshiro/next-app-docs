@@ -181,7 +181,7 @@ rules: {
 // ソートされていない、グループ化されていない
 import { useState } from 'react';
 import { api } from '@/lib/api-client';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/sample-ui/button';
 import { useRouter } from 'next/navigation';
 ```
 
@@ -192,7 +192,7 @@ import { useRouter } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/sample-ui/button';
 import { api } from '@/lib/api-client';
 ```
 
@@ -238,7 +238,7 @@ rules: {
 ```typescript
 // 未使用のインポート
 import { useState, useEffect, useMemo } from 'react';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/sample-ui/button';
 import { api } from '@/lib/api-client';
 
 // useEffectとuseMemoは使われていない
@@ -1133,7 +1133,7 @@ const findUser = (users: User[], id: number) => {
 
 ```typescript
 // ソートされていない、グループ化されていない
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/sample-ui/button';
 import { useState } from 'react';
 import { api } from '@/lib/api-client';
 import { useRouter } from 'next/navigation';
@@ -1149,7 +1149,7 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 // 内部モジュール（アルファベット順）
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/sample-ui/button';
 import { api } from '@/lib/api-client';
 
 // 相対インポート（アルファベット順）
@@ -1207,7 +1207,7 @@ UIコンポーネント（`src/components/ui/`、`src/components/sample-ui/`、`
 ### UIコンポーネントでの使用例
 
 ```typescript
-// src/components/ui/button/button.tsx
+// src/components/sample-ui/button/button.tsx
 // 関数宣言が許可される
 function Button({ children, ...props }: ButtonProps) {
   return <button {...props}>{children}</button>;

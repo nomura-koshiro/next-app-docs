@@ -19,6 +19,13 @@ import { MutationConfig } from '@/lib/tanstack-query';
  * エンドポイント: POST /api/v1/sample/auth/logout
  * TODO: バックエンドでセッション管理している場合、エンドポイントを実装してください
  * TODO: JWTのみの場合、クライアント側でトークン削除のみで十分な場合もあります
+ *
+ * @returns void（ログアウト完了）
+ *
+ * @example
+ * ```tsx
+ * await logout();
+ * ```
  */
 export const logout = (): Promise<void> => {
   // TODO: サーバー側のセッション削除が必要な場合は有効化
@@ -38,6 +45,13 @@ type UseLogoutOptions = {
 
 /**
  * ログアウトMutation Hook
+ *
+ * ミューテーション成功時に以下の処理を実行:
+ * - 全てのクエリキャッシュをクリア（ユーザー情報などを削除）
+ *
+ * @param options - フックオプション
+ * @param options.mutationConfig - React Queryのミューテーション設定
+ * @returns ログアウトミューテーションオブジェクト
  *
  * @example
  * ```tsx

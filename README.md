@@ -60,28 +60,32 @@ pnpm storybook
 ```text
 src/
 ├── app/                    # Next.js App Router
-│   ├── (auth)/            # 認証関連ルート
-│   ├── (main)/            # メイン機能ルート
+│   ├── (auth)/            # 認証ページ（Azure Entra ID）
+│   ├── (protected)/       # 認証が必要なページ
+│   ├── (sample)/          # サンプル実装ページ
 │   └── layout.tsx         # ルートレイアウト
 │
 ├── features/              # 機能モジュール（Feature-Based Organization）
-│   ├── {feature}/
-│   │   ├── api/           # API通信
-│   │   ├── components/    # UIコンポーネント
-│   │   ├── hooks/         # カスタムフック
-│   │   ├── routes/        # ルート（ページ）
-│   │   ├── schemas/       # バリデーションスキーマ
-│   │   └── stores/        # ローカルストア
+│   ├── auth/              # 本番認証機能（Azure Entra ID）
+│   ├── sample-*/          # サンプル実装（auth, users, form, file, chat等）
+│   └── {feature}/         # 各機能の構成
+│       ├── api/           # API通信
+│       ├── components/    # UIコンポーネント
+│       ├── hooks/         # カスタムフック
+│       ├── routes/        # ルート（ページ）
+│       ├── schemas/       # バリデーションスキーマ
+│       └── stores/        # ローカルストア
 │
 ├── components/            # 共通コンポーネント
-│   ├── ui/                # 基本UIコンポーネント (shadcn/ui)
+│   ├── sample-ui/         # 基本UIコンポーネント（shadcn/ui風）
+│   ├── ui/                # ユーティリティコンポーネント
 │   ├── errors/            # エラー表示
-│   └── layouts/           # レイアウト
+│   └── layout/            # レイアウト
 │
 ├── lib/                   # 外部ライブラリ設定
 ├── schemas/               # 共通バリデーションスキーマ
 ├── mocks/                 # MSWモックハンドラー
-├── config/                # 設定ファイル
+├── config/                # 設定ファイル（env, msal, paths等）
 ├── hooks/                 # 共通カスタムフック
 ├── types/                 # 共通型定義
 └── utils/                 # ユーティリティ関数

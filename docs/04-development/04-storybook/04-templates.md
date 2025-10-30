@@ -124,7 +124,7 @@
 ```bash
 # UIコンポーネントの場合
 cp .storybook/templates/basic-ui-component.stories.template.tsx \
-   src/components/ui/modal/modal.stories.tsx
+   src/components/sample-ui/modal/modal.stories.tsx
 
 # レイアウトコンポーネントの場合
 cp .storybook/templates/layout-component.stories.template.tsx \
@@ -146,7 +146,7 @@ import { Modal } from "./modal";
 ```typescript
 const meta = {
   // タイトルを変更
-  title: "components/ui/Modal",
+  title: "components/sample-ui/Modal",
 
   // コンポーネントを指定
   component: Modal,
@@ -182,9 +182,9 @@ const meta = {
   // ================================================================================
   // Storybookのナビゲーション階層
   // 形式: "category/subcategory/ComponentName"
-  // 例: "components/ui/Button", "features/auth/LoginForm"
+  // 例: "components/sample-ui/Button", "features/auth/LoginForm"
   // ================================================================================
-  title: "components/ui/ComponentName",
+  title: "components/sample-ui/ComponentName",
 
   // ================================================================================
   // 表示するコンポーネント
@@ -230,7 +230,7 @@ export const DarkMode: Story = { ... }
 Storybookのナビゲーション階層を定義します。
 
 ```typescript
-title: "components/ui/Button"
+title: "components/sample-ui/Button"
 // カテゴリ: components
 // サブカテゴリ: ui
 // コンポーネント名: Button
@@ -450,14 +450,14 @@ parameters: {
 ```bash
 # 1. テンプレートをコピー
 cp .storybook/templates/basic-ui-component.stories.template.tsx \
-   src/components/ui/badge/badge.stories.tsx
+   src/components/sample-ui/badge/badge.stories.tsx
 
 # 2. エディタで開いて編集
-code src/components/ui/badge/badge.stories.tsx
+code src/components/sample-ui/badge/badge.stories.tsx
 
 # 3. 主な修正ポイント:
 # - import文を修正
-# - title を "components/ui/Badge" に変更
+# - title を "components/sample-ui/Badge" に変更
 # - component を Badge に変更
 # - argTypes を Badge の props に合わせる
 # - 不要なストーリーを削除
@@ -574,10 +574,10 @@ cp .storybook/templates/chart-component.stories.template.tsx \\
 // Storybookのナビゲーション階層
 // 形式: "category/subcategory/ComponentName"
 // ================================================================================
-title: "components/ui/ComponentName",
+title: "components/sample-ui/ComponentName",
 
 // ❌ Bad: コメントなし
-title: "components/ui/ComponentName",
+title: "components/sample-ui/ComponentName",
 ```
 
 #### 2. TODO コメントを活用
@@ -634,7 +634,7 @@ A: 既存のストーリーファイルから、再利用可能な部分を抽�
 
 ```bash
 # 既存のストーリーをテンプレートとして保存
-cp src/components/ui/badge/badge.stories.tsx \
+cp src/components/sample-ui/badge/badge.stories.tsx \
    .storybook/templates/badge-like-component.stories.template.tsx
 
 # TODO コメントを追加

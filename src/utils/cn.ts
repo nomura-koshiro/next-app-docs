@@ -2,13 +2,8 @@ import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
 /**
- * Tailwind CSSのクラス名をマージするユーティリティ関数
- *
  * clsxとtailwind-mergeを組み合わせて、条件付きクラス名と
  * Tailwindのクラス名の競合を解決します。
- *
- * @param inputs - クラス名の配列または条件付きオブジェクト
- * @returns マージされたクラス名文字列
  *
  * @example
  * ```tsx

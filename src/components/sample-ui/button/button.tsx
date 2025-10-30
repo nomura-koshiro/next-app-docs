@@ -30,24 +30,12 @@ const buttonVariants = cva(
   }
 );
 
-/**
- * ボタンのプロパティ
- */
 export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> &
   VariantProps<typeof buttonVariants> & {
-    /**
-     * Slotとして動作するかどうか
-     * trueの場合、子要素にpropsを渡す
-     */
     asChild?: boolean;
   };
 
 /**
- * ボタンコンポーネント
- *
- * shadcn/uiベースの再利用可能なボタンUIコンポーネント。
- * 複数のバリエーションとサイズをサポートします。
- *
  * @example
  * ```tsx
  * <Button variant="default" onClick={() => console.log('clicked')}>

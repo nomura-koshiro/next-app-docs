@@ -4,6 +4,34 @@ import * as React from 'react';
 
 import { cn } from '@/utils/cn';
 
+/**
+ * ラジオグループコンポーネント
+ *
+ * Radix UIのRadioGroupプリミティブをベースにした排他選択グループ。
+ * 複数の選択肢から1つを選択するためのアクセシブルなUIコンポーネントです。
+ *
+ * 機能:
+ * - Radix UIによるアクセシビリティサポート
+ * - キーボードナビゲーション対応
+ * - グリッドレイアウト
+ *
+ * @example
+ * ```tsx
+ * <RadioGroup defaultValue="option1">
+ *   <div className="flex items-center space-x-2">
+ *     <RadioGroupItem value="option1" id="r1" />
+ *     <Label htmlFor="r1">オプション1</Label>
+ *   </div>
+ *   <div className="flex items-center space-x-2">
+ *     <RadioGroupItem value="option2" id="r2" />
+ *     <Label htmlFor="r2">オプション2</Label>
+ *   </div>
+ * </RadioGroup>
+ * ```
+ *
+ * @param props - Radix UI RadioGroupRootコンポーネントのプロパティ
+ * @returns ラジオグループ要素
+ */
 const RadioGroup = React.forwardRef<
   React.ElementRef<typeof RadioGroupPrimitive.Root>,
   React.ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Root>
@@ -12,6 +40,27 @@ const RadioGroup = React.forwardRef<
 });
 RadioGroup.displayName = RadioGroupPrimitive.Root.displayName;
 
+/**
+ * ラジオグループアイテムコンポーネント
+ *
+ * ラジオグループ内の個別の選択肢。
+ * 選択時に中央の円が表示されます。
+ *
+ * 機能:
+ * - 円形のラジオボタンデザイン
+ * - フォーカス時のリングスタイル
+ * - 選択状態の視覚的フィードバック
+ * - 無効化状態のスタイル
+ *
+ * @example
+ * ```tsx
+ * <RadioGroupItem value="option1" id="option1" />
+ * <Label htmlFor="option1">オプション1</Label>
+ * ```
+ *
+ * @param props - Radix UI RadioGroupItemコンポーネントのプロパティ
+ * @returns ラジオグループアイテム要素
+ */
 const RadioGroupItem = React.forwardRef<
   React.ElementRef<typeof RadioGroupPrimitive.Item>,
   React.ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Item>

@@ -149,7 +149,7 @@ export const useUsers = () => {
 ```typescript
 "use client";
 
-import { Input } from "@/components/ui/input";
+import { Input } from "@/components/sample-ui/input";
 import { useUsers } from "./users.hook";
 
 const UsersPage = () => {

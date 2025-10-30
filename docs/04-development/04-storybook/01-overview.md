@@ -99,12 +99,12 @@ ls storybook-static
 ### 基本的なStory
 
 ```typescript
-// components/ui/button.stories.tsx
+// components/sample-ui/button/button.stories.tsx
 import type { Meta, StoryObj } from '@storybook/nextjs-vite'
 import { Button } from './button'
 
 const meta = {
-  title: 'UI/Button',
+  title: 'Sample UI/Button',
   component: Button,
   parameters: {
     layout: 'centered',
@@ -173,7 +173,7 @@ components/
 ### 複数バリアントの表示
 
 ```typescript
-// components/ui/button.stories.tsx
+// components/sample-ui/button.stories.tsx
 import type { Meta, StoryObj } from '@storybook/nextjs-vite'
 import { Button } from './button'
 
@@ -212,7 +212,7 @@ export const AllSizes: Story = {
 ### フォームコンポーネントのStory
 
 ```typescript
-// components/ui/input.stories.tsx
+// components/sample-ui/input.stories.tsx
 import type { Meta, StoryObj } from '@storybook/nextjs-vite'
 import { Input } from './input'
 
@@ -412,7 +412,7 @@ export const Tablet: Story = {
 ### Play関数でインタラクションをテスト
 
 ```typescript
-// components/ui/button.stories.tsx
+// components/sample-ui/button.stories.tsx
 import type { Meta, StoryObj } from '@storybook/nextjs-vite'
 import { expect, userEvent, within } from '@storybook/test'
 import { Button } from './button'

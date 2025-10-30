@@ -19,13 +19,6 @@ export type UploadFileResponse = {
 // API関数
 // ================================================================================
 
-/**
- * ファイルをアップロード
- *
- * @param file - アップロードするファイル
- * @param onProgress - アップロード進捗コールバック（0-100）
- * @returns アップロード結果
- */
 export const uploadFile = async (file: File, onProgress?: (progress: number) => void): Promise<UploadFileResponse> => {
   const formData = new FormData();
   formData.append('file', file);
@@ -51,7 +44,11 @@ export const uploadFile = async (file: File, onProgress?: (progress: number) => 
 };
 
 /**
- * ファイルをアップロード（進捗コールバックなし）
+ * @example
+ * ```tsx
+ * const result = await uploadFileSimple(file)
+ * console.log(result.id) // アップロードされたファイルのID
+ * ```
  */
 export const uploadFileSimple = async (file: File): Promise<UploadFileResponse> => {
   return uploadFile(file);
@@ -65,6 +62,13 @@ type UseUploadFileOptions = {
   mutationConfig?: MutationConfig<typeof uploadFileSimple>;
 };
 
+/**
+ * @example
+ * ```tsx
+ * const { mutate, isPending } = useUploadFile()
+ * mutate(file)
+ * ```
+ */
 export const useUploadFile = ({ mutationConfig }: UseUploadFileOptions = {}) => {
   return useMutation({
     ...mutationConfig,

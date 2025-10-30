@@ -41,10 +41,7 @@ export const LoadingSpinner = ({ message = '読み込み中...', fullScreen = tr
   return (
     <div className={containerClass}>
       <div className="text-center" role="status" aria-live="polite">
-        <div
-          className="mx-auto h-12 w-12 animate-spin rounded-full border-4 border-gray-300 border-t-blue-600"
-          aria-hidden="true"
-        />
+        <div className="mx-auto h-12 w-12 animate-spin rounded-full border-4 border-gray-300 border-t-blue-600" aria-hidden="true" />
         <p className="mt-4 text-gray-600">{message}</p>
       </div>
     </div>

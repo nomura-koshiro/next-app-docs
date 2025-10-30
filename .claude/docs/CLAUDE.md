@@ -17,7 +17,7 @@ Training Tracker は、個人やチームのトレーニング記録を管理す
 - **ローカル状態**: React State (コンポーネント固有)
 
 ### コンポーネント設計
-- **UI Components** (`components/ui/`): CVAによるバリアント、forwardRef、型安全なProps
+- **UI Components** (`components/sample-ui/` for basic UI, `components/ui/` for utilities): CVAによるバリアント、forwardRef、型安全なProps
 - **Feature Components** (`features/*/components/`): ビジネスロジック統合
 - **Layout Components** (`components/layout/`): ページ構造
 
@@ -122,7 +122,8 @@ apps/frontend/
 ├── docs/                     # プロジェクトドキュメント
 ├── src/
 │   ├── features/            # ビジネス機能モジュール
-│   ├── components/ui/       # 再利用可能UIコンポーネント
+│   ├── components/sample-ui/ # 基本UIコンポーネント
+│   ├── components/ui/        # ユーティリティコンポーネント
 │   ├── lib/                # 共通ライブラリ・設定
 │   ├── stores/             # Zustand状態管理
 │   ├── types/              # 型定義

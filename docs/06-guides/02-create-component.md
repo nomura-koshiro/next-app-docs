@@ -9,7 +9,7 @@
 3. [ステップ2: コンポーネントファイルを作成](#ステップ2-コンポーネントファイルを作成)
 4. [ステップ3: Storybookファイルを作成](#ステップ3-storybookファイルを作成)
 5. [ステップ4: バレルエクスポートを作成](#ステップ4-バレルエクスポートを作成)
-6. [ステップ5: 共通UIの場合は components/ui/index.ts に追加](#ステップ5-共通uiの場合は-componentsuiindexts-に追加)
+6. [ステップ5: 共通UIの場合は components/sample-ui/index.ts に追加](#ステップ5-共通uiの場合は-componentsuiindexts-に追加)
 7. [ステップ6: Storybookで確認](#ステップ6-storybookで確認)
 8. [ステップ7: 実際のコンポーネントで使用](#ステップ7-実際のコンポーネントで使用)
 9. [チェックリスト](#-チェックリスト)
@@ -31,8 +31,8 @@
 ### 共通UIコンポーネントの場合
 
 ```bash
-# components/ui/ 配下に作成
-mkdir src/components/ui/badge
+# components/sample-ui/ 配下に作成
+mkdir src/components/sample-ui/badge
 ```
 
 ### Feature固有コンポーネントの場合
@@ -49,7 +49,7 @@ mkdir src/features/users/components/user-badge
 ### 基本パターン
 
 ```typescript
-// src/components/ui/badge/badge.tsx
+// src/components/sample-ui/badge/badge.tsx
 import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '@/utils/cn'
 
@@ -106,7 +106,7 @@ type BadgeProps = React.HTMLAttributes<HTMLDivElement> &
 ## ステップ3: Storybookファイルを作成
 
 ```typescript
-// src/components/ui/badge/badge.stories.tsx
+// src/components/sample-ui/badge/badge.stories.tsx
 import type { Meta, StoryObj } from '@storybook/nextjs-vite'
 import { Badge } from './badge'
 
@@ -173,16 +173,16 @@ export const AllVariants: Story = {
 ## ステップ4: バレルエクスポートを作成
 
 ```typescript
-// src/components/ui/badge/index.ts
+// src/components/sample-ui/badge/index.ts
 export { Badge, type BadgeProps } from './badge'
 ```
 
 ---
 
-## ステップ5: 共通UIの場合は `components/ui/index.ts` に追加
+## ステップ5: 共通UIの場合は `components/sample-ui/index.ts` に追加
 
 ```typescript
-// src/components/ui/index.ts
+// src/components/sample-ui/index.ts
 export * from './alert'
 export * from './badge'  // ← 追加
 export * from './button'
@@ -206,7 +206,7 @@ pnpm storybook
 
 ```typescript
 // 使用例
-import { Badge } from '@/components/ui/badge'
+import { Badge } from '@/components/sample-ui/badge'
 
 export const UserCard = ({ user }: { user: User }) => {
   return (
@@ -234,7 +234,7 @@ export const UserCard = ({ user }: { user: User }) => {
   - [ ] 主要なバリアントのStory
   - [ ] `autodocs`タグ
 - [ ] `index.ts` でエクスポート
-- [ ] `components/ui/index.ts` に追加（共通UIの場合）
+- [ ] `components/sample-ui/index.ts` に追加（共通UIの場合）
 - [ ] Storybookで動作確認
 - [ ] 実際のページで使用テスト
 
@@ -243,7 +243,7 @@ export const UserCard = ({ user }: { user: User }) => {
 ## 📝 実例: 完全なファイル構成
 
 ```text
-src/components/ui/badge/
+src/components/sample-ui/badge/
 ├── badge.tsx           # コンポーネント本体
 ├── badge.stories.tsx   # Storybookストーリー
 └── index.ts            # エクスポート

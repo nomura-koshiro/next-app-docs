@@ -1,7 +1,7 @@
 /**
  * ユーザーロール型
  */
-export type UserRole = 'user' | 'admin' | 'guest';
+export type UserRole = 'user' | 'admin';
 
 /**
  * ユーザー型

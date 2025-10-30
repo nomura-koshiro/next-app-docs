@@ -228,14 +228,14 @@ graph TD
 ```typescript
 // app/(group-a)/page.tsx
 import { FeatureList } from '@/features/{feature-name}'
-import { Button } from '@/components/ui/button'
+import { Button } from '@/components/sample-ui/button'
 
 // features/{feature-name}/components/{feature}-form.tsx
-import { Button } from '@/components/ui/button'
+import { Button } from '@/components/sample-ui/button'
 import { useForm } from '@/hooks/use-form'
 import { useFeature } from '../hooks/use-feature'
 
-// components/ui/button.tsx
+// components/sample-ui/button.tsx
 import { cva } from 'class-variance-authority'
 import { cn } from '@/utils/cn'
 ```
@@ -244,7 +244,7 @@ import { cn } from '@/utils/cn'
 
 ```typescript
 // ❌ 共通コードからfeaturesをインポート
-// components/ui/button.tsx
+// components/sample-ui/button.tsx
 import { FeatureForm } from '@/features/{feature-name}'
 
 // ❌ feature間でインポート
@@ -295,7 +295,7 @@ export const useCreateItem = () => {
 ```typescript
 // {feature}-list.tsx
 import { useItems } from '../api/get-items'
-import { Card } from '@/components/ui/card'
+import { Card } from '@/components/sample-ui/card'
 
 export const FeatureList = () => {
   const { data: items, isLoading } = useItems()
@@ -316,7 +316,7 @@ export const FeatureList = () => {
 
 ```typescript
 import { FeatureList } from '@/features/{feature-name}'
-import { Button } from '@/components/ui/button'
+import { Button } from '@/components/sample-ui/button'
 
 export default function FeaturePage() {
   return (
@@ -331,7 +331,7 @@ export default function FeaturePage() {
 
 ### 例2: 共通コンポーネントの作成
 
-#### 1. 基本UIコンポーネント (`components/ui/button.tsx`)
+#### 1. 基本UIコンポーネント (`components/sample-ui/button.tsx`)
 
 ```typescript
 import { forwardRef } from 'react'
@@ -378,7 +378,7 @@ Button.displayName = 'Button'
 
 ```typescript
 // features/{feature-name}/components/{feature}-form.tsx
-import { Button } from '@/components/ui/button'
+import { Button } from '@/components/sample-ui/button'
 
 export const FeatureForm = () => {
   return (
@@ -436,7 +436,7 @@ export default function Page() {
 
 ```typescript
 // ❌ Bad
-// components/ui/item-card.tsx
+// components/sample-ui/item-card.tsx
 import { useItems } from '@/features/{feature-name}/api/get-items'
 
 export const ItemCard = () => {
@@ -449,7 +449,7 @@ export const ItemCard = () => {
 
 ```typescript
 // ✅ Good
-// components/ui/item-card.tsx
+// components/sample-ui/item-card.tsx
 import type { Item } from '@/types'
 
 interface ItemCardProps {
@@ -462,7 +462,7 @@ export const ItemCard = ({ item }: ItemCardProps) => {
 
 // features/{feature-name}/components/{feature}-list.tsx
 import { useItems } from '../api/get-items'
-import { ItemCard } from '@/components/ui/item-card'
+import { ItemCard } from '@/components/sample-ui/item-card'
 
 export const FeatureList = () => {
   const { data: items } = useItems()

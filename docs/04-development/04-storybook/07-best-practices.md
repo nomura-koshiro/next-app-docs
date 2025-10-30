@@ -21,14 +21,14 @@ Storybookを効果的に活用するための実践的なガイド
 
 ```text
 ✅ Good: コロケーション
-src/components/ui/button/
+src/components/sample-ui/button/
 ├── button.tsx
 ├── button.stories.tsx  # コンポーネントと同じ場所
 └── index.ts
 
 ❌ Bad: 分離
 src/
-├── components/ui/button/
+├── components/sample-ui/button/
 │   ├── button.tsx
 │   └── index.ts
 └── stories/

@@ -54,7 +54,7 @@ fireEvent.click(screen.getByRole('button', { name: 'Increment' }))
 ### シンプルなコンポーネント
 
 ```typescript
-// components/ui/button.test.tsx
+// components/sample-ui/button.test.tsx
 import { render, screen } from '@testing-library/react'
 import { describe, it, expect } from 'vitest'
 import { Button } from './button'
@@ -83,7 +83,7 @@ describe('Button', () => {
 ### Props のバリエーション
 
 ```typescript
-// components/ui/button.test.tsx
+// components/sample-ui/button.test.tsx
 describe('Button variants', () => {
   it('primary バリアントを表示', () => {
     const { container } = render(<Button variant="primary">Primary</Button>)

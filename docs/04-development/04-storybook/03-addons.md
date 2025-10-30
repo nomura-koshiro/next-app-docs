@@ -22,7 +22,7 @@ Controlsアドオンは、Storybookのコントロールパネルでpropsを動�
 
 ```typescript
 const meta = {
-  title: "components/ui/Button",
+  title: "components/sample-ui/Button",
   component: Button,
   argTypes: {
     // テキスト入力
@@ -106,7 +106,7 @@ argTypes: {
 
 ```typescript
 const meta = {
-  title: "components/ui/Button",
+  title: "components/sample-ui/Button",
   component: Button,
   args: {
     // すべてのストーリーのデフォルト値
@@ -137,7 +137,7 @@ Actionsアドオンは、イベントハンドラーの呼び出しを記録・�
 import { fn } from "@storybook/test";
 
 const meta = {
-  title: "components/ui/Button",
+  title: "components/sample-ui/Button",
   component: Button,
   args: {
     // fn()で関数をモック
@@ -154,7 +154,7 @@ const meta = {
 
 ```typescript
 const meta = {
-  title: "components/ui/Button",
+  title: "components/sample-ui/Button",
   component: Button,
   parameters: {
     actions: {
@@ -290,7 +290,7 @@ Accessibilityアドオン（A11y）は、アクセシビリティの問題を検
 
 ```typescript
 const meta = {
-  title: "components/ui/Button",
+  title: "components/sample-ui/Button",
   component: Button,
   parameters: {
     // A11yチェックは自動で実行される

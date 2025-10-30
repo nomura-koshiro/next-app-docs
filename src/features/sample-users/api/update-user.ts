@@ -11,6 +11,15 @@ import type { UpdateUserDTO, User } from '../types';
 // API関数
 // ================================================================================
 
+/**
+ * @example
+ * ```tsx
+ * const updatedUser = await updateUser({
+ *   userId: '123',
+ *   data: { name: 'John Doe', email: 'john@example.com' }
+ * });
+ * ```
+ */
 export const updateUser = ({ userId, data }: { userId: string; data: UpdateUserDTO }): Promise<User> => {
   return api.put(`/sample/users/${userId}`, data);
 };
@@ -23,6 +32,32 @@ type UseUpdateUserOptions = {
   mutationConfig?: MutationConfig<typeof updateUser>;
 };
 
+/**
+ * ミューテーション成功時に以下の処理を実行:
+ * - ユーザー一覧のクエリキャッシュを無効化
+ * - 更新したユーザーの詳細クエリキャッシュを無効化
+ *
+ * @example
+ * ```tsx
+ * import { useUpdateUser } from '@/features/sample-users/api/update-user';
+ *
+ * function UpdateUserForm({ userId }: { userId: string }) {
+ *   const updateUserMutation = useUpdateUser({
+ *     mutationConfig: {
+ *       onSuccess: (data) => {
+ *         console.log('ユーザーが更新されました:', data);
+ *       },
+ *     },
+ *   });
+ *
+ *   const handleSubmit = (values: UpdateUserDTO) => {
+ *     updateUserMutation.mutate({ userId, data: values });
+ *   };
+ *
+ *   return <form onSubmit={handleSubmit}>...</form>;
+ * }
+ * ```
+ */
 export const useUpdateUser = ({ mutationConfig }: UseUpdateUserOptions = {}) => {
   const queryClient = useQueryClient();
 

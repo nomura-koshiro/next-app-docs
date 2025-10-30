@@ -18,6 +18,9 @@ import { cn } from '@/utils/cn';
  * ```tsx
  * <Textarea placeholder="コメントを入力してください" rows={5} />
  * ```
+ *
+ * @param props - HTMLTextAreaElementのプロパティ
+ * @returns テキストエリア要素
  */
 const Textarea = React.forwardRef<HTMLTextAreaElement, React.ComponentProps<'textarea'>>(({ className, ...props }, ref) => {
   return (

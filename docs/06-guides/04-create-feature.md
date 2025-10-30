@@ -299,10 +299,10 @@ mkdir -p src/features/posts/routes/posts
 'use client'
 
 import Link from 'next/link'
-import { Button } from '@/components/ui/button'
-import { Card } from '@/components/ui/card'
+import { Button } from '@/components/sample-ui/button'
+import { Card } from '@/components/sample-ui/card'
 import { LoadingSpinner } from '@/components/ui/loading-spinner'
-import { ErrorMessage } from '@/components/ui/error-message'
+import { ErrorMessage } from '@/components/sample-ui/error-message'
 import { usePosts } from './posts.hook'
 
 export default function PostsPage() {
@@ -371,9 +371,9 @@ mkdir -p src/features/posts/routes/new-post
 // src/features/posts/routes/new-post/new-post.tsx
 'use client'
 
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { FormField } from '@/components/ui/form-field'
+import { Button } from '@/components/sample-ui/button'
+import { Input } from '@/components/sample-ui/input'
+import { FormField } from '@/components/sample-ui/form-field'
 import { useNewPost } from './new-post.hook'
 
 export default function NewPostPage() {

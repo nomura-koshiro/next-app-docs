@@ -261,8 +261,8 @@ export default function Loading() {
 'use client'
 
 import { useEffect } from 'react'
-import { Button } from '@/components/ui/button'
-import { ErrorMessage } from '@/components/ui/error-message'
+import { Button } from '@/components/sample-ui/button'
+import { ErrorMessage } from '@/components/sample-ui/error-message'
 
 type Props = {
   error: Error & { digest?: string }
@@ -296,7 +296,7 @@ export default function Error({ error, reset }: Props) {
 ```typescript
 // src/app/(sample)/posts/not-found.tsx
 import Link from 'next/link'
-import { Button } from '@/components/ui/button'
+import { Button } from '@/components/sample-ui/button'
 
 export default function NotFound() {
   return (

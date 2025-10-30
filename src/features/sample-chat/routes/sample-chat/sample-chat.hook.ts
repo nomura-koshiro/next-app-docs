@@ -13,6 +13,23 @@ import type { Message } from '../../types';
  * React 19のuseOptimisticを使用して、メッセージ送信時の即座のUI反映を実現します。
  * FastAPIのレスポンスを待たずにユーザーメッセージを画面に表示し、
  * エラー時は自動的にロールバックされます。
+ * 会話IDを管理し、連続したメッセージのやり取りを可能にします。
+ *
+ * @returns チャットの状態と操作関数
+ * @returns messages - 楽観的更新を反映したメッセージリスト
+ * @returns inputMessage - 入力中のメッセージ
+ * @returns isSending - 送信中フラグ
+ * @returns handleSendMessage - メッセージ送信ハンドラー
+ * @returns handleInputChange - 入力変更ハンドラー
+ *
+ * @example
+ * ```tsx
+ * const { messages, inputMessage, isSending, handleSendMessage, handleInputChange } = useSampleChat()
+ *
+ * <input value={inputMessage} onChange={(e) => handleInputChange(e.target.value)} />
+ * <button onClick={handleSendMessage} disabled={isSending}>送信</button>
+ * {messages.map(msg => <div key={msg.id}>{msg.content}</div>)}
+ * ```
  */
 export const useSampleChat = () => {
   // ================================================================================
@@ -60,7 +77,7 @@ export const useSampleChat = () => {
       timestamp: new Date(),
     };
 
-    // 🚀 即座にUIに反映（楽観的更新）
+    // 即座にUIに反映（楽観的更新）
     startTransition(() => {
       addOptimisticMessage(userMessage);
     });
@@ -78,14 +95,14 @@ export const useSampleChat = () => {
           setConversationId(response.conversationId);
         }
 
-        // ✅ 実際のメッセージで状態を更新
+        // 実際のメッセージで状態を更新
         // useOptimisticのベースとなる状態を更新することで、楽観的更新を確定
         setMessages((prev: Message[]) => [...prev, userMessage, response.message]);
       })
       .catch((error) => {
         logger.error('メッセージの送信に失敗しました', error);
 
-        // ❌ エラー時: 楽観的更新が自動的にロールバック
+        // エラー時: 楽観的更新が自動的にロールバック
         // エラーメッセージのみを追加
         const errorMessage: Message = {
           id: `error-${Date.now()}`,

@@ -180,7 +180,7 @@ export const useSampleChat = () => {
 ```typescript
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/sample-ui/button";
 import { useSampleChat } from "./sample-chat.hook";
 
 const SampleChatPage = () => {

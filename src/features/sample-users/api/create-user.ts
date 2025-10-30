@@ -11,6 +11,16 @@ import type { CreateUserDTO, User } from '../types';
 // API関数
 // ================================================================================
 
+/**
+ * @example
+ * ```tsx
+ * const newUser = await createUser({
+ *   name: 'John Doe',
+ *   email: 'john@example.com',
+ *   role: 'user'
+ * })
+ * ```
+ */
 export const createUser = (data: CreateUserDTO): Promise<User> => {
   return api.post('/sample/users', data);
 };
@@ -23,6 +33,15 @@ type UseCreateUserOptions = {
   mutationConfig?: MutationConfig<typeof createUser>;
 };
 
+/**
+ * ユーザー作成成功時に自動でユーザー一覧クエリを無効化します。
+ *
+ * @example
+ * ```tsx
+ * const { mutate } = useCreateUser()
+ * mutate({ name: 'John', email: 'john@example.com', role: 'user' })
+ * ```
+ */
 export const useCreateUser = ({ mutationConfig }: UseCreateUserOptions = {}) => {
   const queryClient = useQueryClient();
 

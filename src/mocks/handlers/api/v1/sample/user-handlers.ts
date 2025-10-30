@@ -7,7 +7,7 @@ import { http, HttpResponse } from 'msw';
 import type { CreateUserDTO, UpdateUserDTO, User, UserRole } from '@/types/models/user';
 
 // モックデータ
-let mockUsers: User[] = [
+const mockUsers: User[] = [
   {
     id: '1',
     name: 'John Doe',
@@ -157,7 +157,7 @@ export const userHandlers = [
       );
     }
 
-    mockUsers = mockUsers.filter((u) => u.id !== id);
+    mockUsers.splice(userIndex, 1);
 
     return new HttpResponse(null, { status: 204 });
   }),

@@ -44,7 +44,7 @@ const generateResponse = (userMessage: string): string => {
   return assistantResponses[randomIndex];
 };
 
-let messageIdCounter = 1;
+const messageIdState = { current: 1 };
 const conversationId = 'conv-1';
 
 export const chatHandlers = [
@@ -61,8 +61,11 @@ export const chatHandlers = [
     // アシスタントからの返信を生成
     const responseContent = generateResponse(body.message);
 
+    const messageId = messageIdState.current;
+    messageIdState.current += 1;
+
     const assistantMessage: Message = {
-      id: String(messageIdCounter++),
+      id: String(messageId),
       role: 'assistant',
       content: responseContent,
       timestamp: new Date(),

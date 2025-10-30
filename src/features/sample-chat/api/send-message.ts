@@ -10,12 +10,6 @@ import type { SendMessageRequest, SendMessageResponse } from '../types';
 // API関数
 // ================================================================================
 
-/**
- * メッセージを送信してアシスタントの返信を取得
- *
- * @param request - メッセージ送信リクエスト
- * @returns アシスタントからの返信
- */
 export const sendMessage = (request: SendMessageRequest): Promise<SendMessageResponse> => {
   return api.post('/api/v1/sample/chat/messages', request);
 };

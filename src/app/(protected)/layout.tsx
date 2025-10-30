@@ -33,7 +33,7 @@ type ProtectedLayoutProps = {
  * @param props.children - レンダリングするページコンテンツ
  * @returns 保護されたレイアウト要素
  */
-export default function ProtectedLayout({ children }: ProtectedLayoutProps) {
+const ProtectedLayout = ({ children }: ProtectedLayoutProps) => {
   // ================================================================================
   // Hooks
   // ================================================================================
@@ -45,7 +45,7 @@ export default function ProtectedLayout({ children }: ProtectedLayoutProps) {
   // ================================================================================
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
-      // router.push ではなく router.replace を使用して履歴に残さない
+      // router.pushではなくrouter.replaceを使用して履歴に残さない
       router.replace('/login');
     }
   }, [isAuthenticated, isLoading, router]);
@@ -60,4 +60,6 @@ export default function ProtectedLayout({ children }: ProtectedLayoutProps) {
 
   // 認証済みの場合は子要素を表示
   return <>{children}</>;
-}
+};
+
+export default ProtectedLayout;

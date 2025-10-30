@@ -2,29 +2,13 @@ import { AlertCircle } from 'lucide-react';
 
 import { Alert, AlertDescription, AlertTitle } from '@/components/sample-ui/alert';
 
-/**
- * ErrorMessageコンポーネントのプロパティ
- */
 type ErrorMessageProps = {
-  /** エラーのタイトル（デフォルト: "エラー"） */
   title?: string;
-  /** エラーメッセージ */
   message: string;
-  /** フルスクリーン表示にするか（デフォルト: false） */
   fullScreen?: boolean;
 };
 
 /**
- * エラーメッセージコンポーネント
- *
- * エラーアラートを表示するための汎用コンポーネント。
- * フルスクリーン表示とインライン表示の2つのモードをサポートします。
- *
- * 機能:
- * - 破壊的バリアントのアラート表示
- * - アラートサークルアイコン
- * - フルスクリーン中央配置オプション
- *
  * @example
  * ```tsx
  * // インライン表示
@@ -37,9 +21,6 @@ type ErrorMessageProps = {
  *   fullScreen={true}
  * />
  * ```
- *
- * @param props - ErrorMessageコンポーネントのプロパティ
- * @returns エラーメッセージ要素
  */
 export function ErrorMessage({ title = 'エラー', message, fullScreen = false }: ErrorMessageProps) {
   // アラートコンテンツ

@@ -1,16 +1,51 @@
 import { Button } from '@/components/sample-ui/button';
 import { User } from '@/features/sample-users/types';
 
+// ================================================================================
+// Props
+// ================================================================================
+
 type UsersListProps = {
   users: User[];
   onEdit: (userId: string) => void;
   onDelete: (userId: string) => void;
 };
 
+// ================================================================================
+// Component
+// ================================================================================
+
 /**
  * ユーザー一覧テーブルコンポーネント
+ *
+ * ユーザー情報をテーブル形式で表示し、編集・削除操作を提供します。
+ *
+ * 機能:
+ * - ユーザー情報の表示（ID、名前、メール、ロール、作成日）
+ * - ロールに応じたバッジ表示
+ * - 編集・削除ボタンの提供
+ * - 空状態の表示
+ *
+ * @param props - コンポーネントのプロパティ
+ * @param props.users - 表示するユーザーの配列
+ * @param props.onEdit - ユーザー編集時のコールバック関数
+ * @param props.onDelete - ユーザー削除時のコールバック関数
+ * @returns ユーザー一覧テーブルコンポーネント
+ *
+ * @example
+ * ```tsx
+ * <UsersList
+ *   users={users}
+ *   onEdit={(userId) => console.log('Edit:', userId)}
+ *   onDelete={(userId) => console.log('Delete:', userId)}
+ * />
+ * ```
  */
 export const UsersList = ({ users, onEdit, onDelete }: UsersListProps) => {
+  // ================================================================================
+  // Render - Empty State
+  // ================================================================================
+
   if (users.length === 0) {
     return (
       <div className="overflow-hidden rounded-lg border bg-white shadow">
@@ -18,6 +53,10 @@ export const UsersList = ({ users, onEdit, onDelete }: UsersListProps) => {
       </div>
     );
   }
+
+  // ================================================================================
+  // Render - Table
+  // ================================================================================
 
   return (
     <div className="overflow-hidden rounded-lg border bg-white shadow">

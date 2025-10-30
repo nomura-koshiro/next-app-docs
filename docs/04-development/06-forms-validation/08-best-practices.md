@@ -255,7 +255,7 @@ export const UserForm = () => {
 ### ✅ Good: ControlledFormFieldを使用
 
 ```typescript
-import { ControlledInputField } from '@/components/ui/form-field/controlled-form-field'
+import { ControlledInputField } from '@/components/sample-ui/form-field/controlled-form-field'
 
 <ControlledInputField
   control={control}

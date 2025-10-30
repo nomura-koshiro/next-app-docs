@@ -69,13 +69,13 @@ export type UserFormValues = z.infer<typeof userFormSchema>
 // src/features/sample-users/routes/new-user/new-user.tsx
 'use client'
 
-import { Button } from '@/components/ui/button'
-import { Card, CardContent } from '@/components/ui/card'
+import { Button } from '@/components/sample-ui/button'
+import { Card, CardContent } from '@/components/sample-ui/card'
 import {
   ControlledInputField,
   ControlledSelectField,
-} from '@/components/ui/form-field/controlled-form-field'
-import { ErrorMessage } from '@/components/ui/error-message'
+} from '@/components/sample-ui/form-field/controlled-form-field'
+import { ErrorMessage } from '@/components/sample-ui/error-message'
 import { PageLayout } from '@/components/layout/page-layout'
 import { PageHeader } from '@/components/layout/page-header'
 import { useNewUser } from './new-user.hook'
@@ -276,8 +276,8 @@ export const useNewUser = () => {
 ```typescript
 // src/components/ui/form-field/controlled-form-field.tsx
 import { Control, Controller, FieldPath, FieldValues } from 'react-hook-form'
-import { Label } from '@/components/ui/label'
-import { Input } from '@/components/ui/input'
+import { Label } from '@/components/sample-ui/label'
+import { Input } from '@/components/sample-ui/input'
 
 type ControlledInputFieldProps<TFieldValues extends FieldValues> = {
   control: Control<TFieldValues>
@@ -333,7 +333,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select'
+} from '@/components/sample-ui/select'
 
 type ControlledSelectFieldProps<TFieldValues extends FieldValues> = {
   control: Control<TFieldValues>
@@ -391,13 +391,13 @@ export const ControlledSelectField = <TFieldValues extends FieldValues>({
 'use client'
 
 import { LoadingSpinner } from '@/components/ui/loading-spinner'
-import { ErrorMessage } from '@/components/ui/error-message'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent } from '@/components/ui/card'
+import { ErrorMessage } from '@/components/sample-ui/error-message'
+import { Button } from '@/components/sample-ui/button'
+import { Card, CardContent } from '@/components/sample-ui/card'
 import {
   ControlledInputField,
   ControlledSelectField,
-} from '@/components/ui/form-field/controlled-form-field'
+} from '@/components/sample-ui/form-field/controlled-form-field'
 import { PageLayout } from '@/components/layout/page-layout'
 import { PageHeader } from '@/components/layout/page-header'
 import { useEditUser } from './edit-user.hook'

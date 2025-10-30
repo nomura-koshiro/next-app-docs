@@ -4,6 +4,10 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 
 import type { DownloadProgress, FileType } from '../../../types';
 
+// ================================================================================
+// Props
+// ================================================================================
+
 type FileDownloadSectionProps = {
   /** ダウンロードハンドラー */
   onDownload: (type: FileType) => void;
@@ -13,12 +17,41 @@ type FileDownloadSectionProps = {
   isDownloading: boolean;
 };
 
+// ================================================================================
+// Component
+// ================================================================================
+
 /**
  * ファイルダウンロードセクション
  *
- * 各種形式のファイルダウンロード機能を提供します。
+ * 各種形式のファイルダウンロード機能を提供するセクションコンポーネントです。
+ *
+ * 機能:
+ * - CSV、Excel、JSON、テキスト、画像のダウンロード
+ * - ダウンロード進捗の表示
+ * - ダウンロード中の状態管理
+ * - ファイル形式ごとのアイコンと説明
+ *
+ * @param props - コンポーネントのプロパティ
+ * @param props.onDownload - ダウンロード時のコールバック関数
+ * @param props.downloadProgress - ダウンロード進捗情報
+ * @param props.isDownloading - ダウンロード中かどうかのフラグ
+ * @returns ファイルダウンロードセクションコンポーネント
+ *
+ * @example
+ * ```tsx
+ * <FileDownloadSection
+ *   onDownload={handleDownload}
+ *   downloadProgress={{ fileType: 'csv', progress: 50 }}
+ *   isDownloading={true}
+ * />
+ * ```
  */
 export const FileDownloadSection = ({ onDownload, downloadProgress, isDownloading }: FileDownloadSectionProps) => {
+  // ================================================================================
+  // Constants
+  // ================================================================================
+
   /**
    * ダウンロードボタンの設定
    */
@@ -59,6 +92,10 @@ export const FileDownloadSection = ({ onDownload, downloadProgress, isDownloadin
       color: 'text-purple-600',
     },
   ];
+
+  // ================================================================================
+  // Render
+  // ================================================================================
 
   return (
     <Card>

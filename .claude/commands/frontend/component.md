@@ -9,7 +9,7 @@ tools: [Write, Edit, MultiEdit, Bash]
 新しいUIコンポーネント「$ARGUMENTS」を作成してください。
 
 ## 要件
-- **ディレクトリ**: `src/components/ui/$ARGUMENTS/`
+- **ディレクトリ**: `src/components/sample-ui/$ARGUMENTS/` (基本UI) または `src/components/ui/$ARGUMENTS/` (ユーティリティ)
 - **アーキテクチャ**: bulletproof-react features-based architecture に従う
 - **設計原則**: SOLID、DRY、KISS原則を適用
 

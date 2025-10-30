@@ -19,48 +19,27 @@ const AUTH_STORAGE_KEY = 'azure-auth-storage';
 // 型定義
 // ================================================================================
 
-/**
- * ユーザー情報
- */
 export type User = {
-  /** ユーザーID */
   id: string;
-  /** メールアドレス */
   email: string;
-  /** ユーザー名 */
   name: string;
-  /** Azure Object ID */
   azureOid: string;
-  /** ユーザーロール */
   roles: string[];
 };
 
-/**
- * 認証ストアの型定義
- */
 export type AuthStore = {
   // ================================================================================
   // State
   // ================================================================================
-  /** ユーザー情報 */
   user: User | null;
-  /** 認証済みかどうか */
   isAuthenticated: boolean;
-  /** ローディング中かどうか */
-  isLoading: boolean;
-  /** MSALアカウント情報 */
   account: AccountInfo | null;
 
   // ================================================================================
   // Actions
   // ================================================================================
-  /** ユーザー情報を設定 */
   setUser: (user: User | null) => void;
-  /** アカウント情報を設定 */
   setAccount: (account: AccountInfo | null) => void;
-  /** ローディング状態を設定 */
-  setLoading: (loading: boolean) => void;
-  /** ログアウト */
   logout: () => void;
 };
 
@@ -80,7 +59,6 @@ export const useAuthStore = create<AuthStore>()(
       // State
       user: null,
       isAuthenticated: false,
-      isLoading: false,
       account: null,
 
       // Actions
@@ -93,10 +71,6 @@ export const useAuthStore = create<AuthStore>()(
 
       setAccount: (account: AccountInfo | null) => {
         set({ account });
-      },
-
-      setLoading: (loading: boolean) => {
-        set({ isLoading: loading });
       },
 
       logout: () => {
@@ -120,29 +94,23 @@ export const useAuthStore = create<AuthStore>()(
 );
 
 // ================================================================================
-// セレクター関数
+// セレクター関数（実際に使用する場合のみ定義）
+// ================================================================================
+
+export const selectUser = (state: AuthStore): User | null => state.user;
+
+export const selectIsAuthenticated = (state: AuthStore): boolean => state.isAuthenticated;
+
+// ================================================================================
+// カスタムフック（セレクター関数を使いやすくする）
 // ================================================================================
 
 /**
- * ユーザー情報を取得するセレクター
- *
- * @param state - 認証ストアの状態
- * @returns ユーザー情報
+ * コンポーネントの再レンダリングを最適化します。
  */
-export const selectUser = (state: AuthStore): User | null => state.user;
+export const useUser = () => useAuthStore(selectUser);
 
 /**
- * 認証状態を取得するセレクター
- *
- * @param state - 認証ストアの状態
- * @returns 認証済みかどうか
+ * コンポーネントの再レンダリングを最適化します。
  */
-export const selectIsAuthenticated = (state: AuthStore): boolean => state.isAuthenticated;
-
-/**
- * ローディング状態を取得するセレクター
- *
- * @param state - 認証ストアの状態
- * @returns ローディング中かどうか
- */
-export const selectIsLoading = (state: AuthStore): boolean => state.isLoading;
+export const useIsAuthenticated = () => useAuthStore(selectIsAuthenticated);

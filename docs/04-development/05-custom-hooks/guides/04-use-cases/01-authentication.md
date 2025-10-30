@@ -294,7 +294,7 @@ export const useLogin = () => {
 ```typescript
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/sample-ui/button";
 import { ControlledInputField } from "@/components/forms/controlled-input-field";
 import { PageHeader } from "@/components/layout/page-header";
 import { PageLayout } from "@/components/layout/page-layout";
@@ -459,7 +459,7 @@ export const useLogout = () => {
 ```typescript
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/sample-ui/button";
 import { useLogout } from "../hooks/use-logout";
 
 /**

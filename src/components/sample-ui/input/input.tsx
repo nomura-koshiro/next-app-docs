@@ -3,27 +3,12 @@ import * as React from 'react';
 import { cn } from '@/utils/cn';
 
 /**
- * インプットコンポーネント
- *
- * shadcn/uiベースのテキスト入力フィールド。
- * フォームで使用される標準的な入力コンポーネントです。
- *
- * 機能:
- * - フォーカス時のリングスタイル
- * - バリデーションエラー時のスタイル（aria-invalid対応）
- * - ファイル選択入力のサポート
- * - ダークモード対応
- * - 無効化状態のスタイル
- *
  * @example
  * ```tsx
  * <Input type="text" placeholder="名前を入力" />
  * <Input type="email" aria-invalid={true} />
  * <Input type="file" />
  * ```
- *
- * @param props - HTMLInputElementのプロパティ
- * @returns インプット要素
  */
 function Input({ className, type, ...props }: React.ComponentProps<'input'>) {
   return (

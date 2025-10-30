@@ -1,13 +1,25 @@
+/**
+ * ユーザーロールフィールドのバリデーションスキーマ
+ *
+ * @module schemas/fields/role
+ */
+
 import { z } from 'zod';
 
 /**
- * ユーザーロールのバリデーションスキーマ
+ * @example
+ * ```typescript
+ * // 有効な値
+ * roleSchema.parse('user')
+ * roleSchema.parse('admin')
+ *
+ * // 無効な値
+ * roleSchema.parse('moderator') // エラー: ロールを選択してください
+ * roleSchema.parse('') // エラー: ロールを選択してください
+ * ```
  */
 export const roleSchema = z.enum(['user', 'admin'], {
   message: 'ロールを選択してください',
 });
 
-/**
- * ユーザーロールの型定義
- */
 export type Role = z.infer<typeof roleSchema>;

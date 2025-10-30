@@ -23,15 +23,15 @@ import LoginPage from './login';
  *
  * ストーリーの初期化時にsessionStorageとZustandストアを認証済み状態に設定します。
  *
- * @param Story - レンダリングするストーリーコンポーネント
+ * @param story - レンダリングするストーリーコンポーネント
  * @returns デコレートされたストーリー要素
  */
-const AuthenticatedDecorator = (Story: () => React.ReactElement) => {
+const AuthenticatedDecorator = (story: () => React.ReactElement) => {
   React.useEffect(() => {
     setAuthenticatedStorage();
   }, []);
 
-  return <Story />;
+  return story();
 };
 
 /**
@@ -39,15 +39,15 @@ const AuthenticatedDecorator = (Story: () => React.ReactElement) => {
  *
  * ストーリーの初期化時にsessionStorageとZustandストアを未認証状態に設定します。
  *
- * @param Story - レンダリングするストーリーコンポーネント
+ * @param story - レンダリングするストーリーコンポーネント
  * @returns デコレートされたストーリー要素
  */
-const UnauthenticatedDecorator = (Story: () => React.ReactElement) => {
+const UnauthenticatedDecorator = (story: () => React.ReactElement) => {
   React.useEffect(() => {
     setUnauthenticatedStorage();
   }, []);
 
-  return <Story />;
+  return story();
 };
 
 // ================================================================================
@@ -106,9 +106,7 @@ export const Default: Story = {
   parameters: {
     docs: {
       description: {
-        story:
-          '未認証状態でのログインページ。\n\n' +
-          'ログインボタンをクリックすると、開発モードではモックユーザーとして認証されます。',
+        story: '未認証状態でのログインページ。\n\n' + 'ログインボタンをクリックすると、開発モードではモックユーザーとして認証されます。',
       },
     },
   },
@@ -127,9 +125,7 @@ export const LoginAction: Story = {
   parameters: {
     docs: {
       description: {
-        story:
-          'ログインボタンをクリックする操作のテスト。\n\n' +
-          '開発モードでは即座にモックユーザーとして認証されます。',
+        story: 'ログインボタンをクリックする操作のテスト。\n\n' + '開発モードでは即座にモックユーザーとして認証されます。',
       },
     },
   },

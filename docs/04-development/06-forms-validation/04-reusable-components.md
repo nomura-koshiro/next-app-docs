@@ -25,7 +25,7 @@ React Hook FormのControllerを使用した、型安全な再利用可能なフ�
 テキスト入力フィールド。
 
 ```typescript
-import { ControlledInputField } from '@/components/ui/form-field/controlled-form-field'
+import { ControlledInputField } from '@/components/sample-ui/form-field/controlled-form-field'
 
 <ControlledInputField
   control={control}
@@ -181,7 +181,7 @@ import {
   ControlledInputField,
   ControlledSelectField,
   ControlledTextareaField,
-} from '@/components/ui/form-field/controlled-form-field'
+} from '@/components/sample-ui/form-field/controlled-form-field'
 
 export const UserForm = () => {
   const { control, handleSubmit } = useForm<UserFormValues>({
@@ -253,7 +253,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import {
   ControlledInputField,
   ControlledCheckboxField,
-} from '@/components/ui/form-field/controlled-form-field'
+} from '@/components/sample-ui/form-field/controlled-form-field'
 import { emailSchema, strongPasswordSchema, termsSchema } from '@/schemas/fields'
 
 const signupSchema = z.object({
@@ -320,7 +320,7 @@ import {
   ControlledInputField,
   ControlledRadioGroupField,
   ControlledSwitchField,
-} from '@/components/ui/form-field/controlled-form-field'
+} from '@/components/sample-ui/form-field/controlled-form-field'
 
 const profileSchema = z.object({
   displayName: z.string().min(1),

@@ -89,9 +89,9 @@ pnpm generate:component
 # → componentName: sidebar
 
 # 生成されるファイル:
-# ✓ src/components/ui/modal/modal.tsx
-# ✓ src/components/ui/modal/modal.stories.tsx (自動生成！)
-# ✓ src/components/ui/modal/index.ts
+# ✓ src/components/sample-ui/modal/modal.tsx
+# ✓ src/components/sample-ui/modal/modal.stories.tsx (自動生成！)
+# ✓ src/components/sample-ui/modal/index.ts
 ```
 
 詳細は [Plop統合](./05-plop-integration.md) を参照
@@ -239,7 +239,7 @@ pnpm generate:component
 
 ```bash
 cp .storybook/templates/basic-ui-component.stories.template.tsx \
-   src/components/ui/your-component/your-component.stories.tsx
+   src/components/sample-ui/your-component/your-component.stories.tsx
 ```
 
 ### カスタマイズ

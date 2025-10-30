@@ -89,7 +89,7 @@ app (Next.js App Router)
 
 UIコンポーネントライブラリを理解します。
 
-1. **components/ui/** - 基本UIコンポーネント
+1. **components/sample-ui/** - 基本UIコンポーネント
    - 推奨読み順:
      1. `button/` - Buttonコンポーネント
         - CVA（Class Variance Authority）によるvariant管理

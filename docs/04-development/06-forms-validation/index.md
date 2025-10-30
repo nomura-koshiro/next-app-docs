@@ -68,7 +68,7 @@ const loginSchema = z.object({
 ### Controlled Componentを使ったフォーム
 
 ```typescript
-import { ControlledInputField } from '@/components/ui/form-field/controlled-form-field'
+import { ControlledInputField } from '@/components/sample-ui/form-field/controlled-form-field'
 
 <ControlledInputField
   control={control}

@@ -24,7 +24,7 @@ import { Button } from './button';
 
 // meta定義
 const meta = {
-  title: 'components/ui/Button',
+  title: "components/sample-ui/Button',
   component: Button,
   parameters: {
     layout: 'centered',
@@ -48,7 +48,7 @@ export const Primary: Story = {
 
 | プロパティ   | 説明                   | 例                                   |
 | ------------ | ---------------------- | ------------------------------------ |
-| `title`      | ナビゲーション階層     | `"components/ui/Button"`             |
+| `title`      | ナビゲーション階層     | `"components/sample-ui/Button"`             |
 | `component`  | 表示するコンポーネント | `Button`                             |
 | `parameters` | 表示設定               | `{ layout: "centered" }`             |
 | `tags`       | 自動ドキュメント生成   | `["autodocs"]`                       |
@@ -65,7 +65,7 @@ export const Primary: Story = {
 
 ```typescript
 // UIコンポーネント
-title: 'components/ui/Button';
+title: "components/sample-ui/Button';
 // → Components > UI > Button
 
 // レイアウトコンポーネント
@@ -97,7 +97,7 @@ features/
 
 ```typescript
 // ボタンコンポーネント
-title: 'components/ui/Button';
+title: "components/sample-ui/Button';
 
 // ユーザー一覧ページ
 title: 'features/sample-users/routes/users/Users';

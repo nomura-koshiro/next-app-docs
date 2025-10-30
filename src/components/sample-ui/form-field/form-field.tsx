@@ -2,42 +2,21 @@ import { Input } from '@/components/sample-ui/input';
 import { Label } from '@/components/sample-ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/sample-ui/select';
 
-/**
- * FormFieldコンポーネントのプロパティ
- */
 type FormFieldProps = {
-  /** ラベルテキスト */
   label: string;
-  /** フィールドのID */
   id: string;
-  /** 必須フィールドかどうか（デフォルト: false） */
   required?: boolean;
-  /** エラーメッセージ */
   error?: string;
-  /** 子要素（インプット要素など） */
   children?: React.ReactNode;
 };
 
 /**
- * フォームフィールドコンポーネント
- *
- * ラベル、入力フィールド、エラーメッセージを含む汎用フォームフィールド。
- * 他のフォームコンポーネントのベースとして使用されます。
- *
- * 機能:
- * - ラベル表示
- * - 必須マーク（*）の表示
- * - エラーメッセージ表示
- *
  * @example
  * ```tsx
  * <FormField label="メールアドレス" id="email" required error="必須項目です">
  *   <Input id="email" type="email" />
  * </FormField>
  * ```
- *
- * @param props - FormFieldコンポーネントのプロパティ
- * @returns フォームフィールド要素
  */
 export function FormField({ label, id, required = false, error, children }: FormFieldProps) {
   return (
