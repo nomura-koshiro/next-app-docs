@@ -7,8 +7,8 @@ export default {
   semi: true,
   // ES5で有効な箇所に末尾カンマを追加
   trailingComma: 'es5',
-  // シングルクォートを使用
-  singleQuote: true,
+  // ダブルクォートを使用
+  singleQuote: false,
   // 1行の最大文字数
   printWidth: 140,
   // インデント幅
