@@ -1,8 +1,8 @@
-import { format } from 'date-fns';
-import { saveAs } from 'file-saver';
+import { format } from "date-fns";
+import { saveAs } from "file-saver";
 
-import { api } from '@/lib/api-client';
-import { logger } from '@/utils/logger';
+import { api } from "@/lib/api-client";
+import { logger } from "@/utils/logger";
 
 // ================================================================================
 // Blob Download
@@ -50,7 +50,7 @@ export const downloadBlob = (blob: Blob, filename: string): void => {
  */
 export const generateFilename = (baseName: string, extension: string): string => {
   // 現在時刻をフォーマット（yyyyMMdd_HHmmss形式）
-  const timestamp = format(new Date(), 'yyyyMMdd_HHmmss');
+  const timestamp = format(new Date(), "yyyyMMdd_HHmmss");
 
   return `${baseName}_${timestamp}.${extension}`;
 };
@@ -92,7 +92,7 @@ export const generateFilename = (baseName: string, extension: string): string =>
 export const downloadFromApi = async (url: string, filename: string, onProgress?: (progress: number) => void): Promise<void> => {
   const blob = await api
     .get(url, {
-      responseType: 'blob',
+      responseType: "blob",
       // ダウンロード進捗を監視
       onDownloadProgress: (progressEvent) => {
         if (progressEvent.total != null && progressEvent.total > 0) {
@@ -103,7 +103,7 @@ export const downloadFromApi = async (url: string, filename: string, onProgress?
       },
     })
     .catch((error) => {
-      logger.error('ダウンロードに失敗しました', error);
+      logger.error("ダウンロードに失敗しました", error);
       throw error;
     });
 

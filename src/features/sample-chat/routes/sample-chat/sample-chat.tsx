@@ -1,12 +1,12 @@
-'use client';
+"use client";
 
-import { PageHeader } from '@/components/layout/page-header';
-import { PageLayout } from '@/components/layout/page-layout';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/sample-ui/card';
+import { PageHeader } from "@/components/layout/page-header";
+import { PageLayout } from "@/components/layout/page-layout";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/sample-ui/card";
 
-import { ChatInput } from './components/chat-input';
-import { ChatMessageList } from './components/chat-message-list';
-import { useSampleChat } from './sample-chat.hook';
+import { ChatInput } from "./components/chat-input";
+import { ChatMessageList } from "./components/chat-message-list";
+import { useSampleChat } from "./sample-chat.hook";
 
 /**
  * チャットボットページコンポーネント

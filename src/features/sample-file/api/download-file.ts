@@ -14,7 +14,7 @@ export const downloadFileFromApi = async (fileId: string, onProgress?: (progress
       if (currentProgress >= 100) {
         // サンプルのテキストファイルを返す
         const content = `File ID: ${fileId}\nDownloaded at: ${new Date().toISOString()}`;
-        const blob = new Blob([content], { type: 'text/plain' });
+        const blob = new Blob([content], { type: "text/plain" });
         resolve(blob);
       } else {
         setTimeout(() => updateProgress(currentProgress + 10), 200);

@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
-import { expect, userEvent, within } from '@storybook/test';
-import { delay, http, HttpResponse } from 'msw';
+import type { Meta, StoryObj } from "@storybook/nextjs-vite";
+import { expect, userEvent, within } from "@storybook/test";
+import { delay, http, HttpResponse } from "msw";
 
-import SampleFilePage from './sample-file';
+import SampleFilePage from "./sample-file";
 
 /**
  * SampleFilePageコンポーネントのストーリー
@@ -19,7 +19,7 @@ const meta = {
   // ================================================================================
   // Storybookのナビゲーション階層
   // ================================================================================
-  title: 'features/sample-file/routes/sample-file/SampleFile',
+  title: "features/sample-file/routes/sample-file/SampleFile",
 
   // ================================================================================
   // 表示するコンポーネント
@@ -30,7 +30,7 @@ const meta = {
     // ================================================================================
     // レイアウト設定
     // ================================================================================
-    layout: 'fullscreen',
+    layout: "fullscreen",
 
     // ================================================================================
     // Next.js設定
@@ -45,19 +45,19 @@ const meta = {
     docs: {
       description: {
         component:
-          'ファイルのアップロード・ダウンロード機能を提供するページコンポーネント。react-dropzoneとfile-saverを使用した実装例です。\n\n' +
-          '**主な機能:**\n' +
-          '- react-dropzoneを使用したドラッグ&ドロップアップロード\n' +
-          '- 複数ファイルの同時アップロード\n' +
-          '- アップロード進捗の表示\n' +
-          '- 各種形式でのファイルダウンロード（CSV, Excel, JSON, テキスト, 画像）\n' +
-          '- ダウンロード進捗の表示\n' +
-          '- 楽観的UI更新（React 19 useOptimistic）\n' +
-          '- MSWによるAPIモック\n\n' +
-          '**使用場面:**\n' +
-          '- ファイルアップロード機能\n' +
-          '- データエクスポート機能\n' +
-          '- ドキュメント管理システム',
+          "ファイルのアップロード・ダウンロード機能を提供するページコンポーネント。react-dropzoneとfile-saverを使用した実装例です。\n\n" +
+          "**主な機能:**\n" +
+          "- react-dropzoneを使用したドラッグ&ドロップアップロード\n" +
+          "- 複数ファイルの同時アップロード\n" +
+          "- アップロード進捗の表示\n" +
+          "- 各種形式でのファイルダウンロード（CSV, Excel, JSON, テキスト, 画像）\n" +
+          "- ダウンロード進捗の表示\n" +
+          "- 楽観的UI更新（React 19 useOptimistic）\n" +
+          "- MSWによるAPIモック\n\n" +
+          "**使用場面:**\n" +
+          "- ファイルアップロード機能\n" +
+          "- データエクスポート機能\n" +
+          "- ドキュメント管理システム",
       },
     },
 
@@ -66,14 +66,14 @@ const meta = {
     // ================================================================================
     msw: {
       handlers: [
-        http.post('*/api/v1/sample/files/upload', async () => {
+        http.post("*/api/v1/sample/files/upload", async () => {
           // アップロード処理のシミュレーション
           await delay(1000);
 
           return HttpResponse.json({
             success: true,
             fileId: `file-${Date.now()}`,
-            url: '/uploads/sample-file.pdf',
+            url: "/uploads/sample-file.pdf",
           });
         }),
       ],
@@ -83,7 +83,7 @@ const meta = {
   // ================================================================================
   // ドキュメント自動生成を有効化
   // ================================================================================
-  tags: ['autodocs'],
+  tags: ["autodocs"],
 } satisfies Meta<typeof SampleFilePage>;
 
 export default meta;
@@ -94,11 +94,11 @@ type Story = StoryObj<typeof meta>;
  * ファイルページの初期状態
  */
 export const Default: Story = {
-  name: 'デフォルト',
+  name: "デフォルト",
   parameters: {
     docs: {
       description: {
-        story: 'ファイルページの初期状態。アップロードセクションとダウンロードセクションの両方が表示されます。',
+        story: "ファイルページの初期状態。アップロードセクションとダウンロードセクションの両方が表示されます。",
       },
     },
   },
@@ -109,11 +109,11 @@ export const Default: Story = {
  * CSVファイルのダウンロード操作
  */
 export const DownloadCSV: Story = {
-  name: 'CSVダウンロード',
+  name: "CSVダウンロード",
   parameters: {
     docs: {
       description: {
-        story: 'CSVファイルのダウンロード操作をシミュレート。BOM付きUTF-8でExcelでも文字化けしないCSVを生成します。',
+        story: "CSVファイルのダウンロード操作をシミュレート。BOM付きUTF-8でExcelでも文字化けしないCSVを生成します。",
       },
     },
   },
@@ -121,8 +121,8 @@ export const DownloadCSV: Story = {
     const canvas = within(canvasElement);
 
     // CSVダウンロードボタンを探してクリック
-    const csvButtons = canvas.getAllByRole('button');
-    const csvButton = csvButtons.find((button) => button.textContent?.includes('CSV'));
+    const csvButtons = canvas.getAllByRole("button");
+    const csvButton = csvButtons.find((button) => button.textContent?.includes("CSV"));
 
     if (csvButton) {
       await userEvent.click(csvButton);
@@ -137,11 +137,11 @@ export const DownloadCSV: Story = {
  * Excelファイルのダウンロード操作
  */
 export const DownloadExcel: Story = {
-  name: 'Excelダウンロード',
+  name: "Excelダウンロード",
   parameters: {
     docs: {
       description: {
-        story: 'Excelファイルのダウンロード操作をシミュレート。exceljsを使用してスタイル付きExcelファイルを生成します。',
+        story: "Excelファイルのダウンロード操作をシミュレート。exceljsを使用してスタイル付きExcelファイルを生成します。",
       },
     },
   },
@@ -149,8 +149,8 @@ export const DownloadExcel: Story = {
     const canvas = within(canvasElement);
 
     // Excelダウンロードボタンを探してクリック
-    const buttons = canvas.getAllByRole('button');
-    const excelButton = buttons.find((button) => button.textContent?.includes('Excel'));
+    const buttons = canvas.getAllByRole("button");
+    const excelButton = buttons.find((button) => button.textContent?.includes("Excel"));
 
     if (excelButton) {
       await userEvent.click(excelButton);
@@ -163,11 +163,11 @@ export const DownloadExcel: Story = {
  * JSONファイルのダウンロード操作
  */
 export const DownloadJSON: Story = {
-  name: 'JSONダウンロード',
+  name: "JSONダウンロード",
   parameters: {
     docs: {
       description: {
-        story: 'JSONファイルのダウンロード操作をシミュレート。整形された読みやすいJSON形式でデータをエクスポートします。',
+        story: "JSONファイルのダウンロード操作をシミュレート。整形された読みやすいJSON形式でデータをエクスポートします。",
       },
     },
   },
@@ -175,8 +175,8 @@ export const DownloadJSON: Story = {
     const canvas = within(canvasElement);
 
     // JSONダウンロードボタンを探してクリック
-    const buttons = canvas.getAllByRole('button');
-    const jsonButton = buttons.find((button) => button.textContent?.includes('JSON'));
+    const buttons = canvas.getAllByRole("button");
+    const jsonButton = buttons.find((button) => button.textContent?.includes("JSON"));
 
     if (jsonButton) {
       await userEvent.click(jsonButton);
@@ -189,12 +189,12 @@ export const DownloadJSON: Story = {
  * ファイルを選択してアップロードする操作
  */
 export const FileUpload: Story = {
-  name: 'ファイルアップロード',
+  name: "ファイルアップロード",
   parameters: {
     docs: {
       description: {
         story:
-          'ファイルアップロード操作のシミュレーション。ドロップゾーンをクリックしてファイルを選択できます。楽観的UI更新により、ファイルが即座にリストに表示されます。',
+          "ファイルアップロード操作のシミュレーション。ドロップゾーンをクリックしてファイルを選択できます。楽観的UI更新により、ファイルが即座にリストに表示されます。",
       },
     },
   },
@@ -202,7 +202,7 @@ export const FileUpload: Story = {
     const canvas = within(canvasElement);
 
     // ファイル選択ボタンを探す
-    const selectButton = canvas.getByRole('button', { name: /ファイルを選択/i });
+    const selectButton = canvas.getByRole("button", { name: /ファイルを選択/i });
     expect(selectButton).toBeInTheDocument();
 
     // 注意: 実際のファイル選択はStorybook環境では完全にはシミュレートできない
@@ -215,19 +215,19 @@ export const FileUpload: Story = {
  * ファイルアップロード時にエラーが発生
  */
 export const UploadError: Story = {
-  name: 'アップロードエラー',
+  name: "アップロードエラー",
   parameters: {
     docs: {
       description: {
-        story: 'ファイルアップロード時にエラーが発生した場合の状態。エラーメッセージが表示され、ユーザーに通知されます。',
+        story: "ファイルアップロード時にエラーが発生した場合の状態。エラーメッセージが表示され、ユーザーに通知されます。",
       },
     },
     msw: {
       handlers: [
-        http.post('*/api/v1/sample/files/upload', async () => {
+        http.post("*/api/v1/sample/files/upload", async () => {
           await delay(500);
 
-          return HttpResponse.json({ message: 'File too large' }, { status: 413 });
+          return HttpResponse.json({ message: "File too large" }, { status: 413 });
         }),
       ],
     },
@@ -239,11 +239,11 @@ export const UploadError: Story = {
  * アップロードセクションとダウンロードセクションの両方を確認
  */
 export const MultipleSections: Story = {
-  name: '複数セクション表示',
+  name: "複数セクション表示",
   parameters: {
     docs: {
       description: {
-        story: 'ページ全体のレイアウトを確認。アップロードセクションとダウンロードセクションが適切に配置されています。',
+        story: "ページ全体のレイアウトを確認。アップロードセクションとダウンロードセクションが適切に配置されています。",
       },
     },
   },
@@ -251,11 +251,11 @@ export const MultipleSections: Story = {
     const canvas = within(canvasElement);
 
     // アップロードセクションの要素を確認
-    const uploadButton = canvas.getByRole('button', { name: /ファイルを選択/i });
+    const uploadButton = canvas.getByRole("button", { name: /ファイルを選択/i });
     expect(uploadButton).toBeInTheDocument();
 
     // ダウンロードセクションの要素を確認（CSVボタン）
-    const csvButton = canvas.getByRole('button', { name: /CSV/i });
+    const csvButton = canvas.getByRole("button", { name: /CSV/i });
     expect(csvButton).toBeInTheDocument();
   },
 };
@@ -265,11 +265,11 @@ export const MultipleSections: Story = {
  * ページのタイトルと説明を確認
  */
 export const PageHeader: Story = {
-  name: 'ページヘッダー',
+  name: "ページヘッダー",
   parameters: {
     docs: {
       description: {
-        story: 'ページヘッダーの表示を確認。タイトルと説明が適切に表示されます。',
+        story: "ページヘッダーの表示を確認。タイトルと説明が適切に表示されます。",
       },
     },
   },
@@ -277,7 +277,7 @@ export const PageHeader: Story = {
     const canvas = within(canvasElement);
 
     // ページタイトルを確認
-    const title = canvas.getByRole('heading', { name: /ファイルアップロード・ダウンロード/i });
+    const title = canvas.getByRole("heading", { name: /ファイルアップロード・ダウンロード/i });
     expect(title).toBeInTheDocument();
 
     // 説明文を確認
@@ -291,15 +291,15 @@ export const PageHeader: Story = {
  * 異なる画面サイズでのレイアウト確認
  */
 export const ResponsiveLayout: Story = {
-  name: 'レスポンシブレイアウト',
+  name: "レスポンシブレイアウト",
   parameters: {
     docs: {
       description: {
-        story: 'レスポンシブデザインの確認。異なる画面サイズでも適切にレイアウトされます。',
+        story: "レスポンシブデザインの確認。異なる画面サイズでも適切にレイアウトされます。",
       },
     },
     viewport: {
-      defaultViewport: 'mobile1',
+      defaultViewport: "mobile1",
     },
   },
 };

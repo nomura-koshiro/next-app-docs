@@ -16,7 +16,7 @@
  * const assistantRole: MessageRole = 'assistant'
  * ```
  */
-export type MessageRole = 'user' | 'assistant';
+export type MessageRole = "user" | "assistant";
 
 /**
  * チャットメッセージを表す型

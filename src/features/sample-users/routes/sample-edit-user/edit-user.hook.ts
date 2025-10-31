@@ -1,13 +1,13 @@
-'use client';
+"use client";
 
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useRouter } from 'next/navigation';
-import { useForm } from 'react-hook-form';
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
 
-import { useUpdateUser } from '@/features/sample-users';
-import { useUser } from '@/features/sample-users/api/get-user';
-import { userFormSchema, type UserFormValues } from '@/features/sample-users/schemas/user-form.schema';
-import type { Role } from '@/schemas/fields/role.schema';
+import { useUpdateUser } from "@/features/sample-users";
+import { useUser } from "@/features/sample-users/api/get-user";
+import { userFormSchema, type UserFormValues } from "@/features/sample-users/schemas/user-form.schema";
+import type { Role } from "@/schemas/fields/role.schema";
 
 /**
  * ユーザー編集ページのロジックを管理するカスタムフック
@@ -62,17 +62,17 @@ export const useEditUser = (userId: string) => {
         data: formData,
       })
       .then(() => {
-        router.push('/sample-users');
+        router.push("/sample-users");
       })
       .catch(() => {
-        setError('root', {
-          message: 'ユーザーの更新に失敗しました',
+        setError("root", {
+          message: "ユーザーの更新に失敗しました",
         });
       });
   });
 
   const handleCancel = () => {
-    router.push('/sample-users');
+    router.push("/sample-users");
   };
 
   return {

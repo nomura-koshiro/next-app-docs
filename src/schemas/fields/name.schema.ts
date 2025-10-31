@@ -4,7 +4,7 @@
  * @module schemas/fields/name
  */
 
-import { z } from 'zod';
+import { z } from "zod";
 
 /**
  * @example
@@ -19,4 +19,4 @@ import { z } from 'zod';
  * nameSchema.parse('a'.repeat(101)) // エラー: 名前は100文字以内で入力してください
  * ```
  */
-export const nameSchema = z.string().min(1, { message: '名前は必須です' }).max(100, { message: '名前は100文字以内で入力してください' });
+export const nameSchema = z.string().min(1, { message: "名前は必須です" }).max(100, { message: "名前は100文字以内で入力してください" });

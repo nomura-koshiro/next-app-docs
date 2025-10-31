@@ -1,8 +1,8 @@
-import { Download, FileJson, FileSpreadsheet, FileText, Image } from 'lucide-react';
+import { Download, FileJson, FileSpreadsheet, FileText, Image } from "lucide-react";
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/sample-ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/sample-ui/card";
 
-import type { DownloadProgress, FileType } from '../../../types';
+import type { DownloadProgress, FileType } from "../../../types";
 
 // ================================================================================
 // Props
@@ -57,39 +57,39 @@ export const FileDownloadSection = ({ onDownload, downloadProgress, isDownloadin
    */
   const downloadButtons = [
     {
-      type: 'csv' as FileType,
-      label: 'CSV',
-      description: 'カンマ区切りテキスト',
+      type: "csv" as FileType,
+      label: "CSV",
+      description: "カンマ区切りテキスト",
       icon: FileText,
-      color: 'text-green-600',
+      color: "text-green-600",
     },
     {
-      type: 'excel' as FileType,
-      label: 'Excel',
-      description: 'スタイル付きExcel',
+      type: "excel" as FileType,
+      label: "Excel",
+      description: "スタイル付きExcel",
       icon: FileSpreadsheet,
-      color: 'text-green-700',
+      color: "text-green-700",
     },
     {
-      type: 'json' as FileType,
-      label: 'JSON',
-      description: '構造化データ',
+      type: "json" as FileType,
+      label: "JSON",
+      description: "構造化データ",
       icon: FileJson,
-      color: 'text-blue-600',
+      color: "text-blue-600",
     },
     {
-      type: 'text' as FileType,
-      label: 'テキスト',
-      description: 'プレーンテキスト',
+      type: "text" as FileType,
+      label: "テキスト",
+      description: "プレーンテキスト",
       icon: FileText,
-      color: 'text-gray-600',
+      color: "text-gray-600",
     },
     {
-      type: 'image' as FileType,
-      label: '画像',
-      description: 'サンプルPNG画像',
+      type: "image" as FileType,
+      label: "画像",
+      description: "サンプルPNG画像",
       icon: Image,
-      color: 'text-purple-600',
+      color: "text-purple-600",
     },
   ];
 
@@ -117,8 +117,8 @@ export const FileDownloadSection = ({ onDownload, downloadProgress, isDownloadin
                 disabled={isDownloading}
                 className={`
                   flex flex-col items-start gap-3 rounded-lg border-2 p-4 text-left transition-all
-                  ${isDownloading ? 'cursor-not-allowed opacity-50' : 'hover:border-blue-500 hover:bg-blue-50 active:scale-95'}
-                  ${isCurrentDownloading ? 'border-blue-500 bg-blue-50' : 'border-gray-200'}
+                  ${isDownloading ? "cursor-not-allowed opacity-50" : "hover:border-blue-500 hover:bg-blue-50 active:scale-95"}
+                  ${isCurrentDownloading ? "border-blue-500 bg-blue-50" : "border-gray-200"}
                 `}
               >
                 <div className="flex w-full items-center justify-between">

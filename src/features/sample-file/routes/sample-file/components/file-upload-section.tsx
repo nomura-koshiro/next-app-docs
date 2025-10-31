@@ -1,11 +1,11 @@
-import { AlertCircle, CheckCircle2, FileIcon, Upload, X } from 'lucide-react';
-import { useCallback } from 'react';
-import { useDropzone } from 'react-dropzone';
+import { AlertCircle, CheckCircle2, FileIcon, Upload, X } from "lucide-react";
+import { useCallback } from "react";
+import { useDropzone } from "react-dropzone";
 
-import { Button } from '@/components/sample-ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/sample-ui/card';
+import { Button } from "@/components/sample-ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/sample-ui/card";
 
-import type { UploadedFile } from '../../../types';
+import type { UploadedFile } from "../../../types";
 
 // ================================================================================
 // Props
@@ -94,13 +94,13 @@ export const FileUploadSection = ({ uploadedFiles, onFileDrop, onFileRemove, isU
   /**
    * ステータスアイコンを取得
    */
-  const getStatusIcon = (status: UploadedFile['status']) => {
+  const getStatusIcon = (status: UploadedFile["status"]) => {
     switch (status) {
-      case 'success':
+      case "success":
         return <CheckCircle2 className="size-5 text-green-600" />;
-      case 'error':
+      case "error":
         return <AlertCircle className="size-5 text-red-600" />;
-      case 'uploading':
+      case "uploading":
         return <div className="size-5 animate-spin rounded-full border-2 border-blue-600 border-t-transparent" />;
       default:
         return <FileIcon className="size-5 text-gray-400" />;
@@ -123,8 +123,8 @@ export const FileUploadSection = ({ uploadedFiles, onFileDrop, onFileRemove, isU
           {...getRootProps()}
           className={`
             cursor-pointer rounded-lg border-2 border-dashed p-12 text-center transition-colors
-            ${isActive ? 'border-blue-500 bg-blue-50' : 'border-gray-300 hover:border-gray-400'}
-            ${isUploading ? 'cursor-not-allowed opacity-50' : ''}
+            ${isActive ? "border-blue-500 bg-blue-50" : "border-gray-300 hover:border-gray-400"}
+            ${isUploading ? "cursor-not-allowed opacity-50" : ""}
           `}
         >
           <input {...getInputProps()} disabled={isUploading} />
@@ -160,7 +160,7 @@ export const FileUploadSection = ({ uploadedFiles, onFileDrop, onFileRemove, isU
                   </div>
 
                   {/* 進捗バー */}
-                  {uploadedFile.status === 'uploading' && (
+                  {uploadedFile.status === "uploading" && (
                     <div className="w-24 shrink-0">
                       <div className="mb-1 flex justify-between text-xs text-gray-600">
                         <span>{uploadedFile.progress}%</span>
@@ -177,7 +177,7 @@ export const FileUploadSection = ({ uploadedFiles, onFileDrop, onFileRemove, isU
                     variant="ghost"
                     size="sm"
                     onClick={() => onFileRemove(index)}
-                    disabled={uploadedFile.status === 'uploading'}
+                    disabled={uploadedFile.status === "uploading"}
                     className="shrink-0"
                   >
                     <X className="size-4" />

@@ -1,12 +1,12 @@
-import { zodResolver } from '@hookform/resolvers/zod';
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
-import { fn } from '@storybook/test';
-import { useEffect } from 'react';
-import { type Control, useForm } from 'react-hook-form';
+import { zodResolver } from "@hookform/resolvers/zod";
+import type { Meta, StoryObj } from "@storybook/nextjs-vite";
+import { fn } from "@storybook/test";
+import { useEffect } from "react";
+import { type Control, useForm } from "react-hook-form";
 
-import { userFormSchema, type UserFormValues } from '@/features/sample-users/schemas/user-form.schema';
+import { userFormSchema, type UserFormValues } from "@/features/sample-users/schemas/user-form.schema";
 
-import { UserForm } from './user-form';
+import { UserForm } from "./user-form";
 
 /**
  * UserFormコンポーネントのストーリー
@@ -33,7 +33,7 @@ const meta = {
   // ================================================================================
   // Storybookのナビゲーション階層
   // ================================================================================
-  title: 'features/sample-users/components/UserForm',
+  title: "features/sample-users/components/UserForm",
 
   // ================================================================================
   // 表示するコンポーネント
@@ -47,7 +47,7 @@ const meta = {
     // - "padded": 周囲にパディングを追加（フォームやカード向け）
     // - "fullscreen": 全画面表示（ページレイアウト向け）
     // ================================================================================
-    layout: 'padded',
+    layout: "padded",
 
     // ================================================================================
     // コンポーネントの詳細説明
@@ -56,17 +56,17 @@ const meta = {
     docs: {
       description: {
         component:
-          'ユーザー情報の作成・編集を行うフォームコンポーネント。\n\n' +
-          '**主な機能:**\n' +
-          '- React Hook Formによるフォーム管理\n' +
-          '- Zodスキーマによるバリデーション\n' +
-          '- 名前、メールアドレス、ロール（user/admin）の入力\n' +
-          '- 送信中状態の制御\n' +
-          '- エラーメッセージの表示\n' +
-          '- 新規作成・編集モードの切り替え\n\n' +
-          '**使用場面:**\n' +
-          '- 新規ユーザー作成画面\n' +
-          '- ユーザー情報編集画面',
+          "ユーザー情報の作成・編集を行うフォームコンポーネント。\n\n" +
+          "**主な機能:**\n" +
+          "- React Hook Formによるフォーム管理\n" +
+          "- Zodスキーマによるバリデーション\n" +
+          "- 名前、メールアドレス、ロール（user/admin）の入力\n" +
+          "- 送信中状態の制御\n" +
+          "- エラーメッセージの表示\n" +
+          "- 新規作成・編集モードの切り替え\n\n" +
+          "**使用場面:**\n" +
+          "- 新規ユーザー作成画面\n" +
+          "- ユーザー情報編集画面",
       },
     },
 
@@ -75,14 +75,14 @@ const meta = {
     // on* で始まるプロパティを自動的にアクションパネルに表示
     // ================================================================================
     actions: {
-      argTypesRegex: '^on[A-Z].*',
+      argTypesRegex: "^on[A-Z].*",
     },
   },
 
   // ================================================================================
   // ドキュメント自動生成を有効化
   // ================================================================================
-  tags: ['autodocs'],
+  tags: ["autodocs"],
 
   // ================================================================================
   // コントロールパネルの設定
@@ -90,49 +90,49 @@ const meta = {
   // ================================================================================
   argTypes: {
     control: {
-      description: 'React Hook Formのcontrolオブジェクト',
+      description: "React Hook Formのcontrolオブジェクト",
       table: {
-        type: { summary: 'Control<UserFormValues>' },
-        category: 'フォーム制御',
+        type: { summary: "Control<UserFormValues>" },
+        category: "フォーム制御",
       },
     },
     onSubmit: {
-      description: 'フォーム送信時のコールバック関数',
+      description: "フォーム送信時のコールバック関数",
       table: {
-        type: { summary: '(e?: React.BaseSyntheticEvent) => Promise<void>' },
-        category: 'イベント',
+        type: { summary: "(e?: React.BaseSyntheticEvent) => Promise<void>" },
+        category: "イベント",
       },
     },
     onCancel: {
-      description: 'キャンセルボタン押下時のコールバック関数',
+      description: "キャンセルボタン押下時のコールバック関数",
       table: {
-        type: { summary: '() => void' },
-        category: 'イベント',
+        type: { summary: "() => void" },
+        category: "イベント",
       },
     },
     errors: {
-      description: 'React Hook Formのエラーオブジェクト',
+      description: "React Hook Formのエラーオブジェクト",
       table: {
-        type: { summary: 'FieldErrors<UserFormValues>' },
-        category: 'フォーム制御',
+        type: { summary: "FieldErrors<UserFormValues>" },
+        category: "フォーム制御",
       },
     },
     isSubmitting: {
-      control: 'boolean',
-      description: '送信中状態のフラグ',
+      control: "boolean",
+      description: "送信中状態のフラグ",
       table: {
-        type: { summary: 'boolean' },
-        defaultValue: { summary: 'false' },
-        category: '状態',
+        type: { summary: "boolean" },
+        defaultValue: { summary: "false" },
+        category: "状態",
       },
     },
     isEditMode: {
-      control: 'boolean',
-      description: '編集モードのフラグ（新規作成 or 編集）',
+      control: "boolean",
+      description: "編集モードのフラグ（新規作成 or 編集）",
       table: {
-        type: { summary: 'boolean' },
-        defaultValue: { summary: 'false' },
-        category: '状態',
+        type: { summary: "boolean" },
+        defaultValue: { summary: "false" },
+        category: "状態",
       },
     },
   },
@@ -146,7 +146,7 @@ type Story = StoryObj<typeof meta>;
  * 新規ユーザー作成フォームの通常状態
  */
 export const Default: Story = {
-  name: 'デフォルト',
+  name: "デフォルト",
   args: {
     control: {} as Control<UserFormValues>,
     onSubmit: fn(),
@@ -162,9 +162,9 @@ export const Default: Story = {
     } = useForm<UserFormValues>({
       resolver: zodResolver(userFormSchema),
       defaultValues: {
-        name: '',
-        email: '',
-        role: 'user',
+        name: "",
+        email: "",
+        role: "user",
       },
     });
 
@@ -173,7 +173,7 @@ export const Default: Story = {
   parameters: {
     docs: {
       description: {
-        story: '新規ユーザー作成時の初期状態。すべてのフィールドが空で、バリデーションエラーも表示されていません。',
+        story: "新規ユーザー作成時の初期状態。すべてのフィールドが空で、バリデーションエラーも表示されていません。",
       },
     },
   },
@@ -184,7 +184,7 @@ export const Default: Story = {
  * フォームに値が入力されている状態
  */
 export const WithValue: Story = {
-  name: '入力済み',
+  name: "入力済み",
   args: {
     control: {} as Control<UserFormValues>,
     onSubmit: fn(),
@@ -200,9 +200,9 @@ export const WithValue: Story = {
     } = useForm<UserFormValues>({
       resolver: zodResolver(userFormSchema),
       defaultValues: {
-        name: '山田太郎',
-        email: 'yamada@example.com',
-        role: 'admin',
+        name: "山田太郎",
+        email: "yamada@example.com",
+        role: "admin",
       },
     });
 
@@ -211,7 +211,7 @@ export const WithValue: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'すべてのフィールドに有効な値が入力された状態。送信ボタンが有効になります。',
+        story: "すべてのフィールドに有効な値が入力された状態。送信ボタンが有効になります。",
       },
     },
   },
@@ -222,7 +222,7 @@ export const WithValue: Story = {
  * フォームバリデーションエラーが表示されている状態
  */
 export const ValidationError: Story = {
-  name: 'バリデーションエラー',
+  name: "バリデーションエラー",
   args: {
     control: {} as Control<UserFormValues>,
     onSubmit: fn(),
@@ -239,9 +239,9 @@ export const ValidationError: Story = {
     } = useForm<UserFormValues>({
       resolver: zodResolver(userFormSchema),
       defaultValues: {
-        name: '',
-        email: '',
-        role: 'user',
+        name: "",
+        email: "",
+        role: "user",
       },
     });
 
@@ -259,7 +259,7 @@ export const ValidationError: Story = {
     docs: {
       description: {
         story:
-          '必須フィールドが空のままフォーム送信を試みた際のバリデーションエラー表示。各フィールドの下にエラーメッセージが表示されます。',
+          "必須フィールドが空のままフォーム送信を試みた際のバリデーションエラー表示。各フィールドの下にエラーメッセージが表示されます。",
       },
     },
   },
@@ -270,7 +270,7 @@ export const ValidationError: Story = {
  * フォーム送信中でボタンが無効化されている状態
  */
 export const Submitting: Story = {
-  name: '送信中',
+  name: "送信中",
   args: {
     control: {} as Control<UserFormValues>,
     onSubmit: fn(),
@@ -286,9 +286,9 @@ export const Submitting: Story = {
     } = useForm<UserFormValues>({
       resolver: zodResolver(userFormSchema),
       defaultValues: {
-        name: '山田太郎',
-        email: 'yamada@example.com',
-        role: 'user',
+        name: "山田太郎",
+        email: "yamada@example.com",
+        role: "user",
       },
     });
 
@@ -300,7 +300,7 @@ export const Submitting: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'フォーム送信中の状態。送信ボタンとキャンセルボタンが無効化され、ローディング表示が表示されます。',
+        story: "フォーム送信中の状態。送信ボタンとキャンセルボタンが無効化され、ローディング表示が表示されます。",
       },
     },
   },
@@ -311,7 +311,7 @@ export const Submitting: Story = {
  * API通信エラーが表示されている状態
  */
 export const WithError: Story = {
-  name: 'エラー',
+  name: "エラー",
   args: {
     control: {} as Control<UserFormValues>,
     onSubmit: fn(),
@@ -327,16 +327,16 @@ export const WithError: Story = {
     } = useForm<UserFormValues>({
       resolver: zodResolver(userFormSchema),
       defaultValues: {
-        name: '山田太郎',
-        email: 'yamada@example.com',
-        role: 'user',
+        name: "山田太郎",
+        email: "yamada@example.com",
+        role: "user",
       },
     });
 
     const errors = {
       root: {
-        message: 'ユーザーの作成に失敗しました',
-        type: 'manual',
+        message: "ユーザーの作成に失敗しました",
+        type: "manual",
       },
     };
 
@@ -348,7 +348,7 @@ export const WithError: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'API通信エラーなど、サーバー側でエラーが発生した際の表示。フォーム上部にエラーメッセージが表示されます。',
+        story: "API通信エラーなど、サーバー側でエラーが発生した際の表示。フォーム上部にエラーメッセージが表示されます。",
       },
     },
   },
@@ -359,7 +359,7 @@ export const WithError: Story = {
  * ユーザー編集フォームの通常状態
  */
 export const EditMode: Story = {
-  name: '編集モード',
+  name: "編集モード",
   args: {
     control: {} as Control<UserFormValues>,
     onSubmit: fn(),
@@ -376,9 +376,9 @@ export const EditMode: Story = {
     } = useForm<UserFormValues>({
       resolver: zodResolver(userFormSchema),
       defaultValues: {
-        name: '山田太郎',
-        email: 'yamada@example.com',
-        role: 'admin',
+        name: "山田太郎",
+        email: "yamada@example.com",
+        role: "admin",
       },
     });
 
@@ -399,7 +399,7 @@ export const EditMode: Story = {
   parameters: {
     docs: {
       description: {
-        story: '既存ユーザー情報を編集する際のモード。ボタンラベルが「作成」から「更新」に変わります。',
+        story: "既存ユーザー情報を編集する際のモード。ボタンラベルが「作成」から「更新」に変わります。",
       },
     },
   },

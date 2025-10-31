@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
-import { expect, userEvent, within } from '@storybook/test';
-import { delay, http, HttpResponse } from 'msw';
+import type { Meta, StoryObj } from "@storybook/nextjs-vite";
+import { expect, userEvent, within } from "@storybook/test";
+import { delay, http, HttpResponse } from "msw";
 
-import LoginPage from './login';
+import LoginPage from "./login";
 
 /**
  * LoginPageコンポーネントのストーリー
@@ -19,7 +19,7 @@ const meta = {
   // ================================================================================
   // Storybookのナビゲーション階層
   // ================================================================================
-  title: 'features/sample-auth/routes/sample-login/Login',
+  title: "features/sample-auth/routes/sample-login/Login",
 
   // ================================================================================
   // 表示するコンポーネント
@@ -30,7 +30,7 @@ const meta = {
     // ================================================================================
     // レイアウト設定
     // ================================================================================
-    layout: 'fullscreen',
+    layout: "fullscreen",
 
     // ================================================================================
     // Next.js設定
@@ -45,18 +45,18 @@ const meta = {
     docs: {
       description: {
         component:
-          'ユーザー認証を行うためのログインページコンポーネント。フォーム入力とAPI統合が実装されています。\n\n' +
-          '**主な機能:**\n' +
-          '- メールアドレスとパスワードによる認証\n' +
-          '- React Hook Formによるフォーム制御\n' +
-          '- Zodスキーマによるバリデーション\n' +
-          '- API連携によるログイン処理\n' +
-          '- エラーハンドリング\n' +
-          '- MSWによるAPIモック\n' +
-          '- 開発環境でのReact Hook Form DevTools表示\n\n' +
-          '**使用場面:**\n' +
-          '- アプリケーションのログイン画面\n' +
-          '- 認証が必要な機能へのアクセス前',
+          "ユーザー認証を行うためのログインページコンポーネント。フォーム入力とAPI統合が実装されています。\n\n" +
+          "**主な機能:**\n" +
+          "- メールアドレスとパスワードによる認証\n" +
+          "- React Hook Formによるフォーム制御\n" +
+          "- Zodスキーマによるバリデーション\n" +
+          "- API連携によるログイン処理\n" +
+          "- エラーハンドリング\n" +
+          "- MSWによるAPIモック\n" +
+          "- 開発環境でのReact Hook Form DevTools表示\n\n" +
+          "**使用場面:**\n" +
+          "- アプリケーションのログイン画面\n" +
+          "- 認証が必要な機能へのアクセス前",
       },
     },
 
@@ -65,15 +65,15 @@ const meta = {
     // ================================================================================
     msw: {
       handlers: [
-        http.post('*/api/v1/sample/auth/login', async () => {
+        http.post("*/api/v1/sample/auth/login", async () => {
           await delay(500);
 
           return HttpResponse.json({
-            token: 'mock-jwt-token-12345',
+            token: "mock-jwt-token-12345",
             user: {
-              id: '1',
-              name: '山田太郎',
-              email: 'yamada@example.com',
+              id: "1",
+              name: "山田太郎",
+              email: "yamada@example.com",
             },
           });
         }),
@@ -84,7 +84,7 @@ const meta = {
   // ================================================================================
   // ドキュメント自動生成を有効化
   // ================================================================================
-  tags: ['autodocs'],
+  tags: ["autodocs"],
 } satisfies Meta<typeof LoginPage>;
 
 export default meta;
@@ -95,11 +95,11 @@ type Story = StoryObj<typeof meta>;
  * ログインページの通常状態
  */
 export const Default: Story = {
-  name: 'デフォルト',
+  name: "デフォルト",
   parameters: {
     docs: {
       description: {
-        story: 'ログインページの初期状態。メールアドレスとパスワードの入力フォームが表示されます。',
+        story: "ログインページの初期状態。メールアドレスとパスワードの入力フォームが表示されます。",
       },
     },
   },
@@ -110,20 +110,20 @@ export const Default: Story = {
  * API エラーが発生した際の表示
  */
 export const WithError: Story = {
-  name: 'エラー',
+  name: "エラー",
   parameters: {
     docs: {
       description: {
         story:
-          'API呼び出しが失敗した場合の状態。MSWを使用してエラーレスポンスをシミュレートし、エラーメッセージが表示されることを確認します。',
+          "API呼び出しが失敗した場合の状態。MSWを使用してエラーレスポンスをシミュレートし、エラーメッセージが表示されることを確認します。",
       },
     },
     msw: {
       handlers: [
-        http.post('*/api/v1/sample/auth/login', async () => {
+        http.post("*/api/v1/sample/auth/login", async () => {
           await delay(500);
 
-          return HttpResponse.json({ message: 'Unauthorized' }, { status: 401 });
+          return HttpResponse.json({ message: "Unauthorized" }, { status: 401 });
         }),
       ],
     },
@@ -132,11 +132,11 @@ export const WithError: Story = {
     const canvas = within(canvasElement);
 
     // Formに入力
-    await userEvent.type(canvas.getByLabelText(/メールアドレス/i), 'user@example.com');
-    await userEvent.type(canvas.getByLabelText(/パスワード/i), 'wrongpassword');
+    await userEvent.type(canvas.getByLabelText(/メールアドレス/i), "user@example.com");
+    await userEvent.type(canvas.getByLabelText(/パスワード/i), "wrongpassword");
 
     // 送信ボタンをクリック
-    const submitButton = canvas.getByRole('button', { name: /ログイン/i });
+    const submitButton = canvas.getByRole("button", { name: /ログイン/i });
     await userEvent.click(submitButton);
 
     // エラーメッセージが表示されることを確認
@@ -150,11 +150,11 @@ export const WithError: Story = {
  * ログインが成功した際の表示
  */
 export const Success: Story = {
-  name: '成功',
+  name: "成功",
   parameters: {
     docs: {
       description: {
-        story: 'ログインが成功した場合の状態。MSWを使用して成功レスポンスをシミュレートし、適切にログイン処理が行われることを確認します。',
+        story: "ログインが成功した場合の状態。MSWを使用して成功レスポンスをシミュレートし、適切にログイン処理が行われることを確認します。",
       },
     },
   },
@@ -162,11 +162,11 @@ export const Success: Story = {
     const canvas = within(canvasElement);
 
     // Formに入力
-    await userEvent.type(canvas.getByLabelText(/メールアドレス/i), 'yamada@example.com');
-    await userEvent.type(canvas.getByLabelText(/パスワード/i), 'password123');
+    await userEvent.type(canvas.getByLabelText(/メールアドレス/i), "yamada@example.com");
+    await userEvent.type(canvas.getByLabelText(/パスワード/i), "password123");
 
     // 送信ボタンをクリック
-    const submitButton = canvas.getByRole('button', { name: /ログイン/i });
+    const submitButton = canvas.getByRole("button", { name: /ログイン/i });
     await userEvent.click(submitButton);
 
     // ローディング状態になることを確認（ボタンが無効化される）

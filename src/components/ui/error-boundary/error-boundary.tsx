@@ -2,11 +2,11 @@
 // Imports
 // ================================================================================
 
-'use client';
+"use client";
 
-import { Component, type ReactNode } from 'react';
+import { Component, type ReactNode } from "react";
 
-import { Button } from '@/components/sample-ui/button/button';
+import { Button } from "@/components/sample-ui/button/button";
 
 // ================================================================================
 // 型定義
@@ -69,12 +69,12 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
   }
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
-    console.error('[ErrorBoundary] Error caught:', error, errorInfo);
+    console.error("[ErrorBoundary] Error caught:", error, errorInfo);
   }
 
   handleReset = () => {
     this.setState({ hasError: false, error: null });
-    const redirectTo = this.props.redirectTo ?? '/login';
+    const redirectTo = this.props.redirectTo ?? "/login";
     window.location.href = redirectTo;
   };
 
@@ -91,7 +91,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
           <div className="w-full max-w-md space-y-6 rounded-lg bg-white p-8 shadow-md">
             <div className="space-y-2 text-center">
               <h1 className="text-2xl font-bold text-red-600">エラーが発生しました</h1>
-              <p className="text-gray-600">{this.state.error.message || '予期しないエラーが発生しました'}</p>
+              <p className="text-gray-600">{this.state.error.message || "予期しないエラーが発生しました"}</p>
             </div>
             <div className="space-y-4">
               <Button onClick={this.handleReset} className="w-full" size="lg">

@@ -1,16 +1,16 @@
-'use client';
+"use client";
 
-import { Suspense } from 'react';
-import { ErrorBoundary } from 'react-error-boundary';
+import { Suspense } from "react";
+import { ErrorBoundary } from "react-error-boundary";
 
-import { MainErrorFallback } from '@/components/errors/main';
-import { PageHeader } from '@/components/layout/page-header';
-import { PageLayout } from '@/components/layout/page-layout';
-import { Button } from '@/components/sample-ui/button';
-import { LoadingSpinner } from '@/components/sample-ui/loading-spinner';
+import { MainErrorFallback } from "@/components/errors/main";
+import { PageHeader } from "@/components/layout/page-header";
+import { PageLayout } from "@/components/layout/page-layout";
+import { Button } from "@/components/sample-ui/button";
+import { LoadingSpinner } from "@/components/sample-ui/loading-spinner";
 
-import { UsersList } from './components/users-list';
-import { useUsers } from './users.hook';
+import { UsersList } from "./components/users-list";
+import { useUsers } from "./users.hook";
 
 /**
  * ユーザー一覧ページのコンテンツ

@@ -1,10 +1,10 @@
-import { Control, FieldErrors } from 'react-hook-form';
+import { Control, FieldErrors } from "react-hook-form";
 
-import { Button } from '@/components/sample-ui/button';
-import { Card, CardContent } from '@/components/sample-ui/card';
-import { ErrorMessage } from '@/components/sample-ui/error-message';
-import { ControlledInputField, ControlledSelectField } from '@/components/sample-ui/form-field/controlled-form-field';
-import { UserFormValues } from '@/features/sample-users/schemas/user-form.schema';
+import { Button } from "@/components/sample-ui/button";
+import { Card, CardContent } from "@/components/sample-ui/card";
+import { ErrorMessage } from "@/components/sample-ui/error-message";
+import { ControlledInputField, ControlledSelectField } from "@/components/sample-ui/form-field/controlled-form-field";
+import { UserFormValues } from "@/features/sample-users/schemas/user-form.schema";
 
 type UserFormProps = {
   /** React Hook Formのcontrolオブジェクト */
@@ -42,7 +42,7 @@ export const UserForm = ({ control, onSubmit, onCancel, errors, isSubmitting, is
   // ================================================================================
   // 変数
   // ================================================================================
-  const submitButtonText = isEditMode ? (isSubmitting ? '更新中...' : '更新') : isSubmitting ? '作成中...' : '作成';
+  const submitButtonText = isEditMode ? (isSubmitting ? "更新中..." : "更新") : isSubmitting ? "作成中..." : "作成";
 
   return (
     <Card>
@@ -64,13 +64,13 @@ export const UserForm = ({ control, onSubmit, onCancel, errors, isSubmitting, is
             name="role"
             label="ロール"
             options={[
-              { value: 'user', label: 'User' },
-              { value: 'admin', label: 'Admin' },
+              { value: "user", label: "User" },
+              { value: "admin", label: "Admin" },
             ]}
             required
           />
 
-          {errors.root && <ErrorMessage message={errors.root.message ?? ''} />}
+          {errors.root && <ErrorMessage message={errors.root.message ?? ""} />}
 
           <div className="flex gap-4">
             <Button type="submit" disabled={isSubmitting} className="flex-1">

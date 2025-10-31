@@ -5,9 +5,9 @@
  * TODO: サーバー側のセッション削除が必要な場合は実装してください
  */
 
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { MutationConfig } from '@/lib/tanstack-query';
+import { MutationConfig } from "@/lib/tanstack-query";
 
 // ================================================================================
 // API関数

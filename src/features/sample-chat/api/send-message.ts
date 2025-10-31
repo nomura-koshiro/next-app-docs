@@ -1,17 +1,17 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { api } from '@/lib/api-client';
-import { MutationConfig } from '@/lib/tanstack-query';
-import { logger } from '@/utils/logger';
+import { api } from "@/lib/api-client";
+import { MutationConfig } from "@/lib/tanstack-query";
+import { logger } from "@/utils/logger";
 
-import type { SendMessageRequest, SendMessageResponse } from '../types';
+import type { SendMessageRequest, SendMessageResponse } from "../types";
 
 // ================================================================================
 // API関数
 // ================================================================================
 
 export const sendMessage = (request: SendMessageRequest): Promise<SendMessageResponse> => {
-  return api.post('/api/v1/sample/chat/messages', request);
+  return api.post("/api/v1/sample/chat/messages", request);
 };
 
 // ================================================================================
@@ -29,8 +29,8 @@ export const useSendMessage = ({ mutationConfig }: UseSendMessageOptions = {}) =
 
   return useMutation({
     onSuccess: (...args) => {
-      queryClient.invalidateQueries({ queryKey: ['sample', 'chat', 'messages'] }).catch((error) => {
-        logger.error('チャットメッセージクエリの無効化に失敗しました', error);
+      queryClient.invalidateQueries({ queryKey: ["sample", "chat", "messages"] }).catch((error) => {
+        logger.error("チャットメッセージクエリの無効化に失敗しました", error);
       });
       onSuccess?.(...args);
     },

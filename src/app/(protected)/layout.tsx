@@ -2,13 +2,13 @@
 // Imports
 // ================================================================================
 
-'use client';
+"use client";
 
-import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
-import { LoadingSpinner } from '@/components/ui';
-import { useAuth } from '@/features/auth/hooks/use-auth';
+import { LoadingSpinner } from "@/components/ui";
+import { useAuth } from "@/features/auth/hooks/use-auth";
 
 // ================================================================================
 // 型定義
@@ -46,7 +46,7 @@ const ProtectedLayout = ({ children }: ProtectedLayoutProps) => {
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
       // router.pushではなくrouter.replaceを使用して履歴に残さない
-      router.replace('/login');
+      router.replace("/login");
     }
   }, [isAuthenticated, isLoading, router]);
 

@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import { Control, Controller, FieldPath, FieldValues } from 'react-hook-form';
+import { Control, Controller, FieldPath, FieldValues } from "react-hook-form";
 
-import { Checkbox } from '@/components/sample-ui/checkbox';
-import { Input } from '@/components/sample-ui/input';
-import { Label } from '@/components/sample-ui/label';
-import { RadioGroup, RadioGroupItem } from '@/components/sample-ui/radio-group';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/sample-ui/select';
-import { Switch } from '@/components/sample-ui/switch';
-import { Textarea } from '@/components/sample-ui/textarea';
+import { Checkbox } from "@/components/sample-ui/checkbox";
+import { Input } from "@/components/sample-ui/input";
+import { Label } from "@/components/sample-ui/label";
+import { RadioGroup, RadioGroupItem } from "@/components/sample-ui/radio-group";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/sample-ui/select";
+import { Switch } from "@/components/sample-ui/switch";
+import { Textarea } from "@/components/sample-ui/textarea";
 
 type ControlledInputFieldProps<TFieldValues extends FieldValues> = {
   control: Control<TFieldValues>;
@@ -28,7 +28,7 @@ export function ControlledInputField<TFieldValues extends FieldValues>({
   control,
   name,
   label,
-  type = 'text',
+  type = "text",
   placeholder,
   required = false,
   autoComplete,
@@ -52,7 +52,7 @@ export function ControlledInputField<TFieldValues extends FieldValues>({
             type={type}
             placeholder={placeholder}
             autoComplete={autoComplete}
-            aria-invalid={fieldState.error ? 'true' : 'false'}
+            aria-invalid={fieldState.error ? "true" : "false"}
           />
           {fieldState.error && <p className="text-sm text-destructive">{fieldState.error.message}</p>}
         </div>
@@ -90,7 +90,7 @@ export function ControlledSelectField<TFieldValues extends FieldValues>({
             {required && <span className="text-red-500 ml-1">*</span>}
           </Label>
           <Select value={field.value} onValueChange={field.onChange}>
-            <SelectTrigger id={name} aria-invalid={fieldState.error ? 'true' : 'false'}>
+            <SelectTrigger id={name} aria-invalid={fieldState.error ? "true" : "false"}>
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
@@ -138,7 +138,7 @@ export function ControlledTextareaField<TFieldValues extends FieldValues>({
             {label}
             {required && <span className="text-red-500 ml-1">*</span>}
           </Label>
-          <Textarea {...field} id={name} placeholder={placeholder} rows={rows} aria-invalid={fieldState.error ? 'true' : 'false'} />
+          <Textarea {...field} id={name} placeholder={placeholder} rows={rows} aria-invalid={fieldState.error ? "true" : "false"} />
           {fieldState.error && <p className="text-sm text-destructive">{fieldState.error.message}</p>}
         </div>
       )}
@@ -169,7 +169,7 @@ export function ControlledCheckboxField<TFieldValues extends FieldValues>({
       render={({ field, fieldState }) => (
         <div className="space-y-2">
           <div className="flex items-center space-x-2">
-            <Checkbox id={name} checked={field.value} onCheckedChange={field.onChange} aria-invalid={fieldState.error ? 'true' : 'false'} />
+            <Checkbox id={name} checked={field.value} onCheckedChange={field.onChange} aria-invalid={fieldState.error ? "true" : "false"} />
             <div className="grid gap-1.5 leading-none">
               <Label htmlFor={name} className="cursor-pointer">
                 {label}
@@ -259,7 +259,7 @@ export function ControlledSwitchField<TFieldValues extends FieldValues>({
               <Label htmlFor={name}>{label}</Label>
               {description && <p className="text-sm text-muted-foreground">{description}</p>}
             </div>
-            <Switch id={name} checked={field.value} onCheckedChange={field.onChange} aria-invalid={fieldState.error ? 'true' : 'false'} />
+            <Switch id={name} checked={field.value} onCheckedChange={field.onChange} aria-invalid={fieldState.error ? "true" : "false"} />
           </div>
           {fieldState.error && <p className="text-sm text-destructive">{fieldState.error.message}</p>}
         </div>
@@ -294,7 +294,7 @@ export function ControlledDateField<TFieldValues extends FieldValues>({
             {label}
             {required && <span className="text-red-500 ml-1">*</span>}
           </Label>
-          <Input {...field} id={name} type="date" aria-invalid={fieldState.error ? 'true' : 'false'} />
+          <Input {...field} id={name} type="date" aria-invalid={fieldState.error ? "true" : "false"} />
           {fieldState.error && <p className="text-sm text-destructive">{fieldState.error.message}</p>}
         </div>
       )}

@@ -1,9 +1,9 @@
-import { AlertTriangle } from 'lucide-react';
+import { AlertTriangle } from "lucide-react";
 
-import { Alert, AlertDescription, AlertTitle } from '@/components/sample-ui/alert';
-import { Button } from '@/components/sample-ui/button';
-import { Card, CardContent } from '@/components/sample-ui/card';
-import type { User } from '@/features/sample-users/types';
+import { Alert, AlertDescription, AlertTitle } from "@/components/sample-ui/alert";
+import { Button } from "@/components/sample-ui/button";
+import { Card, CardContent } from "@/components/sample-ui/card";
+import type { User } from "@/features/sample-users/types";
 
 type DeleteUserConfirmationProps = {
   /** 削除対象のユーザー */
@@ -62,7 +62,7 @@ export const DeleteUserConfirmation = ({ user, onDelete, onCancel, isDeleting }:
 
         <div className="flex gap-4">
           <Button variant="destructive" onClick={onDelete} disabled={isDeleting} className="flex-1">
-            {isDeleting ? '削除中...' : '削除する'}
+            {isDeleting ? "削除中..." : "削除する"}
           </Button>
           <Button variant="outline" onClick={onCancel} disabled={isDeleting} className="flex-1">
             キャンセル

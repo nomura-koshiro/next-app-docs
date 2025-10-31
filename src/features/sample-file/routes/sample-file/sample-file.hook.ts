@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { useCallback, useOptimistic, useState } from 'react';
+import { useCallback, useOptimistic, useState } from "react";
 
-import { uploadFile } from '../../api';
-import type { DownloadProgress, FileType, UploadedFile } from '../../types';
-import { downloadBlob, generateFilename } from '../../utils/download-helper';
+import { uploadFile } from "../../api";
+import type { DownloadProgress, FileType, UploadedFile } from "../../types";
+import { downloadBlob, generateFilename } from "../../utils/download-helper";
 import {
   generateCsvBlob,
   generateExcelBlob,
@@ -12,7 +12,7 @@ import {
   generateJsonBlob,
   generateSampleData,
   generateTextBlob,
-} from '../../utils/file-generators';
+} from "../../utils/file-generators";
 
 /**
  * ファイルアップロード・ダウンロード機能のカスタムフック
@@ -87,7 +87,7 @@ export const useSampleFile = () => {
       const newFiles: UploadedFile[] = files.map((file) => ({
         file,
         progress: 0,
-        status: 'pending',
+        status: "pending",
       }));
 
       // 即座にUIに反映（楽観的更新）
@@ -103,7 +103,7 @@ export const useSampleFile = () => {
 
         // ステータスを「アップロード中」に更新
         setUploadedFiles((prev: UploadedFile[]) =>
-          prev.map((f: UploadedFile, idx: number) => (idx === fileIndex ? { ...f, status: 'uploading' } : f))
+          prev.map((f: UploadedFile, idx: number) => (idx === fileIndex ? { ...f, status: "uploading" } : f))
         );
 
         // アップロード実行（MSWでモック）
@@ -116,7 +116,7 @@ export const useSampleFile = () => {
           .then(() => {
             // ステータスを「成功」に更新
             setUploadedFiles((prev: UploadedFile[]) =>
-              prev.map((f: UploadedFile, idx: number) => (idx === fileIndex ? { ...f, status: 'success' } : f))
+              prev.map((f: UploadedFile, idx: number) => (idx === fileIndex ? { ...f, status: "success" } : f))
             );
           })
           .catch((error) => {
@@ -126,8 +126,8 @@ export const useSampleFile = () => {
                 idx === fileIndex
                   ? {
                       ...f,
-                      status: 'error',
-                      error: error instanceof Error ? error.message : 'アップロードに失敗しました',
+                      status: "error",
+                      error: error instanceof Error ? error.message : "アップロードに失敗しました",
                     }
                   : f
               )
@@ -191,48 +191,48 @@ export const useSampleFile = () => {
       // ファイルタイプに応じてBlobを生成
       const { blob, filename } = await (async (): Promise<{ blob: Blob; filename: string }> => {
         switch (type) {
-          case 'csv':
+          case "csv":
             await progressPromise;
 
             return {
               blob: generateCsvBlob(sampleData),
-              filename: generateFilename('sample_data', 'csv'),
+              filename: generateFilename("sample_data", "csv"),
             };
 
-          case 'excel':
+          case "excel":
             await progressPromise;
 
             return {
               blob: await generateExcelBlob(sampleData),
-              filename: generateFilename('sample_data', 'xlsx'),
+              filename: generateFilename("sample_data", "xlsx"),
             };
 
-          case 'json':
+          case "json":
             await progressPromise;
 
             return {
               blob: generateJsonBlob(sampleData),
-              filename: generateFilename('sample_data', 'json'),
+              filename: generateFilename("sample_data", "json"),
             };
 
-          case 'text':
+          case "text":
             await progressPromise;
 
             return {
               blob: generateTextBlob(sampleData),
-              filename: generateFilename('sample_data', 'txt'),
+              filename: generateFilename("sample_data", "txt"),
             };
 
-          case 'image':
+          case "image":
             await progressPromise;
 
             return {
               blob: await generateImageBlob(),
-              filename: generateFilename('sample_image', 'png'),
+              filename: generateFilename("sample_image", "png"),
             };
 
           default:
-            throw new Error('不明なファイルタイプです');
+            throw new Error("不明なファイルタイプです");
         }
       })();
 
@@ -248,8 +248,8 @@ export const useSampleFile = () => {
 
     await executeDownload()
       .catch((error) => {
-        console.error('Download failed:', error);
-        alert(`ダウンロードに失敗しました: ${error instanceof Error ? error.message : '不明なエラー'}`);
+        console.error("Download failed:", error);
+        alert(`ダウンロードに失敗しました: ${error instanceof Error ? error.message : "不明なエラー"}`);
       })
       .finally(() => {
         setIsDownloading(false);

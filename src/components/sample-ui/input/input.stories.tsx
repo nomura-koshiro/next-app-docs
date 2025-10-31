@@ -1,6 +1,6 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 
-import { Input } from './input';
+import { Input } from "./input";
 
 /**
  * Inputコンポーネントのストーリー
@@ -17,7 +17,7 @@ const meta = {
   // ================================================================================
   // Storybookのナビゲーション階層
   // ================================================================================
-  title: 'components/sample-ui/Input',
+  title: "components/sample-ui/Input",
 
   // ================================================================================
   // 表示するコンポーネント
@@ -31,7 +31,7 @@ const meta = {
     // - "padded": 周囲にパディングを追加（フォームやカード向け）
     // - "fullscreen": 全画面表示（ページレイアウト向け）
     // ================================================================================
-    layout: 'padded',
+    layout: "padded",
 
     // ================================================================================
     // コンポーネントの詳細説明
@@ -40,16 +40,16 @@ const meta = {
     docs: {
       description: {
         component:
-          '汎用的なテキスト入力コンポーネント。フォームでの使用を想定しています。\n\n' +
-          '**主な機能:**\n' +
-          '- 複数の入力タイプをサポート（text, email, password, number, tel, url）\n' +
-          '- プレースホルダーテキストの設定\n' +
-          '- 無効化状態の制御\n' +
-          '- カスタムスタイルの適用が可能\n\n' +
-          '**使用例:**\n' +
-          '```tsx\n' +
+          "汎用的なテキスト入力コンポーネント。フォームでの使用を想定しています。\n\n" +
+          "**主な機能:**\n" +
+          "- 複数の入力タイプをサポート（text, email, password, number, tel, url）\n" +
+          "- プレースホルダーテキストの設定\n" +
+          "- 無効化状態の制御\n" +
+          "- カスタムスタイルの適用が可能\n\n" +
+          "**使用例:**\n" +
+          "```tsx\n" +
           '<Input type="email" placeholder="user@example.com" />\n' +
-          '```',
+          "```",
       },
     },
 
@@ -58,14 +58,14 @@ const meta = {
     // on* で始まるプロパティを自動的にアクションパネルに表示
     // ================================================================================
     actions: {
-      argTypesRegex: '^on[A-Z].*',
+      argTypesRegex: "^on[A-Z].*",
     },
   },
 
   // ================================================================================
   // ドキュメント自動生成を有効化
   // ================================================================================
-  tags: ['autodocs'],
+  tags: ["autodocs"],
 
   // ================================================================================
   // コントロールパネルの設定
@@ -73,46 +73,46 @@ const meta = {
   // ================================================================================
   argTypes: {
     type: {
-      control: 'select',
-      options: ['text', 'email', 'password', 'number', 'tel', 'url'],
-      description: '入力フィールドのタイプ',
+      control: "select",
+      options: ["text", "email", "password", "number", "tel", "url"],
+      description: "入力フィールドのタイプ",
       table: {
-        type: { summary: 'string' },
-        defaultValue: { summary: 'text' },
-        category: '入力設定',
+        type: { summary: "string" },
+        defaultValue: { summary: "text" },
+        category: "入力設定",
       },
     },
     placeholder: {
-      control: 'text',
-      description: 'プレースホルダーテキスト',
+      control: "text",
+      description: "プレースホルダーテキスト",
       table: {
-        type: { summary: 'string' },
-        category: 'コンテンツ',
+        type: { summary: "string" },
+        category: "コンテンツ",
       },
     },
     disabled: {
-      control: 'boolean',
-      description: '無効化状態',
+      control: "boolean",
+      description: "無効化状態",
       table: {
-        type: { summary: 'boolean' },
-        defaultValue: { summary: 'false' },
-        category: '状態',
+        type: { summary: "boolean" },
+        defaultValue: { summary: "false" },
+        category: "状態",
       },
     },
     defaultValue: {
-      control: 'text',
-      description: '初期値',
+      control: "text",
+      description: "初期値",
       table: {
-        type: { summary: 'string' },
-        category: 'コンテンツ',
+        type: { summary: "string" },
+        category: "コンテンツ",
       },
     },
     className: {
-      control: 'text',
-      description: '追加のCSSクラス名',
+      control: "text",
+      description: "追加のCSSクラス名",
       table: {
-        type: { summary: 'string' },
-        category: 'スタイリング',
+        type: { summary: "string" },
+        category: "スタイリング",
       },
     },
   },
@@ -123,7 +123,7 @@ const meta = {
   // 個々のストーリーで上書き可能
   // ================================================================================
   args: {
-    placeholder: 'テキストを入力してください',
+    placeholder: "テキストを入力してください",
   },
 } satisfies Meta<typeof Input>;
 
@@ -134,14 +134,14 @@ type Story = StoryObj<typeof meta>;
  * デフォルトのテキスト入力
  */
 export const Default: Story = {
-  name: 'デフォルト',
+  name: "デフォルト",
   args: {
-    placeholder: 'テキストを入力してください',
+    placeholder: "テキストを入力してください",
   },
   parameters: {
     docs: {
       description: {
-        story: '最も基本的なテキスト入力フィールド。type属性を指定しない場合は自動的にtextタイプになります。',
+        story: "最も基本的なテキスト入力フィールド。type属性を指定しない場合は自動的にtextタイプになります。",
       },
     },
   },
@@ -151,15 +151,15 @@ export const Default: Story = {
  * メールアドレス入力
  */
 export const Email: Story = {
-  name: 'メール',
+  name: "メール",
   args: {
-    type: 'email',
-    placeholder: 'user@example.com',
+    type: "email",
+    placeholder: "user@example.com",
   },
   parameters: {
     docs: {
       description: {
-        story: 'メールアドレス専用の入力フィールド。ブラウザの自動バリデーションとキーボード最適化が有効になります。',
+        story: "メールアドレス専用の入力フィールド。ブラウザの自動バリデーションとキーボード最適化が有効になります。",
       },
     },
   },
@@ -169,15 +169,15 @@ export const Email: Story = {
  * パスワード入力
  */
 export const Password: Story = {
-  name: 'パスワード',
+  name: "パスワード",
   args: {
-    type: 'password',
-    placeholder: 'パスワードを入力',
+    type: "password",
+    placeholder: "パスワードを入力",
   },
   parameters: {
     docs: {
       description: {
-        story: 'パスワード入力用のフィールド。入力内容が自動的にマスキングされます。',
+        story: "パスワード入力用のフィールド。入力内容が自動的にマスキングされます。",
       },
     },
   },
@@ -187,15 +187,15 @@ export const Password: Story = {
  * 数値入力
  */
 export const Number: Story = {
-  name: '数値',
+  name: "数値",
   args: {
-    type: 'number',
-    placeholder: '0',
+    type: "number",
+    placeholder: "0",
   },
   parameters: {
     docs: {
       description: {
-        story: '数値専用の入力フィールド。増減ボタンが表示され、数値以外の入力が制限されます。',
+        story: "数値専用の入力フィールド。増減ボタンが表示され、数値以外の入力が制限されます。",
       },
     },
   },
@@ -205,15 +205,15 @@ export const Number: Story = {
  * 無効化状態
  */
 export const Disabled: Story = {
-  name: '無効化',
+  name: "無効化",
   args: {
-    placeholder: '無効化されています',
+    placeholder: "無効化されています",
     disabled: true,
   },
   parameters: {
     docs: {
       description: {
-        story: '無効化された状態の入力フィールド。ユーザーによる編集ができず、視覚的にもグレーアウト表示されます。',
+        story: "無効化された状態の入力フィールド。ユーザーによる編集ができず、視覚的にもグレーアウト表示されます。",
       },
     },
   },
@@ -223,14 +223,14 @@ export const Disabled: Story = {
  * 初期値あり
  */
 export const WithDefaultValue: Story = {
-  name: '初期値あり',
+  name: "初期値あり",
   args: {
-    defaultValue: '入力済みの値',
+    defaultValue: "入力済みの値",
   },
   parameters: {
     docs: {
       description: {
-        story: '初期値が設定された入力フィールド。フォームの編集画面などで使用されます。',
+        story: "初期値が設定された入力フィールド。フォームの編集画面などで使用されます。",
       },
     },
   },
@@ -240,7 +240,7 @@ export const WithDefaultValue: Story = {
  * ラベルとの組み合わせ
  */
 export const WithLabel: Story = {
-  name: 'ラベル付き',
+  name: "ラベル付き",
   render: () => (
     <div className="space-y-2">
       <label htmlFor="name" className="text-sm font-medium">
@@ -252,7 +252,7 @@ export const WithLabel: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'ラベルと組み合わせた実用的な使用例。アクセシビリティのためlabelとidを関連付けています。',
+        story: "ラベルと組み合わせた実用的な使用例。アクセシビリティのためlabelとidを関連付けています。",
       },
     },
   },
@@ -262,7 +262,7 @@ export const WithLabel: Story = {
  * エラー表示
  */
 export const WithError: Story = {
-  name: 'エラー',
+  name: "エラー",
   render: () => (
     <div className="space-y-2">
       <label htmlFor="email" className="text-sm font-medium">
@@ -275,7 +275,7 @@ export const WithError: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'バリデーションエラー時の表示例。aria-invalid属性とエラーメッセージを組み合わせています。',
+        story: "バリデーションエラー時の表示例。aria-invalid属性とエラーメッセージを組み合わせています。",
       },
     },
   },

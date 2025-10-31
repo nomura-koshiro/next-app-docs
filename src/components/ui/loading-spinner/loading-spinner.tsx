@@ -29,11 +29,11 @@ type LoadingSpinnerProps = {
  * @param props.fullScreen - 全画面表示するかどうか
  * @returns ローディングスピナー要素
  */
-export const LoadingSpinner = ({ message = '読み込み中...', fullScreen = true }: LoadingSpinnerProps) => {
+export const LoadingSpinner = ({ message = "読み込み中...", fullScreen = true }: LoadingSpinnerProps) => {
   // ================================================================================
   // 変数
   // ================================================================================
-  const containerClass = fullScreen ? 'flex min-h-screen items-center justify-center' : 'flex items-center justify-center';
+  const containerClass = fullScreen ? "flex min-h-screen items-center justify-center" : "flex items-center justify-center";
 
   // ================================================================================
   // Render

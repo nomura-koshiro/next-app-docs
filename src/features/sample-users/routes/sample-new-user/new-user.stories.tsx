@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
-import { expect, userEvent, within } from '@storybook/test';
-import { delay, http, HttpResponse } from 'msw';
+import type { Meta, StoryObj } from "@storybook/nextjs-vite";
+import { expect, userEvent, within } from "@storybook/test";
+import { delay, http, HttpResponse } from "msw";
 
-import NewUserPage from './new-user';
+import NewUserPage from "./new-user";
 
 /**
  * NewUserPageコンポーネントのストーリー
@@ -19,7 +19,7 @@ const meta = {
   // ================================================================================
   // Storybookのナビゲーション階層
   // ================================================================================
-  title: 'features/sample-users/routes/sample-new-user/NewUser',
+  title: "features/sample-users/routes/sample-new-user/NewUser",
 
   // ================================================================================
   // 表示するコンポーネント
@@ -30,7 +30,7 @@ const meta = {
     // ================================================================================
     // レイアウト設定
     // ================================================================================
-    layout: 'fullscreen',
+    layout: "fullscreen",
 
     // ================================================================================
     // Next.js設定
@@ -45,16 +45,16 @@ const meta = {
     docs: {
       description: {
         component:
-          '新規ユーザーを作成するためのページコンポーネント。フォーム入力とAPI統合が実装されています。\n\n' +
-          '**主な機能:**\n' +
-          '- ユーザー情報の入力フォーム\n' +
-          '- バリデーション\n' +
-          '- API連携によるユーザー作成\n' +
-          '- エラーハンドリング\n' +
-          '- MSWによるAPIモック\n\n' +
-          '**使用場面:**\n' +
-          '- ユーザー管理画面\n' +
-          '- 管理者による新規ユーザー登録',
+          "新規ユーザーを作成するためのページコンポーネント。フォーム入力とAPI統合が実装されています。\n\n" +
+          "**主な機能:**\n" +
+          "- ユーザー情報の入力フォーム\n" +
+          "- バリデーション\n" +
+          "- API連携によるユーザー作成\n" +
+          "- エラーハンドリング\n" +
+          "- MSWによるAPIモック\n\n" +
+          "**使用場面:**\n" +
+          "- ユーザー管理画面\n" +
+          "- 管理者による新規ユーザー登録",
       },
     },
   },
@@ -62,7 +62,7 @@ const meta = {
   // ================================================================================
   // ドキュメント自動生成を有効化
   // ================================================================================
-  tags: ['autodocs'],
+  tags: ["autodocs"],
 } satisfies Meta<typeof NewUserPage>;
 
 export default meta;
@@ -73,11 +73,11 @@ type Story = StoryObj<typeof meta>;
  * 新規ユーザー作成ページの通常状態
  */
 export const Default: Story = {
-  name: 'デフォルト',
+  name: "デフォルト",
   parameters: {
     docs: {
       description: {
-        story: '新規ユーザー作成ページの初期状態。空のフォームが表示されます。',
+        story: "新規ユーザー作成ページの初期状態。空のフォームが表示されます。",
       },
     },
   },
@@ -88,20 +88,20 @@ export const Default: Story = {
  * API エラーが発生した際の表示
  */
 export const WithError: Story = {
-  name: 'エラー',
+  name: "エラー",
   parameters: {
     docs: {
       description: {
         story:
-          'API呼び出しが失敗した場合の状態。MSWを使用してエラーレスポンスをシミュレートし、エラーメッセージが表示されることを確認します。',
+          "API呼び出しが失敗した場合の状態。MSWを使用してエラーレスポンスをシミュレートし、エラーメッセージが表示されることを確認します。",
       },
     },
     msw: {
       handlers: [
-        http.post('*/api/v1/sample/users', async () => {
+        http.post("*/api/v1/sample/users", async () => {
           await delay(500);
 
-          return HttpResponse.json({ message: 'Internal Server Error' }, { status: 500 });
+          return HttpResponse.json({ message: "Internal Server Error" }, { status: 500 });
         }),
       ],
     },
@@ -110,11 +110,11 @@ export const WithError: Story = {
     const canvas = within(canvasElement);
 
     // Formに入力
-    await userEvent.type(canvas.getByLabelText(/名前/i), '山田太郎');
-    await userEvent.type(canvas.getByLabelText(/メールアドレス/i), 'yamada@example.com');
+    await userEvent.type(canvas.getByLabelText(/名前/i), "山田太郎");
+    await userEvent.type(canvas.getByLabelText(/メールアドレス/i), "yamada@example.com");
 
     // 送信ボタンをクリック
-    const submitButton = canvas.getByRole('button', { name: /作成/i });
+    const submitButton = canvas.getByRole("button", { name: /作成/i });
     await userEvent.click(submitButton);
 
     // エラーメッセージが表示されることを確認

@@ -4,7 +4,7 @@
  * @module schemas/fields/terms
  */
 
-import { z } from 'zod';
+import { z } from "zod";
 
 /**
  * @example
@@ -17,7 +17,7 @@ import { z } from 'zod';
  * ```
  */
 export const termsSchema = z.boolean().refine((val) => val === true, {
-  message: '利用規約に同意する必要があります',
+  message: "利用規約に同意する必要があります",
 });
 
 /**

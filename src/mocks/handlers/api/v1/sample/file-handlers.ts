@@ -2,9 +2,9 @@
  * サンプルファイルAPI用のMSWハンドラー
  */
 
-import { delay, http, HttpResponse } from 'msw';
+import { delay, http, HttpResponse } from "msw";
 
-import type { UploadFileResponse } from '@/features/sample-file/api';
+import type { UploadFileResponse } from "@/features/sample-file/api";
 
 // アップロードされたファイルの情報を保持
 const uploadedFiles: Array<{
@@ -20,17 +20,17 @@ export const fileHandlers = [
    * POST /api/v1/sample/files/upload
    * ファイルアップロード
    */
-  http.post('*/api/v1/sample/files/upload', async ({ request }) => {
+  http.post("*/api/v1/sample/files/upload", async ({ request }) => {
     // 進捗シミュレーションのため遅延を追加
     await delay(1500);
 
     const formData = await request.formData();
-    const file = formData.get('file') as File | null;
+    const file = formData.get("file") as File | null;
 
     if (!file) {
       return HttpResponse.json(
         {
-          message: 'No file provided',
+          message: "No file provided",
         },
         { status: 400 }
       );
@@ -62,7 +62,7 @@ export const fileHandlers = [
    * GET /api/v1/sample/files/:id
    * ファイルダウンロード
    */
-  http.get('*/api/v1/sample/files/:id', async ({ params }) => {
+  http.get("*/api/v1/sample/files/:id", async ({ params }) => {
     // 進捗シミュレーションのため遅延を追加
     await delay(1500);
 
@@ -72,19 +72,19 @@ export const fileHandlers = [
     if (!file) {
       return HttpResponse.json(
         {
-          message: 'File not found',
+          message: "File not found",
         },
         { status: 404 }
       );
     }
 
     // ファイル内容をBlobとして返す
-    const blob = new Blob([file.content], { type: 'text/plain' });
+    const blob = new Blob([file.content], { type: "text/plain" });
 
     return HttpResponse.arrayBuffer(await blob.arrayBuffer(), {
       headers: {
-        'Content-Type': 'text/plain',
-        'Content-Disposition': `attachment; filename="${file.filename}"`,
+        "Content-Type": "text/plain",
+        "Content-Disposition": `attachment; filename="${file.filename}"`,
       },
     });
   }),
@@ -93,7 +93,7 @@ export const fileHandlers = [
    * GET /api/v1/sample/files
    * アップロード済みファイル一覧取得
    */
-  http.get('*/api/v1/sample/files', () => {
+  http.get("*/api/v1/sample/files", () => {
     return HttpResponse.json({
       data: uploadedFiles.map((f) => ({
         id: f.id,

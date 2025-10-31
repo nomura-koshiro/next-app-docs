@@ -21,7 +21,7 @@ type LogContext = Record<string, unknown>;
  * 本番環境では外部サービス（Sentry等）に送信することを推奨
  */
 const logError = (message: string, error?: Error | unknown, context?: LogContext): void => {
-  if (process.env.NODE_ENV === 'production') {
+  if (process.env.NODE_ENV === "production") {
     // TODO: Sentry等のエラートラッキングサービスに送信
     // Sentry.captureException(error, { contexts: { custom: context }, message });
     console.error(`[ERROR] ${message}`, error, context);
@@ -36,7 +36,7 @@ const logError = (message: string, error?: Error | unknown, context?: LogContext
  * 本番環境では外部サービスに送信することを推奨
  */
 const logWarn = (message: string, context?: LogContext): void => {
-  if (process.env.NODE_ENV === 'production') {
+  if (process.env.NODE_ENV === "production") {
     // TODO: 必要に応じて外部サービスに送信
     console.warn(`[WARN] ${message}`, context);
   } else {
@@ -50,7 +50,7 @@ const logWarn = (message: string, context?: LogContext): void => {
  * 開発環境のみ出力
  */
 const logInfo = (message: string, context?: LogContext): void => {
-  if (process.env.NODE_ENV === 'development') {
+  if (process.env.NODE_ENV === "development") {
     console.log(`[INFO] ${message}`, context);
   }
 };
@@ -61,7 +61,7 @@ const logInfo = (message: string, context?: LogContext): void => {
  * 開発環境のみ出力
  */
 const logDebug = (message: string, context?: LogContext): void => {
-  if (process.env.NODE_ENV === 'development') {
+  if (process.env.NODE_ENV === "development") {
     console.debug(`[DEBUG] ${message}`, context);
   }
 };

@@ -6,11 +6,11 @@
  * @see https://fastapi.tiangolo.com/tutorial/security/
  */
 
-const CSRF_COOKIE_NAME = 'csrftoken';
-const CSRF_HEADER_NAME = 'X-CSRF-Token';
+const CSRF_COOKIE_NAME = "csrftoken";
+const CSRF_HEADER_NAME = "X-CSRF-Token";
 
 const getCookie = (name: string): string | null => {
-  if (typeof document === 'undefined') {
+  if (typeof document === "undefined") {
     return null;
   }
 
@@ -18,7 +18,7 @@ const getCookie = (name: string): string | null => {
   const parts = value.split(`; ${name}=`);
 
   if (parts.length === 2) {
-    return parts.pop()?.split(';').shift() ?? null;
+    return parts.pop()?.split(";").shift() ?? null;
   }
 
   return null;

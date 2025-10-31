@@ -4,7 +4,7 @@
  * @module schemas/fields/password
  */
 
-import { z } from 'zod';
+import { z } from "zod";
 
 /**
  * @example
@@ -17,7 +17,7 @@ import { z } from 'zod';
  * passwordSchema.parse('') // エラー: パスワードは必須です
  * ```
  */
-export const passwordSchema = z.string().min(1, { message: 'パスワードは必須です' });
+export const passwordSchema = z.string().min(1, { message: "パスワードは必須です" });
 
 /**
  * @example
@@ -34,7 +34,7 @@ export const passwordSchema = z.string().min(1, { message: 'パスワードは�
  */
 export const strongPasswordSchema = z
   .string()
-  .min(8, { message: 'パスワードは8文字以上で入力してください' })
+  .min(8, { message: "パスワードは8文字以上で入力してください" })
   .regex(/^(?=.*[A-Za-z])(?=.*\d)/, {
-    message: 'パスワードは英字と数字を含む必要があります',
+    message: "パスワードは英字と数字を含む必要があります",
   });

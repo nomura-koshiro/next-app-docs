@@ -1,8 +1,8 @@
-import { Loader2 } from 'lucide-react';
-import { useEffect, useRef } from 'react';
+import { Loader2 } from "lucide-react";
+import { useEffect, useRef } from "react";
 
-import type { Message } from '../../../types';
-import { ChatMessage } from './chat-message';
+import type { Message } from "../../../types";
+import { ChatMessage } from "./chat-message";
 
 type ChatMessageListProps = {
   /** メッセージリスト */
@@ -23,7 +23,7 @@ export const ChatMessageList = ({ messages, isSending }: ChatMessageListProps) =
    * 新しいメッセージが追加されたら最下部にスクロール
    */
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, isSending]);
 
   return (

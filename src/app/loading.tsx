@@ -1,4 +1,4 @@
-import { LoadingSpinner } from '@/components/sample-ui/loading-spinner';
+import { LoadingSpinner } from "@/components/sample-ui/loading-spinner";
 
 /**
  * ローディングコンポーネント

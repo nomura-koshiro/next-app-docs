@@ -1,8 +1,8 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation } from "@tanstack/react-query";
 
-import { api } from '@/lib/api-client';
-import { MutationConfig } from '@/lib/tanstack-query';
-import { logger } from '@/utils/logger';
+import { api } from "@/lib/api-client";
+import { MutationConfig } from "@/lib/tanstack-query";
+import { logger } from "@/utils/logger";
 
 // ================================================================================
 // Types
@@ -21,12 +21,12 @@ export type UploadFileResponse = {
 
 export const uploadFile = async (file: File, onProgress?: (progress: number) => void): Promise<UploadFileResponse> => {
   const formData = new FormData();
-  formData.append('file', file);
+  formData.append("file", file);
 
   const response = await api
-    .post('/api/v1/sample/files/upload', formData, {
+    .post("/api/v1/sample/files/upload", formData, {
       headers: {
-        'Content-Type': 'multipart/form-data',
+        "Content-Type": "multipart/form-data",
       },
       onUploadProgress: (progressEvent) => {
         if (progressEvent.total != null && progressEvent.total > 0) {
@@ -36,7 +36,7 @@ export const uploadFile = async (file: File, onProgress?: (progress: number) => 
       },
     })
     .catch((error) => {
-      logger.error('ファイルのアップロードに失敗しました', error);
+      logger.error("ファイルのアップロードに失敗しました", error);
       throw error;
     });
 

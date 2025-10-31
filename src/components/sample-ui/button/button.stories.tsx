@@ -1,6 +1,6 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 
-import { Button } from './button';
+import { Button } from "./button";
 
 /**
  * ボタンコンポーネントのストーリー
@@ -19,7 +19,7 @@ const meta = {
   // ================================================================================
   // Storybookのナビゲーション階層
   // ================================================================================
-  title: 'components/sample-ui/Button',
+  title: "components/sample-ui/Button",
 
   // ================================================================================
   // 表示するコンポーネント
@@ -33,7 +33,7 @@ const meta = {
     // - "padded": 周囲にパディングを追加（フォームやカード向け）
     // - "fullscreen": 全画面表示（ページレイアウト向け）
     // ================================================================================
-    layout: 'centered',
+    layout: "centered",
 
     // ================================================================================
     // コンポーネントの詳細説明
@@ -42,16 +42,16 @@ const meta = {
     docs: {
       description: {
         component:
-          '汎用的なボタンコンポーネント。様々なバリエーションとサイズを提供します。\n\n' +
-          '**主な機能:**\n' +
-          '- 6種類のバリエーション（default, destructive, outline, secondary, ghost, link）\n' +
-          '- 4種類のサイズ（default, sm, lg, icon）\n' +
-          '- 無効化状態のサポート\n' +
-          '- Radix UI Slotによる柔軟なレンダリング\n\n' +
-          '**使用場面:**\n' +
-          '- フォームの送信・キャンセル\n' +
-          '- 破壊的なアクション（削除など）\n' +
-          '- ナビゲーション',
+          "汎用的なボタンコンポーネント。様々なバリエーションとサイズを提供します。\n\n" +
+          "**主な機能:**\n" +
+          "- 6種類のバリエーション（default, destructive, outline, secondary, ghost, link）\n" +
+          "- 4種類のサイズ（default, sm, lg, icon）\n" +
+          "- 無効化状態のサポート\n" +
+          "- Radix UI Slotによる柔軟なレンダリング\n\n" +
+          "**使用場面:**\n" +
+          "- フォームの送信・キャンセル\n" +
+          "- 破壊的なアクション（削除など）\n" +
+          "- ナビゲーション",
       },
     },
 
@@ -60,14 +60,14 @@ const meta = {
     // on* で始まるプロパティを自動的にアクションパネルに表示
     // ================================================================================
     actions: {
-      argTypesRegex: '^on[A-Z].*',
+      argTypesRegex: "^on[A-Z].*",
     },
   },
 
   // ================================================================================
   // ドキュメント自動生成を有効化
   // ================================================================================
-  tags: ['autodocs'],
+  tags: ["autodocs"],
 
   // ================================================================================
   // コントロールパネルの設定
@@ -75,57 +75,57 @@ const meta = {
   // ================================================================================
   argTypes: {
     variant: {
-      control: 'select',
-      options: ['default', 'destructive', 'outline', 'secondary', 'ghost', 'link'],
-      description: 'ボタンのバリエーション',
+      control: "select",
+      options: ["default", "destructive", "outline", "secondary", "ghost", "link"],
+      description: "ボタンのバリエーション",
       table: {
-        type: { summary: 'string' },
-        defaultValue: { summary: 'default' },
-        category: '外観',
+        type: { summary: "string" },
+        defaultValue: { summary: "default" },
+        category: "外観",
       },
     },
     size: {
-      control: 'select',
-      options: ['default', 'sm', 'lg', 'icon'],
-      description: 'ボタンのサイズ',
+      control: "select",
+      options: ["default", "sm", "lg", "icon"],
+      description: "ボタンのサイズ",
       table: {
-        type: { summary: 'string' },
-        defaultValue: { summary: 'default' },
-        category: '外観',
+        type: { summary: "string" },
+        defaultValue: { summary: "default" },
+        category: "外観",
       },
     },
     asChild: {
-      control: 'boolean',
-      description: 'Slotとして動作するかどうか（子要素をそのままレンダリング）',
+      control: "boolean",
+      description: "Slotとして動作するかどうか（子要素をそのままレンダリング）",
       table: {
-        type: { summary: 'boolean' },
-        defaultValue: { summary: 'false' },
-        category: '動作',
+        type: { summary: "boolean" },
+        defaultValue: { summary: "false" },
+        category: "動作",
       },
     },
     disabled: {
-      control: 'boolean',
-      description: '無効化状態',
+      control: "boolean",
+      description: "無効化状態",
       table: {
-        type: { summary: 'boolean' },
-        defaultValue: { summary: 'false' },
-        category: '状態',
+        type: { summary: "boolean" },
+        defaultValue: { summary: "false" },
+        category: "状態",
       },
     },
     children: {
-      control: 'text',
-      description: 'ボタンの内容（テキストまたはReactNode）',
+      control: "text",
+      description: "ボタンの内容（テキストまたはReactNode）",
       table: {
-        type: { summary: 'ReactNode' },
-        category: 'コンテンツ',
+        type: { summary: "ReactNode" },
+        category: "コンテンツ",
       },
     },
     className: {
-      control: 'text',
-      description: '追加のCSSクラス名',
+      control: "text",
+      description: "追加のCSSクラス名",
       table: {
-        type: { summary: 'string' },
-        category: 'スタイリング',
+        type: { summary: "string" },
+        category: "スタイリング",
       },
     },
   },
@@ -136,7 +136,7 @@ const meta = {
   // 個々のストーリーで上書き可能
   // ================================================================================
   args: {
-    children: 'ボタン',
+    children: "ボタン",
   },
 } satisfies Meta<typeof Button>;
 
@@ -147,16 +147,16 @@ type Story = StoryObj<typeof meta>;
  * デフォルトのボタン
  */
 export const Default: Story = {
-  name: 'デフォルト',
+  name: "デフォルト",
   args: {
-    children: 'ボタン',
-    variant: 'default',
-    size: 'default',
+    children: "ボタン",
+    variant: "default",
+    size: "default",
   },
   parameters: {
     docs: {
       description: {
-        story: '最も基本的なボタン。主要なアクションに使用します。',
+        story: "最も基本的なボタン。主要なアクションに使用します。",
       },
     },
   },
@@ -166,15 +166,15 @@ export const Default: Story = {
  * 破壊的なアクション用のボタン（削除など）
  */
 export const Destructive: Story = {
-  name: '破壊的アクション',
+  name: "破壊的アクション",
   args: {
-    children: '削除',
-    variant: 'destructive',
+    children: "削除",
+    variant: "destructive",
   },
   parameters: {
     docs: {
       description: {
-        story: '削除やデータの破棄など、取り返しのつかないアクションに使用します。赤色で警告を示します。',
+        story: "削除やデータの破棄など、取り返しのつかないアクションに使用します。赤色で警告を示します。",
       },
     },
   },
@@ -184,10 +184,10 @@ export const Destructive: Story = {
  * アウトラインスタイル
  */
 export const Outline: Story = {
-  name: 'アウトライン',
+  name: "アウトライン",
   args: {
-    children: 'アウトライン',
-    variant: 'outline',
+    children: "アウトライン",
+    variant: "outline",
   },
 };
 
@@ -195,10 +195,10 @@ export const Outline: Story = {
  * セカンダリスタイル
  */
 export const Secondary: Story = {
-  name: 'セカンダリ',
+  name: "セカンダリ",
   args: {
-    children: 'セカンダリ',
-    variant: 'secondary',
+    children: "セカンダリ",
+    variant: "secondary",
   },
 };
 
@@ -206,10 +206,10 @@ export const Secondary: Story = {
  * ゴーストスタイル（背景なし）
  */
 export const Ghost: Story = {
-  name: 'ゴースト',
+  name: "ゴースト",
   args: {
-    children: 'ゴースト',
-    variant: 'ghost',
+    children: "ゴースト",
+    variant: "ghost",
   },
 };
 
@@ -217,10 +217,10 @@ export const Ghost: Story = {
  * リンクスタイル
  */
 export const Link: Story = {
-  name: 'リンク',
+  name: "リンク",
   args: {
-    children: 'リンク',
-    variant: 'link',
+    children: "リンク",
+    variant: "link",
   },
 };
 
@@ -228,10 +228,10 @@ export const Link: Story = {
  * 小サイズ
  */
 export const Small: Story = {
-  name: '小サイズ',
+  name: "小サイズ",
   args: {
-    children: '小',
-    size: 'sm',
+    children: "小",
+    size: "sm",
   },
 };
 
@@ -239,10 +239,10 @@ export const Small: Story = {
  * 大サイズ
  */
 export const Large: Story = {
-  name: '大サイズ',
+  name: "大サイズ",
   args: {
-    children: '大',
-    size: 'lg',
+    children: "大",
+    size: "lg",
   },
 };
 
@@ -250,10 +250,10 @@ export const Large: Story = {
  * アイコンのみ
  */
 export const Icon: Story = {
-  name: 'アイコン',
+  name: "アイコン",
   args: {
-    children: '🔔',
-    size: 'icon',
+    children: "🔔",
+    size: "icon",
   },
 };
 
@@ -261,15 +261,15 @@ export const Icon: Story = {
  * 無効化状態
  */
 export const Disabled: Story = {
-  name: '無効化',
+  name: "無効化",
   args: {
-    children: '無効化',
+    children: "無効化",
     disabled: true,
   },
   parameters: {
     docs: {
       description: {
-        story: '無効化された状態のボタン。クリックできず、視覚的にグレーアウト表示されます。',
+        story: "無効化された状態のボタン。クリックできず、視覚的にグレーアウト表示されます。",
       },
     },
   },
@@ -279,7 +279,7 @@ export const Disabled: Story = {
  * ローディング状態
  */
 export const Loading: Story = {
-  name: 'ローディング',
+  name: "ローディング",
   render: () => (
     <Button disabled>
       <svg className="animate-spin h-4 w-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -299,7 +299,7 @@ export const Loading: Story = {
  * アイコンとテキストの組み合わせ
  */
 export const WithIcon: Story = {
-  name: 'アイコン付き',
+  name: "アイコン付き",
   render: () => (
     <div className="flex gap-2">
       <Button>

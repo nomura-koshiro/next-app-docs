@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useRouter } from 'next/navigation';
-import { useForm } from 'react-hook-form';
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
 
-import { useCreateUser } from '@/features/sample-users';
-import { userFormSchema, type UserFormValues } from '@/features/sample-users/schemas/user-form.schema';
+import { useCreateUser } from "@/features/sample-users";
+import { userFormSchema, type UserFormValues } from "@/features/sample-users/schemas/user-form.schema";
 
 /**
  * 新規ユーザー作成ページのロジックを管理するカスタムフック
@@ -28,9 +28,9 @@ export const useNewUser = () => {
   } = useForm<UserFormValues>({
     resolver: zodResolver(userFormSchema),
     defaultValues: {
-      name: '',
-      email: '',
-      role: 'user',
+      name: "",
+      email: "",
+      role: "user",
     },
   });
 
@@ -49,17 +49,17 @@ export const useNewUser = () => {
     await createUserMutation
       .mutateAsync(data)
       .then(() => {
-        router.push('/sample-users');
+        router.push("/sample-users");
       })
       .catch(() => {
-        setError('root', {
-          message: 'ユーザーの作成に失敗しました',
+        setError("root", {
+          message: "ユーザーの作成に失敗しました",
         });
       });
   });
 
   const handleCancel = () => {
-    router.push('/sample-users');
+    router.push("/sample-users");
   };
 
   return {

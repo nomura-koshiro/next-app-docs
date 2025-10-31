@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
-import { fn } from '@storybook/test';
+import type { Meta, StoryObj } from "@storybook/nextjs-vite";
+import { fn } from "@storybook/test";
 
-import type { FileType } from '../../../types';
-import { FileDownloadSection } from './file-download-section';
+import type { FileType } from "../../../types";
+import { FileDownloadSection } from "./file-download-section";
 
 /**
  * FileDownloadSectionコンポーネントのストーリー
@@ -23,7 +23,7 @@ const meta = {
   // ================================================================================
   // Storybookのナビゲーション階層
   // ================================================================================
-  title: 'features/sample-file/routes/sample-file/components/FileDownloadSection',
+  title: "features/sample-file/routes/sample-file/components/FileDownloadSection",
 
   // ================================================================================
   // 表示するコンポーネント
@@ -37,7 +37,7 @@ const meta = {
     // - "padded": 周囲にパディングを追加（フォームやカード向け）
     // - "fullscreen": 全画面表示（ページレイアウト向け）
     // ================================================================================
-    layout: 'padded',
+    layout: "padded",
 
     // ================================================================================
     // コンポーネントの詳細説明
@@ -46,16 +46,16 @@ const meta = {
     docs: {
       description: {
         component:
-          'ファイルダウンロード機能を提供するコンポーネント。CSV、Excel、JSON、テキスト、画像など各種形式でのダウンロードをサポートします。\n\n' +
-          '**主な機能:**\n' +
-          '- 複数のファイル形式のサポート（CSV, Excel, JSON, テキスト, 画像）\n' +
-          '- ダウンロード進捗の表示\n' +
-          '- ファイル形式ごとの説明とアイコン\n' +
-          '- ダウンロード中の状態管理\n\n' +
-          '**使用場面:**\n' +
-          '- データエクスポート機能\n' +
-          '- レポート生成機能\n' +
-          'ファイル変換機能',
+          "ファイルダウンロード機能を提供するコンポーネント。CSV、Excel、JSON、テキスト、画像など各種形式でのダウンロードをサポートします。\n\n" +
+          "**主な機能:**\n" +
+          "- 複数のファイル形式のサポート（CSV, Excel, JSON, テキスト, 画像）\n" +
+          "- ダウンロード進捗の表示\n" +
+          "- ファイル形式ごとの説明とアイコン\n" +
+          "- ダウンロード中の状態管理\n\n" +
+          "**使用場面:**\n" +
+          "- データエクスポート機能\n" +
+          "- レポート生成機能\n" +
+          "ファイル変換機能",
       },
     },
 
@@ -64,14 +64,14 @@ const meta = {
     // on* で始まるプロパティを自動的にアクションパネルに表示
     // ================================================================================
     actions: {
-      argTypesRegex: '^on[A-Z].*',
+      argTypesRegex: "^on[A-Z].*",
     },
   },
 
   // ================================================================================
   // ドキュメント自動生成を有効化
   // ================================================================================
-  tags: ['autodocs'],
+  tags: ["autodocs"],
 
   // ================================================================================
   // コントロールパネルの設定
@@ -79,26 +79,26 @@ const meta = {
   // ================================================================================
   argTypes: {
     onDownload: {
-      description: 'ダウンロードハンドラー',
+      description: "ダウンロードハンドラー",
       table: {
-        type: { summary: '(type: FileType) => void' },
-        category: 'イベント',
+        type: { summary: "(type: FileType) => void" },
+        category: "イベント",
       },
     },
     downloadProgress: {
-      description: 'ダウンロード進捗情報',
+      description: "ダウンロード進捗情報",
       table: {
-        type: { summary: 'DownloadProgress' },
-        category: '状態',
+        type: { summary: "DownloadProgress" },
+        category: "状態",
       },
     },
     isDownloading: {
-      control: 'boolean',
-      description: 'ダウンロード中かどうか',
+      control: "boolean",
+      description: "ダウンロード中かどうか",
       table: {
-        type: { summary: 'boolean' },
-        defaultValue: { summary: 'false' },
-        category: '状態',
+        type: { summary: "boolean" },
+        defaultValue: { summary: "false" },
+        category: "状態",
       },
     },
   },
@@ -126,7 +126,7 @@ type Story = StoryObj<typeof meta>;
  * ダウンロードセクションの初期状態
  */
 export const Default: Story = {
-  name: 'デフォルト',
+  name: "デフォルト",
   args: {
     downloadProgress: {
       fileType: null,
@@ -137,7 +137,7 @@ export const Default: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'ダウンロードセクションの初期状態。すべてのファイル形式のダウンロードボタンが表示されます。',
+        story: "ダウンロードセクションの初期状態。すべてのファイル形式のダウンロードボタンが表示されます。",
       },
     },
   },
@@ -148,10 +148,10 @@ export const Default: Story = {
  * CSV形式のファイルをダウンロード中
  */
 export const DownloadingCSV: Story = {
-  name: 'CSVダウンロード中',
+  name: "CSVダウンロード中",
   args: {
     downloadProgress: {
-      fileType: 'csv' as FileType,
+      fileType: "csv" as FileType,
       progress: 45,
     },
     isDownloading: true,
@@ -159,7 +159,7 @@ export const DownloadingCSV: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'CSV形式のファイルをダウンロード中の状態。進捗バーが表示され、他のボタンは無効化されます。',
+        story: "CSV形式のファイルをダウンロード中の状態。進捗バーが表示され、他のボタンは無効化されます。",
       },
     },
   },
@@ -170,10 +170,10 @@ export const DownloadingCSV: Story = {
  * Excel形式のファイルをダウンロード中
  */
 export const DownloadingExcel: Story = {
-  name: 'Excelダウンロード中',
+  name: "Excelダウンロード中",
   args: {
     downloadProgress: {
-      fileType: 'excel' as FileType,
+      fileType: "excel" as FileType,
       progress: 75,
     },
     isDownloading: true,
@@ -181,7 +181,7 @@ export const DownloadingExcel: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'Excel形式のファイルをダウンロード中の状態。進捗バーでダウンロードの進行状況を表示します。',
+        story: "Excel形式のファイルをダウンロード中の状態。進捗バーでダウンロードの進行状況を表示します。",
       },
     },
   },
@@ -192,10 +192,10 @@ export const DownloadingExcel: Story = {
  * JSON形式のファイルをダウンロード中
  */
 export const DownloadingJSON: Story = {
-  name: 'JSONダウンロード中',
+  name: "JSONダウンロード中",
   args: {
     downloadProgress: {
-      fileType: 'json' as FileType,
+      fileType: "json" as FileType,
       progress: 30,
     },
     isDownloading: true,
@@ -203,7 +203,7 @@ export const DownloadingJSON: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'JSON形式のファイルをダウンロード中の状態。構造化データのエクスポートに使用します。',
+        story: "JSON形式のファイルをダウンロード中の状態。構造化データのエクスポートに使用します。",
       },
     },
   },
@@ -214,10 +214,10 @@ export const DownloadingJSON: Story = {
  * テキスト形式のファイルをダウンロード中
  */
 export const DownloadingText: Story = {
-  name: 'テキストダウンロード中',
+  name: "テキストダウンロード中",
   args: {
     downloadProgress: {
-      fileType: 'text' as FileType,
+      fileType: "text" as FileType,
       progress: 60,
     },
     isDownloading: true,
@@ -225,7 +225,7 @@ export const DownloadingText: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'テキスト形式のファイルをダウンロード中の状態。プレーンテキストでのダウンロードです。',
+        story: "テキスト形式のファイルをダウンロード中の状態。プレーンテキストでのダウンロードです。",
       },
     },
   },
@@ -236,10 +236,10 @@ export const DownloadingText: Story = {
  * 画像ファイルをダウンロード中
  */
 export const DownloadingImage: Story = {
-  name: '画像ダウンロード中',
+  name: "画像ダウンロード中",
   args: {
     downloadProgress: {
-      fileType: 'image' as FileType,
+      fileType: "image" as FileType,
       progress: 90,
     },
     isDownloading: true,
@@ -247,7 +247,7 @@ export const DownloadingImage: Story = {
   parameters: {
     docs: {
       description: {
-        story: '画像ファイルをダウンロード中の状態。Canvas APIで動的生成した画像のダウンロードです。',
+        story: "画像ファイルをダウンロード中の状態。Canvas APIで動的生成した画像のダウンロードです。",
       },
     },
   },
@@ -258,10 +258,10 @@ export const DownloadingImage: Story = {
  * ダウンロードを開始したばかりの状態
  */
 export const DownloadStarted: Story = {
-  name: 'ダウンロード開始直後',
+  name: "ダウンロード開始直後",
   args: {
     downloadProgress: {
-      fileType: 'csv' as FileType,
+      fileType: "csv" as FileType,
       progress: 5,
     },
     isDownloading: true,
@@ -269,7 +269,7 @@ export const DownloadStarted: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'ダウンロードを開始したばかりの状態。進捗バーが表示され始めます。',
+        story: "ダウンロードを開始したばかりの状態。進捗バーが表示され始めます。",
       },
     },
   },
@@ -280,10 +280,10 @@ export const DownloadStarted: Story = {
  * ダウンロードがほぼ完了している状態
  */
 export const DownloadAlmostComplete: Story = {
-  name: 'ダウンロード完了直前',
+  name: "ダウンロード完了直前",
   args: {
     downloadProgress: {
-      fileType: 'excel' as FileType,
+      fileType: "excel" as FileType,
       progress: 95,
     },
     isDownloading: true,
@@ -291,7 +291,7 @@ export const DownloadAlmostComplete: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'ダウンロードがほぼ完了している状態。あと少しで完了します。',
+        story: "ダウンロードがほぼ完了している状態。あと少しで完了します。",
       },
     },
   },

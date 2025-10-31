@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
 
-import { sampleFormSchema, type SampleFormValues } from '../../schemas/sample-form.schema';
+import { sampleFormSchema, type SampleFormValues } from "../../schemas/sample-form.schema";
 
 /**
  * サンプルフォームページのカスタムフック
@@ -42,17 +42,17 @@ export const useSampleForm = () => {
   } = useForm<SampleFormValues>({
     resolver: zodResolver(sampleFormSchema),
     defaultValues: {
-      username: '',
-      email: '',
-      age: '',
-      country: '',
-      bio: '',
+      username: "",
+      email: "",
+      age: "",
+      country: "",
+      bio: "",
       terms: false,
       newsletter: false,
-      gender: 'male',
+      gender: "male",
       notifications: true,
       darkMode: false,
-      birthdate: '',
+      birthdate: "",
     },
   });
 
@@ -70,7 +70,7 @@ export const useSampleForm = () => {
    */
   const onSubmit = handleSubmit(async (data) => {
     // Formデータを表示
-    console.log('フォームデータ:', data);
+    console.log("フォームデータ:", data);
     alert(`フォームが送信されました！\n\n${JSON.stringify(data, null, 2)}`);
 
     // Formをリセット

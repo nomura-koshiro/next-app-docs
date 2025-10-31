@@ -1,6 +1,6 @@
-import { AlertCircle } from 'lucide-react';
+import { AlertCircle } from "lucide-react";
 
-import { Alert, AlertDescription, AlertTitle } from '@/components/sample-ui/alert';
+import { Alert, AlertDescription, AlertTitle } from "@/components/sample-ui/alert";
 
 type ErrorMessageProps = {
   title?: string;
@@ -22,7 +22,7 @@ type ErrorMessageProps = {
  * />
  * ```
  */
-export function ErrorMessage({ title = 'エラー', message, fullScreen = false }: ErrorMessageProps) {
+export function ErrorMessage({ title = "エラー", message, fullScreen = false }: ErrorMessageProps) {
   // アラートコンテンツ
   const alertContent = (
     <Alert variant="destructive">

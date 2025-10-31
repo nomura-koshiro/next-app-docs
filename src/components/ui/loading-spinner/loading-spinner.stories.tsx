@@ -2,9 +2,9 @@
 // Imports
 // ================================================================================
 
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 
-import { LoadingSpinner } from './loading-spinner';
+import { LoadingSpinner } from "./loading-spinner";
 
 // ================================================================================
 // メタデータ
@@ -19,7 +19,7 @@ const meta = {
   // ================================================================================
   // Storybookのナビゲーション階層
   // ================================================================================
-  title: 'components/ui/LoadingSpinner',
+  title: "components/ui/LoadingSpinner",
 
   // ================================================================================
   // 表示するコンポーネント
@@ -31,7 +31,7 @@ const meta = {
     // レイアウト設定
     // - "fullscreen": 全画面表示（ページレイアウト向け）
     // ================================================================================
-    layout: 'fullscreen',
+    layout: "fullscreen",
 
     // ================================================================================
     // コンポーネントの詳細説明
@@ -40,15 +40,15 @@ const meta = {
     docs: {
       description: {
         component:
-          '認証チェック、データ読み込み時などに使用する共通のローディング表示コンポーネント。\n\n' +
-          '**主な機能:**\n' +
-          '- カスタマイズ可能なメッセージ\n' +
-          '- 全画面表示/インライン表示の切り替え\n' +
-          '- アクセシビリティ対応（role, aria-live）\n\n' +
-          '**使用場面:**\n' +
-          '- 認証情報の確認中\n' +
-          '- データの読み込み中\n' +
-          '- 非同期処理の待機中',
+          "認証チェック、データ読み込み時などに使用する共通のローディング表示コンポーネント。\n\n" +
+          "**主な機能:**\n" +
+          "- カスタマイズ可能なメッセージ\n" +
+          "- 全画面表示/インライン表示の切り替え\n" +
+          "- アクセシビリティ対応（role, aria-live）\n\n" +
+          "**使用場面:**\n" +
+          "- 認証情報の確認中\n" +
+          "- データの読み込み中\n" +
+          "- 非同期処理の待機中",
       },
     },
   },
@@ -56,26 +56,26 @@ const meta = {
   // ================================================================================
   // 自動生成ドキュメント
   // ================================================================================
-  tags: ['autodocs'],
+  tags: ["autodocs"],
 
   // ================================================================================
   // argTypes - Storybookコントロールの設定
   // ================================================================================
   argTypes: {
     message: {
-      control: 'text',
-      description: 'ローディングメッセージ',
+      control: "text",
+      description: "ローディングメッセージ",
       table: {
-        type: { summary: 'string' },
-        defaultValue: { summary: '読み込み中...' },
+        type: { summary: "string" },
+        defaultValue: { summary: "読み込み中..." },
       },
     },
     fullScreen: {
-      control: 'boolean',
-      description: '全画面表示するかどうか',
+      control: "boolean",
+      description: "全画面表示するかどうか",
       table: {
-        type: { summary: 'boolean' },
-        defaultValue: { summary: 'true' },
+        type: { summary: "boolean" },
+        defaultValue: { summary: "true" },
       },
     },
   },
@@ -95,15 +95,15 @@ type Story = StoryObj<typeof meta>;
  * 認証チェックやページ遷移時に使用します。
  */
 export const Default: Story = {
-  name: 'デフォルト（全画面）',
+  name: "デフォルト（全画面）",
   args: {
-    message: '読み込み中...',
+    message: "読み込み中...",
     fullScreen: true,
   },
   parameters: {
     docs: {
       description: {
-        story: '全画面表示のローディングスピナー。認証チェックやページ遷移時に使用します。',
+        story: "全画面表示のローディングスピナー。認証チェックやページ遷移時に使用します。",
       },
     },
   },
@@ -116,15 +116,15 @@ export const Default: Story = {
  * メッセージをカスタマイズして用途に応じた表示が可能です。
  */
 export const CustomMessage: Story = {
-  name: 'カスタムメッセージ',
+  name: "カスタムメッセージ",
   args: {
-    message: 'データを読み込んでいます...',
+    message: "データを読み込んでいます...",
     fullScreen: true,
   },
   parameters: {
     docs: {
       description: {
-        story: 'カスタムメッセージを表示するローディングスピナー。',
+        story: "カスタムメッセージを表示するローディングスピナー。",
       },
     },
   },
@@ -137,16 +137,16 @@ export const CustomMessage: Story = {
  * フォーム送信中やボタンクリック後など、部分的なローディング表示に使用します。
  */
 export const Inline: Story = {
-  name: 'インライン表示',
+  name: "インライン表示",
   args: {
-    message: '処理中...',
+    message: "処理中...",
     fullScreen: false,
   },
   parameters: {
     docs: {
       description: {
         story:
-          'インライン表示のローディングスピナー。\n\n' + 'フォーム送信中やボタンクリック後など、部分的なローディング表示に使用します。',
+          "インライン表示のローディングスピナー。\n\n" + "フォーム送信中やボタンクリック後など、部分的なローディング表示に使用します。",
       },
     },
   },
@@ -159,15 +159,15 @@ export const Inline: Story = {
  * 保護されたルートでユーザー認証状態を確認する際に使用されます。
  */
 export const AuthCheck: Story = {
-  name: '認証情報確認中',
+  name: "認証情報確認中",
   args: {
-    message: '認証情報を確認しています...',
+    message: "認証情報を確認しています...",
     fullScreen: true,
   },
   parameters: {
     docs: {
       description: {
-        story: '認証情報確認中の表示例。保護されたルートで使用されます。',
+        story: "認証情報確認中の表示例。保護されたルートで使用されます。",
       },
     },
   },

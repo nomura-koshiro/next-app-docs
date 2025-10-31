@@ -25,10 +25,10 @@
  * ```
  */
 
-import { create } from 'zustand';
-import { createJSONStorage, persist } from 'zustand/middleware';
+import { create } from "zustand";
+import { createJSONStorage, persist } from "zustand/middleware";
 
-import type { AuthStore, User } from '../types';
+import type { AuthStore, User } from "../types";
 
 /**
  * 認証ストア
@@ -67,10 +67,10 @@ export const useAuthStore = create<AuthStore>()(
           await new Promise((resolve) => setTimeout(resolve, 1000));
 
           const mockUser: User = {
-            id: '1',
+            id: "1",
             email: email,
-            name: 'Sample User',
-            role: 'user',
+            name: "Sample User",
+            role: "user",
             createdAt: new Date().toISOString(),
           };
 
@@ -115,7 +115,7 @@ export const useAuthStore = create<AuthStore>()(
       },
     }),
     {
-      name: 'auth-storage', // LocalStorageのキー名
+      name: "auth-storage", // LocalStorageのキー名
       storage: createJSONStorage(() => localStorage), // LocalStorageを使用
       // セッションストレージを使用したい場合:
       // storage: createJSONStorage(() => sessionStorage),

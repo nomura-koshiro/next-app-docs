@@ -8,7 +8,7 @@
  * CSSモジュールの型定義
  * .css ファイルのインポートを許可
  */
-declare module '*.css' {
+declare module "*.css" {
   const content: Record<string, string>;
   export default content;
 }
@@ -17,7 +17,7 @@ declare module '*.css' {
  * SCSSモジュールの型定義
  * .scss ファイルのインポートを許可
  */
-declare module '*.scss' {
+declare module "*.scss" {
   const content: Record<string, string>;
   export default content;
 }
@@ -25,32 +25,32 @@ declare module '*.scss' {
 /**
  * 画像ファイルの型定義
  */
-declare module '*.svg' {
+declare module "*.svg" {
   const content: string;
   export default content;
 }
 
-declare module '*.png' {
+declare module "*.png" {
   const content: string;
   export default content;
 }
 
-declare module '*.jpg' {
+declare module "*.jpg" {
   const content: string;
   export default content;
 }
 
-declare module '*.jpeg' {
+declare module "*.jpeg" {
   const content: string;
   export default content;
 }
 
-declare module '*.gif' {
+declare module "*.gif" {
   const content: string;
   export default content;
 }
 
-declare module '*.webp' {
+declare module "*.webp" {
   const content: string;
   export default content;
 }

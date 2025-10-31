@@ -1,6 +1,6 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 
-import SampleFormPage from './sample-form';
+import SampleFormPage from "./sample-form";
 
 /**
  * SampleFormPageコンポーネントのストーリー
@@ -17,7 +17,7 @@ const meta = {
   // ================================================================================
   // Storybookのナビゲーション階層
   // ================================================================================
-  title: 'features/sample-form/routes/sample-form/SampleFormPage',
+  title: "features/sample-form/routes/sample-form/SampleFormPage",
 
   // ================================================================================
   // 表示するコンポーネント
@@ -28,7 +28,7 @@ const meta = {
     // ================================================================================
     // レイアウト設定
     // ================================================================================
-    layout: 'fullscreen',
+    layout: "fullscreen",
 
     // ================================================================================
     // Next.js設定
@@ -43,17 +43,17 @@ const meta = {
     docs: {
       description: {
         component:
-          'すべてのフォーム部品の使用例を表示するサンプルフォームページコンポーネント。実際のフォーム動作を確認できます。\n\n' +
-          '**主な機能:**\n' +
-          '- Input, Select, Textarea, Checkbox, RadioGroup, Switch, Date など全てのフォーム部品の表示\n' +
-          '- React Hook Formによるフォーム制御\n' +
-          '- Zodスキーマによるバリデーション\n' +
-          '- フォーム送信とリセット機能\n' +
-          '- 開発環境でのReact Hook Form DevTools表示\n\n' +
-          '**使用場面:**\n' +
-          '- フォーム部品の実装例の確認\n' +
-          '- フォームバリデーションの動作確認\n' +
-          '- UIコンポーネントの動作テスト',
+          "すべてのフォーム部品の使用例を表示するサンプルフォームページコンポーネント。実際のフォーム動作を確認できます。\n\n" +
+          "**主な機能:**\n" +
+          "- Input, Select, Textarea, Checkbox, RadioGroup, Switch, Date など全てのフォーム部品の表示\n" +
+          "- React Hook Formによるフォーム制御\n" +
+          "- Zodスキーマによるバリデーション\n" +
+          "- フォーム送信とリセット機能\n" +
+          "- 開発環境でのReact Hook Form DevTools表示\n\n" +
+          "**使用場面:**\n" +
+          "- フォーム部品の実装例の確認\n" +
+          "- フォームバリデーションの動作確認\n" +
+          "- UIコンポーネントの動作テスト",
       },
     },
   },
@@ -61,7 +61,7 @@ const meta = {
   // ================================================================================
   // ドキュメント自動生成を有効化
   // ================================================================================
-  tags: ['autodocs'],
+  tags: ["autodocs"],
 } satisfies Meta<typeof SampleFormPage>;
 
 export default meta;
@@ -72,12 +72,12 @@ type Story = StoryObj<typeof meta>;
  * サンプルフォームページの通常状態
  */
 export const Default: Story = {
-  name: 'デフォルト',
+  name: "デフォルト",
   parameters: {
     docs: {
       description: {
         story:
-          'サンプルフォームページの初期状態。すべてのフォーム部品が空の状態で表示されます。各フィールドに入力してバリデーションの動作を確認できます。',
+          "サンプルフォームページの初期状態。すべてのフォーム部品が空の状態で表示されます。各フィールドに入力してバリデーションの動作を確認できます。",
       },
     },
   },

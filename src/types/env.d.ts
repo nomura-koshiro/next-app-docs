@@ -16,7 +16,7 @@ declare global {
        * - production: 本番環境
        * - test: テスト環境
        */
-      NODE_ENV: 'development' | 'production' | 'test';
+      NODE_ENV: "development" | "production" | "test";
 
       /**
        * APIエンドポイントURL

@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
 
-import { useDeleteUser as useDeleteUserMutation } from '@/features/sample-users';
-import { useUser } from '@/features/sample-users/api/get-user';
+import { useDeleteUser as useDeleteUserMutation } from "@/features/sample-users";
+import { useUser } from "@/features/sample-users/api/get-user";
 
 /**
  * ユーザー削除確認ページのロジックを管理するカスタムフック
@@ -37,7 +37,7 @@ export const useDeleteUser = (userId: string) => {
     deleteUserMutation
       .mutateAsync(userId)
       .then(() => {
-        router.push('/sample-users');
+        router.push("/sample-users");
       })
       .catch(() => {
         // エラーハンドリング: mutationのエラー状態で管理
@@ -45,7 +45,7 @@ export const useDeleteUser = (userId: string) => {
   };
 
   const handleCancel = () => {
-    router.push('/sample-users');
+    router.push("/sample-users");
   };
 
   return {

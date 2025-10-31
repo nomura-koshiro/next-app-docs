@@ -1,4 +1,4 @@
-import { Button } from '@/components/sample-ui/button';
+import { Button } from "@/components/sample-ui/button";
 
 /**
  * メインエラーフォールバックコンポーネント

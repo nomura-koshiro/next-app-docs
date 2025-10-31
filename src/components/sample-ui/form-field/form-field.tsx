@@ -1,6 +1,6 @@
-import { Input } from '@/components/sample-ui/input';
-import { Label } from '@/components/sample-ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/sample-ui/select';
+import { Input } from "@/components/sample-ui/input";
+import { Label } from "@/components/sample-ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/sample-ui/select";
 
 type FormFieldProps = {
   label: string;
@@ -42,7 +42,7 @@ type InputFieldProps = {
   error?: string;
 };
 
-export function InputField({ label, id, type = 'text', value, onChange, placeholder, required = false, error }: InputFieldProps) {
+export function InputField({ label, id, type = "text", value, onChange, placeholder, required = false, error }: InputFieldProps) {
   return (
     <FormField label={label} id={id} required={required} error={error}>
       <Input id={id} type={type} value={value} onChange={(e) => onChange(e.target.value)} placeholder={placeholder} required={required} />

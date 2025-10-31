@@ -1,9 +1,9 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
-import { useState } from 'react';
+import type { Meta, StoryObj } from "@storybook/nextjs-vite";
+import { useState } from "react";
 
-import { Input } from '@/components/sample-ui/input';
+import { Input } from "@/components/sample-ui/input";
 
-import { FormField, InputField, SelectField } from './form-field';
+import { FormField, InputField, SelectField } from "./form-field";
 
 /**
  * FormFieldコンポーネントのストーリー
@@ -22,7 +22,7 @@ const meta = {
   // ================================================================================
   // Storybookのナビゲーション階層
   // ================================================================================
-  title: 'components/sample-ui/FormField',
+  title: "components/sample-ui/FormField",
 
   // ================================================================================
   // 表示するコンポーネント
@@ -36,7 +36,7 @@ const meta = {
     // - "padded": 周囲にパディングを追加（フォームやカード向け）
     // - "fullscreen": 全画面表示（ページレイアウト向け）
     // ================================================================================
-    layout: 'padded',
+    layout: "padded",
 
     // ================================================================================
     // コンポーネントの詳細説明
@@ -45,17 +45,17 @@ const meta = {
     docs: {
       description: {
         component:
-          'フォーム入力の標準的な構造を提供するコンポーネント。ラベル、入力要素、エラーメッセージを統合します。\n\n' +
-          '**主な機能:**\n' +
-          '- ラベルと入力フィールドの関連付け\n' +
-          '- 必須フィールドの表示\n' +
-          '- エラーメッセージの表示\n' +
-          '- InputField、SelectFieldなどの便利なラッパー\n\n' +
-          '**使用場面:**\n' +
-          '- あらゆるフォーム入力\n' +
-          '- ユーザー登録・編集フォーム\n' +
-          '- 設定画面\n' +
-          '- データ入力フォーム',
+          "フォーム入力の標準的な構造を提供するコンポーネント。ラベル、入力要素、エラーメッセージを統合します。\n\n" +
+          "**主な機能:**\n" +
+          "- ラベルと入力フィールドの関連付け\n" +
+          "- 必須フィールドの表示\n" +
+          "- エラーメッセージの表示\n" +
+          "- InputField、SelectFieldなどの便利なラッパー\n\n" +
+          "**使用場面:**\n" +
+          "- あらゆるフォーム入力\n" +
+          "- ユーザー登録・編集フォーム\n" +
+          "- 設定画面\n" +
+          "- データ入力フォーム",
       },
     },
 
@@ -64,14 +64,14 @@ const meta = {
     // on* で始まるプロパティを自動的にアクションパネルに表示
     // ================================================================================
     actions: {
-      argTypesRegex: '^on[A-Z].*',
+      argTypesRegex: "^on[A-Z].*",
     },
   },
 
   // ================================================================================
   // ドキュメント自動生成を有効化
   // ================================================================================
-  tags: ['autodocs'],
+  tags: ["autodocs"],
 
   // ================================================================================
   // コントロールパネルの設定
@@ -79,44 +79,44 @@ const meta = {
   // ================================================================================
   argTypes: {
     label: {
-      control: 'text',
-      description: 'フィールドのラベルテキスト',
+      control: "text",
+      description: "フィールドのラベルテキスト",
       table: {
-        type: { summary: 'string' },
-        category: 'コンテンツ',
+        type: { summary: "string" },
+        category: "コンテンツ",
       },
     },
     id: {
-      control: 'text',
-      description: 'フィールドのID（ラベルとの関連付けに使用）',
+      control: "text",
+      description: "フィールドのID（ラベルとの関連付けに使用）",
       table: {
-        type: { summary: 'string' },
-        category: '基本',
+        type: { summary: "string" },
+        category: "基本",
       },
     },
     required: {
-      control: 'boolean',
-      description: '必須フィールドかどうか',
+      control: "boolean",
+      description: "必須フィールドかどうか",
       table: {
-        type: { summary: 'boolean' },
-        defaultValue: { summary: 'false' },
-        category: 'バリデーション',
+        type: { summary: "boolean" },
+        defaultValue: { summary: "false" },
+        category: "バリデーション",
       },
     },
     error: {
-      control: 'text',
-      description: 'エラーメッセージ',
+      control: "text",
+      description: "エラーメッセージ",
       table: {
-        type: { summary: 'string' },
-        category: 'バリデーション',
+        type: { summary: "string" },
+        category: "バリデーション",
       },
     },
     children: {
       control: false,
-      description: '入力要素（Input、Selectなど）',
+      description: "入力要素（Input、Selectなど）",
       table: {
-        type: { summary: 'ReactNode' },
-        category: 'コンテンツ',
+        type: { summary: "ReactNode" },
+        category: "コンテンツ",
       },
     },
   },
@@ -129,10 +129,10 @@ type Story = StoryObj<typeof meta>;
  * 基本的なFormField
  */
 export const Default: Story = {
-  name: 'デフォルト',
+  name: "デフォルト",
   args: {
-    label: 'ラベル',
-    id: 'field1',
+    label: "ラベル",
+    id: "field1",
     children: <Input placeholder="入力してください" />,
   },
   render: () => (
@@ -143,7 +143,7 @@ export const Default: Story = {
   parameters: {
     docs: {
       description: {
-        story: '最も基本的なフォームフィールド。ラベルと入力フィールドを組み合わせた構成です。',
+        story: "最も基本的なフォームフィールド。ラベルと入力フィールドを組み合わせた構成です。",
       },
     },
   },
@@ -153,10 +153,10 @@ export const Default: Story = {
  * 必須フィールド
  */
 export const Required: Story = {
-  name: '必須',
+  name: "必須",
   args: {
-    label: '名前',
-    id: 'name',
+    label: "名前",
+    id: "name",
     required: true,
     children: <Input placeholder="山田太郎" required />,
   },
@@ -168,7 +168,7 @@ export const Required: Story = {
   parameters: {
     docs: {
       description: {
-        story: '必須フィールドの例。ラベルに赤いアスタリスクが表示され、ユーザーに必須入力であることを示します。',
+        story: "必須フィールドの例。ラベルに赤いアスタリスクが表示され、ユーザーに必須入力であることを示します。",
       },
     },
   },
@@ -178,12 +178,12 @@ export const Required: Story = {
  * エラー付きフィールド
  */
 export const WithError: Story = {
-  name: 'エラーあり',
+  name: "エラーあり",
   args: {
-    label: 'メールアドレス',
-    id: 'email',
+    label: "メールアドレス",
+    id: "email",
     required: true,
-    error: '有効なメールアドレスを入力してください',
+    error: "有効なメールアドレスを入力してください",
     children: <Input type="email" placeholder="user@example.com" aria-invalid="true" />,
   },
   render: () => (
@@ -194,7 +194,7 @@ export const WithError: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'バリデーションエラーがある状態のフィールド。エラーメッセージが赤色で表示されます。',
+        story: "バリデーションエラーがある状態のフィールド。エラーメッセージが赤色で表示されます。",
       },
     },
   },
@@ -204,21 +204,21 @@ export const WithError: Story = {
  * InputField コンポーネント
  */
 export const InputFieldExample: Story = {
-  name: '入力フィールド',
+  name: "入力フィールド",
   args: {
-    label: 'ユーザー名',
-    id: 'username',
+    label: "ユーザー名",
+    id: "username",
     children: <Input />,
   },
   render: () => {
-    const [value, setValue] = useState('');
+    const [value, setValue] = useState("");
 
     return <InputField label="ユーザー名" id="username" value={value} onChange={setValue} placeholder="username" required />;
   },
   parameters: {
     docs: {
       description: {
-        story: 'InputFieldは、FormFieldとInputを組み合わせた便利なコンポーネント。状態管理が組み込まれています。',
+        story: "InputFieldは、FormFieldとInputを組み合わせた便利なコンポーネント。状態管理が組み込まれています。",
       },
     },
   },
@@ -228,14 +228,14 @@ export const InputFieldExample: Story = {
  * SelectField コンポーネント
  */
 export const SelectFieldExample: Story = {
-  name: 'セレクトフィールド',
+  name: "セレクトフィールド",
   args: {
-    label: 'ロール',
-    id: 'role',
+    label: "ロール",
+    id: "role",
     children: <Input />,
   },
   render: () => {
-    const [value, setValue] = useState('');
+    const [value, setValue] = useState("");
 
     return (
       <SelectField
@@ -244,9 +244,9 @@ export const SelectFieldExample: Story = {
         value={value}
         onChange={setValue}
         options={[
-          { value: 'user', label: 'ユーザー' },
-          { value: 'admin', label: '管理者' },
-          { value: 'moderator', label: 'モデレーター' },
+          { value: "user", label: "ユーザー" },
+          { value: "admin", label: "管理者" },
+          { value: "moderator", label: "モデレーター" },
         ]}
         required
       />
@@ -255,7 +255,7 @@ export const SelectFieldExample: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'SelectFieldは、FormFieldとSelectを組み合わせた便利なコンポーネント。選択肢から1つを選ぶ入力に使用します。',
+        story: "SelectFieldは、FormFieldとSelectを組み合わせた便利なコンポーネント。選択肢から1つを選ぶ入力に使用します。",
       },
     },
   },
@@ -265,16 +265,16 @@ export const SelectFieldExample: Story = {
  * フォームの例
  */
 export const CompleteForm: Story = {
-  name: '完全なフォーム',
+  name: "完全なフォーム",
   args: {
-    label: 'フォーム',
-    id: 'form',
+    label: "フォーム",
+    id: "form",
     children: <Input />,
   },
   render: () => {
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [role, setRole] = useState('');
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+    const [role, setRole] = useState("");
 
     return (
       <div className="w-96 space-y-4">
@@ -294,8 +294,8 @@ export const CompleteForm: Story = {
           value={role}
           onChange={setRole}
           options={[
-            { value: 'user', label: 'ユーザー' },
-            { value: 'admin', label: '管理者' },
+            { value: "user", label: "ユーザー" },
+            { value: "admin", label: "管理者" },
           ]}
           required
         />
@@ -305,7 +305,7 @@ export const CompleteForm: Story = {
   parameters: {
     docs: {
       description: {
-        story: '複数のフィールドを組み合わせた実用的なフォームの例。すべてのフィールドが統一されたスタイルで表示されます。',
+        story: "複数のフィールドを組み合わせた実用的なフォームの例。すべてのフィールドが統一されたスタイルで表示されます。",
       },
     },
   },
@@ -315,15 +315,15 @@ export const CompleteForm: Story = {
  * エラー状態のフォーム
  */
 export const FormWithErrors: Story = {
-  name: 'エラーのあるフォーム',
+  name: "エラーのあるフォーム",
   args: {
-    label: 'フォーム',
-    id: 'form',
+    label: "フォーム",
+    id: "form",
     children: <Input />,
   },
   render: () => {
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('invalid-email');
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("invalid-email");
 
     return (
       <div className="w-96 space-y-4">
@@ -344,7 +344,7 @@ export const FormWithErrors: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'バリデーションエラーが発生している状態のフォーム。各フィールドにエラーメッセージが表示されています。',
+        story: "バリデーションエラーが発生している状態のフォーム。各フィールドにエラーメッセージが表示されています。",
       },
     },
   },

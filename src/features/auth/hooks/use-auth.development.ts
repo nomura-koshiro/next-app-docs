@@ -2,9 +2,9 @@
 // Imports
 // ================================================================================
 
-import { MOCK_AUTH } from '@/mocks/handlers/api/v1/auth-handlers';
+import { MOCK_AUTH } from "@/mocks/handlers/api/v1/auth-handlers";
 
-import { useAuthStore } from '../stores/auth-store';
+import { useAuthStore } from "../stores/auth-store";
 
 // ================================================================================
 // Development Auth Hook

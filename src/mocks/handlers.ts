@@ -1,8 +1,8 @@
-import { authHandlers as azureAuthHandlers } from './handlers/api/v1/auth-handlers';
-import { authHandlers } from './handlers/api/v1/sample/auth-handlers';
-import { chatHandlers } from './handlers/api/v1/sample/chat-handlers';
-import { fileHandlers } from './handlers/api/v1/sample/file-handlers';
-import { userHandlers } from './handlers/api/v1/sample/user-handlers';
+import { authHandlers as azureAuthHandlers } from "./handlers/api/v1/auth-handlers";
+import { authHandlers } from "./handlers/api/v1/sample/auth-handlers";
+import { chatHandlers } from "./handlers/api/v1/sample/chat-handlers";
+import { fileHandlers } from "./handlers/api/v1/sample/file-handlers";
+import { userHandlers } from "./handlers/api/v1/sample/user-handlers";
 
 /**
  * MSW (Mock Service Worker) リクエストハンドラー

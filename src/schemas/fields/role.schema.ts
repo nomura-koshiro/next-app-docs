@@ -4,7 +4,7 @@
  * @module schemas/fields/role
  */
 
-import { z } from 'zod';
+import { z } from "zod";
 
 /**
  * @example
@@ -18,8 +18,8 @@ import { z } from 'zod';
  * roleSchema.parse('') // エラー: ロールを選択してください
  * ```
  */
-export const roleSchema = z.enum(['user', 'admin'], {
-  message: 'ロールを選択してください',
+export const roleSchema = z.enum(["user", "admin"], {
+  message: "ロールを選択してください",
 });
 
 export type Role = z.infer<typeof roleSchema>;

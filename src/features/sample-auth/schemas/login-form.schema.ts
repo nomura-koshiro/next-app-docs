@@ -1,7 +1,7 @@
-import { z } from 'zod';
+import { z } from "zod";
 
-import { emailSchema } from '@/schemas/fields/email.schema';
-import { passwordSchema } from '@/schemas/fields/password.schema';
+import { emailSchema } from "@/schemas/fields/email.schema";
+import { passwordSchema } from "@/schemas/fields/password.schema";
 
 /**
  * ログインフォームのバリデーションスキーマ

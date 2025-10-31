@@ -1,9 +1,9 @@
-import { Control } from 'react-hook-form';
+import { Control } from "react-hook-form";
 
-import { PageHeader } from '@/components/layout/page-header';
-import { PageLayout } from '@/components/layout/page-layout';
-import { Button } from '@/components/sample-ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/sample-ui/card';
+import { PageHeader } from "@/components/layout/page-header";
+import { PageLayout } from "@/components/layout/page-layout";
+import { Button } from "@/components/sample-ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/sample-ui/card";
 import {
   ControlledCheckboxField,
   ControlledDateField,
@@ -12,9 +12,9 @@ import {
   ControlledSelectField,
   ControlledSwitchField,
   ControlledTextareaField,
-} from '@/components/sample-ui/form-field/controlled-form-field';
+} from "@/components/sample-ui/form-field/controlled-form-field";
 
-import type { SampleFormValues } from '../../../schemas/sample-form.schema';
+import type { SampleFormValues } from "../../../schemas/sample-form.schema";
 
 type SampleFormProps = {
   /** React Hook Formのcontrolオブジェクト */
@@ -73,10 +73,10 @@ export const SampleForm = ({ control, onSubmit, onReset, isSubmitting }: SampleF
               name="country"
               label="国"
               options={[
-                { value: 'jp', label: '日本' },
-                { value: 'us', label: 'アメリカ' },
-                { value: 'uk', label: 'イギリス' },
-                { value: 'cn', label: '中国' },
+                { value: "jp", label: "日本" },
+                { value: "us", label: "アメリカ" },
+                { value: "uk", label: "イギリス" },
+                { value: "cn", label: "中国" },
               ]}
               required
             />
@@ -127,12 +127,12 @@ export const SampleForm = ({ control, onSubmit, onReset, isSubmitting }: SampleF
               name="gender"
               label="性別"
               options={[
-                { value: 'male', label: '男性' },
-                { value: 'female', label: '女性' },
+                { value: "male", label: "男性" },
+                { value: "female", label: "女性" },
                 {
-                  value: 'other',
-                  label: 'その他',
-                  description: '回答したくない、または別の性別',
+                  value: "other",
+                  label: "その他",
+                  description: "回答したくない、または別の性別",
                 },
               ]}
               required
@@ -172,7 +172,7 @@ export const SampleForm = ({ control, onSubmit, onReset, isSubmitting }: SampleF
         {/* Submit Button */}
         <div className="flex gap-4">
           <Button type="submit" disabled={isSubmitting} className="flex-1">
-            {isSubmitting ? '送信中...' : '送信'}
+            {isSubmitting ? "送信中..." : "送信"}
           </Button>
           <Button type="button" variant="outline" onClick={onReset} className="flex-1">
             リセット

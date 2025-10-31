@@ -1,11 +1,11 @@
-import { useId } from 'react';
-import { Control, FieldErrors } from 'react-hook-form';
+import { useId } from "react";
+import { Control, FieldErrors } from "react-hook-form";
 
-import { Button } from '@/components/sample-ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/sample-ui/card';
-import { ErrorMessage } from '@/components/sample-ui/error-message';
-import { ControlledInputField } from '@/components/sample-ui/form-field/controlled-form-field';
-import { LoginFormValues } from '@/features/sample-auth/schemas/login-form.schema';
+import { Button } from "@/components/sample-ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/sample-ui/card";
+import { ErrorMessage } from "@/components/sample-ui/error-message";
+import { ControlledInputField } from "@/components/sample-ui/form-field/controlled-form-field";
+import { LoginFormValues } from "@/features/sample-auth/schemas/login-form.schema";
 
 type LoginFormProps = {
   /** React Hook Formのcontrolオブジェクト */
@@ -36,7 +36,7 @@ type LoginFormProps = {
  * @param props - LoginFormコンポーネントのプロパティ
  * @returns ログインフォーム要素
  */
-export const LoginForm = ({ control, onSubmit, errors, isSubmitting, idPrefix = '' }: LoginFormProps) => {
+export const LoginForm = ({ control, onSubmit, errors, isSubmitting, idPrefix = "" }: LoginFormProps) => {
   const uniqueId = useId();
   const emailId = idPrefix ? `${idPrefix}-email-${uniqueId}` : `email-${uniqueId}`;
   const passwordId = idPrefix ? `${idPrefix}-password-${uniqueId}` : `password-${uniqueId}`;
@@ -74,10 +74,10 @@ export const LoginForm = ({ control, onSubmit, errors, isSubmitting, idPrefix = 
               />
             </div>
 
-            {errors.root && <ErrorMessage message={errors.root.message ?? 'エラーが発生しました'} />}
+            {errors.root && <ErrorMessage message={errors.root.message ?? "エラーが発生しました"} />}
 
             <Button type="submit" className="w-full" disabled={isSubmitting}>
-              {isSubmitting ? 'ログイン中...' : 'ログイン'}
+              {isSubmitting ? "ログイン中..." : "ログイン"}
             </Button>
 
             <p className="text-center text-sm text-gray-600">テスト用アカウント: 任意のメールアドレスとパスワード</p>

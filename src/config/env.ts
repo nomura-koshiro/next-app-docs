@@ -1,6 +1,6 @@
-import * as z from 'zod';
+import * as z from "zod";
 
-import { logger } from '@/utils/logger';
+import { logger } from "@/utils/logger";
 
 /**
  * 環境変数を検証して型安全に取得する
@@ -15,7 +15,7 @@ const createEnv = () => {
   // StorybookポートがあればAPI URLを動的に構築
   const apiUrl = storybookPort ? `http://localhost:${storybookPort}/api/v1` : process.env.NEXT_PUBLIC_API_URL;
 
-  if (process.env.NODE_ENV === 'development' && storybookPort) {
+  if (process.env.NODE_ENV === "development" && storybookPort) {
     logger.info(`[env] Storybookポートを検出しました: ${storybookPort}`);
     logger.info(`[env] API_URLを上書きしました: ${apiUrl}`);
   }
@@ -27,18 +27,18 @@ const createEnv = () => {
     // MSWモックAPIの有効/無効フラグ（オプション）
     ENABLE_API_MOCKING: z
       .string()
-      .refine((s) => s === 'true' || s === 'false')
-      .transform((s) => s === 'true')
+      .refine((s) => s === "true" || s === "false")
+      .transform((s) => s === "true")
       .optional(),
     // アプリケーションURL（オプション、デフォルト: http://localhost:3000）
-    APP_URL: z.string().optional().default('http://localhost:3000'),
+    APP_URL: z.string().optional().default("http://localhost:3000"),
     // モックAPIポート番号（オプション、デフォルト: 8080）
-    APP_MOCK_API_PORT: z.string().optional().default('8080'),
+    APP_MOCK_API_PORT: z.string().optional().default("8080"),
     // Storybookポート番号（オプション、Storybook環境でのみ設定される）
     STORYBOOK_PORT: z.string().optional(),
 
     // 認証モード設定（development: モック認証, production: Azure AD認証）
-    AUTH_MODE: z.enum(['development', 'production']).optional().default('development'),
+    AUTH_MODE: z.enum(["development", "production"]).optional().default("development"),
     // Azure AD設定（本番モード用）
     AZURE_CLIENT_ID: z.string().optional(),
     AZURE_TENANT_ID: z.string().optional(),
@@ -70,7 +70,7 @@ const createEnv = () => {
   以下の変数が不足しているか、不正な値が設定されています:
   ${Object.entries(parsedEnv.error.flatten().fieldErrors)
     .map(([k, v]) => `- ${k}: ${v}`)
-    .join('\n')}
+    .join("\n")}
   `
     );
   }

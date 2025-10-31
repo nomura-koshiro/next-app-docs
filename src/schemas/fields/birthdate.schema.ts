@@ -4,7 +4,7 @@
  * @module schemas/fields/birthdate
  */
 
-import { z } from 'zod';
+import { z } from "zod";
 
 /**
  * 生年月日のバリデーションスキーマ
@@ -22,4 +22,4 @@ import { z } from 'zod';
  * birthdateSchema.parse('') // エラー: 生年月日を入力してください
  * ```
  */
-export const birthdateSchema = z.string().min(1, { message: '生年月日を入力してください' });
+export const birthdateSchema = z.string().min(1, { message: "生年月日を入力してください" });

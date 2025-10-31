@@ -1,7 +1,7 @@
-import { Loader2, Send } from 'lucide-react';
+import { Loader2, Send } from "lucide-react";
 
-import { Button } from '@/components/sample-ui/button';
-import { Textarea } from '@/components/sample-ui/textarea';
+import { Button } from "@/components/sample-ui/button";
+import { Textarea } from "@/components/sample-ui/textarea";
 
 // ================================================================================
 // Props
@@ -63,7 +63,7 @@ export const ChatInput = ({ value, onChange, onSubmit, isSending, disabled = fal
    * Shift + Enterの場合は改行を許可
    */
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
+    if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       if (value.trim() && !isSending && !disabled) {
         onSubmit();

@@ -1,7 +1,7 @@
-import Link from 'next/link';
+import Link from "next/link";
 
-import { Card, CardContent, CardHeader } from '@/components/sample-ui/card';
-import type { SampleItem } from '@/features/sample-page-list/constants/samples';
+import { Card, CardContent, CardHeader } from "@/components/sample-ui/card";
+import type { SampleItem } from "@/features/sample-page-list/constants/samples";
 
 /**
  * サンプル一覧コンテンツのプロップス
@@ -63,7 +63,7 @@ export const SampleListContent = ({ samples }: SampleListContentProps) => {
         <h3 className="font-semibold mb-2 text-foreground">💡 ヒント</h3>
         <ul className="text-sm space-y-2 text-foreground/80">
           <li>
-            • 各サンプルページのソースコードは{' '}
+            • 各サンプルページのソースコードは{" "}
             <code className="bg-white border border-border px-2 py-0.5 rounded text-xs">src/features/sample-*/</code> ディレクトリにあります
           </li>
           <li>
@@ -71,8 +71,8 @@ export const SampleListContent = ({ samples }: SampleListContentProps) => {
             <code className="bg-white border border-border px-2 py-0.5 rounded text-xs">pnpm storybook</code>）
           </li>
           <li>
-            • 新しいfeatureを作成するには{' '}
-            <code className="bg-white border border-border px-2 py-0.5 rounded text-xs">pnpm generate:feature</code>{' '}
+            • 新しいfeatureを作成するには{" "}
+            <code className="bg-white border border-border px-2 py-0.5 rounded text-xs">pnpm generate:feature</code>{" "}
             コマンドを使用してください
           </li>
         </ul>

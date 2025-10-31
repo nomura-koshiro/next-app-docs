@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import { startTransition, useCallback, useOptimistic, useState } from 'react';
+import { startTransition, useCallback, useOptimistic, useState } from "react";
 
-import { logger } from '@/utils/logger';
+import { logger } from "@/utils/logger";
 
-import { useSendMessage } from '../../api';
-import type { Message } from '../../types';
+import { useSendMessage } from "../../api";
+import type { Message } from "../../types";
 
 /**
  * チャット機能のカスタムフック
@@ -41,7 +41,7 @@ export const useSampleChat = () => {
   // State
   // ================================================================================
   const [messages, setMessages] = useState<Message[]>([]);
-  const [inputMessage, setInputMessage] = useState('');
+  const [inputMessage, setInputMessage] = useState("");
   const [conversationId, setConversationId] = useState<string | undefined>(undefined);
 
   // 楽観的UI更新のためのuseOptimistic
@@ -72,7 +72,7 @@ export const useSampleChat = () => {
     // ユーザーメッセージを作成
     const userMessage: Message = {
       id: `user-${Date.now()}`,
-      role: 'user',
+      role: "user",
       content: inputMessage.trim(),
       timestamp: new Date(),
     };
@@ -81,7 +81,7 @@ export const useSampleChat = () => {
     startTransition(() => {
       addOptimisticMessage(userMessage);
     });
-    setInputMessage('');
+    setInputMessage("");
 
     // FastAPIにメッセージを送信
     await sendMessageMutation
@@ -100,14 +100,14 @@ export const useSampleChat = () => {
         setMessages((prev: Message[]) => [...prev, userMessage, response.message]);
       })
       .catch((error) => {
-        logger.error('メッセージの送信に失敗しました', error);
+        logger.error("メッセージの送信に失敗しました", error);
 
         // エラー時: 楽観的更新が自動的にロールバック
         // エラーメッセージのみを追加
         const errorMessage: Message = {
           id: `error-${Date.now()}`,
-          role: 'assistant',
-          content: 'エラーが発生しました。もう一度お試しください。',
+          role: "assistant",
+          content: "エラーが発生しました。もう一度お試しください。",
           timestamp: new Date(),
         };
         setMessages((prev: Message[]) => [...prev, errorMessage]);

@@ -1,9 +1,9 @@
-import { queryOptions, useSuspenseQuery } from '@tanstack/react-query';
+import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 
-import { api } from '@/lib/api-client';
-import { QueryConfig } from '@/lib/tanstack-query';
+import { api } from "@/lib/api-client";
+import { QueryConfig } from "@/lib/tanstack-query";
 
-import type { User } from '../types';
+import type { User } from "../types";
 
 // ================================================================================
 // API関数
@@ -17,12 +17,12 @@ import type { User } from '../types';
  * ```
  */
 export const getUsers = (): Promise<{ data: User[] }> => {
-  return api.get('/sample/users');
+  return api.get("/sample/users");
 };
 
 export const getUsersQueryOptions = () => {
   return queryOptions({
-    queryKey: ['users'],
+    queryKey: ["users"],
     queryFn: getUsers,
   });
 };

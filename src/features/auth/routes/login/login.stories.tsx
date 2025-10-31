@@ -2,17 +2,17 @@
 // Imports
 // ================================================================================
 
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
-import { expect, userEvent, within } from '@storybook/test';
-import React from 'react';
+import type { Meta, StoryObj } from "@storybook/nextjs-vite";
+import { expect, userEvent, within } from "@storybook/test";
+import React from "react";
 
 import {
   authenticatedLoader,
   setAuthenticatedStorage,
   setUnauthenticatedStorage,
   unauthenticatedLoader,
-} from '../../components/storybook-helpers';
-import LoginPage from './login';
+} from "../../components/storybook-helpers";
+import LoginPage from "./login";
 
 // ================================================================================
 // デコレーター
@@ -61,29 +61,29 @@ const UnauthenticatedDecorator = (story: () => React.ReactElement) => {
  * 開発モードと本番モードでの動作、ログイン操作などをテストします。
  */
 const meta = {
-  title: 'features/auth/routes/Login',
+  title: "features/auth/routes/Login",
   component: LoginPage,
 
   parameters: {
-    layout: 'fullscreen',
+    layout: "fullscreen",
     nextjs: {
       appDirectory: true,
     },
     docs: {
       description: {
         component:
-          'Azure Entra ID認証を使用したログインページ。\n\n' +
-          '**機能:**\n' +
-          '- 開発モード: モックユーザーで即座にログイン\n' +
-          '- 本番モード: Azure Entra IDの認証ページにリダイレクト\n\n' +
-          '**使用場面:**\n' +
-          '- アプリケーションのログインページ\n' +
-          '- 未認証ユーザーのリダイレクト先',
+          "Azure Entra ID認証を使用したログインページ。\n\n" +
+          "**機能:**\n" +
+          "- 開発モード: モックユーザーで即座にログイン\n" +
+          "- 本番モード: Azure Entra IDの認証ページにリダイレクト\n\n" +
+          "**使用場面:**\n" +
+          "- アプリケーションのログインページ\n" +
+          "- 未認証ユーザーのリダイレクト先",
       },
     },
   },
 
-  tags: ['autodocs'],
+  tags: ["autodocs"],
 } satisfies Meta<typeof LoginPage>;
 
 export default meta;
@@ -100,13 +100,13 @@ type Story = StoryObj<typeof meta>;
  * ログインボタンが表示され、クリックすると認証処理が実行されます。
  */
 export const Default: Story = {
-  name: 'デフォルト（未認証）',
+  name: "デフォルト（未認証）",
   decorators: [UnauthenticatedDecorator],
   loaders: [unauthenticatedLoader],
   parameters: {
     docs: {
       description: {
-        story: '未認証状態でのログインページ。\n\n' + 'ログインボタンをクリックすると、開発モードではモックユーザーとして認証されます。',
+        story: "未認証状態でのログインページ。\n\n" + "ログインボタンをクリックすると、開発モードではモックユーザーとして認証されます。",
       },
     },
   },
@@ -119,13 +119,13 @@ export const Default: Story = {
  * 開発モードでは即座にモックユーザーとして認証されます。
  */
 export const LoginAction: Story = {
-  name: 'ログイン操作',
+  name: "ログイン操作",
   decorators: [UnauthenticatedDecorator],
   loaders: [unauthenticatedLoader],
   parameters: {
     docs: {
       description: {
-        story: 'ログインボタンをクリックする操作のテスト。\n\n' + '開発モードでは即座にモックユーザーとして認証されます。',
+        story: "ログインボタンをクリックする操作のテスト。\n\n" + "開発モードでは即座にモックユーザーとして認証されます。",
       },
     },
   },
@@ -133,7 +133,7 @@ export const LoginAction: Story = {
     const canvas = within(canvasElement);
 
     // ログインボタンを探す
-    const loginButton = await canvas.findByRole('button', {
+    const loginButton = await canvas.findByRole("button", {
       name: /Microsoftアカウントでログイン/i,
     });
     expect(loginButton).toBeInTheDocument();
@@ -153,15 +153,15 @@ export const LoginAction: Story = {
  * 実際のアプリケーションでは、認証済みユーザーは自動的にホームページにリダイレクトされます。
  */
 export const AlreadyAuthenticated: Story = {
-  name: '既に認証済み',
+  name: "既に認証済み",
   decorators: [AuthenticatedDecorator],
   loaders: [authenticatedLoader],
   parameters: {
     docs: {
       description: {
         story:
-          '既に認証済みのユーザーがログインページにアクセスした場合。\n\n' +
-          '実際のアプリケーションでは、認証済みユーザーは自動的にホームページにリダイレクトされるべきです。',
+          "既に認証済みのユーザーがログインページにアクセスした場合。\n\n" +
+          "実際のアプリケーションでは、認証済みユーザーは自動的にホームページにリダイレクトされるべきです。",
       },
     },
   },

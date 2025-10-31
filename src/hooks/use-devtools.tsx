@@ -1,6 +1,6 @@
-import type { ComponentType, ReactElement } from 'react';
-import { useEffect, useState } from 'react';
-import type { Control, FieldValues } from 'react-hook-form';
+import type { ComponentType, ReactElement } from "react";
+import { useEffect, useState } from "react";
+import type { Control, FieldValues } from "react-hook-form";
 
 /**
  * React Hook Form DevToolsを動的にロードするカスタムフック
@@ -30,8 +30,8 @@ export const useDevTools = <T extends FieldValues>(control: Control<T>): ReactEl
   }> | null>(null);
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development') {
-      import('@hookform/devtools')
+    if (process.env.NODE_ENV === "development") {
+      import("@hookform/devtools")
         .then((mod) => {
           setDevTool(() => mod.DevTool as ComponentType<{ control: Control<T> }>);
         })
@@ -41,7 +41,7 @@ export const useDevTools = <T extends FieldValues>(control: Control<T>): ReactEl
     }
   }, []);
 
-  if (process.env.NODE_ENV !== 'development' || DevTool === null) {
+  if (process.env.NODE_ENV !== "development" || DevTool === null) {
     return null;
   }
 

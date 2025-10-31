@@ -1,11 +1,11 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { userFormSchema } from '@/features/sample-users/schemas/user-form.schema';
-import { api } from '@/lib/api-client';
-import { MutationConfig } from '@/lib/tanstack-query';
-import { logger } from '@/utils/logger';
+import { userFormSchema } from "@/features/sample-users/schemas/user-form.schema";
+import { api } from "@/lib/api-client";
+import { MutationConfig } from "@/lib/tanstack-query";
+import { logger } from "@/utils/logger";
 
-import type { CreateUserDTO, User } from '../types';
+import type { CreateUserDTO, User } from "../types";
 
 // ================================================================================
 // API関数
@@ -22,7 +22,7 @@ import type { CreateUserDTO, User } from '../types';
  * ```
  */
 export const createUser = (data: CreateUserDTO): Promise<User> => {
-  return api.post('/sample/users', data);
+  return api.post("/sample/users", data);
 };
 
 // ================================================================================
@@ -49,8 +49,8 @@ export const useCreateUser = ({ mutationConfig }: UseCreateUserOptions = {}) => 
 
   return useMutation({
     onSuccess: (...args) => {
-      queryClient.invalidateQueries({ queryKey: ['users'] }).catch((error) => {
-        logger.error('ユーザークエリの無効化に失敗しました', error);
+      queryClient.invalidateQueries({ queryKey: ["users"] }).catch((error) => {
+        logger.error("ユーザークエリの無効化に失敗しました", error);
       });
       onSuccess?.(...args);
     },

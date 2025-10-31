@@ -2,9 +2,9 @@
 // Imports
 // ================================================================================
 
-import type { AccountInfo } from '@azure/msal-browser';
-import { create } from 'zustand';
-import { createJSONStorage, persist } from 'zustand/middleware';
+import type { AccountInfo } from "@azure/msal-browser";
+import { create } from "zustand";
+import { createJSONStorage, persist } from "zustand/middleware";
 
 // ================================================================================
 // 定数
@@ -13,7 +13,7 @@ import { createJSONStorage, persist } from 'zustand/middleware';
 /**
  * Zustandの認証ストアで使用されるsessionStorageのキー
  */
-const AUTH_STORAGE_KEY = 'azure-auth-storage';
+const AUTH_STORAGE_KEY = "azure-auth-storage";
 
 // ================================================================================
 // 型定義

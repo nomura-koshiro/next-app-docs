@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import { useRouter } from 'next/navigation';
-import { useOptimistic } from 'react';
+import { useRouter } from "next/navigation";
+import { useOptimistic } from "react";
 
-import { useDeleteUser as useDeleteUserMutation } from '@/features/sample-users';
-import { useUsers as useUsersQuery } from '@/features/sample-users/api/get-users';
-import type { User } from '@/features/sample-users/types';
+import { useDeleteUser as useDeleteUserMutation } from "@/features/sample-users";
+import { useUsers as useUsersQuery } from "@/features/sample-users/api/get-users";
+import type { User } from "@/features/sample-users/types";
 
 /**
  * ユーザー一覧ページのロジックを管理するカスタムフック
@@ -84,9 +84,9 @@ export const useUsers = () => {
     // FastAPIに削除リクエスト
     await deleteUserMutation.mutateAsync(userId).catch((error) => {
       // エラー時: 楽観的更新が自動的にロールバック
-      console.error('ユーザーの削除に失敗しました:', error);
+      console.error("ユーザーの削除に失敗しました:", error);
       // エラー通知を表示
-      alert('ユーザーの削除に失敗しました。もう一度お試しください。');
+      alert("ユーザーの削除に失敗しました。もう一度お試しください。");
     });
     // 削除成功（キャッシュ無効化はuseDeleteUserMutation内で実行）
   };
@@ -105,7 +105,7 @@ export const useUsers = () => {
    * ユーザー作成ページへ遷移
    */
   const handleCreateNew = () => {
-    router.push('/sample-users/new');
+    router.push("/sample-users/new");
   };
 
   // ================================================================================

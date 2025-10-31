@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
-import { fn } from '@storybook/test';
+import type { Meta, StoryObj } from "@storybook/nextjs-vite";
+import { fn } from "@storybook/test";
 
-import type { UploadedFile } from '../../../types';
-import { FileUploadSection } from './file-upload-section';
+import type { UploadedFile } from "../../../types";
+import { FileUploadSection } from "./file-upload-section";
 
 /**
  * FileUploadSectionコンポーネントのストーリー
@@ -24,7 +24,7 @@ const meta = {
   // ================================================================================
   // Storybookのナビゲーション階層
   // ================================================================================
-  title: 'features/sample-file/routes/sample-file/components/FileUploadSection',
+  title: "features/sample-file/routes/sample-file/components/FileUploadSection",
 
   // ================================================================================
   // 表示するコンポーネント
@@ -38,7 +38,7 @@ const meta = {
     // - "padded": 周囲にパディングを追加（フォームやカード向け）
     // - "fullscreen": 全画面表示（ページレイアウト向け）
     // ================================================================================
-    layout: 'padded',
+    layout: "padded",
 
     // ================================================================================
     // コンポーネントの詳細説明
@@ -47,18 +47,18 @@ const meta = {
     docs: {
       description: {
         component:
-          'ファイルアップロード機能を提供するコンポーネント。react-dropzoneを使用したドラッグ&ドロップとファイル選択をサポートします。\n\n' +
-          '**主な機能:**\n' +
-          '- ドラッグ&ドロップによるファイル選択\n' +
-          '- クリックによるファイル選択\n' +
-          '- 複数ファイルのアップロード対応\n' +
-          '- アップロード進捗の表示\n' +
-          '- ファイルサイズ制限（最大10MB）\n' +
-          '- アップロード済みファイルの管理\n\n' +
-          '**使用場面:**\n' +
-          '- ファイルアップロード機能\n' +
-          '- 画像アップロード\n' +
-          '- ドキュメント管理',
+          "ファイルアップロード機能を提供するコンポーネント。react-dropzoneを使用したドラッグ&ドロップとファイル選択をサポートします。\n\n" +
+          "**主な機能:**\n" +
+          "- ドラッグ&ドロップによるファイル選択\n" +
+          "- クリックによるファイル選択\n" +
+          "- 複数ファイルのアップロード対応\n" +
+          "- アップロード進捗の表示\n" +
+          "- ファイルサイズ制限（最大10MB）\n" +
+          "- アップロード済みファイルの管理\n\n" +
+          "**使用場面:**\n" +
+          "- ファイルアップロード機能\n" +
+          "- 画像アップロード\n" +
+          "- ドキュメント管理",
       },
     },
 
@@ -67,14 +67,14 @@ const meta = {
     // on* で始まるプロパティを自動的にアクションパネルに表示
     // ================================================================================
     actions: {
-      argTypesRegex: '^on[A-Z].*',
+      argTypesRegex: "^on[A-Z].*",
     },
   },
 
   // ================================================================================
   // ドキュメント自動生成を有効化
   // ================================================================================
-  tags: ['autodocs'],
+  tags: ["autodocs"],
 
   // ================================================================================
   // コントロールパネルの設定
@@ -82,33 +82,33 @@ const meta = {
   // ================================================================================
   argTypes: {
     uploadedFiles: {
-      description: 'アップロード済みファイルリスト',
+      description: "アップロード済みファイルリスト",
       table: {
-        type: { summary: 'UploadedFile[]' },
-        category: '状態',
+        type: { summary: "UploadedFile[]" },
+        category: "状態",
       },
     },
     onFileDrop: {
-      description: 'ファイルドロップハンドラー',
+      description: "ファイルドロップハンドラー",
       table: {
-        type: { summary: '(files: File[]) => void' },
-        category: 'イベント',
+        type: { summary: "(files: File[]) => void" },
+        category: "イベント",
       },
     },
     onFileRemove: {
-      description: 'ファイル削除ハンドラー',
+      description: "ファイル削除ハンドラー",
       table: {
-        type: { summary: '(index: number) => void' },
-        category: 'イベント',
+        type: { summary: "(index: number) => void" },
+        category: "イベント",
       },
     },
     isUploading: {
-      control: 'boolean',
-      description: 'アップロード中かどうか',
+      control: "boolean",
+      description: "アップロード中かどうか",
       table: {
-        type: { summary: 'boolean' },
-        defaultValue: { summary: 'false' },
-        category: '状態',
+        type: { summary: "boolean" },
+        defaultValue: { summary: "false" },
+        category: "状態",
       },
     },
   },
@@ -131,7 +131,7 @@ type Story = StoryObj<typeof meta>;
 
 // モックファイルを作成するヘルパー関数
 const createMockFile = (name: string, _size: number): File => {
-  return new File(['mock content'], name, { type: 'text/plain' });
+  return new File(["mock content"], name, { type: "text/plain" });
 };
 
 /**
@@ -139,7 +139,7 @@ const createMockFile = (name: string, _size: number): File => {
  * アップロードセクションの初期状態
  */
 export const Default: Story = {
-  name: 'デフォルト',
+  name: "デフォルト",
   args: {
     uploadedFiles: [],
     isUploading: false,
@@ -147,7 +147,7 @@ export const Default: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'アップロードセクションの初期状態。ドロップゾーンが表示され、ファイルをドラッグ&ドロップまたは選択できます。',
+        story: "アップロードセクションの初期状態。ドロップゾーンが表示され、ファイルをドラッグ&ドロップまたは選択できます。",
       },
     },
   },
@@ -158,13 +158,13 @@ export const Default: Story = {
  * ファイルが1件正常にアップロードされた状態
  */
 export const SingleFileSuccess: Story = {
-  name: '1件のファイル（成功）',
+  name: "1件のファイル（成功）",
   args: {
     uploadedFiles: [
       {
-        file: createMockFile('document.pdf', 1024 * 1024 * 2), // 2MB
+        file: createMockFile("document.pdf", 1024 * 1024 * 2), // 2MB
         progress: 100,
-        status: 'success',
+        status: "success",
       },
     ] as UploadedFile[],
     isUploading: false,
@@ -172,7 +172,7 @@ export const SingleFileSuccess: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'ファイルが1件正常にアップロードされた状態。成功のアイコンが表示されます。',
+        story: "ファイルが1件正常にアップロードされた状態。成功のアイコンが表示されます。",
       },
     },
   },
@@ -183,23 +183,23 @@ export const SingleFileSuccess: Story = {
  * 複数のファイルが正常にアップロードされた状態
  */
 export const MultipleFilesSuccess: Story = {
-  name: '複数のファイル（成功）',
+  name: "複数のファイル（成功）",
   args: {
     uploadedFiles: [
       {
-        file: createMockFile('document1.pdf', 1024 * 1024 * 2),
+        file: createMockFile("document1.pdf", 1024 * 1024 * 2),
         progress: 100,
-        status: 'success',
+        status: "success",
       },
       {
-        file: createMockFile('image.png', 1024 * 500),
+        file: createMockFile("image.png", 1024 * 500),
         progress: 100,
-        status: 'success',
+        status: "success",
       },
       {
-        file: createMockFile('spreadsheet.xlsx', 1024 * 1024 * 3),
+        file: createMockFile("spreadsheet.xlsx", 1024 * 1024 * 3),
         progress: 100,
-        status: 'success',
+        status: "success",
       },
     ] as UploadedFile[],
     isUploading: false,
@@ -207,7 +207,7 @@ export const MultipleFilesSuccess: Story = {
   parameters: {
     docs: {
       description: {
-        story: '複数のファイルが正常にアップロードされた状態。ファイルリストに複数のファイルが表示されます。',
+        story: "複数のファイルが正常にアップロードされた状態。ファイルリストに複数のファイルが表示されます。",
       },
     },
   },
@@ -218,18 +218,18 @@ export const MultipleFilesSuccess: Story = {
  * ファイルをアップロード中の状態
  */
 export const Uploading: Story = {
-  name: 'アップロード中',
+  name: "アップロード中",
   args: {
     uploadedFiles: [
       {
-        file: createMockFile('document.pdf', 1024 * 1024 * 2),
+        file: createMockFile("document.pdf", 1024 * 1024 * 2),
         progress: 100,
-        status: 'success',
+        status: "success",
       },
       {
-        file: createMockFile('large-file.zip', 1024 * 1024 * 8),
+        file: createMockFile("large-file.zip", 1024 * 1024 * 8),
         progress: 45,
-        status: 'uploading',
+        status: "uploading",
       },
     ] as UploadedFile[],
     isUploading: true,
@@ -237,7 +237,7 @@ export const Uploading: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'ファイルをアップロード中の状態。進捗バーが表示され、ドロップゾーンが無効化されます。',
+        story: "ファイルをアップロード中の状態。進捗バーが表示され、ドロップゾーンが無効化されます。",
       },
     },
   },
@@ -248,19 +248,19 @@ export const Uploading: Story = {
  * アップロード中にエラーが発生した状態
  */
 export const UploadError: Story = {
-  name: 'アップロードエラー',
+  name: "アップロードエラー",
   args: {
     uploadedFiles: [
       {
-        file: createMockFile('document.pdf', 1024 * 1024 * 2),
+        file: createMockFile("document.pdf", 1024 * 1024 * 2),
         progress: 100,
-        status: 'success',
+        status: "success",
       },
       {
-        file: createMockFile('failed-file.txt', 1024 * 100),
+        file: createMockFile("failed-file.txt", 1024 * 100),
         progress: 0,
-        status: 'error',
-        error: 'ファイルのアップロードに失敗しました',
+        status: "error",
+        error: "ファイルのアップロードに失敗しました",
       },
     ] as UploadedFile[],
     isUploading: false,
@@ -268,7 +268,7 @@ export const UploadError: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'アップロード中にエラーが発生した状態。エラーアイコンとエラーメッセージが表示されます。',
+        story: "アップロード中にエラーが発生した状態。エラーアイコンとエラーメッセージが表示されます。",
       },
     },
   },
@@ -279,29 +279,29 @@ export const UploadError: Story = {
  * 成功、アップロード中、エラーの状態が混在
  */
 export const MixedStatus: Story = {
-  name: '複数の状態が混在',
+  name: "複数の状態が混在",
   args: {
     uploadedFiles: [
       {
-        file: createMockFile('success1.pdf', 1024 * 1024 * 2),
+        file: createMockFile("success1.pdf", 1024 * 1024 * 2),
         progress: 100,
-        status: 'success',
+        status: "success",
       },
       {
-        file: createMockFile('uploading.zip', 1024 * 1024 * 5),
+        file: createMockFile("uploading.zip", 1024 * 1024 * 5),
         progress: 65,
-        status: 'uploading',
+        status: "uploading",
       },
       {
-        file: createMockFile('success2.png', 1024 * 500),
+        file: createMockFile("success2.png", 1024 * 500),
         progress: 100,
-        status: 'success',
+        status: "success",
       },
       {
-        file: createMockFile('error.txt', 1024 * 100),
+        file: createMockFile("error.txt", 1024 * 100),
         progress: 0,
-        status: 'error',
-        error: 'ネットワークエラーが発生しました',
+        status: "error",
+        error: "ネットワークエラーが発生しました",
       },
     ] as UploadedFile[],
     isUploading: true,
@@ -309,7 +309,7 @@ export const MixedStatus: Story = {
   parameters: {
     docs: {
       description: {
-        story: '成功、アップロード中、エラーの状態が混在している状態。実際のアップロードシナリオに近い表示です。',
+        story: "成功、アップロード中、エラーの状態が混在している状態。実際のアップロードシナリオに近い表示です。",
       },
     },
   },
@@ -320,13 +320,13 @@ export const MixedStatus: Story = {
  * アップロードを開始したばかりの状態
  */
 export const UploadStarted: Story = {
-  name: 'アップロード開始直後',
+  name: "アップロード開始直後",
   args: {
     uploadedFiles: [
       {
-        file: createMockFile('document.pdf', 1024 * 1024 * 2),
+        file: createMockFile("document.pdf", 1024 * 1024 * 2),
         progress: 5,
-        status: 'uploading',
+        status: "uploading",
       },
     ] as UploadedFile[],
     isUploading: true,
@@ -334,7 +334,7 @@ export const UploadStarted: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'アップロードを開始したばかりの状態。進捗バーが表示され始めます。',
+        story: "アップロードを開始したばかりの状態。進捗バーが表示され始めます。",
       },
     },
   },
@@ -345,13 +345,13 @@ export const UploadStarted: Story = {
  * アップロードがほぼ完了している状態
  */
 export const UploadAlmostComplete: Story = {
-  name: 'アップロード完了直前',
+  name: "アップロード完了直前",
   args: {
     uploadedFiles: [
       {
-        file: createMockFile('large-file.zip', 1024 * 1024 * 8),
+        file: createMockFile("large-file.zip", 1024 * 1024 * 8),
         progress: 95,
-        status: 'uploading',
+        status: "uploading",
       },
     ] as UploadedFile[],
     isUploading: true,
@@ -359,7 +359,7 @@ export const UploadAlmostComplete: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'アップロードがほぼ完了している状態。あと少しで完了します。',
+        story: "アップロードがほぼ完了している状態。あと少しで完了します。",
       },
     },
   },
@@ -370,13 +370,13 @@ export const UploadAlmostComplete: Story = {
  * サイズの大きなファイルのアップロード
  */
 export const LargeFile: Story = {
-  name: '大きなファイル',
+  name: "大きなファイル",
   args: {
     uploadedFiles: [
       {
-        file: createMockFile('very-large-file.zip', 1024 * 1024 * 9.5), // 9.5MB
+        file: createMockFile("very-large-file.zip", 1024 * 1024 * 9.5), // 9.5MB
         progress: 100,
-        status: 'success',
+        status: "success",
       },
     ] as UploadedFile[],
     isUploading: false,
@@ -384,7 +384,7 @@ export const LargeFile: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'サイズの大きなファイル（制限の10MB近く）が正常にアップロードされた状態。',
+        story: "サイズの大きなファイル（制限の10MB近く）が正常にアップロードされた状態。",
       },
     },
   },

@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
-import { fn } from '@storybook/test';
-import { useState } from 'react';
+import type { Meta, StoryObj } from "@storybook/nextjs-vite";
+import { fn } from "@storybook/test";
+import { useState } from "react";
 
-import { ChatInput } from './chat-input';
+import { ChatInput } from "./chat-input";
 
 /**
  * ChatInputコンポーネントのストーリー
@@ -24,7 +24,7 @@ const meta = {
   // ================================================================================
   // Storybookのナビゲーション階層
   // ================================================================================
-  title: 'features/sample-chat/routes/sample-chat/components/ChatInput',
+  title: "features/sample-chat/routes/sample-chat/components/ChatInput",
 
   // ================================================================================
   // 表示するコンポーネント
@@ -38,7 +38,7 @@ const meta = {
     // - "padded": 周囲にパディングを追加（フォームやカード向け）
     // - "fullscreen": 全画面表示（ページレイアウト向け）
     // ================================================================================
-    layout: 'padded',
+    layout: "padded",
 
     // ================================================================================
     // コンポーネントの詳細説明
@@ -47,15 +47,15 @@ const meta = {
     docs: {
       description: {
         component:
-          'チャットメッセージの入力と送信を管理するコンポーネント。Enterキーでの送信とShift+Enterでの改行をサポートします。\n\n' +
-          '**主な機能:**\n' +
-          '- テキストエリアによるメッセージ入力\n' +
-          '- Enterキーでの送信（Shift+Enterで改行）\n' +
-          '- 送信中のローディング状態表示\n' +
-          '- 空メッセージの送信を防止\n\n' +
-          '**使用場面:**\n' +
-          '- チャットアプリケーション\n' +
-          '- メッセージング機能',
+          "チャットメッセージの入力と送信を管理するコンポーネント。Enterキーでの送信とShift+Enterでの改行をサポートします。\n\n" +
+          "**主な機能:**\n" +
+          "- テキストエリアによるメッセージ入力\n" +
+          "- Enterキーでの送信（Shift+Enterで改行）\n" +
+          "- 送信中のローディング状態表示\n" +
+          "- 空メッセージの送信を防止\n\n" +
+          "**使用場面:**\n" +
+          "- チャットアプリケーション\n" +
+          "- メッセージング機能",
       },
     },
 
@@ -64,14 +64,14 @@ const meta = {
     // on* で始まるプロパティを自動的にアクションパネルに表示
     // ================================================================================
     actions: {
-      argTypesRegex: '^on[A-Z].*',
+      argTypesRegex: "^on[A-Z].*",
     },
   },
 
   // ================================================================================
   // ドキュメント自動生成を有効化
   // ================================================================================
-  tags: ['autodocs'],
+  tags: ["autodocs"],
 
   // ================================================================================
   // コントロールパネルの設定
@@ -79,43 +79,43 @@ const meta = {
   // ================================================================================
   argTypes: {
     value: {
-      control: 'text',
-      description: '入力中のメッセージ',
+      control: "text",
+      description: "入力中のメッセージ",
       table: {
-        type: { summary: 'string' },
-        category: '状態',
+        type: { summary: "string" },
+        category: "状態",
       },
     },
     onChange: {
-      description: '入力変更ハンドラー',
+      description: "入力変更ハンドラー",
       table: {
-        type: { summary: '(value: string) => void' },
-        category: 'イベント',
+        type: { summary: "(value: string) => void" },
+        category: "イベント",
       },
     },
     onSubmit: {
-      description: '送信ハンドラー',
+      description: "送信ハンドラー",
       table: {
-        type: { summary: '() => void' },
-        category: 'イベント',
+        type: { summary: "() => void" },
+        category: "イベント",
       },
     },
     isSending: {
-      control: 'boolean',
-      description: '送信中かどうか',
+      control: "boolean",
+      description: "送信中かどうか",
       table: {
-        type: { summary: 'boolean' },
-        defaultValue: { summary: 'false' },
-        category: '状態',
+        type: { summary: "boolean" },
+        defaultValue: { summary: "false" },
+        category: "状態",
       },
     },
     disabled: {
-      control: 'boolean',
-      description: '無効化フラグ',
+      control: "boolean",
+      description: "無効化フラグ",
       table: {
-        type: { summary: 'boolean' },
-        defaultValue: { summary: 'false' },
-        category: '状態',
+        type: { summary: "boolean" },
+        defaultValue: { summary: "false" },
+        category: "状態",
       },
     },
   },
@@ -126,7 +126,7 @@ const meta = {
   // 個々のストーリーで上書き可能
   // ================================================================================
   args: {
-    value: '',
+    value: "",
     onChange: fn(),
     onSubmit: fn(),
     isSending: false,
@@ -142,9 +142,9 @@ type Story = StoryObj<typeof meta>;
  * チャット入力フォームの初期状態
  */
 export const Default: Story = {
-  name: 'デフォルト',
+  name: "デフォルト",
   render: (args) => {
-    const [value, setValue] = useState('');
+    const [value, setValue] = useState("");
 
     return (
       <ChatInput
@@ -155,7 +155,7 @@ export const Default: Story = {
         }}
         onSubmit={() => {
           args.onSubmit();
-          setValue('');
+          setValue("");
         }}
         isSending={false}
         disabled={false}
@@ -165,7 +165,7 @@ export const Default: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'チャット入力フォームの初期状態。テキストエリアにメッセージを入力できます。',
+        story: "チャット入力フォームの初期状態。テキストエリアにメッセージを入力できます。",
       },
     },
   },
@@ -176,9 +176,9 @@ export const Default: Story = {
  * メッセージが入力されている状態
  */
 export const WithMessage: Story = {
-  name: '入力中',
+  name: "入力中",
   render: (args) => {
-    const [value, setValue] = useState('こんにちは！今日はいい天気ですね。');
+    const [value, setValue] = useState("こんにちは！今日はいい天気ですね。");
 
     return (
       <ChatInput
@@ -189,7 +189,7 @@ export const WithMessage: Story = {
         }}
         onSubmit={() => {
           args.onSubmit();
-          setValue('');
+          setValue("");
         }}
         isSending={false}
         disabled={false}
@@ -199,7 +199,7 @@ export const WithMessage: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'メッセージが入力されている状態。送信ボタンが有効になっています。',
+        story: "メッセージが入力されている状態。送信ボタンが有効になっています。",
       },
     },
   },
@@ -210,15 +210,15 @@ export const WithMessage: Story = {
  * メッセージを送信中の状態
  */
 export const Sending: Story = {
-  name: '送信中',
+  name: "送信中",
   args: {
-    value: 'メッセージを送信しました',
+    value: "メッセージを送信しました",
     isSending: true,
   },
   parameters: {
     docs: {
       description: {
-        story: 'メッセージ送信中の状態。送信ボタンがローディング表示になり、入力が無効化されます。',
+        story: "メッセージ送信中の状態。送信ボタンがローディング表示になり、入力が無効化されます。",
       },
     },
   },
@@ -229,16 +229,16 @@ export const Sending: Story = {
  * 入力フォームが無効化されている状態
  */
 export const Disabled: Story = {
-  name: '無効化',
+  name: "無効化",
   args: {
-    value: '',
+    value: "",
     disabled: true,
     isSending: false,
   },
   parameters: {
     docs: {
       description: {
-        story: '入力フォームが無効化された状態。ユーザーは入力も送信もできません。',
+        story: "入力フォームが無効化された状態。ユーザーは入力も送信もできません。",
       },
     },
   },
@@ -249,9 +249,9 @@ export const Disabled: Story = {
  * 改行を含む長いメッセージ
  */
 export const MultilineMessage: Story = {
-  name: '複数行メッセージ',
+  name: "複数行メッセージ",
   render: (args) => {
-    const [value, setValue] = useState('こんにちは！\n\n今日はいい天気ですね。\n散歩に行きませんか？');
+    const [value, setValue] = useState("こんにちは！\n\n今日はいい天気ですね。\n散歩に行きませんか？");
 
     return (
       <ChatInput
@@ -262,7 +262,7 @@ export const MultilineMessage: Story = {
         }}
         onSubmit={() => {
           args.onSubmit();
-          setValue('');
+          setValue("");
         }}
         isSending={false}
         disabled={false}
@@ -272,7 +272,7 @@ export const MultilineMessage: Story = {
   parameters: {
     docs: {
       description: {
-        story: '改行を含む複数行のメッセージ。Shift+Enterで改行を入力できます。',
+        story: "改行を含む複数行のメッセージ。Shift+Enterで改行を入力できます。",
       },
     },
   },

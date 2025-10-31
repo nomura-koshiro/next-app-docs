@@ -1,7 +1,7 @@
-import { cva, type VariantProps } from 'class-variance-authority';
-import * as React from 'react';
+import { cva, type VariantProps } from "class-variance-authority";
+import * as React from "react";
 
-import { cn } from '@/utils/cn';
+import { cn } from "@/utils/cn";
 
 /**
  * アラートのスタイルバリアント定義
@@ -9,18 +9,18 @@ import { cn } from '@/utils/cn';
  * CVA（Class Variance Authority）を使用してアラートのスタイルを定義
  */
 const alertVariants = cva(
-  'relative w-full rounded-lg border px-4 py-3 text-sm grid has-[>svg]:grid-cols-[calc(var(--spacing)*4)_1fr] grid-cols-[0_1fr] has-[>svg]:gap-x-3 gap-y-0.5 items-start [&>svg]:size-4 [&>svg]:translate-y-0.5 [&>svg]:text-current',
+  "relative w-full rounded-lg border px-4 py-3 text-sm grid has-[>svg]:grid-cols-[calc(var(--spacing)*4)_1fr] grid-cols-[0_1fr] has-[>svg]:gap-x-3 gap-y-0.5 items-start [&>svg]:size-4 [&>svg]:translate-y-0.5 [&>svg]:text-current",
   {
     variants: {
       variant: {
         /** デフォルトのアラートスタイル */
-        default: 'bg-card text-card-foreground',
+        default: "bg-card text-card-foreground",
         /** 破壊的操作や警告用のアラートスタイル */
-        destructive: 'text-destructive bg-card [&>svg]:text-current *:data-[slot=alert-description]:text-destructive/90',
+        destructive: "text-destructive bg-card [&>svg]:text-current *:data-[slot=alert-description]:text-destructive/90",
       },
     },
     defaultVariants: {
-      variant: 'default',
+      variant: "default",
     },
   }
 );
@@ -45,7 +45,7 @@ const alertVariants = cva(
  * @param props - Divコンポーネントのプロパティとバリアント
  * @returns アラート要素
  */
-function Alert({ className, variant, ...props }: React.ComponentProps<'div'> & VariantProps<typeof alertVariants>) {
+function Alert({ className, variant, ...props }: React.ComponentProps<"div"> & VariantProps<typeof alertVariants>) {
   return <div data-slot="alert" role="alert" className={cn(alertVariants({ variant }), className)} {...props} />;
 }
 
@@ -58,9 +58,9 @@ function Alert({ className, variant, ...props }: React.ComponentProps<'div'> & V
  * @param props - Divコンポーネントのプロパティ
  * @returns アラートタイトル要素
  */
-function AlertTitle({ className, ...props }: React.ComponentProps<'div'>) {
+function AlertTitle({ className, ...props }: React.ComponentProps<"div">) {
   return (
-    <div data-slot="alert-title" className={cn('col-start-2 line-clamp-1 min-h-4 font-medium tracking-tight', className)} {...props} />
+    <div data-slot="alert-title" className={cn("col-start-2 line-clamp-1 min-h-4 font-medium tracking-tight", className)} {...props} />
   );
 }
 
@@ -73,11 +73,11 @@ function AlertTitle({ className, ...props }: React.ComponentProps<'div'>) {
  * @param props - Divコンポーネントのプロパティ
  * @returns アラート説明要素
  */
-function AlertDescription({ className, ...props }: React.ComponentProps<'div'>) {
+function AlertDescription({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="alert-description"
-      className={cn('text-muted-foreground col-start-2 grid justify-items-start gap-1 text-sm [&_p]:leading-relaxed', className)}
+      className={cn("text-muted-foreground col-start-2 grid justify-items-start gap-1 text-sm [&_p]:leading-relaxed", className)}
       {...props}
     />
   );

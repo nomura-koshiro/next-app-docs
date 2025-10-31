@@ -19,7 +19,7 @@ export const paths = {
    * ホームページ
    */
   home: {
-    getHref: () => '/',
+    getHref: () => "/",
   },
 
   /**
@@ -30,21 +30,21 @@ export const paths = {
      * サンプルフォーム
      */
     form: {
-      getHref: () => '/sample-form',
+      getHref: () => "/sample-form",
     },
 
     /**
      * サンプルログイン
      */
     login: {
-      getHref: () => '/sample-login',
+      getHref: () => "/sample-login",
     },
 
     /**
      * サンプルページリスト
      */
     pageList: {
-      getHref: () => '/sample-page-list',
+      getHref: () => "/sample-page-list",
     },
 
     /**
@@ -55,14 +55,14 @@ export const paths = {
        * ユーザー一覧
        */
       list: {
-        getHref: () => '/sample-users',
+        getHref: () => "/sample-users",
       },
 
       /**
        * 新規ユーザー作成
        */
       create: {
-        getHref: () => '/sample-users/new',
+        getHref: () => "/sample-users/new",
       },
 
       /**

@@ -31,7 +31,7 @@ export type UploadedFile = {
   /** アップロード進捗（0-100） */
   progress: number;
   /** アップロード状態 */
-  status: 'pending' | 'uploading' | 'success' | 'error';
+  status: "pending" | "uploading" | "success" | "error";
   /** エラーメッセージ */
   error?: string;
 };
@@ -50,7 +50,7 @@ export type UploadedFile = {
  * const fileType: FileType = 'csv'
  * ```
  */
-export type FileType = 'csv' | 'excel' | 'json' | 'text' | 'image';
+export type FileType = "csv" | "excel" | "json" | "text" | "image";
 
 /**
  * ダウンロード進捗情報を表す型

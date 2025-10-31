@@ -5,7 +5,7 @@ type LoadingSpinnerProps = {
   /** ローディングテキスト（デフォルト: "読み込み中..."） */
   text?: string;
   /** テキストのサイズ（デフォルト: "md"） */
-  size?: 'sm' | 'md' | 'lg';
+  size?: "sm" | "md" | "lg";
   /** フルスクリーン表示にするか（デフォルト: false） */
   fullScreen?: boolean;
 };
@@ -34,12 +34,12 @@ type LoadingSpinnerProps = {
  * @param props - LoadingSpinnerコンポーネントのプロパティ
  * @returns ローディングスピナー要素
  */
-export function LoadingSpinner({ text = '読み込み中...', size = 'md', fullScreen = false }: LoadingSpinnerProps) {
+export function LoadingSpinner({ text = "読み込み中...", size = "md", fullScreen = false }: LoadingSpinnerProps) {
   /** テキストサイズに対応するCSSクラスのマッピング */
   const sizeClasses = {
-    sm: 'text-base', // 16px
-    md: 'text-lg', // 18px
-    lg: 'text-xl', // 20px
+    sm: "text-base", // 16px
+    md: "text-lg", // 18px
+    lg: "text-xl", // 20px
   };
 
   // スピナーコンテンツ

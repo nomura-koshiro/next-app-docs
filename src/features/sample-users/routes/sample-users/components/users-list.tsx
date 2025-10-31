@@ -1,5 +1,5 @@
-import { Button } from '@/components/sample-ui/button';
-import { User } from '@/features/sample-users/types';
+import { Button } from "@/components/sample-ui/button";
+import { User } from "@/features/sample-users/types";
 
 // ================================================================================
 // Props
@@ -80,7 +80,7 @@ export const UsersList = ({ users, onEdit, onDelete }: UsersListProps) => {
               <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-500">
                 <span
                   className={`inline-flex rounded-full px-2 py-1 text-xs font-semibold ${
-                    user.role === 'admin' ? 'bg-purple-100 text-purple-800' : 'bg-green-100 text-green-800'
+                    user.role === "admin" ? "bg-purple-100 text-purple-800" : "bg-green-100 text-green-800"
                   }`}
                 >
                   {user.role}

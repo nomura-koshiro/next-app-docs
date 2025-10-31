@@ -1,17 +1,17 @@
-'use client';
+"use client";
 
-import { useParams } from 'next/navigation';
-import { Suspense } from 'react';
-import { ErrorBoundary } from 'react-error-boundary';
+import { useParams } from "next/navigation";
+import { Suspense } from "react";
+import { ErrorBoundary } from "react-error-boundary";
 
-import { MainErrorFallback } from '@/components/errors/main';
-import { PageHeader } from '@/components/layout/page-header';
-import { PageLayout } from '@/components/layout/page-layout';
-import { ErrorMessage } from '@/components/sample-ui/error-message';
-import { LoadingSpinner } from '@/components/sample-ui/loading-spinner';
+import { MainErrorFallback } from "@/components/errors/main";
+import { PageHeader } from "@/components/layout/page-header";
+import { PageLayout } from "@/components/layout/page-layout";
+import { ErrorMessage } from "@/components/sample-ui/error-message";
+import { LoadingSpinner } from "@/components/sample-ui/loading-spinner";
 
-import { DeleteUserConfirmation } from './components/delete-user-confirmation';
-import { useDeleteUser } from './delete-user.hook';
+import { DeleteUserConfirmation } from "./components/delete-user-confirmation";
+import { useDeleteUser } from "./delete-user.hook";
 
 /**
  * ユーザー削除確認ページのコンテンツ (Client Component)

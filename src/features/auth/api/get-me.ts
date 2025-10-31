@@ -2,12 +2,12 @@
 // Imports
 // ================================================================================
 
-import { queryOptions, useQuery } from '@tanstack/react-query';
+import { queryOptions, useQuery } from "@tanstack/react-query";
 
-import { api } from '@/lib/api-client';
-import { QueryConfig } from '@/lib/tanstack-query';
+import { api } from "@/lib/api-client";
+import { QueryConfig } from "@/lib/tanstack-query";
 
-import type { User } from '../stores/auth-store';
+import type { User } from "../stores/auth-store";
 
 // ================================================================================
 // 型定義
@@ -23,12 +23,12 @@ type UseGetMeOptions = {
 // ================================================================================
 
 export const getMe = (): Promise<User> => {
-  return api.get('/auth/me');
+  return api.get("/auth/me");
 };
 
 export const getMeQueryOptions = () => {
   return queryOptions({
-    queryKey: ['auth', 'me'],
+    queryKey: ["auth", "me"],
     queryFn: getMe,
   });
 };

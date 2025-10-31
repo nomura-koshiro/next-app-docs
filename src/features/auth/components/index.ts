@@ -19,4 +19,4 @@
 // Auth Components Exports
 // ================================================================================
 
-export * from './auth-demo';
+export * from "./auth-demo";

@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import { PageHeader } from '@/components/layout/page-header';
-import { PageLayout } from '@/components/layout/page-layout';
+import { PageHeader } from "@/components/layout/page-header";
+import { PageLayout } from "@/components/layout/page-layout";
 
-import { FileDownloadSection } from './components/file-download-section';
-import { FileUploadSection } from './components/file-upload-section';
-import { useSampleFile } from './sample-file.hook';
+import { FileDownloadSection } from "./components/file-download-section";
+import { FileUploadSection } from "./components/file-upload-section";
+import { useSampleFile } from "./sample-file.hook";
 
 /**
  * ファイルアップロード・ダウンロードページコンポーネント

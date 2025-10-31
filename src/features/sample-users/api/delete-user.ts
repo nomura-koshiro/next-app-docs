@@ -1,8 +1,8 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { api } from '@/lib/api-client';
-import { MutationConfig } from '@/lib/tanstack-query';
-import { logger } from '@/utils/logger';
+import { api } from "@/lib/api-client";
+import { MutationConfig } from "@/lib/tanstack-query";
+import { logger } from "@/utils/logger";
 
 // ================================================================================
 // API関数
@@ -59,8 +59,8 @@ export const useDeleteUser = ({ mutationConfig }: UseDeleteUserOptions = {}) => 
 
   return useMutation({
     onSuccess: (...args) => {
-      queryClient.invalidateQueries({ queryKey: ['users'] }).catch((error) => {
-        logger.error('ユーザークエリの無効化に失敗しました', error);
+      queryClient.invalidateQueries({ queryKey: ["users"] }).catch((error) => {
+        logger.error("ユーザークエリの無効化に失敗しました", error);
       });
       onSuccess?.(...args);
     },

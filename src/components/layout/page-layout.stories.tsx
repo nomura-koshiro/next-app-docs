@@ -1,9 +1,9 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 
-import { Button } from '@/components/sample-ui/button';
+import { Button } from "@/components/sample-ui/button";
 
-import { PageHeader } from './page-header';
-import { PageLayout } from './page-layout';
+import { PageHeader } from "./page-header";
+import { PageLayout } from "./page-layout";
 
 /**
  * PageLayoutコンポーネントのストーリー
@@ -23,7 +23,7 @@ const meta = {
   // ================================================================================
   // Storybookのナビゲーション階層
   // ================================================================================
-  title: 'components/layout/PageLayout',
+  title: "components/layout/PageLayout",
 
   // ================================================================================
   // 表示するコンポーネント
@@ -37,7 +37,7 @@ const meta = {
     // - "padded": 周囲にパディングを追加（フォームやカード向け）
     // - "fullscreen": 全画面表示（ページレイアウト向け）
     // ================================================================================
-    layout: 'fullscreen',
+    layout: "fullscreen",
 
     // ================================================================================
     // コンポーネントの詳細説明
@@ -46,16 +46,16 @@ const meta = {
     docs: {
       description: {
         component:
-          'ページ全体のレイアウトを管理するコンテナコンポーネント。コンテンツの最大幅を制御し、一貫したページ構造を提供します。\n\n' +
-          '**主な機能:**\n' +
-          '- コンテンツの最大幅制御\n' +
-          '- 中央揃えレイアウト\n' +
-          '- パディングの管理\n' +
-          '- レスポンシブ対応\n\n' +
-          '**使用場面:**\n' +
-          '- すべてのページのルートコンテナ\n' +
-          '- ページコンテンツのラッピング\n' +
-          '- 一貫したレイアウトの維持',
+          "ページ全体のレイアウトを管理するコンテナコンポーネント。コンテンツの最大幅を制御し、一貫したページ構造を提供します。\n\n" +
+          "**主な機能:**\n" +
+          "- コンテンツの最大幅制御\n" +
+          "- 中央揃えレイアウト\n" +
+          "- パディングの管理\n" +
+          "- レスポンシブ対応\n\n" +
+          "**使用場面:**\n" +
+          "- すべてのページのルートコンテナ\n" +
+          "- ページコンテンツのラッピング\n" +
+          "- 一貫したレイアウトの維持",
       },
     },
 
@@ -64,14 +64,14 @@ const meta = {
     // on* で始まるプロパティを自動的にアクションパネルに表示
     // ================================================================================
     actions: {
-      argTypesRegex: '^on[A-Z].*',
+      argTypesRegex: "^on[A-Z].*",
     },
   },
 
   // ================================================================================
   // ドキュメント自動生成を有効化
   // ================================================================================
-  tags: ['autodocs'],
+  tags: ["autodocs"],
 
   // ================================================================================
   // コントロールパネルの設定
@@ -79,21 +79,21 @@ const meta = {
   // ================================================================================
   argTypes: {
     maxWidth: {
-      control: 'select',
-      options: ['sm', 'md', 'lg', 'xl', '2xl', '4xl', '6xl', 'full'],
-      description: 'コンテンツの最大幅',
+      control: "select",
+      options: ["sm", "md", "lg", "xl", "2xl", "4xl", "6xl", "full"],
+      description: "コンテンツの最大幅",
       table: {
-        type: { summary: 'string' },
-        defaultValue: { summary: '6xl' },
-        category: 'レイアウト',
+        type: { summary: "string" },
+        defaultValue: { summary: "6xl" },
+        category: "レイアウト",
       },
     },
     children: {
       control: false,
-      description: 'ページのコンテンツ',
+      description: "ページのコンテンツ",
       table: {
-        type: { summary: 'ReactNode' },
-        category: 'コンテンツ',
+        type: { summary: "ReactNode" },
+        category: "コンテンツ",
       },
     },
   },
@@ -106,7 +106,7 @@ type Story = StoryObj<typeof meta>;
  * デフォルトのページレイアウト
  */
 export const Default: Story = {
-  name: 'デフォルト',
+  name: "デフォルト",
   args: {
     children: <div>Dummy content</div>,
   },
@@ -121,7 +121,7 @@ export const Default: Story = {
   parameters: {
     docs: {
       description: {
-        story: '最も基本的なページレイアウト。デフォルトの最大幅（6xl）でコンテンツが表示されます。',
+        story: "最も基本的なページレイアウト。デフォルトの最大幅（6xl）でコンテンツが表示されます。",
       },
     },
   },
@@ -131,7 +131,7 @@ export const Default: Story = {
  * ヘッダー付き
  */
 export const WithHeader: Story = {
-  name: 'ヘッダー付き',
+  name: "ヘッダー付き",
   args: {
     children: <div>Dummy content</div>,
   },
@@ -146,7 +146,7 @@ export const WithHeader: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'PageHeaderを組み合わせた実用的な例。ヘッダーとコンテンツが適切に配置されます。',
+        story: "PageHeaderを組み合わせた実用的な例。ヘッダーとコンテンツが適切に配置されます。",
       },
     },
   },
@@ -156,7 +156,7 @@ export const WithHeader: Story = {
  * アクション付きヘッダー
  */
 export const WithActionHeader: Story = {
-  name: 'アクション付きヘッダー',
+  name: "アクション付きヘッダー",
   args: {
     children: <div>Dummy content</div>,
   },
@@ -171,7 +171,7 @@ export const WithActionHeader: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'アクションボタン付きヘッダーを持つページレイアウト。一覧ページでよく使われる構成です。',
+        story: "アクションボタン付きヘッダーを持つページレイアウト。一覧ページでよく使われる構成です。",
       },
     },
   },
@@ -181,10 +181,10 @@ export const WithActionHeader: Story = {
  * 幅指定 (中サイズ)
  */
 export const WithWidth: Story = {
-  name: '幅指定',
+  name: "幅指定",
   args: {
     children: <div>Dummy content</div>,
-    maxWidth: 'md',
+    maxWidth: "md",
   },
   render: () => (
     <PageLayout maxWidth="md">
@@ -197,7 +197,7 @@ export const WithWidth: Story = {
   parameters: {
     docs: {
       description: {
-        story: '最大幅を指定したレイアウト。フォームや詳細ページなど、幅を狭めたい場合に使用します。',
+        story: "最大幅を指定したレイアウト。フォームや詳細ページなど、幅を狭めたい場合に使用します。",
       },
     },
   },
@@ -207,10 +207,10 @@ export const WithWidth: Story = {
  * フルワイド
  */
 export const FullWidth: Story = {
-  name: 'フルワイド',
+  name: "フルワイド",
   args: {
     children: <div>Dummy content</div>,
-    maxWidth: 'full',
+    maxWidth: "full",
   },
   render: () => (
     <PageLayout maxWidth="full">
@@ -223,7 +223,7 @@ export const FullWidth: Story = {
   parameters: {
     docs: {
       description: {
-        story: '最大幅制限なしのフルワイドレイアウト。ダッシュボードや複雑なUIを持つページに適しています。',
+        story: "最大幅制限なしのフルワイドレイアウト。ダッシュボードや複雑なUIを持つページに適しています。",
       },
     },
   },
@@ -233,7 +233,7 @@ export const FullWidth: Story = {
  * 複数セクション
  */
 export const MultipleSections: Story = {
-  name: '複数セクション',
+  name: "複数セクション",
   args: {
     children: <div>Dummy content</div>,
   },
@@ -263,7 +263,7 @@ export const MultipleSections: Story = {
   parameters: {
     docs: {
       description: {
-        story: '複数のセクションを持つページレイアウトの例。ダッシュボードのような複雑なページ構成を実現します。',
+        story: "複数のセクションを持つページレイアウトの例。ダッシュボードのような複雑なページ構成を実現します。",
       },
     },
   },

@@ -1,1 +1,1 @@
-export { default } from './delete-user';
+export { default } from "./delete-user";

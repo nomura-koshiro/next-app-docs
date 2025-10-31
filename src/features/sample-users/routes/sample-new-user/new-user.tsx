@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import { PageHeader } from '@/components/layout/page-header';
-import { PageLayout } from '@/components/layout/page-layout';
-import { UserForm } from '@/features/sample-users/components/user-form';
-import { useDevTools } from '@/hooks/use-devtools';
+import { PageHeader } from "@/components/layout/page-header";
+import { PageLayout } from "@/components/layout/page-layout";
+import { UserForm } from "@/features/sample-users/components/user-form";
+import { useDevTools } from "@/hooks/use-devtools";
 
-import { useNewUser } from './new-user.hook';
+import { useNewUser } from "./new-user.hook";
 
 /**
  * 新規ユーザー作成ページ

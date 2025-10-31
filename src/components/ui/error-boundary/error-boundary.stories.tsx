@@ -1,9 +1,9 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
-import { useState } from 'react';
+import type { Meta, StoryObj } from "@storybook/nextjs-vite";
+import { useState } from "react";
 
-import { Button } from '@/components/sample-ui/button/button';
+import { Button } from "@/components/sample-ui/button/button";
 
-import { ErrorBoundary } from './error-boundary';
+import { ErrorBoundary } from "./error-boundary";
 
 // ================================================================================
 // エラーをスローするコンポーネント
@@ -52,7 +52,7 @@ const meta = {
   // ================================================================================
   // Storybookのナビゲーション階層
   // ================================================================================
-  title: 'components/ui/ErrorBoundary',
+  title: "components/ui/ErrorBoundary",
 
   // ================================================================================
   // 表示するコンポーネント
@@ -64,7 +64,7 @@ const meta = {
     // レイアウト設定
     // - "fullscreen": 全画面表示（エラー画面は全画面で表示されるため）
     // ================================================================================
-    layout: 'fullscreen',
+    layout: "fullscreen",
 
     // ================================================================================
     // コンポーネントの詳細説明
@@ -73,16 +73,16 @@ const meta = {
     docs: {
       description: {
         component:
-          '汎用的なエラー境界コンポーネント。React コンポーネントツリー内のエラーをキャッチし、アプリケーション全体のクラッシュを防ぎます。\n\n' +
-          '**主な機能:**\n' +
-          '- エラーのキャッチと適切なフォールバックUIの表示\n' +
-          '- カスタムフォールバックUIのサポート\n' +
-          '- リダイレクト先のカスタマイズ可能\n' +
-          '- エラーログの自動記録\n\n' +
-          '**使用場面:**\n' +
-          '- 保護されたルート（認証が必要なページ）\n' +
-          '- 重要な機能モジュールのラップ\n' +
-          '- ページ全体またはセクション単位でのエラーハンドリング',
+          "汎用的なエラー境界コンポーネント。React コンポーネントツリー内のエラーをキャッチし、アプリケーション全体のクラッシュを防ぎます。\n\n" +
+          "**主な機能:**\n" +
+          "- エラーのキャッチと適切なフォールバックUIの表示\n" +
+          "- カスタムフォールバックUIのサポート\n" +
+          "- リダイレクト先のカスタマイズ可能\n" +
+          "- エラーログの自動記録\n\n" +
+          "**使用場面:**\n" +
+          "- 保護されたルート（認証が必要なページ）\n" +
+          "- 重要な機能モジュールのラップ\n" +
+          "- ページ全体またはセクション単位でのエラーハンドリング",
       },
     },
 
@@ -91,14 +91,14 @@ const meta = {
     // on* で始まるプロパティを自動的にアクションパネルに表示
     // ================================================================================
     actions: {
-      argTypesRegex: '^on[A-Z].*',
+      argTypesRegex: "^on[A-Z].*",
     },
   },
 
   // ================================================================================
   // ドキュメント自動生成を有効化
   // ================================================================================
-  tags: ['autodocs'],
+  tags: ["autodocs"],
 
   // ================================================================================
   // コントロールパネルの設定
@@ -111,27 +111,27 @@ const meta = {
   argTypes: {
     children: {
       control: false,
-      description: 'ラップする子要素（React コンポーネント）',
+      description: "ラップする子要素（React コンポーネント）",
       table: {
-        type: { summary: 'ReactNode' },
-        category: 'コンテンツ',
+        type: { summary: "ReactNode" },
+        category: "コンテンツ",
       },
     },
     fallback: {
       control: false,
-      description: 'エラー発生時のカスタムフォールバックUI（オプション）',
+      description: "エラー発生時のカスタムフォールバックUI（オプション）",
       table: {
-        type: { summary: '(error: Error, resetError: () => void) => ReactNode' },
-        category: 'カスタマイズ',
+        type: { summary: "(error: Error, resetError: () => void) => ReactNode" },
+        category: "カスタマイズ",
       },
     },
     redirectTo: {
-      control: 'text',
+      control: "text",
       description: 'リセット時のリダイレクト先（デフォルト: "/login"）',
       table: {
-        type: { summary: 'string' },
-        defaultValue: { summary: '/login' },
-        category: 'カスタマイズ',
+        type: { summary: "string" },
+        defaultValue: { summary: "/login" },
+        category: "カスタマイズ",
       },
     },
   },
@@ -147,7 +147,7 @@ type Story = StoryObj<typeof meta>;
  * シンプルなエラーメッセージとリロードボタンが表示されます。
  */
 export const Default: Story = {
-  name: 'デフォルト',
+  name: "デフォルト",
   render: () => (
     <ErrorBoundary>
       <ErrorTrigger errorMessage="予期しないエラーが発生しました" />
@@ -157,8 +157,8 @@ export const Default: Story = {
     docs: {
       description: {
         story:
-          'デフォルトのエラー境界UI。エラーメッセージとリロードボタンが表示されます。\n\n' +
-          'カスタマイズなしで使用できる最もシンプルな形式です。',
+          "デフォルトのエラー境界UI。エラーメッセージとリロードボタンが表示されます。\n\n" +
+          "カスタマイズなしで使用できる最もシンプルな形式です。",
       },
     },
   },
@@ -171,7 +171,7 @@ export const Default: Story = {
  * 認証エラーの場合は `/login`、それ以外の場合は `/` など、用途に応じて設定できます。
  */
 export const CustomRedirect: Story = {
-  name: 'カスタムリダイレクト',
+  name: "カスタムリダイレクト",
   render: () => (
     <ErrorBoundary redirectTo="/">
       <ErrorTrigger errorMessage="ホームページにリダイレクトされます" />
@@ -180,7 +180,7 @@ export const CustomRedirect: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'リダイレクト先をカスタマイズした例。\n\n' + '`redirectTo` プロパティで、エラーリセット時の遷移先を指定できます。',
+        story: "リダイレクト先をカスタマイズした例。\n\n" + "`redirectTo` プロパティで、エラーリセット時の遷移先を指定できます。",
       },
     },
   },
@@ -193,7 +193,7 @@ export const CustomRedirect: Story = {
  * 認証に特化したメッセージと、ログインページへのリダイレクトボタンを表示します。
  */
 export const AuthenticationError: Story = {
-  name: '認証エラー',
+  name: "認証エラー",
   render: () => (
     <ErrorBoundary
       redirectTo="/login"
@@ -202,7 +202,7 @@ export const AuthenticationError: Story = {
           <div className="w-full max-w-md space-y-6 rounded-lg bg-white p-8 shadow-md">
             <div className="space-y-2 text-center">
               <h1 className="text-2xl font-bold text-red-600">認証エラー</h1>
-              <p className="text-gray-600">{error.message || '認証処理中にエラーが発生しました'}</p>
+              <p className="text-gray-600">{error.message || "認証処理中にエラーが発生しました"}</p>
             </div>
             <div className="space-y-4">
               <Button onClick={resetError} className="w-full" size="lg">
@@ -219,7 +219,7 @@ export const AuthenticationError: Story = {
   parameters: {
     docs: {
       description: {
-        story: '認証エラー専用のカスタマイズ例。\n\n' + 'カスタムフォールバックUIを使用して、認証に特化したエラー画面を表示できます。',
+        story: "認証エラー専用のカスタマイズ例。\n\n" + "カスタムフォールバックUIを使用して、認証に特化したエラー画面を表示できます。",
       },
     },
   },
@@ -233,7 +233,7 @@ export const AuthenticationError: Story = {
  * リッチなエラー画面を実装しています。
  */
 export const CustomFallback: Story = {
-  name: 'カスタムフォールバック',
+  name: "カスタムフォールバック",
   render: () => (
     <ErrorBoundary
       fallback={(error, resetError) => (
@@ -257,7 +257,7 @@ export const CustomFallback: Story = {
               <Button onClick={resetError} className="w-full bg-red-600 hover:bg-red-700" size="lg">
                 再試行
               </Button>
-              <Button onClick={() => (window.location.href = '/')} variant="outline" className="w-full" size="lg">
+              <Button onClick={() => (window.location.href = "/")} variant="outline" className="w-full" size="lg">
                 ホームに戻る
               </Button>
             </div>
@@ -272,9 +272,9 @@ export const CustomFallback: Story = {
     docs: {
       description: {
         story:
-          '完全にカスタマイズされたフォールバックUIの例。\n\n' +
-          'アイコン、カスタムカラー、複数のアクションボタンを含むリッチなエラー画面を実装できます。\n\n' +
-          '`fallback` プロパティで、エラーオブジェクトとリセット関数を受け取り、自由にUIを構築できます。',
+          "完全にカスタマイズされたフォールバックUIの例。\n\n" +
+          "アイコン、カスタムカラー、複数のアクションボタンを含むリッチなエラー画面を実装できます。\n\n" +
+          "`fallback` プロパティで、エラーオブジェクトとリセット関数を受け取り、自由にUIを構築できます。",
       },
     },
   },
@@ -290,7 +290,7 @@ export const CustomFallback: Story = {
  * 異なるエラーハンドリングを実装できます。
  */
 export const NestedErrorBoundary: Story = {
-  name: 'ネストされたエラー境界',
+  name: "ネストされたエラー境界",
   render: () => (
     <ErrorBoundary>
       <div className="p-8">
@@ -315,9 +315,9 @@ export const NestedErrorBoundary: Story = {
     docs: {
       description: {
         story:
-          'ネストされたエラー境界の例。\n\n' +
-          '内側のエラー境界がエラーをキャッチすると、外側には影響を与えません。\n\n' +
-          'この機能により、アプリケーション全体とセクション単位で、異なるエラーハンドリングを実装できます。',
+          "ネストされたエラー境界の例。\n\n" +
+          "内側のエラー境界がエラーをキャッチすると、外側には影響を与えません。\n\n" +
+          "この機能により、アプリケーション全体とセクション単位で、異なるエラーハンドリングを実装できます。",
       },
     },
   },
@@ -330,7 +330,7 @@ export const NestedErrorBoundary: Story = {
  * プロパティなしでデフォルトの動作を使用します。
  */
 export const SimpleUsage: Story = {
-  name: 'シンプルな使用例',
+  name: "シンプルな使用例",
   render: () => (
     <div className="p-8">
       <div className="mb-4">
@@ -346,13 +346,13 @@ export const SimpleUsage: Story = {
     docs: {
       description: {
         story:
-          '最小限のコードでエラー境界を実装する例。\n\n' +
-          '```tsx\n' +
-          '<ErrorBoundary>\n' +
-          '  <YourComponent />\n' +
-          '</ErrorBoundary>\n' +
-          '```\n\n' +
-          'プロパティなしでデフォルトの動作を使用できます。',
+          "最小限のコードでエラー境界を実装する例。\n\n" +
+          "```tsx\n" +
+          "<ErrorBoundary>\n" +
+          "  <YourComponent />\n" +
+          "</ErrorBoundary>\n" +
+          "```\n\n" +
+          "プロパティなしでデフォルトの動作を使用できます。",
       },
     },
   },

@@ -5,13 +5,13 @@
  * TODO: 現在はモック実装です
  */
 
-import { useMutation } from '@tanstack/react-query';
-import { z } from 'zod';
+import { useMutation } from "@tanstack/react-query";
+import { z } from "zod";
 
-import { api } from '@/lib/api-client';
-import { MutationConfig } from '@/lib/tanstack-query';
+import { api } from "@/lib/api-client";
+import { MutationConfig } from "@/lib/tanstack-query";
 
-import type { User } from '../types';
+import type { User } from "../types";
 
 // ================================================================================
 // Schemas
@@ -21,8 +21,8 @@ import type { User } from '../types';
  * ログイン入力スキーマ
  */
 export const loginInputSchema = z.object({
-  email: z.string().min(1, 'メールアドレスは必須です').email('正しいメールアドレスを入力してください'),
-  password: z.string().min(1, 'パスワードは必須です'),
+  email: z.string().min(1, "メールアドレスは必須です").email("正しいメールアドレスを入力してください"),
+  password: z.string().min(1, "パスワードは必須です"),
 });
 
 export type LoginInput = z.infer<typeof loginInputSchema>;
@@ -63,7 +63,7 @@ export type LoginResponse = {
  */
 export const login = (data: LoginInput): Promise<LoginResponse> => {
   // TODO: 実際のAPI呼び出しに置き換える
-  return api.post('/api/v1/sample/auth/login', data);
+  return api.post("/api/v1/sample/auth/login", data);
 
   // モック実装（テスト用）
   // return new Promise((resolve) => {

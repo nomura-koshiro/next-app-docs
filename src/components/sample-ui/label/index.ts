@@ -3,4 +3,4 @@
  *
  * @module components/ui/label
  */
-export { Label } from './label';
+export { Label } from "./label";

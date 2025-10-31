@@ -1,6 +1,6 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 
-import { LoadingSpinner } from './loading-spinner';
+import { LoadingSpinner } from "./loading-spinner";
 
 /**
  * LoadingSpinnerコンポーネントのストーリー
@@ -17,7 +17,7 @@ const meta = {
   // ================================================================================
   // Storybookのナビゲーション階層
   // ================================================================================
-  title: 'components/sample-ui/LoadingSpinner',
+  title: "components/sample-ui/LoadingSpinner",
 
   // ================================================================================
   // 表示するコンポーネント
@@ -31,7 +31,7 @@ const meta = {
     // - "padded": 周囲にパディングを追加（フォームやカード向け）
     // - "fullscreen": 全画面表示（ページレイアウト向け）
     // ================================================================================
-    layout: 'centered',
+    layout: "centered",
 
     // ================================================================================
     // コンポーネントの詳細説明
@@ -40,17 +40,17 @@ const meta = {
     docs: {
       description: {
         component:
-          'データ読み込み中や処理実行中の待機状態を表示するローディングスピナー。\n\n' +
-          '**主な機能:**\n' +
-          '- 3つのサイズバリエーション（small、medium、large）\n' +
-          '- カスタマイズ可能なローディングテキスト\n' +
-          '- フルスクリーン表示モード\n' +
-          '- アニメーション効果\n\n' +
-          '**使用場面:**\n' +
-          '- ページ全体のローディング\n' +
-          '- データ取得中の表示\n' +
-          '- フォーム送信処理中\n' +
-          '- コンテンツ領域のローディング',
+          "データ読み込み中や処理実行中の待機状態を表示するローディングスピナー。\n\n" +
+          "**主な機能:**\n" +
+          "- 3つのサイズバリエーション（small、medium、large）\n" +
+          "- カスタマイズ可能なローディングテキスト\n" +
+          "- フルスクリーン表示モード\n" +
+          "- アニメーション効果\n\n" +
+          "**使用場面:**\n" +
+          "- ページ全体のローディング\n" +
+          "- データ取得中の表示\n" +
+          "- フォーム送信処理中\n" +
+          "- コンテンツ領域のローディング",
       },
     },
 
@@ -59,14 +59,14 @@ const meta = {
     // on* で始まるプロパティを自動的にアクションパネルに表示
     // ================================================================================
     actions: {
-      argTypesRegex: '^on[A-Z].*',
+      argTypesRegex: "^on[A-Z].*",
     },
   },
 
   // ================================================================================
   // ドキュメント自動生成を有効化
   // ================================================================================
-  tags: ['autodocs'],
+  tags: ["autodocs"],
 
   // ================================================================================
   // コントロールパネルの設定
@@ -74,31 +74,31 @@ const meta = {
   // ================================================================================
   argTypes: {
     text: {
-      control: 'text',
-      description: 'ローディング中に表示するテキスト',
+      control: "text",
+      description: "ローディング中に表示するテキスト",
       table: {
-        type: { summary: 'string' },
+        type: { summary: "string" },
         defaultValue: { summary: '"読み込み中..."' },
-        category: 'コンテンツ',
+        category: "コンテンツ",
       },
     },
     size: {
-      control: 'select',
-      options: ['sm', 'md', 'lg'],
-      description: 'スピナーのサイズ（small、medium、large）',
+      control: "select",
+      options: ["sm", "md", "lg"],
+      description: "スピナーのサイズ（small、medium、large）",
       table: {
         type: { summary: '"sm" | "md" | "lg"' },
         defaultValue: { summary: '"md"' },
-        category: 'スタイリング',
+        category: "スタイリング",
       },
     },
     fullScreen: {
-      control: 'boolean',
-      description: 'フルスクリーン表示モードの有効化',
+      control: "boolean",
+      description: "フルスクリーン表示モードの有効化",
       table: {
-        type: { summary: 'boolean' },
-        defaultValue: { summary: 'false' },
-        category: 'レイアウト',
+        type: { summary: "boolean" },
+        defaultValue: { summary: "false" },
+        category: "レイアウト",
       },
     },
   },
@@ -109,8 +109,8 @@ const meta = {
   // 個々のストーリーで上書き可能
   // ================================================================================
   args: {
-    text: '読み込み中...',
-    size: 'md',
+    text: "読み込み中...",
+    size: "md",
   },
 } satisfies Meta<typeof LoadingSpinner>;
 
@@ -121,12 +121,12 @@ type Story = StoryObj<typeof meta>;
  * デフォルトのLoadingSpinner
  */
 export const Default: Story = {
-  name: 'デフォルト',
+  name: "デフォルト",
   args: {},
   parameters: {
     docs: {
       description: {
-        story: '標準サイズのローディングスピナー。デフォルトのテキストとサイズで表示されます。',
+        story: "標準サイズのローディングスピナー。デフォルトのテキストとサイズで表示されます。",
       },
     },
   },
@@ -136,14 +136,14 @@ export const Default: Story = {
  * カスタムテキスト
  */
 export const CustomText: Story = {
-  name: 'カスタムテキスト',
+  name: "カスタムテキスト",
   args: {
-    text: 'データを読み込んでいます...',
+    text: "データを読み込んでいます...",
   },
   parameters: {
     docs: {
       description: {
-        story: 'カスタムテキストを表示したローディングスピナー。状況に応じたメッセージを設定できます。',
+        story: "カスタムテキストを表示したローディングスピナー。状況に応じたメッセージを設定できます。",
       },
     },
   },
@@ -153,15 +153,15 @@ export const CustomText: Story = {
  * 小サイズ
  */
 export const Small: Story = {
-  name: '小',
+  name: "小",
   args: {
-    size: 'sm',
-    text: '読み込み中...',
+    size: "sm",
+    text: "読み込み中...",
   },
   parameters: {
     docs: {
       description: {
-        story: '小サイズのスピナー。ボタン内やコンパクトな領域での使用に適しています。',
+        story: "小サイズのスピナー。ボタン内やコンパクトな領域での使用に適しています。",
       },
     },
   },
@@ -171,15 +171,15 @@ export const Small: Story = {
  * 中サイズ
  */
 export const Medium: Story = {
-  name: '中',
+  name: "中",
   args: {
-    size: 'md',
-    text: '読み込み中...',
+    size: "md",
+    text: "読み込み中...",
   },
   parameters: {
     docs: {
       description: {
-        story: '中サイズのスピナー。最も汎用的なサイズで、カード内やモーダル内での使用に最適です。',
+        story: "中サイズのスピナー。最も汎用的なサイズで、カード内やモーダル内での使用に最適です。",
       },
     },
   },
@@ -189,15 +189,15 @@ export const Medium: Story = {
  * 大サイズ
  */
 export const Large: Story = {
-  name: '大',
+  name: "大",
   args: {
-    size: 'lg',
-    text: '読み込み中...',
+    size: "lg",
+    text: "読み込み中...",
   },
   parameters: {
     docs: {
       description: {
-        story: '大サイズのスピナー。ページ全体のローディングや重要な処理実行時に使用します。',
+        story: "大サイズのスピナー。ページ全体のローディングや重要な処理実行時に使用します。",
       },
     },
   },
@@ -207,14 +207,14 @@ export const Large: Story = {
  * テキストなし
  */
 export const NoText: Story = {
-  name: 'テキストなし',
+  name: "テキストなし",
   args: {
-    text: '',
+    text: "",
   },
   parameters: {
     docs: {
       description: {
-        story: 'テキストを表示しないスピナー。スペースが限られている場合やミニマルなUIに適しています。',
+        story: "テキストを表示しないスピナー。スペースが限られている場合やミニマルなUIに適しています。",
       },
     },
   },
@@ -224,15 +224,15 @@ export const NoText: Story = {
  * フルスクリーン (Storybookでは表示が制限されます)
  */
 export const FullScreen: Story = {
-  name: 'フルスクリーン',
+  name: "フルスクリーン",
   args: {
     fullScreen: true,
   },
   parameters: {
-    layout: 'fullscreen',
+    layout: "fullscreen",
     docs: {
       description: {
-        story: 'フルスクリーン表示モード。画面全体を覆うオーバーレイとして表示され、ページ全体のローディング状態を表現します。',
+        story: "フルスクリーン表示モード。画面全体を覆うオーバーレイとして表示され、ページ全体のローディング状態を表現します。",
       },
     },
   },
@@ -242,7 +242,7 @@ export const FullScreen: Story = {
  * カード内での使用例
  */
 export const InCard: Story = {
-  name: 'カード内',
+  name: "カード内",
   render: () => (
     <div className="w-96 rounded-lg border bg-white p-8 shadow-sm">
       <LoadingSpinner text="データを取得中..." />
@@ -251,7 +251,7 @@ export const InCard: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'カード内でのローディング表示例。コンテンツ領域内でデータ取得中であることを示します。',
+        story: "カード内でのローディング表示例。コンテンツ領域内でデータ取得中であることを示します。",
       },
     },
   },

@@ -2,13 +2,13 @@
 // Imports
 // ================================================================================
 
-import { useMsal } from '@azure/msal-react';
-import { useEffect } from 'react';
+import { useMsal } from "@azure/msal-react";
+import { useEffect } from "react";
 
-import { loginRequest } from '@/config/msal';
+import { loginRequest } from "@/config/msal";
 
-import { useGetMe } from '../api/get-me';
-import { useAuthStore } from '../stores/auth-store';
+import { useGetMe } from "../api/get-me";
+import { useAuthStore } from "../stores/auth-store";
 
 // ================================================================================
 // Production Auth Hook
@@ -57,7 +57,7 @@ export const useAuth = () => {
       })
       .then((response) => response.accessToken)
       .catch((error) => {
-        console.error('Token acquisition failed:', error);
+        console.error("Token acquisition failed:", error);
         void instance.acquireTokenRedirect(loginRequest);
 
         return null;
@@ -67,7 +67,7 @@ export const useAuth = () => {
   return {
     user: userData || null,
     isAuthenticated: accounts.length > 0,
-    isLoading: inProgress !== 'none' || isUserLoading,
+    isLoading: inProgress !== "none" || isUserLoading,
     login,
     logout,
     getAccessToken,

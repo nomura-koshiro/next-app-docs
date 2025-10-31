@@ -1,10 +1,10 @@
-import Axios, { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
+import Axios, { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from "axios";
 
-import { msalInstance } from '@/app/provider';
-import { env } from '@/config/env';
-import { loginRequest } from '@/config/msal';
-import { getCsrfHeaderName, getCsrfToken } from '@/lib/csrf';
-import { MOCK_AUTH } from '@/mocks/handlers/api/v1/auth-handlers';
+import { msalInstance } from "@/app/provider";
+import { env } from "@/config/env";
+import { loginRequest } from "@/config/msal";
+import { getCsrfHeaderName, getCsrfToken } from "@/lib/csrf";
+import { MOCK_AUTH } from "@/mocks/handlers/api/v1/auth-handlers";
 
 // ================================================================================
 // RFC 9457: Problem Details for HTTP APIs
@@ -29,25 +29,25 @@ export type ProblemDetails = {
  */
 export const ProblemTypes = {
   // 認証エラー
-  UNAUTHORIZED: 'https://api.example.com/problems/unauthorized',
-  FORBIDDEN: 'https://api.example.com/problems/forbidden',
-  TOKEN_EXPIRED: 'https://api.example.com/problems/token-expired',
+  UNAUTHORIZED: "https://api.example.com/problems/unauthorized",
+  FORBIDDEN: "https://api.example.com/problems/forbidden",
+  TOKEN_EXPIRED: "https://api.example.com/problems/token-expired",
 
   // バリデーションエラー
-  VALIDATION_ERROR: 'https://api.example.com/problems/validation-error',
-  INVALID_REQUEST: 'https://api.example.com/problems/invalid-request',
+  VALIDATION_ERROR: "https://api.example.com/problems/validation-error",
+  INVALID_REQUEST: "https://api.example.com/problems/invalid-request",
 
   // ビジネスロジックエラー
-  RESOURCE_NOT_FOUND: 'https://api.example.com/problems/resource-not-found',
-  DUPLICATE_RESOURCE: 'https://api.example.com/problems/duplicate-resource',
-  INSUFFICIENT_CREDIT: 'https://api.example.com/problems/insufficient-credit',
+  RESOURCE_NOT_FOUND: "https://api.example.com/problems/resource-not-found",
+  DUPLICATE_RESOURCE: "https://api.example.com/problems/duplicate-resource",
+  INSUFFICIENT_CREDIT: "https://api.example.com/problems/insufficient-credit",
 
   // サーバーエラー
-  INTERNAL_SERVER_ERROR: 'https://api.example.com/problems/internal-server-error',
-  SERVICE_UNAVAILABLE: 'https://api.example.com/problems/service-unavailable',
+  INTERNAL_SERVER_ERROR: "https://api.example.com/problems/internal-server-error",
+  SERVICE_UNAVAILABLE: "https://api.example.com/problems/service-unavailable",
 
   // デフォルト
-  ABOUT_BLANK: 'about:blank',
+  ABOUT_BLANK: "about:blank",
 } as const;
 
 export type ProblemType = (typeof ProblemTypes)[keyof typeof ProblemTypes];
@@ -66,11 +66,11 @@ export class ApiError extends Error {
 
   constructor(axiosError: AxiosError<ProblemDetails>) {
     const problemDetails = axiosError.response?.data ?? {};
-    const message = problemDetails.detail ?? problemDetails.title ?? axiosError.message ?? 'エラーが発生しました';
+    const message = problemDetails.detail ?? problemDetails.title ?? axiosError.message ?? "エラーが発生しました";
 
     super(message);
 
-    this.name = 'ApiError';
+    this.name = "ApiError";
     this.problemDetails = problemDetails;
     this.status = axiosError.response?.status ?? 0;
     this.originalError = axiosError;
@@ -82,11 +82,11 @@ export class ApiError extends Error {
   }
 
   get type(): string {
-    return this.problemDetails.type ?? 'about:blank';
+    return this.problemDetails.type ?? "about:blank";
   }
 
   get title(): string {
-    return this.problemDetails.title ?? 'エラー';
+    return this.problemDetails.title ?? "エラー";
   }
 
   get detail(): string {
@@ -164,14 +164,14 @@ export type TokenService = {
 class ProductionTokenService implements TokenService {
   async getAccessToken(): Promise<string | null> {
     if (!msalInstance) {
-      console.error('[TokenService] MSAL instance is not initialized');
+      console.error("[TokenService] MSAL instance is not initialized");
 
       return null;
     }
 
     const accounts = msalInstance.getAllAccounts();
     if (accounts.length === 0) {
-      console.warn('[TokenService] No accounts found');
+      console.warn("[TokenService] No accounts found");
 
       return null;
     }
@@ -183,7 +183,7 @@ class ProductionTokenService implements TokenService {
       })
       .then((response) => response.accessToken)
       .catch((error) => {
-        console.error('[TokenService] Token acquisition failed:', error);
+        console.error("[TokenService] Token acquisition failed:", error);
 
         return null;
       });
@@ -206,7 +206,7 @@ class DevelopmentTokenService implements TokenService {
  *
  * 環境変数に応じて適切な実装を提供します。
  */
-export const tokenService: TokenService = env.AUTH_MODE === 'production' ? new ProductionTokenService() : new DevelopmentTokenService();
+export const tokenService: TokenService = env.AUTH_MODE === "production" ? new ProductionTokenService() : new DevelopmentTokenService();
 
 // ================================================================================
 // Axios Instance Configuration
@@ -222,7 +222,7 @@ export const tokenService: TokenService = env.AUTH_MODE === 'production' ? new P
 const authRequestInterceptor = async (config: InternalAxiosRequestConfig): Promise<InternalAxiosRequestConfig> => {
   if (config.headers !== undefined) {
     // Acceptヘッダーを設定（RFC 9457準拠）
-    config.headers.Accept = 'application/problem+json, application/json';
+    config.headers.Accept = "application/problem+json, application/json";
 
     // Bearer Token認証
     const token = await tokenService.getAccessToken();
@@ -264,8 +264,8 @@ api.interceptors.response.use(
     const apiError = new ApiError(error);
 
     // クライアントサイドでのエラーログ
-    if (typeof window !== 'undefined') {
-      console.error('[API Error]', {
+    if (typeof window !== "undefined") {
+      console.error("[API Error]", {
         type: apiError.type,
         title: apiError.title,
         detail: apiError.detail,
@@ -276,21 +276,21 @@ api.interceptors.response.use(
     }
 
     // 401エラー時の自動ログアウト・リダイレクト
-    if (apiError.isStatus(401) && typeof window !== 'undefined') {
+    if (apiError.isStatus(401) && typeof window !== "undefined") {
       const currentPath = window.location.pathname;
 
-      if (currentPath !== '/login') {
+      if (currentPath !== "/login") {
         try {
           // ストアをクリア（awaitで完了を待つ）
-          const { useAuthStore } = await import('@/features/auth/stores/auth-store');
+          const { useAuthStore } = await import("@/features/auth/stores/auth-store");
           useAuthStore.getState().logout();
 
           // 認証状態のクリアが完了してからリダイレクト
-          window.location.href = '/login';
+          window.location.href = "/login";
         } catch (err) {
-          console.error('[API Client] 認証エラー処理に失敗:', err);
+          console.error("[API Client] 認証エラー処理に失敗:", err);
           // フォールバック：強制的にログインページへ
-          window.location.href = '/login';
+          window.location.href = "/login";
         }
       }
     }

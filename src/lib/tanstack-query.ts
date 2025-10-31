@@ -1,6 +1,6 @@
-import { DefaultOptions, UseMutationOptions } from '@tanstack/react-query';
+import { DefaultOptions, UseMutationOptions } from "@tanstack/react-query";
 
-import { ApiError } from './api-client';
+import { ApiError } from "./api-client";
 
 /**
  * アプリケーション全体で使用されるReact Queryの共通設定を定義します。
@@ -28,7 +28,7 @@ export const queryConfig = {
   mutations: {
     onError: (error) => {
       if (error instanceof ApiError) {
-        console.error('[Mutation Error]', error.toJSON());
+        console.error("[Mutation Error]", error.toJSON());
 
         // TODO: 通知システムと統合
         // useNotifications.getState().addNotification({
@@ -55,7 +55,7 @@ export type ApiFnReturnType<FnType extends (...args: any) => Promise<any>> = Awa
  * queryKey と queryFn を除いたクエリオプションの型を生成します。
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type QueryConfig<T extends (...args: any[]) => any> = Omit<ReturnType<T>, 'queryKey' | 'queryFn'>;
+export type QueryConfig<T extends (...args: any[]) => any> = Omit<ReturnType<T>, "queryKey" | "queryFn">;
 
 /**
  * @example

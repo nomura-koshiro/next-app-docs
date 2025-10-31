@@ -1,6 +1,6 @@
-import Link from 'next/link';
+import Link from "next/link";
 
-import { paths } from '@/config/paths';
+import { paths } from "@/config/paths";
 
 /**
  * 404 Not Found ページ

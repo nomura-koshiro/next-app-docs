@@ -1,6 +1,6 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 
-import { ErrorMessage } from './error-message';
+import { ErrorMessage } from "./error-message";
 
 /**
  * ErrorMessageコンポーネントのストーリー
@@ -17,7 +17,7 @@ const meta = {
   // ================================================================================
   // Storybookのナビゲーション階層
   // ================================================================================
-  title: 'components/sample-ui/ErrorMessage',
+  title: "components/sample-ui/ErrorMessage",
 
   // ================================================================================
   // 表示するコンポーネント
@@ -31,7 +31,7 @@ const meta = {
     // - "padded": 周囲にパディングを追加（フォームやカード向け）
     // - "fullscreen": 全画面表示（ページレイアウト向け）
     // ================================================================================
-    layout: 'padded',
+    layout: "padded",
 
     // ================================================================================
     // コンポーネントの詳細説明
@@ -40,17 +40,17 @@ const meta = {
     docs: {
       description: {
         component:
-          'エラー状態をユーザーに通知するためのメッセージコンポーネント。\n\n' +
-          '**主な機能:**\n' +
-          '- カスタムタイトルの設定\n' +
-          '- エラーメッセージの表示\n' +
-          '- フルスクリーン表示モード\n' +
-          '- 視覚的に目立つデザイン\n\n' +
-          '**使用場面:**\n' +
-          '- フォームバリデーションエラー\n' +
-          '- API呼び出しの失敗\n' +
-          '- ページ全体のエラー表示\n' +
-          '- ネットワークエラー通知',
+          "エラー状態をユーザーに通知するためのメッセージコンポーネント。\n\n" +
+          "**主な機能:**\n" +
+          "- カスタムタイトルの設定\n" +
+          "- エラーメッセージの表示\n" +
+          "- フルスクリーン表示モード\n" +
+          "- 視覚的に目立つデザイン\n\n" +
+          "**使用場面:**\n" +
+          "- フォームバリデーションエラー\n" +
+          "- API呼び出しの失敗\n" +
+          "- ページ全体のエラー表示\n" +
+          "- ネットワークエラー通知",
       },
     },
 
@@ -59,14 +59,14 @@ const meta = {
     // on* で始まるプロパティを自動的にアクションパネルに表示
     // ================================================================================
     actions: {
-      argTypesRegex: '^on[A-Z].*',
+      argTypesRegex: "^on[A-Z].*",
     },
   },
 
   // ================================================================================
   // ドキュメント自動生成を有効化
   // ================================================================================
-  tags: ['autodocs'],
+  tags: ["autodocs"],
 
   // ================================================================================
   // コントロールパネルの設定
@@ -74,28 +74,28 @@ const meta = {
   // ================================================================================
   argTypes: {
     title: {
-      control: 'text',
-      description: 'エラーのタイトル',
+      control: "text",
+      description: "エラーのタイトル",
       table: {
-        type: { summary: 'string' },
-        category: 'コンテンツ',
+        type: { summary: "string" },
+        category: "コンテンツ",
       },
     },
     message: {
-      control: 'text',
-      description: 'エラーメッセージ',
+      control: "text",
+      description: "エラーメッセージ",
       table: {
-        type: { summary: 'string' },
-        category: 'コンテンツ',
+        type: { summary: "string" },
+        category: "コンテンツ",
       },
     },
     fullScreen: {
-      control: 'boolean',
-      description: 'フルスクリーン表示',
+      control: "boolean",
+      description: "フルスクリーン表示",
       table: {
-        type: { summary: 'boolean' },
-        defaultValue: { summary: 'false' },
-        category: 'レイアウト',
+        type: { summary: "boolean" },
+        defaultValue: { summary: "false" },
+        category: "レイアウト",
       },
     },
   },
@@ -108,14 +108,14 @@ type Story = StoryObj<typeof meta>;
  * デフォルトのErrorMessage
  */
 export const Default: Story = {
-  name: 'デフォルト',
+  name: "デフォルト",
   args: {
-    message: 'エラーが発生しました。',
+    message: "エラーが発生しました。",
   },
   parameters: {
     docs: {
       description: {
-        story: '最も基本的なエラーメッセージ。デフォルトのタイトルと指定されたメッセージを表示します。',
+        story: "最も基本的なエラーメッセージ。デフォルトのタイトルと指定されたメッセージを表示します。",
       },
     },
   },
@@ -125,15 +125,15 @@ export const Default: Story = {
  * カスタムタイトル
  */
 export const CustomTitle: Story = {
-  name: 'カスタムタイトル',
+  name: "カスタムタイトル",
   args: {
-    title: 'ログインエラー',
-    message: 'メールアドレスまたはパスワードが正しくありません。',
+    title: "ログインエラー",
+    message: "メールアドレスまたはパスワードが正しくありません。",
   },
   parameters: {
     docs: {
       description: {
-        story: 'カスタムタイトルを設定したエラーメッセージ。エラーの種類をより明確に伝えることができます。',
+        story: "カスタムタイトルを設定したエラーメッセージ。エラーの種類をより明確に伝えることができます。",
       },
     },
   },
@@ -143,16 +143,16 @@ export const CustomTitle: Story = {
  * フルスクリーン (Storybookでは表示が制限されます)
  */
 export const FullScreen: Story = {
-  name: 'フルスクリーン',
+  name: "フルスクリーン",
   args: {
-    message: 'ページの読み込みに失敗しました。',
+    message: "ページの読み込みに失敗しました。",
     fullScreen: true,
   },
   parameters: {
-    layout: 'fullscreen',
+    layout: "fullscreen",
     docs: {
       description: {
-        story: '画面全体を使ってエラーを表示するモード。ページ全体のエラーや致命的なエラーの表示に使用します。',
+        story: "画面全体を使ってエラーを表示するモード。ページ全体のエラーや致命的なエラーの表示に使用します。",
       },
     },
   },
@@ -162,9 +162,9 @@ export const FullScreen: Story = {
  * フォーム内での使用例
  */
 export const InForm: Story = {
-  name: 'フォーム内',
+  name: "フォーム内",
   args: {
-    message: '有効なメールアドレスを入力してください',
+    message: "有効なメールアドレスを入力してください",
   },
   render: () => (
     <div className="w-96 space-y-4">
@@ -180,7 +180,7 @@ export const InForm: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'フォーム内でバリデーションエラーを表示する実用的な例。入力フィールドの下にエラーメッセージを配置しています。',
+        story: "フォーム内でバリデーションエラーを表示する実用的な例。入力フィールドの下にエラーメッセージを配置しています。",
       },
     },
   },

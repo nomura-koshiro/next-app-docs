@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 
-import { Label } from '@/components/sample-ui/label';
+import { Label } from "@/components/sample-ui/label";
 
-import { Checkbox } from './checkbox';
+import { Checkbox } from "./checkbox";
 
 /**
  * Checkboxコンポーネントのストーリー
@@ -22,7 +22,7 @@ const meta = {
   // ================================================================================
   // Storybookのナビゲーション階層
   // ================================================================================
-  title: 'components/sample-ui/Checkbox',
+  title: "components/sample-ui/Checkbox",
 
   // ================================================================================
   // 表示するコンポーネント
@@ -36,7 +36,7 @@ const meta = {
     // - "padded": 周囲にパディングを追加（フォームやカード向け）
     // - "fullscreen": 全画面表示（ページレイアウト向け）
     // ================================================================================
-    layout: 'centered',
+    layout: "centered",
 
     // ================================================================================
     // コンポーネントの詳細説明
@@ -45,18 +45,18 @@ const meta = {
     docs: {
       description: {
         component:
-          'チェック/未チェックの状態を切り替えるチェックボックスコンポーネント。\n\n' +
-          '**主な機能:**\n' +
-          '- チェック/未チェックの状態切り替え\n' +
-          '- デフォルト値の設定\n' +
-          '- 無効化状態の制御\n' +
-          '- ラベルとの連携\n' +
-          '- 説明文の追加が可能\n\n' +
-          '**使用場面:**\n' +
-          '- フォームでの複数選択\n' +
-          '- 利用規約への同意\n' +
-          '- タスクリスト\n' +
-          '- フィルター条件の選択',
+          "チェック/未チェックの状態を切り替えるチェックボックスコンポーネント。\n\n" +
+          "**主な機能:**\n" +
+          "- チェック/未チェックの状態切り替え\n" +
+          "- デフォルト値の設定\n" +
+          "- 無効化状態の制御\n" +
+          "- ラベルとの連携\n" +
+          "- 説明文の追加が可能\n\n" +
+          "**使用場面:**\n" +
+          "- フォームでの複数選択\n" +
+          "- 利用規約への同意\n" +
+          "- タスクリスト\n" +
+          "- フィルター条件の選択",
       },
     },
 
@@ -65,14 +65,14 @@ const meta = {
     // on* で始まるプロパティを自動的にアクションパネルに表示
     // ================================================================================
     actions: {
-      argTypesRegex: '^on[A-Z].*',
+      argTypesRegex: "^on[A-Z].*",
     },
   },
 
   // ================================================================================
   // ドキュメント自動生成を有効化
   // ================================================================================
-  tags: ['autodocs'],
+  tags: ["autodocs"],
 
   // ================================================================================
   // コントロールパネルの設定
@@ -80,36 +80,36 @@ const meta = {
   // ================================================================================
   argTypes: {
     defaultChecked: {
-      control: 'boolean',
-      description: '初期チェック状態',
+      control: "boolean",
+      description: "初期チェック状態",
       table: {
-        type: { summary: 'boolean' },
-        defaultValue: { summary: 'false' },
-        category: '状態',
+        type: { summary: "boolean" },
+        defaultValue: { summary: "false" },
+        category: "状態",
       },
     },
     disabled: {
-      control: 'boolean',
-      description: '無効化状態',
+      control: "boolean",
+      description: "無効化状態",
       table: {
-        type: { summary: 'boolean' },
-        defaultValue: { summary: 'false' },
-        category: '状態',
+        type: { summary: "boolean" },
+        defaultValue: { summary: "false" },
+        category: "状態",
       },
     },
     onCheckedChange: {
-      description: 'チェック状態変更時のコールバック関数',
+      description: "チェック状態変更時のコールバック関数",
       table: {
-        type: { summary: '(checked: boolean) => void' },
-        category: 'イベント',
+        type: { summary: "(checked: boolean) => void" },
+        category: "イベント",
       },
     },
     className: {
-      control: 'text',
-      description: '追加のCSSクラス名',
+      control: "text",
+      description: "追加のCSSクラス名",
       table: {
-        type: { summary: 'string' },
-        category: 'スタイリング',
+        type: { summary: "string" },
+        category: "スタイリング",
       },
     },
   },
@@ -122,7 +122,7 @@ type Story = StoryObj<typeof meta>;
  * デフォルトのCheckbox
  */
 export const Default: Story = {
-  name: 'デフォルト',
+  name: "デフォルト",
   render: () => (
     <div className="flex items-center space-x-2">
       <Checkbox id="terms" />
@@ -134,7 +134,7 @@ export const Default: Story = {
   parameters: {
     docs: {
       description: {
-        story: '基本的なチェックボックス。ラベルと組み合わせて使用します。',
+        story: "基本的なチェックボックス。ラベルと組み合わせて使用します。",
       },
     },
   },
@@ -144,7 +144,7 @@ export const Default: Story = {
  * チェック済みの状態
  */
 export const Checked: Story = {
-  name: 'チェック済み',
+  name: "チェック済み",
   render: () => (
     <div className="flex items-center space-x-2">
       <Checkbox id="checked" defaultChecked />
@@ -156,7 +156,7 @@ export const Checked: Story = {
   parameters: {
     docs: {
       description: {
-        story: '初期状態がチェック済みのチェックボックス。デフォルトで選択状態にしたい項目に使用します。',
+        story: "初期状態がチェック済みのチェックボックス。デフォルトで選択状態にしたい項目に使用します。",
       },
     },
   },
@@ -166,7 +166,7 @@ export const Checked: Story = {
  * 無効化された状態
  */
 export const Disabled: Story = {
-  name: '無効',
+  name: "無効",
   render: () => (
     <div className="flex items-center space-x-2">
       <Checkbox id="disabled" disabled />
@@ -178,7 +178,7 @@ export const Disabled: Story = {
   parameters: {
     docs: {
       description: {
-        story: '無効化されたチェックボックス。ユーザーによる操作ができず、視覚的にもグレーアウト表示されます。',
+        story: "無効化されたチェックボックス。ユーザーによる操作ができず、視覚的にもグレーアウト表示されます。",
       },
     },
   },
@@ -188,7 +188,7 @@ export const Disabled: Story = {
  * 無効化されたチェック済み状態
  */
 export const DisabledAndChecked: Story = {
-  name: '無効かつチェック済み',
+  name: "無効かつチェック済み",
   render: () => (
     <div className="flex items-center space-x-2">
       <Checkbox id="disabled-checked" disabled defaultChecked />
@@ -200,7 +200,7 @@ export const DisabledAndChecked: Story = {
   parameters: {
     docs: {
       description: {
-        story: '無効化されているが、チェック済みの状態を示すチェックボックス。変更できない選択済み項目を表示する際に使用します。',
+        story: "無効化されているが、チェック済みの状態を示すチェックボックス。変更できない選択済み項目を表示する際に使用します。",
       },
     },
   },
@@ -210,7 +210,7 @@ export const DisabledAndChecked: Story = {
  * 説明文付き
  */
 export const WithDescription: Story = {
-  name: '説明文付き',
+  name: "説明文付き",
   render: () => (
     <div className="flex items-start space-x-2">
       <Checkbox id="with-description" className="mt-1" />
@@ -225,7 +225,7 @@ export const WithDescription: Story = {
   parameters: {
     docs: {
       description: {
-        story: '説明文を追加したチェックボックス。ユーザーが選択肢の内容を理解しやすくなります。',
+        story: "説明文を追加したチェックボックス。ユーザーが選択肢の内容を理解しやすくなります。",
       },
     },
   },
@@ -235,7 +235,7 @@ export const WithDescription: Story = {
  * 複数のチェックボックス
  */
 export const MultipleCheckboxes: Story = {
-  name: '複数のチェックボックス',
+  name: "複数のチェックボックス",
   render: () => (
     <div className="space-y-4">
       <div className="flex items-center space-x-2">
@@ -261,7 +261,7 @@ export const MultipleCheckboxes: Story = {
   parameters: {
     docs: {
       description: {
-        story: '複数のチェックボックスをグループ化した例。フィルター条件の選択や興味のある項目の複数選択に使用します。',
+        story: "複数のチェックボックスをグループ化した例。フィルター条件の選択や興味のある項目の複数選択に使用します。",
       },
     },
   },

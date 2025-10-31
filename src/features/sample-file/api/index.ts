@@ -24,5 +24,5 @@
 // File API Exports
 // ================================================================================
 
-export * from './download-file';
-export * from './upload-file';
+export * from "./download-file";
+export * from "./upload-file";

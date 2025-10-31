@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { useEffect } from 'react';
+import { useEffect } from "react";
 
-import { Button } from '@/components/sample-ui/button';
-import { Card, CardContent, CardHeader } from '@/components/sample-ui/card';
+import { Button } from "@/components/sample-ui/button";
+import { Card, CardContent, CardHeader } from "@/components/sample-ui/card";
 
 type ErrorProps = {
   error: Error & { digest?: string };
@@ -21,7 +21,7 @@ type ErrorProps = {
 export default function Error({ error, reset }: ErrorProps) {
   useEffect(() => {
     // エラーログをコンソールに出力（本番環境ではエラートラッキングサービスに送信）
-    console.error('エラーバウンダリでエラーを捕捉しました:', error);
+    console.error("エラーバウンダリでエラーを捕捉しました:", error);
   }, [error]);
 
   return (
@@ -33,7 +33,7 @@ export default function Error({ error, reset }: ErrorProps) {
         <CardContent className="space-y-4">
           <p className="text-muted-foreground">申し訳ございません。予期しないエラーが発生しました。</p>
 
-          {process.env.NODE_ENV === 'development' && (
+          {process.env.NODE_ENV === "development" && (
             <div className="rounded-md bg-destructive/10 p-4">
               <p className="text-sm font-mono text-destructive">{error.message}</p>
               {error.digest && <p className="mt-2 text-xs text-muted-foreground">エラーID: {error.digest}</p>}
@@ -44,7 +44,7 @@ export default function Error({ error, reset }: ErrorProps) {
             <Button onClick={reset} className="flex-1">
               再試行
             </Button>
-            <Button variant="outline" onClick={() => (window.location.href = '/')} className="flex-1">
+            <Button variant="outline" onClick={() => (window.location.href = "/")} className="flex-1">
               ホームに戻る
             </Button>
           </div>

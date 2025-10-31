@@ -2,9 +2,9 @@
 // Imports
 // ================================================================================
 
-'use client';
+"use client";
 
-import { useAuth } from '../hooks/use-auth';
+import { useAuth } from "../hooks/use-auth";
 
 // ================================================================================
 // コンポーネント
@@ -53,16 +53,16 @@ export const AuthDemo = () => {
             <span className="font-medium text-gray-700">認証状態:</span>
             <span
               className={`rounded-full px-3 py-1 text-sm font-medium ${
-                isAuthenticated ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+                isAuthenticated ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"
               }`}
             >
-              {isAuthenticated ? '認証済み' : '未認証'}
+              {isAuthenticated ? "認証済み" : "未認証"}
             </span>
           </div>
 
           <div className="flex items-center justify-between rounded-lg bg-gray-50 p-3">
             <span className="font-medium text-gray-700">ローディング:</span>
-            <span className="text-sm text-gray-600">{isLoading ? 'はい' : 'いいえ'}</span>
+            <span className="text-sm text-gray-600">{isLoading ? "はい" : "いいえ"}</span>
           </div>
         </div>
       </div>

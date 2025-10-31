@@ -4,7 +4,7 @@
  * @module schemas/fields/age
  */
 
-import { z } from 'zod';
+import { z } from "zod";
 
 /**
  * @example
@@ -19,5 +19,5 @@ import { z } from 'zod';
  * ```
  */
 export const ageSchema = z.string().refine((val) => !isNaN(Number(val)) && Number(val) >= 0, {
-  message: '0以上の数値を入力してください',
+  message: "0以上の数値を入力してください",
 });

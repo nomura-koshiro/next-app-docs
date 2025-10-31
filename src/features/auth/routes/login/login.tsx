@@ -2,15 +2,15 @@
 // Imports
 // ================================================================================
 
-'use client';
+"use client";
 
-import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
-import { Button } from '@/components/sample-ui/button/button';
-import { LoadingSpinner } from '@/components/ui';
+import { Button } from "@/components/sample-ui/button/button";
+import { LoadingSpinner } from "@/components/ui";
 
-import { useAuth } from '../../hooks/use-auth';
+import { useAuth } from "../../hooks/use-auth";
 
 // ================================================================================
 // コンポーネント
@@ -42,7 +42,7 @@ const LoginPage = () => {
   // 認証済みユーザーはホームページにリダイレクト
   useEffect(() => {
     if (isAuthenticated && !isLoading) {
-      router.push('/');
+      router.push("/");
     }
   }, [isAuthenticated, isLoading, router]);
 

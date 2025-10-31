@@ -4,14 +4,14 @@
  * @module features/sample-auth/types
  */
 
-import type { User } from '@/types/models/user';
+import type { User } from "@/types/models/user";
 
 /**
  * 共通User型をre-export
  *
  * アプリケーション全体で統一されたUser型を使用
  */
-export type { User } from '@/types/models/user';
+export type { User } from "@/types/models/user";
 
 /**
  * 認証状態を表す型

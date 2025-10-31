@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
-import { env } from '@/config/env';
+import { env } from "@/config/env";
 
 /**
  * MSW (Mock Service Worker) Provider
@@ -29,27 +29,27 @@ export const MSWProvider = ({ children }: { children: React.ReactNode }): React.
      * - env.ENABLE_API_MOCKING=trueの場合のみService Workerを起動
      */
     const initMSW = async (): Promise<void> => {
-      if (typeof window !== 'undefined' && env.ENABLE_API_MOCKING === true) {
+      if (typeof window !== "undefined" && env.ENABLE_API_MOCKING === true) {
         // MSW workerを動的にインポート（本番環境でのバンドルサイズ削減）
-        const { worker } = await import('@/mocks/browser');
+        const { worker } = await import("@/mocks/browser");
 
         // Service Workerを起動
         // onUnhandledRequest: 'bypass' - モックされていないリクエストは通常通り処理
         await worker.start({
           serviceWorker: {
-            url: '/mockServiceWorker.js',
+            url: "/mockServiceWorker.js",
           },
           onUnhandledRequest: (req) => {
             // APIリクエスト以外は警告を出さない
-            if (!req.url.includes('/api/')) {
+            if (!req.url.includes("/api/")) {
               return;
             }
-            console.warn('[MSW] 未処理のリクエスト:', req.method, req.url);
+            console.warn("[MSW] 未処理のリクエスト:", req.method, req.url);
           },
         });
 
-        console.log('[MSW] Mock Service Workerを初期化しました');
-        console.log('[MSW] 登録されたハンドラー数:', worker.listHandlers().length);
+        console.log("[MSW] Mock Service Workerを初期化しました");
+        console.log("[MSW] 登録されたハンドラー数:", worker.listHandlers().length);
       }
 
       // 初期化完了をマーク（モッキング無効時も即座に完了）

@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 
-import { type SampleItem, SAMPLES } from '@/features/sample-page-list/constants/samples';
+import { type SampleItem, SAMPLES } from "@/features/sample-page-list/constants/samples";
 
-import { SampleListContent } from './sample-list-content';
+import { SampleListContent } from "./sample-list-content";
 
 /**
  * SampleListContentコンポーネントのストーリー
@@ -19,7 +19,7 @@ const meta = {
   // ================================================================================
   // Storybookのナビゲーション階層
   // ================================================================================
-  title: 'features/sample-page-list/routes/sample-page-list/components/SampleListContent',
+  title: "features/sample-page-list/routes/sample-page-list/components/SampleListContent",
 
   // ================================================================================
   // 表示するコンポーネント
@@ -33,7 +33,7 @@ const meta = {
     // - "padded": 周囲にパディングを追加（フォームやカード向け）
     // - "fullscreen": 全画面表示（ページレイアウト向け）
     // ================================================================================
-    layout: 'padded',
+    layout: "padded",
 
     // ================================================================================
     // Next.js設定
@@ -49,15 +49,15 @@ const meta = {
     docs: {
       description: {
         component:
-          'サンプル一覧のコンテンツ表示コンポーネント。カテゴリ別にグループ化されたサンプルページへのリンクカードを表示します。\n\n' +
-          '**主な機能:**\n' +
-          '- カテゴリ別にサンプルをグループ化\n' +
-          '- グリッドレイアウトでカードを表示\n' +
-          '- ホバーエフェクト付きのインタラクティブなカード\n' +
-          '- サンプル利用のヒント表示\n\n' +
-          '**使用場面:**\n' +
-          '- サンプルページ一覧の表示\n' +
-          '- プロジェクトの実装例集の表示',
+          "サンプル一覧のコンテンツ表示コンポーネント。カテゴリ別にグループ化されたサンプルページへのリンクカードを表示します。\n\n" +
+          "**主な機能:**\n" +
+          "- カテゴリ別にサンプルをグループ化\n" +
+          "- グリッドレイアウトでカードを表示\n" +
+          "- ホバーエフェクト付きのインタラクティブなカード\n" +
+          "- サンプル利用のヒント表示\n\n" +
+          "**使用場面:**\n" +
+          "- サンプルページ一覧の表示\n" +
+          "- プロジェクトの実装例集の表示",
       },
     },
   },
@@ -65,7 +65,7 @@ const meta = {
   // ================================================================================
   // ドキュメント自動生成を有効化
   // ================================================================================
-  tags: ['autodocs'],
+  tags: ["autodocs"],
 } satisfies Meta<typeof SampleListContent>;
 
 export default meta;
@@ -76,14 +76,14 @@ type Story = StoryObj<typeof meta>;
  * 全サンプルを表示
  */
 export const Default: Story = {
-  name: 'デフォルト',
+  name: "デフォルト",
   args: {
     samples: SAMPLES,
   },
   parameters: {
     docs: {
       description: {
-        story: 'すべてのサンプルページをカテゴリ別に表示します。フォーム、認証、ユーザー管理などのカテゴリに分類されています。',
+        story: "すべてのサンプルページをカテゴリ別に表示します。フォーム、認証、ユーザー管理などのカテゴリに分類されています。",
       },
     },
   },
@@ -94,14 +94,14 @@ export const Default: Story = {
  * 1つのカテゴリのみを表示
  */
 export const SingleCategory: Story = {
-  name: '単一カテゴリ',
+  name: "単一カテゴリ",
   args: {
-    samples: SAMPLES.filter((sample) => sample.category === 'ユーザー管理'),
+    samples: SAMPLES.filter((sample) => sample.category === "ユーザー管理"),
   },
   parameters: {
     docs: {
       description: {
-        story: '特定のカテゴリ（ユーザー管理）のサンプルのみを表示します。フィルタリング機能の実装例として活用できます。',
+        story: "特定のカテゴリ（ユーザー管理）のサンプルのみを表示します。フィルタリング機能の実装例として活用できます。",
       },
     },
   },
@@ -112,14 +112,14 @@ export const SingleCategory: Story = {
  * 2つのサンプルのみを表示
  */
 export const FewItems: Story = {
-  name: '少数のアイテム',
+  name: "少数のアイテム",
   args: {
     samples: SAMPLES.slice(0, 2),
   },
   parameters: {
     docs: {
       description: {
-        story: '少数のサンプルのみを表示する場合のレイアウト例。',
+        story: "少数のサンプルのみを表示する場合のレイアウト例。",
       },
     },
   },
@@ -130,33 +130,33 @@ export const FewItems: Story = {
  * カスタムデータを使用した表示
  */
 export const CustomSamples: Story = {
-  name: 'カスタムサンプル',
+  name: "カスタムサンプル",
   args: {
     samples: [
       {
-        title: 'カスタム機能 A',
-        description: 'カスタム機能Aの説明。この機能は独自の実装例を提供します。',
-        href: '/custom-a',
-        category: 'カスタム',
+        title: "カスタム機能 A",
+        description: "カスタム機能Aの説明。この機能は独自の実装例を提供します。",
+        href: "/custom-a",
+        category: "カスタム",
       },
       {
-        title: 'カスタム機能 B',
-        description: 'カスタム機能Bの説明。この機能も独自の実装例を提供します。',
-        href: '/custom-b',
-        category: 'カスタム',
+        title: "カスタム機能 B",
+        description: "カスタム機能Bの説明。この機能も独自の実装例を提供します。",
+        href: "/custom-b",
+        category: "カスタム",
       },
       {
-        title: 'カスタム機能 C',
-        description: 'カスタム機能Cの説明。さらなる実装例を確認できます。',
-        href: '/custom-c',
-        category: 'カスタム',
+        title: "カスタム機能 C",
+        description: "カスタム機能Cの説明。さらなる実装例を確認できます。",
+        href: "/custom-c",
+        category: "カスタム",
       },
     ] as SampleItem[],
   },
   parameters: {
     docs: {
       description: {
-        story: 'カスタムデータを使用した表示例。独自のサンプルページ一覧を作成する際の参考になります。',
+        story: "カスタムデータを使用した表示例。独自のサンプルページ一覧を作成する際の参考になります。",
       },
     },
   },
@@ -167,14 +167,14 @@ export const CustomSamples: Story = {
  * サンプルが1つもない場合
  */
 export const Empty: Story = {
-  name: '空の状態',
+  name: "空の状態",
   args: {
     samples: [],
   },
   parameters: {
     docs: {
       description: {
-        story: 'サンプルが1つもない場合の表示。空の状態のハンドリングを確認できます。',
+        story: "サンプルが1つもない場合の表示。空の状態のハンドリングを確認できます。",
       },
     },
   },

@@ -1,9 +1,9 @@
-import { queryOptions, useSuspenseQuery } from '@tanstack/react-query';
+import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 
-import { api } from '@/lib/api-client';
-import { QueryConfig } from '@/lib/tanstack-query';
+import { api } from "@/lib/api-client";
+import { QueryConfig } from "@/lib/tanstack-query";
 
-import type { User } from '../types';
+import type { User } from "../types";
 
 // ================================================================================
 // API関数
@@ -22,7 +22,7 @@ export const getUser = (userId: string): Promise<{ data: User }> => {
 
 export const getUserQueryOptions = (userId: string) => {
   return queryOptions({
-    queryKey: ['users', userId],
+    queryKey: ["users", userId],
     queryFn: () => getUser(userId),
   });
 };

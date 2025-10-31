@@ -4,7 +4,7 @@
  * ログイン、ログアウト、ユーザー情報取得のモックを提供します。
  */
 
-import { http, HttpResponse } from 'msw';
+import { http, HttpResponse } from "msw";
 
 export const authHandlers = [
   /**
@@ -19,7 +19,7 @@ export const authHandlers = [
    * - email: 任意のメールアドレス
    * - password: 任意のパスワード（空でなければOK）
    */
-  http.post('*/api/v1/sample/auth/login', async ({ request }) => {
+  http.post("*/api/v1/sample/auth/login", async ({ request }) => {
     const body = (await request.json()) as { email: string; password: string };
 
     // 簡易的な認証チェック（モック用）
@@ -27,19 +27,19 @@ export const authHandlers = [
       // 成功レスポンス
       return HttpResponse.json({
         user: {
-          id: '1',
+          id: "1",
           email: body.email,
-          name: 'Sample User',
-          role: 'user',
+          name: "Sample User",
+          role: "user",
         },
-        token: 'mock-jwt-token-' + Date.now(),
+        token: "mock-jwt-token-" + Date.now(),
       });
     }
 
     // エラーレスポンス
     return HttpResponse.json(
       {
-        message: 'Invalid credentials',
+        message: "Invalid credentials",
       },
       { status: 401 }
     );
@@ -51,10 +51,10 @@ export const authHandlers = [
    *
    * @returns 成功レスポンス
    */
-  http.post('*/api/v1/sample/auth/logout', () => {
+  http.post("*/api/v1/sample/auth/logout", () => {
     return HttpResponse.json({
       success: true,
-      message: 'Logged out successfully',
+      message: "Logged out successfully",
     });
   }),
 
@@ -70,17 +70,17 @@ export const authHandlers = [
    * - 有効: "Bearer mock-jwt-token-xxxxx"
    * - 無効: headerなし or 不正なフォーマット
    */
-  http.get('*/api/v1/sample/auth/me', ({ request }) => {
-    const authHeader = request.headers.get('Authorization');
+  http.get("*/api/v1/sample/auth/me", ({ request }) => {
+    const authHeader = request.headers.get("Authorization");
 
     // トークンチェック（モック用）
-    if (authHeader !== null && authHeader !== undefined && authHeader.startsWith('Bearer ')) {
+    if (authHeader !== null && authHeader !== undefined && authHeader.startsWith("Bearer ")) {
       return HttpResponse.json({
         data: {
-          id: '1',
-          email: 'user@example.com',
-          name: 'Sample User',
-          role: 'user',
+          id: "1",
+          email: "user@example.com",
+          name: "Sample User",
+          role: "user",
         },
       });
     }
@@ -88,7 +88,7 @@ export const authHandlers = [
     // 認証エラー
     return HttpResponse.json(
       {
-        message: 'Unauthorized',
+        message: "Unauthorized",
       },
       { status: 401 }
     );

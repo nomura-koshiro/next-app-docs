@@ -4,7 +4,7 @@
  * @module schemas/fields/country
  */
 
-import { z } from 'zod';
+import { z } from "zod";
 
 /**
  * 国選択のバリデーションスキーマ
@@ -22,4 +22,4 @@ import { z } from 'zod';
  * countrySchema.parse('') // エラー: 国を選択してください
  * ```
  */
-export const countrySchema = z.string().min(1, { message: '国を選択してください' });
+export const countrySchema = z.string().min(1, { message: "国を選択してください" });

@@ -1,1 +1,1 @@
-export { default as SampleFilePage } from './routes/sample-file';
+export { default as SampleFilePage } from "./routes/sample-file";

@@ -1,8 +1,8 @@
-import type { Metadata } from 'next';
+import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: 'ログイン | Sample App',
-  description: 'ログインページです。メールアドレスとパスワードでログインできます。',
+  title: "ログイン | Sample App",
+  description: "ログインページです。メールアドレスとパスワードでログインできます。",
 };
 
-export { default } from '@/features/sample-auth/routes/sample-login';
+export { default } from "@/features/sample-auth/routes/sample-login";

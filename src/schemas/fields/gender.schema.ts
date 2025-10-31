@@ -4,7 +4,7 @@
  * @module schemas/fields/gender
  */
 
-import { z } from 'zod';
+import { z } from "zod";
 
 /**
  * 性別のバリデーションスキーマ
@@ -24,8 +24,8 @@ import { z } from 'zod';
  * genderSchema.parse('') // エラー: 性別を選択してください
  * ```
  */
-export const genderSchema = z.enum(['male', 'female', 'other'], {
-  message: '性別を選択してください',
+export const genderSchema = z.enum(["male", "female", "other"], {
+  message: "性別を選択してください",
 });
 
 /**

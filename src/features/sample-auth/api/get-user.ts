@@ -4,12 +4,12 @@
  * TODO: 実際のバックエンドAPIエンドポイントに合わせて修正してください
  */
 
-import { queryOptions, useSuspenseQuery } from '@tanstack/react-query';
+import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 
-import { api } from '@/lib/api-client';
-import { QueryConfig } from '@/lib/tanstack-query';
+import { api } from "@/lib/api-client";
+import { QueryConfig } from "@/lib/tanstack-query";
 
-import type { User } from '../types';
+import type { User } from "../types";
 
 // ================================================================================
 // API関数
@@ -31,7 +31,7 @@ import type { User } from '../types';
  */
 export const getUser = (): Promise<{ data: User }> => {
   // TODO: 実際のAPI呼び出しに置き換える
-  return api.get('/api/v1/sample/auth/me');
+  return api.get("/api/v1/sample/auth/me");
 
   // モック実装（テスト用）
   // return Promise.resolve({
@@ -56,7 +56,7 @@ export const getUser = (): Promise<{ data: User }> => {
  */
 export const getUserQueryOptions = () => {
   return queryOptions({
-    queryKey: ['auth-user'],
+    queryKey: ["auth-user"],
     queryFn: getUser,
   });
 };

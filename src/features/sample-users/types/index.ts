@@ -28,4 +28,4 @@
  * }
  * ```
  */
-export type { CreateUserDTO, UpdateUserDTO, User, UserRole } from '@/types/models/user';
+export type { CreateUserDTO, UpdateUserDTO, User, UserRole } from "@/types/models/user";

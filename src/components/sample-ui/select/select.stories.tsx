@@ -1,6 +1,6 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from './select';
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "./select";
 
 /**
  * Selectコンポーネントのストーリー
@@ -25,7 +25,7 @@ const meta = {
   // ================================================================================
   // Storybookのナビゲーション階層
   // ================================================================================
-  title: 'components/sample-ui/Select',
+  title: "components/sample-ui/Select",
 
   // ================================================================================
   // 表示するコンポーネント
@@ -39,7 +39,7 @@ const meta = {
     // - "padded": 周囲にパディングを追加（フォームやカード向け）
     // - "fullscreen": 全画面表示（ページレイアウト向け）
     // ================================================================================
-    layout: 'padded',
+    layout: "padded",
 
     // ================================================================================
     // コンポーネントの詳細説明
@@ -48,19 +48,19 @@ const meta = {
     docs: {
       description: {
         component:
-          'ドロップダウン形式で選択肢を表示する選択コンポーネント。\n\n' +
-          '**主な機能:**\n' +
-          '- ドロップダウンメニューによる選択\n' +
-          '- グループ化されたアイテムの表示\n' +
-          '- サイズバリエーション（標準、小）\n' +
-          '- プレースホルダーテキストのサポート\n' +
-          '- 無効化状態の制御\n' +
-          '- キーボードナビゲーション対応\n\n' +
-          '**使用場面:**\n' +
-          '- フォームでの選択入力\n' +
-          '- フィルター・ソート条件の選択\n' +
-          '- 設定項目の選択\n' +
-          '- カテゴリー選択',
+          "ドロップダウン形式で選択肢を表示する選択コンポーネント。\n\n" +
+          "**主な機能:**\n" +
+          "- ドロップダウンメニューによる選択\n" +
+          "- グループ化されたアイテムの表示\n" +
+          "- サイズバリエーション（標準、小）\n" +
+          "- プレースホルダーテキストのサポート\n" +
+          "- 無効化状態の制御\n" +
+          "- キーボードナビゲーション対応\n\n" +
+          "**使用場面:**\n" +
+          "- フォームでの選択入力\n" +
+          "- フィルター・ソート条件の選択\n" +
+          "- 設定項目の選択\n" +
+          "- カテゴリー選択",
       },
     },
 
@@ -69,14 +69,14 @@ const meta = {
     // on* で始まるプロパティを自動的にアクションパネルに表示
     // ================================================================================
     actions: {
-      argTypesRegex: '^on[A-Z].*',
+      argTypesRegex: "^on[A-Z].*",
     },
   },
 
   // ================================================================================
   // ドキュメント自動生成を有効化
   // ================================================================================
-  tags: ['autodocs'],
+  tags: ["autodocs"],
 
   // ================================================================================
   // コントロールパネルの設定
@@ -84,27 +84,27 @@ const meta = {
   // ================================================================================
   argTypes: {
     disabled: {
-      control: 'boolean',
-      description: '無効化状態',
+      control: "boolean",
+      description: "無効化状態",
       table: {
-        type: { summary: 'boolean' },
-        defaultValue: { summary: 'false' },
-        category: '状態',
+        type: { summary: "boolean" },
+        defaultValue: { summary: "false" },
+        category: "状態",
       },
     },
     defaultValue: {
-      control: 'text',
-      description: '初期選択値',
+      control: "text",
+      description: "初期選択値",
       table: {
-        type: { summary: 'string' },
-        category: 'コンテンツ',
+        type: { summary: "string" },
+        category: "コンテンツ",
       },
     },
     onValueChange: {
-      description: '選択値変更時のコールバック関数',
+      description: "選択値変更時のコールバック関数",
       table: {
-        type: { summary: '(value: string) => void' },
-        category: 'イベント',
+        type: { summary: "(value: string) => void" },
+        category: "イベント",
       },
     },
   },
@@ -117,7 +117,7 @@ type Story = StoryObj<typeof meta>;
  * デフォルトのSelect
  */
 export const Default: Story = {
-  name: 'デフォルト',
+  name: "デフォルト",
   render: () => (
     <Select>
       <SelectTrigger className="w-[180px]">
@@ -133,7 +133,7 @@ export const Default: Story = {
   parameters: {
     docs: {
       description: {
-        story: '基本的なセレクトコンポーネント。ドロップダウンメニューから選択肢を選べます。',
+        story: "基本的なセレクトコンポーネント。ドロップダウンメニューから選択肢を選べます。",
       },
     },
   },
@@ -143,7 +143,7 @@ export const Default: Story = {
  * グループ付きSelect
  */
 export const WithGroups: Story = {
-  name: 'グループ付き',
+  name: "グループ付き",
   render: () => (
     <Select>
       <SelectTrigger className="w-[180px]">
@@ -168,7 +168,7 @@ export const WithGroups: Story = {
   parameters: {
     docs: {
       description: {
-        story: '選択肢をグループ化して表示。カテゴリー別の選択肢を整理して表示する場合に便利です。',
+        story: "選択肢をグループ化して表示。カテゴリー別の選択肢を整理して表示する場合に便利です。",
       },
     },
   },
@@ -178,7 +178,7 @@ export const WithGroups: Story = {
  * 小サイズのSelect
  */
 export const SmallSize: Story = {
-  name: '小サイズ',
+  name: "小サイズ",
   render: () => (
     <Select>
       <SelectTrigger className="w-[180px]" size="sm">
@@ -196,7 +196,7 @@ export const SmallSize: Story = {
   parameters: {
     docs: {
       description: {
-        story: '小サイズのセレクト。コンパクトなUIが必要な場合に使用します。',
+        story: "小サイズのセレクト。コンパクトなUIが必要な場合に使用します。",
       },
     },
   },
@@ -206,7 +206,7 @@ export const SmallSize: Story = {
  * ラベル付きSelect
  */
 export const WithLabel: Story = {
-  name: 'ラベル付き',
+  name: "ラベル付き",
   render: () => (
     <div className="space-y-2">
       <label htmlFor="role" className="text-sm font-medium">
@@ -227,7 +227,7 @@ export const WithLabel: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'ラベルと組み合わせた実用的な使用例。アクセシビリティのためlabelとidを関連付けています。',
+        story: "ラベルと組み合わせた実用的な使用例。アクセシビリティのためlabelとidを関連付けています。",
       },
     },
   },
@@ -237,7 +237,7 @@ export const WithLabel: Story = {
  * 無効化されたSelect
  */
 export const Disabled: Story = {
-  name: '無効',
+  name: "無効",
   render: () => (
     <Select disabled>
       <SelectTrigger className="w-[180px]">
@@ -252,7 +252,7 @@ export const Disabled: Story = {
   parameters: {
     docs: {
       description: {
-        story: '無効化された状態のセレクト。ユーザーによる選択ができず、視覚的にもグレーアウト表示されます。',
+        story: "無効化された状態のセレクト。ユーザーによる選択ができず、視覚的にもグレーアウト表示されます。",
       },
     },
   },
@@ -262,7 +262,7 @@ export const Disabled: Story = {
  * フォームでの使用例
  */
 export const InForm: Story = {
-  name: 'フォーム内',
+  name: "フォーム内",
   render: () => (
     <div className="w-96 space-y-4">
       <div className="space-y-2">
@@ -303,7 +303,7 @@ export const InForm: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'フォーム内での実用例。必須項目の表示や複数のセレクトフィールドの組み合わせを示しています。',
+        story: "フォーム内での実用例。必須項目の表示や複数のセレクトフィールドの組み合わせを示しています。",
       },
     },
   },
