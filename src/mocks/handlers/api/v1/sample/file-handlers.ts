@@ -5,6 +5,7 @@
 import { delay, http, HttpResponse } from "msw";
 
 import type { UploadFileDetail } from "@/features/sample-file/api";
+import { badRequestResponse, notFoundResponse } from "@/mocks/utils/problem-details";
 
 // アップロードされたファイルの情報を保持
 const uploadedFiles: Array<{
@@ -28,12 +29,7 @@ export const fileHandlers = [
     const file = formData.get("file") as File | null;
 
     if (!file) {
-      return HttpResponse.json(
-        {
-          message: "No file provided",
-        },
-        { status: 400 }
-      );
+      return badRequestResponse("No file provided in the request body", "/api/v1/sample/file/upload");
     }
 
     // ファイル情報を保存
@@ -70,12 +66,7 @@ export const fileHandlers = [
     const file = uploadedFiles.find((f) => f.id === id);
 
     if (!file) {
-      return HttpResponse.json(
-        {
-          message: "File not found",
-        },
-        { status: 404 }
-      );
+      return notFoundResponse("File", id as string, `/api/v1/sample/files/${id}`);
     }
 
     // ファイル内容をBlobとして返す

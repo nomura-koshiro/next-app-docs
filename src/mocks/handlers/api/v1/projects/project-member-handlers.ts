@@ -14,6 +14,7 @@ import type {
   User,
 } from "@/features/projects/types";
 import { SYSTEM_ROLES } from "@/features/projects/types";
+import { conflictResponse, notFoundResponse } from "@/mocks/utils/problem-details";
 
 // ================================================================================
 // モックデータ
@@ -165,22 +166,15 @@ export const projectMemberHandlers = [
     // ユーザーの存在確認
     const user = mockUsers.find((u) => u.id === body.user_id);
     if (!user) {
-      return HttpResponse.json(
-        {
-          message: "User not found",
-        },
-        { status: 404 }
-      );
+      return notFoundResponse("User", body.user_id, `/api/v1/projects/${projectId}/members`);
     }
 
     // 既にメンバーかチェック
     const existingMember = mockProjectMembers.find((m) => m.project_id === projectId && m.user_id === body.user_id);
     if (existingMember) {
-      return HttpResponse.json(
-        {
-          message: "User is already a member of this project",
-        },
-        { status: 409 }
+      return conflictResponse(
+        `User with id '${body.user_id}' is already a member of this project`,
+        `/api/v1/projects/${projectId}/members`
       );
     }
 
@@ -216,12 +210,7 @@ export const projectMemberHandlers = [
     const memberIndex = mockProjectMembers.findIndex((m) => m.id === memberId && m.project_id === projectId);
 
     if (memberIndex === -1) {
-      return HttpResponse.json(
-        {
-          message: "Project member not found",
-        },
-        { status: 404 }
-      );
+      return notFoundResponse("Project member", memberId as string, `/api/v1/projects/${projectId}/members/${memberId}`);
     }
 
     mockProjectMembers[memberIndex] = {
@@ -245,12 +234,7 @@ export const projectMemberHandlers = [
     const memberIndex = mockProjectMembers.findIndex((m) => m.id === memberId && m.project_id === projectId);
 
     if (memberIndex === -1) {
-      return HttpResponse.json(
-        {
-          message: "Project member not found",
-        },
-        { status: 404 }
-      );
+      return notFoundResponse("Project member", memberId as string, `/api/v1/projects/${projectId}/members/${memberId}`);
     }
 
     mockProjectMembers.splice(memberIndex, 1);

@@ -5,6 +5,7 @@
 import { http, HttpResponse } from "msw";
 
 import type { CreateUserInput, SampleUser as User, UpdateUserInput, UserRole } from "@/types/models/user";
+import { notFoundResponse } from "@/mocks/utils/problem-details";
 
 // モックデータ
 const mockUsers: User[] = [
@@ -51,12 +52,7 @@ export const userHandlers = [
     const user = mockUsers.find((u) => u.id === id);
 
     if (user === undefined) {
-      return HttpResponse.json(
-        {
-          message: "User not found",
-        },
-        { status: 404 }
-      );
+      return notFoundResponse("User", id as string, `/api/v1/sample/users/${id}`);
     }
 
     return HttpResponse.json({
@@ -95,12 +91,7 @@ export const userHandlers = [
     const userIndex = mockUsers.findIndex((u) => u.id === id);
 
     if (userIndex === -1) {
-      return HttpResponse.json(
-        {
-          message: "User not found",
-        },
-        { status: 404 }
-      );
+      return notFoundResponse("User", id as string, `/api/v1/sample/users/${id}`);
     }
 
     mockUsers[userIndex] = {
@@ -124,12 +115,7 @@ export const userHandlers = [
     const userIndex = mockUsers.findIndex((u) => u.id === id);
 
     if (userIndex === -1) {
-      return HttpResponse.json(
-        {
-          message: "User not found",
-        },
-        { status: 404 }
-      );
+      return notFoundResponse("User", id as string, `/api/v1/sample/users/${id}`);
     }
 
     mockUsers[userIndex] = {
@@ -149,12 +135,7 @@ export const userHandlers = [
     const userIndex = mockUsers.findIndex((u) => u.id === id);
 
     if (userIndex === -1) {
-      return HttpResponse.json(
-        {
-          message: "User not found",
-        },
-        { status: 404 }
-      );
+      return notFoundResponse("User", id as string, `/api/v1/sample/users/${id}`);
     }
 
     mockUsers.splice(userIndex, 1);

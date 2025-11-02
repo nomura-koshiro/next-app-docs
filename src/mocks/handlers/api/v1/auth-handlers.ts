@@ -5,6 +5,7 @@
 import { http, HttpResponse } from "msw";
 
 import type { AuthUser } from "@/features/auth/stores/auth-store";
+import { unauthorizedResponse } from "@/mocks/utils/problem-details";
 
 // ================================================================================
 // モックデータ
@@ -42,7 +43,7 @@ export const authHandlers = [
 
     // Bearer Tokenのチェック
     if (!authHeader || !authHeader.includes("mock-access-token")) {
-      return HttpResponse.json({ detail: "Unauthorized" }, { status: 401 });
+      return unauthorizedResponse("Valid Bearer token is required", "/auth/me");
     }
 
     return HttpResponse.json(MOCK_AUTH.USER);
