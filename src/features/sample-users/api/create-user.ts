@@ -1,11 +1,10 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { userFormSchema } from "@/features/sample-users/schemas/user-form.schema";
 import { api } from "@/lib/api-client";
 import { MutationConfig } from "@/lib/tanstack-query";
 import { logger } from "@/utils/logger";
 
-import type { CreateUserDTO, User } from "../types";
+import type { CreateUserInput, User } from "../types";
 
 // ================================================================================
 // API関数
@@ -21,7 +20,7 @@ import type { CreateUserDTO, User } from "../types";
  * })
  * ```
  */
-export const createUser = (data: CreateUserDTO): Promise<User> => {
+export const createUser = (data: CreateUserInput): Promise<User> => {
   return api.post("/sample/users", data);
 };
 
@@ -58,8 +57,3 @@ export const useCreateUser = ({ mutationConfig }: UseCreateUserOptions = {}) => 
     mutationFn: createUser,
   });
 };
-
-// ================================================================================
-// バリデーション用のエクスポート
-// ================================================================================
-export { userFormSchema as createUserInputSchema };

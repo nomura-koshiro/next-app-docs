@@ -1,11 +1,10 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { userFormSchema } from "@/features/sample-users/schemas/user-form.schema";
 import { api } from "@/lib/api-client";
 import { MutationConfig } from "@/lib/tanstack-query";
 import { logger } from "@/utils/logger";
 
-import type { UpdateUserDTO, User } from "../types";
+import type { UpdateUserInput, User } from "../types";
 
 // ================================================================================
 // API関数
@@ -20,7 +19,7 @@ import type { UpdateUserDTO, User } from "../types";
  * });
  * ```
  */
-export const updateUser = ({ userId, data }: { userId: string; data: UpdateUserDTO }): Promise<User> => {
+export const updateUser = ({ userId, data }: { userId: string; data: UpdateUserInput }): Promise<User> => {
   return api.put(`/sample/users/${userId}`, data);
 };
 
@@ -50,7 +49,7 @@ type UseUpdateUserOptions = {
  *     },
  *   });
  *
- *   const handleSubmit = (values: UpdateUserDTO) => {
+ *   const handleSubmit = (values: UpdateUserInput) => {
  *     updateUserMutation.mutate({ userId, data: values });
  *   };
  *
@@ -77,8 +76,3 @@ export const useUpdateUser = ({ mutationConfig }: UseUpdateUserOptions = {}) => 
     mutationFn: updateUser,
   });
 };
-
-// ================================================================================
-// バリデーション用のエクスポート
-// ================================================================================
-export { userFormSchema as updateUserInputSchema };

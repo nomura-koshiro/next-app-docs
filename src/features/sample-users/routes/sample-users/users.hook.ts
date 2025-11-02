@@ -18,7 +18,6 @@ import type { User } from "@/features/sample-users/types";
  * @returns users - 楽観的更新を反映したユーザーリスト
  * @returns handleEdit - ユーザー編集ページへ遷移
  * @returns handleDelete - ユーザー削除（楽観的更新対応）
- * @returns handleDeleteConfirmPage - 削除確認ページへ遷移（レガシー）
  * @returns handleCreateNew - ユーザー作成ページへ遷移
  * @returns isDeleting - 削除中フラグ
  *
@@ -66,8 +65,6 @@ export const useUsers = () => {
    * 3. FastAPIに削除リクエスト送信
    * 4. 成功時: TanStack Queryのキャッシュが自動更新
    * 5. エラー時: 楽観的更新が自動的にロールバック
-   *
-   * 注意: 削除確認ページ(/sample-users/[id]/delete)への遷移は廃止されました
    */
   const handleDelete = async (userId: string) => {
     const user = users.find((u: User) => u.id === userId);
@@ -92,16 +89,6 @@ export const useUsers = () => {
   };
 
   /**
-   * 削除確認ページへの遷移（レガシー）
-   *
-   * 注意: この関数は後方互換性のために残されていますが、
-   * handleDeleteを使用することを推奨します。
-   */
-  const handleDeleteConfirmPage = (userId: string) => {
-    router.push(`/sample-users/${userId}/delete`);
-  };
-
-  /**
    * ユーザー作成ページへ遷移
    */
   const handleCreateNew = () => {
@@ -115,7 +102,6 @@ export const useUsers = () => {
     users: optimisticUsers, // 楽観的更新を反映したユーザーリストを返す
     handleEdit,
     handleDelete,
-    handleDeleteConfirmPage, // レガシー対応
     handleCreateNew,
     isDeleting: deleteUserMutation.isPending,
   };

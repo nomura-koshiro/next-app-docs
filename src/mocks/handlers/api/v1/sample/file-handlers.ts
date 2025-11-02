@@ -4,7 +4,7 @@
 
 import { delay, http, HttpResponse } from "msw";
 
-import type { UploadFileResponse } from "@/features/sample-file/api";
+import type { UploadFileDetail } from "@/features/sample-file/api";
 
 // アップロードされたファイルの情報を保持
 const uploadedFiles: Array<{
@@ -48,7 +48,7 @@ export const fileHandlers = [
 
     uploadedFiles.push(fileInfo);
 
-    const response: UploadFileResponse = {
+    const response: UploadFileDetail = {
       id: fileInfo.id,
       filename: fileInfo.filename,
       size: fileInfo.size,

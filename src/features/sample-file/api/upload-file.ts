@@ -8,7 +8,10 @@ import { logger } from "@/utils/logger";
 // Types
 // ================================================================================
 
-export type UploadFileResponse = {
+/**
+ * アップロードされたファイルの詳細情報
+ */
+export type UploadFileDetail = {
   id: string;
   filename: string;
   size: number;
@@ -19,7 +22,7 @@ export type UploadFileResponse = {
 // API関数
 // ================================================================================
 
-export const uploadFile = async (file: File, onProgress?: (progress: number) => void): Promise<UploadFileResponse> => {
+export const uploadFile = async (file: File, onProgress?: (progress: number) => void): Promise<UploadFileDetail> => {
   const formData = new FormData();
   formData.append("file", file);
 
@@ -40,7 +43,7 @@ export const uploadFile = async (file: File, onProgress?: (progress: number) => 
       throw error;
     });
 
-  return response as unknown as UploadFileResponse;
+  return response as unknown as UploadFileDetail;
 };
 
 /**
@@ -50,7 +53,7 @@ export const uploadFile = async (file: File, onProgress?: (progress: number) => 
  * console.log(result.id) // アップロードされたファイルのID
  * ```
  */
-export const uploadFileSimple = async (file: File): Promise<UploadFileResponse> => {
+export const uploadFileSimple = async (file: File): Promise<UploadFileDetail> => {
   return uploadFile(file);
 };
 

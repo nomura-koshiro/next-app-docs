@@ -4,7 +4,7 @@
 
 import { http, HttpResponse } from "msw";
 
-import type { User } from "@/features/auth/stores/auth-store";
+import type { AuthUser } from "@/features/auth/stores/auth-store";
 
 // ================================================================================
 // モックデータ
@@ -23,7 +23,7 @@ export const MOCK_AUTH = {
     name: "Development User",
     azureOid: "dev-azure-oid-12345",
     roles: ["User"],
-  } satisfies User,
+  } satisfies AuthUser,
 } as const;
 
 // ================================================================================

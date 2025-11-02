@@ -432,6 +432,148 @@ export const CreateUserForm = () => {
 
 ## ベストプラクティス
 
+### 共通ミューテーションヘルパーの活用
+
+複数のAPI操作で共通する処理（クエリ無効化、エラーログなど）は、ヘルパー関数として抽出します。
+
+**ヘルパー関数の作成例:**
+
+```typescript
+// src/features/projects/api/helpers.ts
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import type { MutationConfig } from '@/lib/tanstack-query'
+import { logger } from '@/lib/logger'
+
+type UseProjectMemberMutationOptions<TData, TVariables> = {
+  mutationFn: (variables: TVariables) => Promise<TData>
+  projectId: string
+  mutationConfig?: MutationConfig<(variables: TVariables) => Promise<TData>>
+}
+
+/**
+ * プロジェクトメンバー関連のミューテーションで共通処理を提供するヘルパー
+ *
+ * 提供される機能:
+ * - 成功時の自動クエリ無効化
+ * - 集約されたエラーロギング
+ * - カスタムonSuccess/onErrorハンドラのサポート
+ */
+export const useProjectMemberMutation = <TData, TVariables>({
+  mutationFn,
+  projectId,
+  mutationConfig,
+}: UseProjectMemberMutationOptions<TData, TVariables>) => {
+  const queryClient = useQueryClient()
+  const { onSuccess, onError, ...restConfig } = mutationConfig ?? {}
+
+  return useMutation({
+    mutationFn,
+    onSuccess: (data, ...args) => {
+      // 自動的にクエリを無効化
+      queryClient
+        .invalidateQueries({
+          queryKey: ['projects', projectId, 'members'],
+        })
+        .catch((error) => {
+          logger.error('プロジェクトメンバークエリの無効化に失敗しました', error, {
+            projectId,
+          })
+        })
+      onSuccess?.(data, ...args)
+    },
+    onError: (error, ...args) => {
+      // 集約されたエラーロギング
+      logger.error('プロジェクトメンバーミューテーションエラー', error, {
+        projectId,
+      })
+      onError?.(error, ...args)
+    },
+    ...restConfig,
+  })
+}
+```
+
+**ヘルパーの使用例:**
+
+```typescript
+// src/features/projects/api/add-project-member.ts
+import { api } from '@/lib/api-client'
+import { MutationConfig } from '@/lib/tanstack-query'
+import type { AddProjectMemberInput } from '../types'
+import { useProjectMemberMutation } from './helpers'
+
+export const addProjectMember = ({
+  projectId,
+  data,
+}: {
+  projectId: string
+  data: AddProjectMemberInput
+}): Promise<void> => {
+  return api.post(`/projects/${projectId}/members`, data)
+}
+
+export const useAddProjectMember = ({
+  projectId,
+  mutationConfig,
+}: {
+  projectId: string
+  mutationConfig?: MutationConfig<typeof addProjectMember>
+}) => {
+  return useProjectMemberMutation({
+    mutationFn: (data: AddProjectMemberInput) =>
+      addProjectMember({ projectId, data }),
+    projectId,
+    mutationConfig,
+  })
+}
+```
+
+**Before/After比較:**
+
+```typescript
+// ❌ Before: 各ファイルで重複したコード
+export const useAddProjectMember = ({ projectId, mutationConfig }) => {
+  const queryClient = useQueryClient()
+  const { onSuccess, onError, ...restConfig } = mutationConfig ?? {}
+
+  return useMutation({
+    mutationFn: (data) => addProjectMember({ projectId, data }),
+    onSuccess: (data, ...args) => {
+      queryClient
+        .invalidateQueries({ queryKey: ['projects', projectId, 'members'] })
+        .catch((error) => {
+          logger.error('...', error, { projectId })
+        })
+      onSuccess?.(data, ...args)
+    },
+    onError: (error, ...args) => {
+      logger.error('...', error, { projectId })
+      onError?.(error, ...args)
+    },
+    ...restConfig,
+  })
+}
+// ↑ この処理が4つのファイルで重複 (add, remove, update, bulk-update)
+
+// ✅ After: ヘルパーを使用
+export const useAddProjectMember = ({ projectId, mutationConfig }) => {
+  return useProjectMemberMutation({
+    mutationFn: (data: AddProjectMemberInput) =>
+      addProjectMember({ projectId, data }),
+    projectId,
+    mutationConfig,
+  })
+}
+// ↑ シンプルで保守しやすい
+```
+
+**メリット:**
+
+- **DRY原則**: 共通処理を1箇所に集約（35行のコード削減）
+- **保守性**: クエリキーやログ処理の変更が1箇所で済む
+- **一貫性**: すべてのミューテーションで同じエラー処理とキャッシュ戦略
+- **拡張性**: 新しい共通処理を簡単に追加可能
+
 ### ✅ Good: bulletproof-reactの構造に従う
 
 **API層（データ取得ロジック + React Queryのカスタムフック）:**

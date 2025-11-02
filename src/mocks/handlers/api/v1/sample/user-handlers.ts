@@ -4,7 +4,7 @@
 
 import { http, HttpResponse } from "msw";
 
-import type { CreateUserDTO, UpdateUserDTO, User, UserRole } from "@/types/models/user";
+import type { CreateUserInput, SampleUser as User, UpdateUserInput, UserRole } from "@/types/models/user";
 
 // モックデータ
 const mockUsers: User[] = [
@@ -69,7 +69,7 @@ export const userHandlers = [
    * ユーザー作成
    */
   http.post("*/api/v1/sample/users", async ({ request }) => {
-    const body = (await request.json()) as CreateUserDTO;
+    const body = (await request.json()) as CreateUserInput;
 
     const newUser: User = {
       id: String(mockUsers.length + 1),
@@ -90,7 +90,7 @@ export const userHandlers = [
    */
   http.put("*/api/v1/sample/users/:id", async ({ params, request }) => {
     const { id } = params;
-    const body = (await request.json()) as CreateUserDTO;
+    const body = (await request.json()) as CreateUserInput;
 
     const userIndex = mockUsers.findIndex((u) => u.id === id);
 
@@ -119,7 +119,7 @@ export const userHandlers = [
    */
   http.patch("*/api/v1/sample/users/:id", async ({ params, request }) => {
     const { id } = params;
-    const body = (await request.json()) as UpdateUserDTO;
+    const body = (await request.json()) as UpdateUserInput;
 
     const userIndex = mockUsers.findIndex((u) => u.id === id);
 

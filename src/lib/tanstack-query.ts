@@ -60,7 +60,7 @@ export type QueryConfig<T extends (...args: any[]) => any> = Omit<ReturnType<T>,
 /**
  * @example
  * ```ts
- * const createUser = async (data: CreateUserDTO) => { ... }
+ * const createUser = async (data: CreateUserInput) => { ... }
  * type CreateUserConfig = MutationConfig<typeof createUser>
  * ```
  */
