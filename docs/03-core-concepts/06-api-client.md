@@ -235,20 +235,142 @@ config.headers.Accept = "application/problem+json, application/json"
 
 Cross-Site Request Forgery (CSRF) 攻撃を防ぐため、APIクライアントは自動的にCSRFトークンをリクエストヘッダーに追加します。
 
-### CSRF保護の仕組み
+### CSRF保護の仕組み（Zodバリデーション付き）
+
+このプロジェクトでは、CSRFトークンに対してZodバリデーションを実装し、不正なトークンを自動的に検出・除外します。
+
+#### CSRFトークンスキーマ
+
+**ファイル**: `src/lib/schemas/csrf-token.schema.ts`
 
 ```typescript
-// src/lib/csrf.ts
+import { z } from "zod";
+
+/**
+ * CSRF トークンスキーマ
+ *
+ * 検証内容:
+ * 1. 空文字列でないこと
+ * 2. 前後の空白を削除
+ * 3. 最小長8文字
+ * 4. 英数字、ハイフン、アンダースコアのみ
+ */
+export const CsrfTokenSchema = z
+  .string()
+  .min(1, "CSRFトークンは必須です")
+  .trim() // 前後の空白を削除
+  .min(8, "CSRFトークンは8文字以上である必要があります")
+  .regex(
+    /^[\w-]+$/,
+    "CSRFトークンは英数字、ハイフン、アンダースコアのみを含む必要があります"
+  );
+```
+
+#### CSRF トークン取得時の自動バリデーション
+
+**ファイル**: `src/lib/csrf.ts`
+
+```typescript
+import { CsrfTokenSchema } from "./schemas/csrf-token.schema";
+
 const CSRF_COOKIE_NAME = 'csrftoken'
 const CSRF_HEADER_NAME = 'X-CSRF-Token'
 
+/**
+ * CSRFトークンを取得し、バリデーション実行
+ *
+ * クッキーから取得したCSRFトークンをZodスキーマで検証
+ * 不正なトークンの場合はnullを返す
+ *
+ * @returns 検証済みCSRFトークン、または null（トークンなし/不正な場合）
+ *
+ * @example
+ * ```typescript
+ * const csrfToken = getCsrfToken();
+ * if (csrfToken) {
+ *   // トークンは検証済み、安全に使用可能
+ *   config.headers[getCsrfHeaderName()] = csrfToken;
+ * }
+ * ```
+ */
 export const getCsrfToken = (): string | null => {
-  return getCookie(CSRF_COOKIE_NAME)
-}
+  const rawToken = getCookie(CSRF_COOKIE_NAME);
+  if (!rawToken) return null;
+
+  // ✅ Zodスキーマでバリデーション
+  const result = CsrfTokenSchema.safeParse(rawToken);
+
+  if (!result.success) {
+    console.warn(`[CSRF] 不正なCSRFトークンを検出しました: ${result.error.message}`);
+    return null;
+  }
+
+  return result.data;
+};
 
 export const getCsrfHeaderName = (): string => {
-  return CSRF_HEADER_NAME
-}
+  return CSRF_HEADER_NAME;
+};
+
+/**
+ * クッキーから値を取得する内部ヘルパー関数
+ */
+const getCookie = (name: string): string | null => {
+  if (typeof document === "undefined") {
+    return null;
+  }
+
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+
+  if (parts.length === 2) {
+    return parts.pop()?.split(";").shift() ?? null;
+  }
+
+  return null;
+};
+```
+
+### セキュリティメリット
+
+#### 1. 不正トークンの自動検出
+
+```typescript
+// ❌ 不正なCSRFトークン（8文字未満）
+document.cookie = "csrftoken=abc123"; // 6文字
+
+// ✅ 次回使用時にZodバリデーションが検出
+const csrfToken = getCsrfToken();
+// → バリデーション失敗（最小長チェック）
+// → console.warn: "CSRFトークンは8文字以上である必要があります"
+// → null を返す
+// → リクエストヘッダーに追加されない
+```
+
+#### 2. 不正文字種の検出
+
+```typescript
+// ❌ 不正な文字種を含むトークン
+document.cookie = "csrftoken=abc123!@#$%"; // 特殊文字
+
+// ✅ Zodバリデーションが検出
+const csrfToken = getCsrfToken();
+// → バリデーション失敗（regex チェック）
+// → console.warn: "CSRFトークンは英数字、ハイフン、アンダースコアのみを含む必要があります"
+// → null を返す
+```
+
+#### 3. 空白の自動トリム
+
+```typescript
+// ❌ 前後に空白があるトークン
+document.cookie = "csrftoken=  abc123def456  "; // 前後空白
+
+// ✅ Zodスキーマが自動的にトリム
+const csrfToken = getCsrfToken();
+// → trim() により "abc123def456" に正規化
+// → バリデーション成功
+// → "abc123def456" を返す
 ```
 
 ### CSRFトークンのフロー
@@ -516,6 +638,17 @@ sequenceDiagram
 
 ## 参考リンク
 
+### 外部リソース
 - [Axios公式ドキュメント](https://axios-http.com/)
+- [Zod公式ドキュメント](https://zod.dev/)
+
+### 内部ドキュメント
 - [TanStack Query](./07-tanstack-query.md)
 - [API統合](../04-development/05-api-integration.md)
+- [RFC 9457: Problem Details](./07-rfc-9457.md)
+
+### Zodバリデーション関連
+- [トークンバリデーション](../04-development/06-forms-validation/09-token-validation.md)
+- [APIレスポンスバリデーション](../04-development/06-forms-validation/04-api-response-validation.md)
+- [状態管理とZodバリデーション](./02-state-management.md#永続化とzodバリデーション)
+- [環境変数バリデーション](./05-environment-variables.md)
