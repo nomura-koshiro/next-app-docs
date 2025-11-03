@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import { useLogin as useLoginMutation } from "@/features/sample-auth/api/login";
 import { loginFormSchema, type LoginFormValues } from "@/features/sample-auth/schemas/login-form.schema";
 import { useAuthStore } from "@/features/sample-auth/stores/auth-store";
+import { setValidatedToken } from "@/features/sample-auth/stores/schemas/token-storage.schema";
 
 /**
  * ログインページのロジックを管理するカスタムフック
@@ -76,14 +77,22 @@ export const useLogin = () => {
     await loginMutation
       .mutateAsync(values)
       .then((data) => {
-        // トークンをlocalStorageに保存
-        localStorage.setItem("token", data.token);
+        try {
+          // ✅ トークンをバリデーション後にlocalStorageに保存
+          setValidatedToken("token", data.token);
 
-        // ユーザー情報をZustandストアに保存
-        setUser(data.user);
+          // ユーザー情報をZustandストアに保存
+          setUser(data.user);
 
-        // ユーザー一覧ページへ遷移
-        router.push("/users");
+          // ユーザー一覧ページへ遷移
+          router.push("/users");
+        } catch (error) {
+          // トークン形式が不正な場合
+          console.error("トークンバリデーションエラー:", error);
+          setError("root", {
+            message: "サーバーから不正なトークンが返されました。管理者に連絡してください。",
+          });
+        }
       })
       .catch(() => {
         // ログイン失敗時のエラーメッセージを表示

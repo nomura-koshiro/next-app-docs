@@ -26,14 +26,70 @@
  */
 
 import { create } from "zustand";
-import { createJSONStorage, persist } from "zustand/middleware";
+import { createJSONStorage, persist, type StorageValue } from "zustand/middleware";
 
+import { AuthStorageSchema } from "./schemas/auth-storage.schema";
 import type { AuthStore, User } from "../types";
+
+// ================================================================================
+// カスタムストレージ（バリデーション付き）
+// ================================================================================
+
+/**
+ * localStorageから読み込む際にZodスキーマでバリデーションを行うカスタムストレージ
+ *
+ * 不正なデータや改ざんされたデータをロードしないことで、セキュリティとデータ整合性を保証
+ */
+const validatedLocalStorage = {
+  getItem: (name: string): StorageValue<Pick<AuthStore, "user" | "isAuthenticated">> | null => {
+    const item = localStorage.getItem(name);
+    if (!item) return null;
+
+    try {
+      const parsed = JSON.parse(item);
+      const result = AuthStorageSchema.safeParse(parsed.state);
+
+      if (!result.success) {
+        // バリデーション失敗時は不正なデータを削除してnullを返す
+        console.warn("[Sample Auth Store] ローカルストレージの認証データが不正です。データを削除します:", result.error);
+        localStorage.removeItem(name);
+        return null;
+      }
+
+      return parsed;
+    } catch (error) {
+      // JSON.parse エラー時も削除
+      console.warn("[Sample Auth Store] ローカルストレージのデータが破損しています。データを削除します:", error);
+      localStorage.removeItem(name);
+      return null;
+    }
+  },
+  setItem: (name: string, value: StorageValue<Pick<AuthStore, "user" | "isAuthenticated">>) => {
+    localStorage.setItem(name, JSON.stringify(value));
+  },
+  removeItem: (name: string) => {
+    localStorage.removeItem(name);
+  },
+};
+
+// ================================================================================
+// Zustandストア
+// ================================================================================
 
 /**
  * 認証ストア
  *
- * LocalStorageに永続化され、ページリロード後も状態を保持します。
+ * - LocalStorageに永続化（Zodバリデーション付き）
+ * - ユーザー情報、認証状態を管理
+ * - ストレージからの読み込み時に不正なデータを自動的に除外
+ *
+ * TODO: これはZustand + LocalStorage永続化のサンプル実装です。
+ * TODO: 実際の認証ロジックは実装していません。
+ * TODO: 実際に使用する際は、以下を実装してください：
+ * TODO: - 実際のAPI呼び出し (api/login.ts, api/logout.ts)
+ * TODO: - JWTトークンの管理
+ * TODO: - リフレッシュトークンの処理
+ * TODO: - エラーハンドリング
  */
 export const useAuthStore = create<AuthStore>()(
   persist(
@@ -116,9 +172,7 @@ export const useAuthStore = create<AuthStore>()(
     }),
     {
       name: "auth-storage", // LocalStorageのキー名
-      storage: createJSONStorage(() => localStorage), // LocalStorageを使用
-      // セッションストレージを使用したい場合:
-      // storage: createJSONStorage(() => sessionStorage),
+      storage: createJSONStorage(() => validatedLocalStorage), // ✅ Zodバリデーション付きLocalStorageを使用
 
       // 永続化する状態を選択（パフォーマンス最適化）
       partialize: (state) => ({
