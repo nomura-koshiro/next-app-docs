@@ -262,8 +262,8 @@ export const useLogin = () => {
     await loginMutation
       .mutateAsync(values)
       .then((data) => {
-        // トークンをlocalStorageに保存
-        localStorage.setItem('token', data.token);
+        // ✅ トークンをlocalStorageに保存（Zodバリデーション付き）
+        setValidatedToken('token', data.token);
 
         // ユーザー情報をストアに保存
         setUser(data.user);

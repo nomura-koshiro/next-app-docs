@@ -74,16 +74,21 @@ type UseLoginOptions = {
  * ```tsx
  * import { useLogin } from '@/features/sample-auth/api/login'
  * import { useAuthStore } from '@/features/sample-auth/stores/auth-store'
+ * import { setValidatedToken } from '@/features/sample-auth/stores/schemas/token-storage.schema'
+ * import { useRouter } from 'next/navigation'
  *
  * function LoginForm() {
+ *   const router = useRouter()
  *   const setUser = useAuthStore((state) => state.setUser)
  *   const loginMutation = useLogin({
  *     mutationConfig: {
  *       onSuccess: (data) => {
- *         // JWTトークンをLocalStorageに保存
- *         localStorage.setItem('token', data.token)
- *         // ユーザー情報をZustandストアに保存
+ *         // ✅ JWTトークンをLocalStorageに保存（Zodバリデーション付き）
+ *         setValidatedToken('token', data.token)
+ *         // ✅ ユーザー情報をZustandストアに保存（自動的にZodバリデーション付きLocalStorageに永続化）
  *         setUser(data.user)
+ *         // ログイン成功後のリダイレクト
+ *         router.push('/')
  *       },
  *     },
  *   })
