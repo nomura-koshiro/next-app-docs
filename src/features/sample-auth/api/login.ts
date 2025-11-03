@@ -11,8 +11,8 @@ import { z } from "zod";
 import { api } from "@/lib/api-client";
 import { MutationConfig } from "@/lib/tanstack-query";
 
-import { LoginResponseSchema } from "./schemas/auth-response.schema";
 import type { LoginResponse } from "./schemas/auth-response.schema";
+import { LoginResponseSchema } from "./schemas/auth-response.schema";
 
 // ================================================================================
 // Schemas
@@ -52,6 +52,7 @@ export type LoginInput = z.infer<typeof loginInputSchema>;
  */
 export const login = async (data: LoginInput): Promise<LoginResponse> => {
   const response = await api.post("/api/v1/sample/auth/login", data);
+
   return LoginResponseSchema.parse(response);
 };
 

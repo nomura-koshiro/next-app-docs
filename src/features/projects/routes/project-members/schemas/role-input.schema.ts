@@ -11,12 +11,7 @@ import { z } from "zod";
  *
  * ユーザーから入力されたロール文字列を検証
  */
-export const ProjectRoleInputSchema = z.enum([
-  "project_manager",
-  "project_moderator",
-  "member",
-  "viewer",
-]);
+export const ProjectRoleInputSchema = z.enum(["project_manager", "project_moderator", "member", "viewer"]);
 
 /**
  * 型推論

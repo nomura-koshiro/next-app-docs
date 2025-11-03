@@ -30,6 +30,7 @@ import { CreateUserResponseSchema } from "./schemas/user-response.schema";
  */
 export const createUser = async (data: CreateUserDTO): Promise<User> => {
   const response = await api.post("/sample/users", data);
+
   return CreateUserResponseSchema.parse(response);
 };
 

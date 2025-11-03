@@ -1,11 +1,11 @@
-import { useMutation, type UseMutationOptions,useQueryClient } from "@tanstack/react-query";
+import { useMutation, type UseMutationOptions, useQueryClient } from "@tanstack/react-query";
 
 import { api } from "@/lib/api-client";
 import { logger } from "@/utils/logger";
 
-import { ProjectMembersResponseSchema } from "./schemas/project-member-response.schema";
-import type { ProjectMembersResponse } from "./schemas/project-member-response.schema";
 import type { BulkUpdateRolesDTO } from "../types";
+import type { ProjectMembersResponse } from "./schemas/project-member-response.schema";
+import { ProjectMembersResponseSchema } from "./schemas/project-member-response.schema";
 
 // ================================================================================
 // API関数
@@ -40,6 +40,7 @@ export const bulkUpdateRoles = async ({
 }): Promise<ProjectMembersResponse> => {
   // 重要: エンドポイントは /members/bulk で、/roles サフィックスなし
   const response = await api.patch(`/projects/${projectId}/members/bulk`, data);
+
   return ProjectMembersResponseSchema.parse(response);
 };
 
@@ -49,10 +50,7 @@ export const bulkUpdateRoles = async ({
 
 type UseBulkUpdateRolesOptions = {
   projectId: string;
-  mutationConfig?: Omit<
-    UseMutationOptions<ProjectMembersResponse, Error, BulkUpdateRolesDTO, unknown>,
-    "mutationFn"
-  >;
+  mutationConfig?: Omit<UseMutationOptions<ProjectMembersResponse, Error, BulkUpdateRolesDTO, unknown>, "mutationFn">;
 };
 
 /**

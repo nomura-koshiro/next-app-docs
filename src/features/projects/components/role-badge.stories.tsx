@@ -1,7 +1,6 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 
 import { ProjectRole } from "../types";
-
 import { RoleBadge } from "./role-badge";
 
 const meta = {

@@ -59,6 +59,7 @@ export const getCsrfToken = (): string | null => {
 
   if (!result.success) {
     console.warn(`[CSRF] 不正なCSRFトークンを検出しました: ${result.error.message}`);
+
     return null;
   }
 

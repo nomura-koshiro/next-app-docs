@@ -1,8 +1,8 @@
 "use client";
 
-import { ProjectRoleInputSchema } from "../schemas/role-input.schema";
-import type { ProjectMember, ProjectRole } from "../../../types";
 import { RoleBadge } from "../../../components/role-badge";
+import type { ProjectMember, ProjectRole } from "../../../types";
+import { ProjectRoleInputSchema } from "../schemas/role-input.schema";
 
 type MembersTableProps = {
   members: ProjectMember[];
@@ -28,12 +28,7 @@ type MembersTableProps = {
  * />
  * ```
  */
-export const MembersTable = ({
-  members,
-  onRoleChange,
-  onRemoveMember,
-  isLoading = false,
-}: MembersTableProps) => {
+export const MembersTable = ({ members, onRoleChange, onRemoveMember, isLoading = false }: MembersTableProps) => {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center py-12">
@@ -55,28 +50,16 @@ export const MembersTable = ({
       <table className="min-w-full divide-y divide-gray-200">
         <thead className="bg-gray-50">
           <tr>
-            <th
-              scope="col"
-              className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500"
-            >
+            <th scope="col" className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
               ユーザー
             </th>
-            <th
-              scope="col"
-              className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500"
-            >
+            <th scope="col" className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
               メールアドレス
             </th>
-            <th
-              scope="col"
-              className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500"
-            >
+            <th scope="col" className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
               ロール
             </th>
-            <th
-              scope="col"
-              className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500"
-            >
+            <th scope="col" className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
               参加日
             </th>
             <th scope="col" className="relative px-6 py-3">
@@ -90,9 +73,7 @@ export const MembersTable = ({
               <td className="whitespace-nowrap px-6 py-4">
                 <div className="flex items-center">
                   <div>
-                    <div className="text-sm font-medium text-gray-900">
-                      {member.user?.display_name || "Unknown User"}
-                    </div>
+                    <div className="text-sm font-medium text-gray-900">{member.user?.display_name || "Unknown User"}</div>
                   </div>
                 </div>
               </td>
@@ -111,9 +92,7 @@ export const MembersTable = ({
                     <button
                       type="button"
                       onClick={() => {
-                        const userInput = prompt(
-                          "新しいロールを選択してください\n(project_manager, project_moderator, member, viewer)"
-                        );
+                        const userInput = prompt("新しいロールを選択してください\n(project_manager, project_moderator, member, viewer)");
                         if (userInput) {
                           // ✅ Zodスキーマでバリデーション（危険なユーザー入力を検証）
                           const result = ProjectRoleInputSchema.safeParse(userInput);

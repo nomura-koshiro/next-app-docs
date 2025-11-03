@@ -11,8 +11,8 @@ import { LoadingSpinner } from "@/components/sample-ui/loading-spinner";
 import { UserForm } from "@/features/sample-users/components/user-form";
 import { useDevTools } from "@/hooks/use-devtools";
 
-import { EditUserParamsSchema } from "./schemas/params.schema";
 import { useEditUser } from "./edit-user.hook";
+import { EditUserParamsSchema } from "./schemas/params.schema";
 
 /**
  * ユーザー編集ページのコンテンツ (Client Component)

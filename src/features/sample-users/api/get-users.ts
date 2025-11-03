@@ -24,6 +24,7 @@ import { UsersResponseSchema } from "./schemas/user-response.schema";
  */
 export const getUsers = async (): Promise<{ data: User[] }> => {
   const response = await api.get("/sample/users");
+
   return UsersResponseSchema.parse(response);
 };
 

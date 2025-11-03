@@ -27,14 +27,12 @@ import { z } from "zod";
 export const JWTTokenSchema = z
   .string()
   .min(1, "トークンは必須です")
-  .regex(
-    /^[\w-]+\.[\w-]+\.[\w-]+$/,
-    "不正なJWTトークン形式です。正しい形式: header.payload.signature"
-  )
+  .regex(/^[\w-]+\.[\w-]+\.[\w-]+$/, "不正なJWTトークン形式です。正しい形式: header.payload.signature")
   .refine(
     (token) => {
       // 3つのパートに分割できることを確認
       const parts = token.split(".");
+
       return parts.length === 3 && parts.every((part) => part.length > 0);
     },
     {
@@ -90,6 +88,7 @@ export const getValidatedToken = (key: string): string | null => {
     console.warn(`[TokenStorage] 不正なトークンを検出しました: ${result.error.message}`);
     // 不正なトークンを削除
     localStorage.removeItem(key);
+
     return null;
   }
 

@@ -14,12 +14,7 @@ export const SystemRoleSchema = z.enum(["system_admin", "user"]);
 /**
  * プロジェクトレベルのロールスキーマ
  */
-export const ProjectRoleSchema = z.enum([
-  "project_manager",
-  "project_moderator",
-  "member",
-  "viewer",
-]);
+export const ProjectRoleSchema = z.enum(["project_manager", "project_moderator", "member", "viewer"]);
 
 /**
  * ユーザー情報スキーマ

@@ -29,7 +29,7 @@ export const AccountInfoStorageSchema = z.object({
   username: z.string(),
   localAccountId: z.string(),
   name: z.string().optional(),
-  idTokenClaims: z.record(z.unknown()).optional(),
+  idTokenClaims: z.record(z.string(), z.unknown()).optional(),
 });
 
 /**

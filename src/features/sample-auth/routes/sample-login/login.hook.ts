@@ -77,6 +77,7 @@ export const useLogin = () => {
     await loginMutation
       .mutateAsync(values)
       .then((data) => {
+        // eslint-disable-next-line no-restricted-syntax -- setValidatedToken()はZodErrorをスローするため、try-catchが必要
         try {
           // ✅ トークンをバリデーション後にlocalStorageに保存
           setValidatedToken("token", data.token);

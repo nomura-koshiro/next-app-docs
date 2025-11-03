@@ -4,7 +4,6 @@
 
 import { http, HttpResponse } from "msw";
 
-import { SystemRole } from "@/features/projects/types";
 import type {
   AddProjectMemberDTO,
   BulkUpdateRolesDTO,
@@ -14,6 +13,7 @@ import type {
   UpdateMemberRoleDTO,
   User,
 } from "@/features/projects/types";
+import { SystemRole } from "@/features/projects/types";
 
 // ================================================================================
 // モックデータ
@@ -181,9 +181,7 @@ export const projectMemberHandlers = [
     }
 
     // 既にメンバーかチェック
-    const existingMember = mockProjectMembers.find(
-      (m) => m.project_id === projectId && m.user_id === body.user_id
-    );
+    const existingMember = mockProjectMembers.find((m) => m.project_id === projectId && m.user_id === body.user_id);
     if (existingMember) {
       return HttpResponse.json(
         {
@@ -229,9 +227,7 @@ export const projectMemberHandlers = [
     const { projectId, memberId } = params;
     const body = (await request.json()) as UpdateMemberRoleDTO;
 
-    const memberIndex = mockProjectMembers.findIndex(
-      (m) => m.id === memberId && m.project_id === projectId
-    );
+    const memberIndex = mockProjectMembers.findIndex((m) => m.id === memberId && m.project_id === projectId);
 
     if (memberIndex === -1) {
       return HttpResponse.json(
@@ -267,9 +263,7 @@ export const projectMemberHandlers = [
   http.delete("*/api/v1/projects/:projectId/members/:memberId", ({ params }) => {
     const { projectId, memberId } = params;
 
-    const memberIndex = mockProjectMembers.findIndex(
-      (m) => m.id === memberId && m.project_id === projectId
-    );
+    const memberIndex = mockProjectMembers.findIndex((m) => m.id === memberId && m.project_id === projectId);
 
     if (memberIndex === -1) {
       return HttpResponse.json(
@@ -303,9 +297,7 @@ export const projectMemberHandlers = [
     const updatedMembers: ProjectMember[] = [];
 
     for (const update of body.updates) {
-      const memberIndex = mockProjectMembers.findIndex(
-        (m) => m.id === update.member_id && m.project_id === projectId
-      );
+      const memberIndex = mockProjectMembers.findIndex((m) => m.id === update.member_id && m.project_id === projectId);
 
       if (memberIndex !== -1) {
         mockProjectMembers[memberIndex] = {

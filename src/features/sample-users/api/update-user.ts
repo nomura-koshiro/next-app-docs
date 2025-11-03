@@ -29,6 +29,7 @@ import { UserSchema } from "./schemas/user-response.schema";
  */
 export const updateUser = async ({ userId, data }: { userId: string; data: UpdateUserDTO }): Promise<User> => {
   const response = await api.put(`/sample/users/${userId}`, data);
+
   // PUT APIは { data: User } ではなく User を直接返すため UserSchema を使用
   return UserSchema.parse(response);
 };

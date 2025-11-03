@@ -1,4 +1,4 @@
-import { useMutation, type UseMutationOptions,useQueryClient } from "@tanstack/react-query";
+import { useMutation, type UseMutationOptions, useQueryClient } from "@tanstack/react-query";
 
 import { api } from "@/lib/api-client";
 import { logger } from "@/utils/logger";
@@ -22,13 +22,7 @@ import { logger } from "@/utils/logger";
  * });
  * ```
  */
-export const removeProjectMember = ({
-  projectId,
-  memberId,
-}: {
-  projectId: string;
-  memberId: string;
-}): Promise<void> => {
+export const removeProjectMember = ({ projectId, memberId }: { projectId: string; memberId: string }): Promise<void> => {
   return api.delete(`/projects/${projectId}/members/${memberId}`);
 };
 
@@ -38,10 +32,7 @@ export const removeProjectMember = ({
 
 type UseRemoveProjectMemberOptions = {
   projectId: string;
-  mutationConfig?: Omit<
-    UseMutationOptions<void, Error, { memberId: string }, unknown>,
-    "mutationFn"
-  >;
+  mutationConfig?: Omit<UseMutationOptions<void, Error, { memberId: string }, unknown>, "mutationFn">;
 };
 
 /**

@@ -26,3 +26,9 @@
 
 export * from "./download-file";
 export * from "./upload-file";
+
+// ================================================================================
+// Schema Exports
+// ================================================================================
+
+export * from "./schemas/upload-response.schema";

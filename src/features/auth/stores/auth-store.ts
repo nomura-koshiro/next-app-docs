@@ -67,6 +67,7 @@ const validatedSessionStorage = {
         // バリデーション失敗時は不正なデータを削除してnullを返す
         console.warn("[AuthStore] セッションストレージの認証データが不正です。データを削除します:", result.error);
         sessionStorage.removeItem(name);
+
         return null;
       }
 
@@ -75,6 +76,7 @@ const validatedSessionStorage = {
       // JSON.parse エラー時も削除
       console.warn("[AuthStore] セッションストレージのデータが破損しています。データを削除します:", error);
       sessionStorage.removeItem(name);
+
       return null;
     }
   },

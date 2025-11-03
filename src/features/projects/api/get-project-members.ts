@@ -3,8 +3,8 @@ import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { api } from "@/lib/api-client";
 import { QueryConfig } from "@/lib/tanstack-query";
 
-import { ProjectMembersResponseSchema } from "./schemas/project-member-response.schema";
 import type { ProjectMembersResponse } from "./schemas/project-member-response.schema";
+import { ProjectMembersResponseSchema } from "./schemas/project-member-response.schema";
 
 // ================================================================================
 // API関数
@@ -24,6 +24,7 @@ import type { ProjectMembersResponse } from "./schemas/project-member-response.s
  */
 export const getProjectMembers = async (projectId: string): Promise<ProjectMembersResponse> => {
   const response = await api.get(`/projects/${projectId}/members`);
+
   return ProjectMembersResponseSchema.parse(response);
 };
 

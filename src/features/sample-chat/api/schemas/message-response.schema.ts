@@ -21,7 +21,10 @@ export const MessageSchema = z.object({
   id: z.string().min(1, "メッセージIDは必須です"),
   role: MessageRoleSchema,
   content: z.string().min(1, "メッセージ内容は必須です"),
-  timestamp: z.string().min(1, "タイムスタンプは必須です").transform((val) => new Date(val)),
+  timestamp: z
+    .string()
+    .min(1, "タイムスタンプは必須です")
+    .transform((val) => new Date(val)),
 });
 
 /**

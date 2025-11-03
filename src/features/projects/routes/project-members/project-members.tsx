@@ -28,12 +28,7 @@ const ProjectMembersContent = ({ projectId }: ProjectMembersProps) => {
         </div>
       </div>
 
-      <MembersTable
-        members={members}
-        isLoading={isLoading}
-        onRoleChange={handleUpdateRole}
-        onRemoveMember={handleRemoveMember}
-      />
+      <MembersTable members={members} isLoading={isLoading} onRoleChange={handleUpdateRole} onRemoveMember={handleRemoveMember} />
     </div>
   );
 };

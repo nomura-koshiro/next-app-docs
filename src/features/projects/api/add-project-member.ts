@@ -1,11 +1,11 @@
-import { useMutation, type UseMutationOptions,useQueryClient } from "@tanstack/react-query";
+import { useMutation, type UseMutationOptions, useQueryClient } from "@tanstack/react-query";
 
 import { api } from "@/lib/api-client";
 import { logger } from "@/utils/logger";
 
-import { ProjectMemberResponseSchema } from "./schemas/project-member-response.schema";
-import type { ProjectMemberResponse } from "./schemas/project-member-response.schema";
 import type { AddProjectMemberDTO } from "../types";
+import type { ProjectMemberResponse } from "./schemas/project-member-response.schema";
+import { ProjectMemberResponseSchema } from "./schemas/project-member-response.schema";
 
 // ================================================================================
 // API関数
@@ -34,6 +34,7 @@ export const addProjectMember = async ({
   data: AddProjectMemberDTO;
 }): Promise<ProjectMemberResponse> => {
   const response = await api.post(`/projects/${projectId}/members`, data);
+
   return ProjectMemberResponseSchema.parse(response);
 };
 
@@ -43,10 +44,7 @@ export const addProjectMember = async ({
 
 type UseAddProjectMemberOptions = {
   projectId: string;
-  mutationConfig?: Omit<
-    UseMutationOptions<ProjectMemberResponse, Error, AddProjectMemberDTO, unknown>,
-    "mutationFn"
-  >;
+  mutationConfig?: Omit<UseMutationOptions<ProjectMemberResponse, Error, AddProjectMemberDTO, unknown>, "mutationFn">;
 };
 
 /**

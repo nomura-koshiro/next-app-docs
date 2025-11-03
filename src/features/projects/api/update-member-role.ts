@@ -1,11 +1,11 @@
-import { useMutation, type UseMutationOptions,useQueryClient } from "@tanstack/react-query";
+import { useMutation, type UseMutationOptions, useQueryClient } from "@tanstack/react-query";
 
 import { api } from "@/lib/api-client";
 import { logger } from "@/utils/logger";
 
-import { ProjectMemberResponseSchema } from "./schemas/project-member-response.schema";
-import type { ProjectMemberResponse } from "./schemas/project-member-response.schema";
 import type { UpdateMemberRoleDTO } from "../types";
+import type { ProjectMemberResponse } from "./schemas/project-member-response.schema";
+import { ProjectMemberResponseSchema } from "./schemas/project-member-response.schema";
 
 // ================================================================================
 // API関数
@@ -39,6 +39,7 @@ export const updateMemberRole = async ({
 }): Promise<ProjectMemberResponse> => {
   // 重要: エンドポイントは /members/{member_id} で、/role サフィックスなし
   const response = await api.patch(`/projects/${projectId}/members/${memberId}`, data);
+
   return ProjectMemberResponseSchema.parse(response);
 };
 
@@ -94,7 +95,6 @@ export const useUpdateMemberRole = ({ projectId, mutationConfig }: UseUpdateMemb
       onSuccess?.(...args);
     },
     ...restConfig,
-    mutationFn: ({ memberId, data }: { memberId: string; data: UpdateMemberRoleDTO }) =>
-      updateMemberRole({ projectId, memberId, data }),
+    mutationFn: ({ memberId, data }: { memberId: string; data: UpdateMemberRoleDTO }) => updateMemberRole({ projectId, memberId, data }),
   });
 };

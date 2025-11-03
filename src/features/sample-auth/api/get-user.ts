@@ -9,8 +9,8 @@ import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { api } from "@/lib/api-client";
 import { QueryConfig } from "@/lib/tanstack-query";
 
-import { GetUserResponseSchema } from "./schemas/auth-response.schema";
 import type { GetUserResponse } from "./schemas/auth-response.schema";
+import { GetUserResponseSchema } from "./schemas/auth-response.schema";
 
 // ================================================================================
 // API関数
@@ -32,6 +32,7 @@ import type { GetUserResponse } from "./schemas/auth-response.schema";
  */
 export const getUser = async (): Promise<GetUserResponse> => {
   const response = await api.get("/api/v1/sample/auth/me");
+
   return GetUserResponseSchema.parse(response);
 };
 

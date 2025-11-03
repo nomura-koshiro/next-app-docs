@@ -4,8 +4,8 @@ import { api } from "@/lib/api-client";
 import { MutationConfig } from "@/lib/tanstack-query";
 import { logger } from "@/utils/logger";
 
-import { SendMessageResponseSchema } from "./schemas/message-response.schema";
 import type { SendMessageRequest, SendMessageResponse } from "../types";
+import { SendMessageResponseSchema } from "./schemas/message-response.schema";
 
 // ================================================================================
 // API関数
@@ -13,6 +13,7 @@ import type { SendMessageRequest, SendMessageResponse } from "../types";
 
 export const sendMessage = async (request: SendMessageRequest): Promise<SendMessageResponse> => {
   const response = await api.post("/api/v1/sample/chat/messages", request);
+
   return SendMessageResponseSchema.parse(response);
 };
 

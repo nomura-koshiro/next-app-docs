@@ -1,7 +1,6 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 
-import { ProjectRole, SystemRole, type ProjectMember } from "../../../types";
-
+import { type ProjectMember, ProjectRole, SystemRole } from "../../../types";
 import { MembersTable } from "./members-table";
 
 const mockMembers: ProjectMember[] = [

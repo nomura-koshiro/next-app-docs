@@ -28,8 +28,8 @@
 import { create } from "zustand";
 import { createJSONStorage, persist, type StorageValue } from "zustand/middleware";
 
-import { AuthStorageSchema } from "./schemas/auth-storage.schema";
 import type { AuthStore, User } from "../types";
+import { AuthStorageSchema } from "./schemas/auth-storage.schema";
 
 // ================================================================================
 // カスタムストレージ（バリデーション付き）
@@ -53,6 +53,7 @@ const validatedLocalStorage = {
         // バリデーション失敗時は不正なデータを削除してnullを返す
         console.warn("[Sample Auth Store] ローカルストレージの認証データが不正です。データを削除します:", result.error);
         localStorage.removeItem(name);
+
         return null;
       }
 
@@ -61,6 +62,7 @@ const validatedLocalStorage = {
       // JSON.parse エラー時も削除
       console.warn("[Sample Auth Store] ローカルストレージのデータが破損しています。データを削除します:", error);
       localStorage.removeItem(name);
+
       return null;
     }
   },
