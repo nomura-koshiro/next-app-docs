@@ -26,7 +26,7 @@
  */
 
 import { create } from "zustand";
-import { createJSONStorage, persist, type StorageValue } from "zustand/middleware";
+import { persist, type StorageValue } from "zustand/middleware";
 
 import type { AuthStore, User } from "../types";
 import { AuthStorageSchema } from "./schemas/auth-storage.schema";
@@ -174,7 +174,7 @@ export const useAuthStore = create<AuthStore>()(
     }),
     {
       name: "auth-storage", // LocalStorageのキー名
-      storage: createJSONStorage(() => validatedLocalStorage), // ✅ Zodバリデーション付きLocalStorageを使用
+      storage: validatedLocalStorage, // ✅ Zodバリデーション付きLocalStorageを使用
 
       // 永続化する状態を選択（パフォーマンス最適化）
       partialize: (state) => ({

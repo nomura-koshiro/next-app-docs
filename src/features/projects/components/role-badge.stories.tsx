@@ -55,6 +55,9 @@ export const Viewer: Story = {
  * 全ロールの一覧表示
  */
 export const AllRoles: Story = {
+  args: {
+    role: ProjectRole.PROJECT_MANAGER, // Dummy value for type satisfaction
+  },
   render: () => (
     <div className="flex flex-col gap-4">
       <div className="flex items-center gap-2">

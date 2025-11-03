@@ -6,15 +6,17 @@
 
 import { z } from "zod";
 
+import { ProjectRole as ProjectRoleEnum, SystemRole as SystemRoleEnum } from "../../types";
+
 /**
  * システムレベルのロールスキーマ
  */
-export const SystemRoleSchema = z.enum(["system_admin", "user"]);
+export const SystemRoleSchema = z.nativeEnum(SystemRoleEnum);
 
 /**
  * プロジェクトレベルのロールスキーマ
  */
-export const ProjectRoleSchema = z.enum(["project_manager", "project_moderator", "member", "viewer"]);
+export const ProjectRoleSchema = z.nativeEnum(ProjectRoleEnum);
 
 /**
  * ユーザー情報スキーマ

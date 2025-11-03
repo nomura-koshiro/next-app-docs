@@ -4,7 +4,7 @@
 
 import type { AccountInfo } from "@azure/msal-browser";
 import { create } from "zustand";
-import { createJSONStorage, persist, type StorageValue } from "zustand/middleware";
+import { persist, type StorageValue } from "zustand/middleware";
 
 import { AuthStorageSchema } from "./schemas/auth-storage.schema";
 
@@ -129,7 +129,7 @@ export const useAuthStore = create<AuthStore>()(
     }),
     {
       name: AUTH_STORAGE_KEY,
-      storage: createJSONStorage(() => validatedSessionStorage),
+      storage: validatedSessionStorage,
       partialize: (state) => ({
         user: state.user,
         isAuthenticated: state.isAuthenticated,
