@@ -59,17 +59,24 @@ const validatedSessionStorage = {
     const item = sessionStorage.getItem(name);
     if (!item) return null;
 
-    const parsed = JSON.parse(item);
-    const result = AuthStorageSchema.safeParse(parsed.state);
+    try {
+      const parsed = JSON.parse(item);
+      const result = AuthStorageSchema.safeParse(parsed.state);
 
-    if (!result.success) {
-      // バリデーション失敗時は不正なデータを削除してnullを返す
-      console.warn("[AuthStore] セッションストレージの認証データが不正です。データを削除します:", result.error);
+      if (!result.success) {
+        // バリデーション失敗時は不正なデータを削除してnullを返す
+        console.warn("[AuthStore] セッションストレージの認証データが不正です。データを削除します:", result.error);
+        sessionStorage.removeItem(name);
+        return null;
+      }
+
+      return parsed;
+    } catch (error) {
+      // JSON.parse エラー時も削除
+      console.warn("[AuthStore] セッションストレージのデータが破損しています。データを削除します:", error);
       sessionStorage.removeItem(name);
       return null;
     }
-
-    return parsed;
   },
   setItem: (name: string, value: StorageValue<Pick<AuthStore, "user" | "isAuthenticated" | "account">>) => {
     sessionStorage.setItem(name, JSON.stringify(value));
