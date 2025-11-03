@@ -42,7 +42,19 @@ export const authHandlers = [
 
     // Bearer Tokenのチェック
     if (!authHeader || !authHeader.includes("mock-access-token")) {
-      return HttpResponse.json({ detail: "Unauthorized" }, { status: 401 });
+      return HttpResponse.json(
+        {
+          type: "https://api.example.com/problems/unauthorized",
+          title: "Unauthorized",
+          status: 401,
+          detail: "Authentication is required to access this resource",
+          instance: "/auth/me",
+        },
+        {
+          status: 401,
+          headers: { "Content-Type": "application/problem+json" },
+        }
+      );
     }
 
     return HttpResponse.json(MOCK_AUTH.USER);
