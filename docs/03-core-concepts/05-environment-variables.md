@@ -5,12 +5,14 @@
 ## 目次
 
 1. [なぜenv.tsが必要か？](#なぜenvtsが必要か)
-2. [実装](#実装)
-3. [.env.localの設定](#envlocalの設定)
-4. [使用方法](#使用方法)
-5. [エラーハンドリング](#エラーハンドリング)
-6. [新しい環境変数の追加](#新しい環境変数の追加)
-7. [ベストプラクティス](#ベストプラクティス)
+2. [セキュリティ上の重要性](#セキュリティ上の重要性)
+3. [実装](#実装)
+4. [.env.localの設定](#envlocalの設定)
+5. [使用方法](#使用方法)
+6. [エラーハンドリング](#エラーハンドリング)
+7. [新しい環境変数の追加](#新しい環境変数の追加)
+8. [セキュリティベストプラクティス](#セキュリティベストプラクティス)
+9. [ベストプラクティス](#ベストプラクティス)
 
 ---
 
@@ -22,6 +24,144 @@
 | 必須変数が未定義でも実行時まで気づかない   | ✅ 起動時に自動チェック |
 | boolean/numberへの変換が必要               | ✅ 自動型変換           |
 | 不正な値が設定されていてもエラーにならない | ✅ Zodでバリデーション  |
+
+---
+
+## セキュリティ上の重要性
+
+### なぜ環境変数のバリデーションが重要か
+
+環境変数は**外部から注入される設定値**であり、以下のセキュリティリスクがあります:
+
+| リスク | 説明 | 影響 |
+|--------|------|------|
+| **不正なAPI URL** | 攻撃者が悪意のあるAPIエンドポイントを設定 | データ漏洩、認証情報の窃取 |
+| **型不一致** | boolean期待の変数に任意文字列が設定 | アプリケーションクラッシュ |
+| **必須変数の欠落** | 重要な設定が未定義のまま起動 | 予期しない動作、セキュリティ機能の無効化 |
+| **不正な形式** | URLや数値に不正な形式の値が設定 | インジェクション攻撃、予期しない動作 |
+
+### Zodバリデーションによる防御
+
+```typescript
+// ❌ バリデーションなし（セキュリティリスク）
+const apiUrl = process.env.NEXT_PUBLIC_API_URL; // string | undefined
+// - 未定義でもエラーにならない
+// - 不正なURL形式でも通過
+// - 攻撃者が任意のURLを設定可能
+
+// ✅ Zodバリデーション（安全）
+const EnvSchema = z.object({
+  API_URL: z.string().url("有効なURL形式である必要があります"), // ✅ URL形式検証
+});
+
+const env = EnvSchema.parse({
+  API_URL: process.env.NEXT_PUBLIC_API_URL,
+});
+// ✅ 未定義の場合は起動時にエラー
+// ✅ 不正なURL形式は拒否
+// ✅ 型安全な値のみ使用可能
+```
+
+### 攻撃シナリオと防御
+
+#### シナリオ1: 悪意のあるAPI URL注入
+
+**攻撃**:
+```bash
+# 攻撃者が環境変数を操作
+NEXT_PUBLIC_API_URL=https://attacker.com/api/v1
+```
+
+**結果 (バリデーションなし)**:
+```typescript
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+// → "https://attacker.com/api/v1"
+// → すべてのAPIリクエストが攻撃者サーバーに送信される
+// → 認証情報、個人情報が漏洩
+```
+
+**防御 (Zodバリデーション)**:
+```typescript
+const EnvSchema = z.object({
+  API_URL: z
+    .string()
+    .url()
+    .refine(
+      (url) => url.startsWith("https://api.example.com") || url.startsWith("http://localhost"),
+      "API URLは許可されたドメインのみ設定可能です"
+    ),
+});
+
+// ✅ 不正なドメインは起動時に検出・拒否される
+```
+
+#### シナリオ2: boolean型の改ざん
+
+**攻撃**:
+```bash
+# 攻撃者がセキュリティ機能を無効化
+NEXT_PUBLIC_ENABLE_CSRF_PROTECTION=false
+```
+
+**結果 (バリデーションなし)**:
+```typescript
+const csrfEnabled = process.env.NEXT_PUBLIC_ENABLE_CSRF_PROTECTION === "true";
+// → false
+// → CSRF保護が無効化される
+// → CSRF攻撃に脆弱になる
+```
+
+**防御 (デフォルト値 + Zodバリデーション)**:
+```typescript
+const EnvSchema = z.object({
+  ENABLE_CSRF_PROTECTION: z
+    .string()
+    .refine((s) => s === "true" || s === "false")
+    .transform((s) => s === "true")
+    .default("true"), // ✅ デフォルトで有効
+});
+
+// ✅ 環境変数が未設定でもCSRF保護は有効
+// ✅ "false"以外の値は拒否される
+```
+
+#### シナリオ3: 数値の不正設定
+
+**攻撃**:
+```bash
+# 攻撃者が不正なポート番号を設定
+NEXT_PUBLIC_PORT=99999999
+```
+
+**結果 (バリデーションなし)**:
+```typescript
+const port = parseInt(process.env.NEXT_PUBLIC_PORT!);
+// → 99999999 (有効なポート範囲外)
+// → アプリケーションが起動失敗
+```
+
+**防御 (Zodバリデーション)**:
+```typescript
+const EnvSchema = z.object({
+  PORT: z
+    .string()
+    .transform((val) => parseInt(val, 10))
+    .pipe(z.number().min(1).max(65535)), // ✅ 有効なポート範囲のみ
+});
+
+// ✅ 不正なポート番号は起動時に検出・拒否
+```
+
+### セキュリティメリットのまとめ
+
+| セキュリティ機能 | 効果 |
+|-----------------|------|
+| **起動時バリデーション** | 不正な設定でアプリが起動しない |
+| **URL形式検証** | 悪意のあるエンドポイントへの接続を防止 |
+| **ドメインホワイトリスト** | 許可されたドメインのみ使用可能 |
+| **型検証** | 型不一致によるクラッシュを防止 |
+| **デフォルト値** | セキュリティ機能のデフォルト有効化 |
+| **範囲検証** | 不正な数値範囲を拒否 |
 
 ---
 
@@ -249,6 +389,177 @@ if (env.NEW_FEATURE_ENABLED) {
 
 ---
 
+## セキュリティベストプラクティス
+
+### ✅ DO: URL形式とドメインを検証
+
+```typescript
+// ✅ URL形式検証 + ドメインホワイトリスト
+const EnvSchema = z.object({
+  API_URL: z
+    .string()
+    .url("有効なURL形式である必要があります")
+    .refine(
+      (url) =>
+        url.startsWith("https://api.example.com") ||
+        url.startsWith("http://localhost") ||
+        url.startsWith("http://127.0.0.1"),
+      "API URLは許可されたドメインのみ設定可能です"
+    ),
+});
+```
+
+### ❌ DON'T: 任意のURLを許可
+
+```typescript
+// ❌ 任意のURLを許可（セキュリティリスク）
+const EnvSchema = z.object({
+  API_URL: z.string(), // 任意の文字列
+});
+```
+
+### ✅ DO: セキュリティ機能はデフォルトで有効化
+
+```typescript
+// ✅ CSRF保護はデフォルトで有効
+const EnvSchema = z.object({
+  ENABLE_CSRF_PROTECTION: z
+    .string()
+    .refine((s) => s === "true" || s === "false")
+    .transform((s) => s === "true")
+    .default("true"), // ✅ デフォルトで有効
+});
+```
+
+### ❌ DON'T: セキュリティ機能を簡単に無効化可能にしない
+
+```typescript
+// ❌ デフォルトで無効（セキュリティリスク）
+const EnvSchema = z.object({
+  ENABLE_CSRF_PROTECTION: z
+    .string()
+    .optional()
+    .default("false"), // ❌ デフォルトで無効
+});
+```
+
+### ✅ DO: 本番環境では厳格な検証
+
+```typescript
+// ✅ 本番環境では HTTPSを強制
+const EnvSchema = z.object({
+  API_URL: z
+    .string()
+    .url()
+    .refine(
+      (url) => {
+        // 本番環境ではHTTPSのみ許可
+        if (process.env.NODE_ENV === "production") {
+          return url.startsWith("https://");
+        }
+        // 開発環境ではlocalhostのHTTPも許可
+        return url.startsWith("https://") || url.startsWith("http://localhost");
+      },
+      "本番環境ではHTTPS URLが必須です"
+    ),
+});
+```
+
+### ❌ DON'T: 本番環境でHTTPを許可
+
+```typescript
+// ❌ 本番環境でもHTTPを許可（セキュリティリスク）
+const EnvSchema = z.object({
+  API_URL: z.string().url(), // HTTPも許可される
+});
+```
+
+### ✅ DO: 機密情報は NEXT_PUBLIC_ プレフィックスなし
+
+```typescript
+// ✅ サーバーサイド専用（ブラウザに公開されない）
+const EnvSchema = z.object({
+  DATABASE_URL: z.string().url(), // ✅ NEXT_PUBLIC_ なし
+  API_SECRET_KEY: z.string().min(32), // ✅ NEXT_PUBLIC_ なし
+});
+
+// サーバーサイドのみで使用
+// src/lib/db.ts (Server Component)
+import { env } from '@/config/env';
+const db = new Database(env.DATABASE_URL);
+```
+
+### ❌ DON'T: 機密情報を NEXT_PUBLIC_ プレフィックス付きで公開
+
+```typescript
+// ❌ ブラウザに機密情報が公開される（重大なセキュリティリスク）
+const EnvSchema = z.object({
+  NEXT_PUBLIC_DATABASE_URL: z.string().url(), // ❌ ブラウザに公開
+  NEXT_PUBLIC_API_SECRET_KEY: z.string(), // ❌ ブラウザに公開
+});
+```
+
+### ✅ DO: 数値範囲を制限
+
+```typescript
+// ✅ 有効な範囲のみ許可
+const EnvSchema = z.object({
+  PORT: z
+    .string()
+    .transform((val) => parseInt(val, 10))
+    .pipe(z.number().int().min(1).max(65535)), // ✅ 有効なポート範囲
+
+  MAX_FILE_SIZE: z
+    .string()
+    .transform((val) => parseInt(val, 10))
+    .pipe(z.number().int().min(1).max(100)), // ✅ 1MB〜100MB
+});
+```
+
+### ❌ DON'T: 無制限の数値を許可
+
+```typescript
+// ❌ 任意の数値を許可（セキュリティリスク）
+const EnvSchema = z.object({
+  PORT: z.string().transform((val) => parseInt(val, 10)), // 範囲制限なし
+  MAX_FILE_SIZE: z.number(), // 無制限
+});
+```
+
+### ✅ DO: enum で選択肢を制限
+
+```typescript
+// ✅ 許可された値のみ
+const EnvSchema = z.object({
+  NODE_ENV: z.enum(["development", "production", "test"]),
+  AUTH_MODE: z.enum(["development", "production"]),
+  LOG_LEVEL: z.enum(["error", "warn", "info", "debug"]),
+});
+```
+
+### ❌ DON'T: 任意の文字列を許可
+
+```typescript
+// ❌ 任意の文字列を許可（予期しない動作の原因）
+const EnvSchema = z.object({
+  NODE_ENV: z.string(), // 任意の文字列
+  AUTH_MODE: z.string(), // 任意の文字列
+});
+```
+
+### 機密情報管理のチェックリスト
+
+- [ ] データベース接続文字列は `NEXT_PUBLIC_` なしで定義
+- [ ] APIシークレットキーは `NEXT_PUBLIC_` なしで定義
+- [ ] 暗号化キーは `NEXT_PUBLIC_` なしで定義
+- [ ] OAuth クライアントシークレットは `NEXT_PUBLIC_` なしで定義
+- [ ] 本番環境では HTTPS URL のみ許可
+- [ ] セキュリティ機能はデフォルトで有効化
+- [ ] 数値範囲は適切に制限
+- [ ] 選択肢は enum で制限
+
+---
+
 ## ベストプラクティス
 
 ### ✅ Good
@@ -270,5 +581,13 @@ const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 ## 参考リンク
 
+### 外部リソース
 - [Next.js - Environment Variables](https://nextjs.org/docs/app/building-your-application/configuring/environment-variables)
-- [Zod](https://zod.dev/)
+- [Zod公式ドキュメント](https://zod.dev/)
+
+### 関連ドキュメント
+- [Zodによるセキュリティ強化ガイド](../04-development/01-coding-standards/10-security-with-zod.md)
+- [トークンバリデーション](../04-development/06-forms-validation/09-token-validation.md)
+- [APIレスポンスバリデーション](../04-development/06-forms-validation/04-api-response-validation.md)
+- [状態管理とZodバリデーション](./02-state-management.md#永続化とzodバリデーション)
+- [APIクライアント](./06-api-client.md)

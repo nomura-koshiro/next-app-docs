@@ -1,9 +1,11 @@
-import type { UseMutationOptions } from "@tanstack/react-query";
+import { useMutation, type UseMutationOptions, useQueryClient } from "@tanstack/react-query";
 
 import { api } from "@/lib/api-client";
+import { logger } from "@/utils/logger";
 
-import type { ProjectMember, UpdateMemberRoleInput } from "../types";
-import { useProjectMemberMutation } from "./helpers";
+import type { UpdateMemberRoleDTO } from "../types";
+import type { ProjectMemberResponse } from "./schemas/project-member-response.schema";
+import { ProjectMemberResponseSchema } from "./schemas/project-member-response.schema";
 
 // ================================================================================
 // API関数
@@ -14,21 +16,31 @@ import { useProjectMemberMutation } from "./helpers";
  *
  * @param projectId プロジェクトID
  * @param memberId メンバーID
- * @param input ロール更新の入力データ
- * @returns 更新されたプロジェクトメンバー（ドメインモデル）
+ * @param data ロール更新データ
+ * @returns 更新されたプロジェクトメンバー
  *
  * @example
  * ```tsx
- * const updatedMember = await updateMemberRole(
- *   'project-123',
- *   'member-456',
- *   { role: PROJECT_ROLES.PROJECT_MODERATOR }
- * );
+ * await updateMemberRole({
+ *   projectId: 'project-123',
+ *   memberId: 'member-456',
+ *   data: { role: ProjectRole.PROJECT_MODERATOR }
+ * });
  * ```
  */
-export const updateMemberRole = (projectId: string, memberId: string, input: UpdateMemberRoleInput): Promise<ProjectMember> => {
+export const updateMemberRole = async ({
+  projectId,
+  memberId,
+  data,
+}: {
+  projectId: string;
+  memberId: string;
+  data: UpdateMemberRoleDTO;
+}): Promise<ProjectMemberResponse> => {
   // 重要: エンドポイントは /members/{member_id} で、/role サフィックスなし
-  return api.patch(`/projects/${projectId}/members/${memberId}`, input);
+  const response = await api.patch(`/projects/${projectId}/members/${memberId}`, data);
+
+  return ProjectMemberResponseSchema.parse(response);
 };
 
 // ================================================================================
@@ -38,7 +50,7 @@ export const updateMemberRole = (projectId: string, memberId: string, input: Upd
 type UseUpdateMemberRoleOptions = {
   projectId: string;
   mutationConfig?: Omit<
-    UseMutationOptions<ProjectMember, Error, { memberId: string; input: UpdateMemberRoleInput }, unknown>,
+    UseMutationOptions<ProjectMemberResponse, Error, { memberId: string; data: UpdateMemberRoleDTO }, unknown>,
     "mutationFn"
   >;
 };
@@ -65,15 +77,24 @@ type UseUpdateMemberRoleOptions = {
  * const handleUpdate = () => {
  *   updateRoleMutation.mutate({
  *     memberId: 'member-456',
- *     input: { role: PROJECT_ROLES.PROJECT_MODERATOR }
+ *     data: { role: ProjectRole.PROJECT_MODERATOR }
  *   });
  * };
  * ```
  */
 export const useUpdateMemberRole = ({ projectId, mutationConfig }: UseUpdateMemberRoleOptions) => {
-  return useProjectMemberMutation({
-    mutationFn: ({ memberId, input }: { memberId: string; input: UpdateMemberRoleInput }) => updateMemberRole(projectId, memberId, input),
-    projectId,
-    mutationConfig,
+  const queryClient = useQueryClient();
+
+  const { onSuccess, ...restConfig } = mutationConfig || {};
+
+  return useMutation({
+    onSuccess: (...args) => {
+      queryClient.invalidateQueries({ queryKey: ["projects", projectId, "members"] }).catch((error) => {
+        logger.error("プロジェクトメンバークエリの無効化に失敗しました", error);
+      });
+      onSuccess?.(...args);
+    },
+    ...restConfig,
+    mutationFn: ({ memberId, data }: { memberId: string; data: UpdateMemberRoleDTO }) => updateMemberRole({ projectId, memberId, data }),
   });
 };

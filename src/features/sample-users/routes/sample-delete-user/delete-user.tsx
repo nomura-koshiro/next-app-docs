@@ -12,13 +12,15 @@ import { LoadingSpinner } from "@/components/sample-ui/loading-spinner";
 
 import { DeleteUserConfirmation } from "./components/delete-user-confirmation";
 import { useDeleteUser } from "./delete-user.hook";
+import { DeleteUserParamsSchema } from "./schemas/params.schema";
 
 /**
  * ユーザー削除確認ページのコンテンツ (Client Component)
  */
 const DeleteUserPageContent = () => {
   const params = useParams();
-  const userId = params.id as string;
+  // ルートパラメータの検証
+  const { id: userId } = DeleteUserParamsSchema.parse(params);
 
   const { user, handleDelete, handleCancel, isDeleting } = useDeleteUser(userId);
 

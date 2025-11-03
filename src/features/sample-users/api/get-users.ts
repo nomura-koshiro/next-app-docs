@@ -4,20 +4,28 @@ import { api } from "@/lib/api-client";
 import { QueryConfig } from "@/lib/tanstack-query";
 
 import type { User } from "../types";
+import { UsersResponseSchema } from "./schemas/user-response.schema";
 
 // ================================================================================
 // API関数
 // ================================================================================
 
 /**
+ * ユーザー一覧取得
+ *
+ * @returns ユーザー一覧（ランタイムバリデーション済み）
+ * @throws {z.ZodError} レスポンスが期待する形式でない場合
+ *
  * @example
  * ```tsx
  * const users = await getUsers()
  * console.log(users.data) // User[]
  * ```
  */
-export const getUsers = (): Promise<{ data: User[] }> => {
-  return api.get("/sample/users");
+export const getUsers = async (): Promise<{ data: User[] }> => {
+  const response = await api.get("/sample/users");
+
+  return UsersResponseSchema.parse(response);
 };
 
 export const getUsersQueryOptions = () => {

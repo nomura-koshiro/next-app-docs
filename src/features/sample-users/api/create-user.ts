@@ -1,16 +1,24 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
+import { userFormSchema } from "@/features/sample-users/schemas/user-form.schema";
 import { api } from "@/lib/api-client";
 import { MutationConfig } from "@/lib/tanstack-query";
 import { logger } from "@/utils/logger";
 
-import type { CreateUserInput, User } from "../types";
+import type { CreateUserDTO, User } from "../types";
+import { CreateUserResponseSchema } from "./schemas/user-response.schema";
 
 // ================================================================================
 // API関数
 // ================================================================================
 
 /**
+ * ユーザー作成
+ *
+ * @param data - ユーザー作成データ
+ * @returns 作成されたユーザー（ランタイムバリデーション済み）
+ * @throws {z.ZodError} レスポンスが期待する形式でない場合
+ *
  * @example
  * ```tsx
  * const newUser = await createUser({
@@ -20,8 +28,10 @@ import type { CreateUserInput, User } from "../types";
  * })
  * ```
  */
-export const createUser = (data: CreateUserInput): Promise<User> => {
-  return api.post("/sample/users", data);
+export const createUser = async (data: CreateUserDTO): Promise<User> => {
+  const response = await api.post("/sample/users", data);
+
+  return CreateUserResponseSchema.parse(response);
 };
 
 // ================================================================================
@@ -57,3 +67,8 @@ export const useCreateUser = ({ mutationConfig }: UseCreateUserOptions = {}) => 
     mutationFn: createUser,
   });
 };
+
+// ================================================================================
+// バリデーション用のエクスポート
+// ================================================================================
+export { userFormSchema as createUserInputSchema };

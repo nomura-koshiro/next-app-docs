@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 
-import { PROJECT_ROLES } from "../types";
+import { ProjectRole } from "../types";
 import { RoleBadge } from "./role-badge";
 
 const meta = {
@@ -20,7 +20,7 @@ type Story = StoryObj<typeof meta>;
  */
 export const ProjectManager: Story = {
   args: {
-    role: PROJECT_ROLES.PROJECT_MANAGER,
+    role: ProjectRole.PROJECT_MANAGER,
   },
 };
 
@@ -29,7 +29,7 @@ export const ProjectManager: Story = {
  */
 export const ProjectModerator: Story = {
   args: {
-    role: PROJECT_ROLES.PROJECT_MODERATOR,
+    role: ProjectRole.PROJECT_MODERATOR,
   },
 };
 
@@ -38,7 +38,7 @@ export const ProjectModerator: Story = {
  */
 export const Member: Story = {
   args: {
-    role: PROJECT_ROLES.MEMBER,
+    role: ProjectRole.MEMBER,
   },
 };
 
@@ -47,7 +47,7 @@ export const Member: Story = {
  */
 export const Viewer: Story = {
   args: {
-    role: PROJECT_ROLES.VIEWER,
+    role: ProjectRole.VIEWER,
   },
 };
 
@@ -56,25 +56,25 @@ export const Viewer: Story = {
  */
 export const AllRoles: Story = {
   args: {
-    role: PROJECT_ROLES.PROJECT_MANAGER,
+    role: ProjectRole.PROJECT_MANAGER, // Dummy value for type satisfaction
   },
   render: () => (
     <div className="flex flex-col gap-4">
       <div className="flex items-center gap-2">
         <span className="w-40">プロジェクトマネージャー:</span>
-        <RoleBadge role={PROJECT_ROLES.PROJECT_MANAGER} />
+        <RoleBadge role={ProjectRole.PROJECT_MANAGER} />
       </div>
       <div className="flex items-center gap-2">
         <span className="w-40">権限管理者:</span>
-        <RoleBadge role={PROJECT_ROLES.PROJECT_MODERATOR} />
+        <RoleBadge role={ProjectRole.PROJECT_MODERATOR} />
       </div>
       <div className="flex items-center gap-2">
         <span className="w-40">メンバー:</span>
-        <RoleBadge role={PROJECT_ROLES.MEMBER} />
+        <RoleBadge role={ProjectRole.MEMBER} />
       </div>
       <div className="flex items-center gap-2">
         <span className="w-40">閲覧者:</span>
-        <RoleBadge role={PROJECT_ROLES.VIEWER} />
+        <RoleBadge role={ProjectRole.VIEWER} />
       </div>
     </div>
   ),

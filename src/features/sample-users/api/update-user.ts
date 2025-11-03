@@ -1,16 +1,24 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
+import { userFormSchema } from "@/features/sample-users/schemas/user-form.schema";
 import { api } from "@/lib/api-client";
 import { MutationConfig } from "@/lib/tanstack-query";
 import { logger } from "@/utils/logger";
 
-import type { UpdateUserInput, User } from "../types";
+import type { UpdateUserDTO, User } from "../types";
+import { UserSchema } from "./schemas/user-response.schema";
 
 // ================================================================================
 // API関数
 // ================================================================================
 
 /**
+ * ユーザー更新
+ *
+ * @param params - ユーザーIDと更新データ
+ * @returns 更新されたユーザー（ランタイムバリデーション済み）
+ * @throws {z.ZodError} レスポンスが期待する形式でない場合
+ *
  * @example
  * ```tsx
  * const updatedUser = await updateUser({
@@ -19,8 +27,11 @@ import type { UpdateUserInput, User } from "../types";
  * });
  * ```
  */
-export const updateUser = ({ userId, data }: { userId: string; data: UpdateUserInput }): Promise<User> => {
-  return api.put(`/sample/users/${userId}`, data);
+export const updateUser = async ({ userId, data }: { userId: string; data: UpdateUserDTO }): Promise<User> => {
+  const response = await api.put(`/sample/users/${userId}`, data);
+
+  // PUT APIは { data: User } ではなく User を直接返すため UserSchema を使用
+  return UserSchema.parse(response);
 };
 
 // ================================================================================
@@ -49,7 +60,7 @@ type UseUpdateUserOptions = {
  *     },
  *   });
  *
- *   const handleSubmit = (values: UpdateUserInput) => {
+ *   const handleSubmit = (values: UpdateUserDTO) => {
  *     updateUserMutation.mutate({ userId, data: values });
  *   };
  *
@@ -76,3 +87,8 @@ export const useUpdateUser = ({ mutationConfig }: UseUpdateUserOptions = {}) => 
     mutationFn: updateUser,
   });
 };
+
+// ================================================================================
+// バリデーション用のエクスポート
+// ================================================================================
+export { userFormSchema as updateUserInputSchema };

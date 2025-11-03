@@ -4,7 +4,9 @@
 
 import type { AccountInfo } from "@azure/msal-browser";
 import { create } from "zustand";
-import { createJSONStorage, persist } from "zustand/middleware";
+import { persist, type StorageValue } from "zustand/middleware";
+
+import { AuthStorageSchema } from "./schemas/auth-storage.schema";
 
 // ================================================================================
 // 定数
@@ -19,16 +21,7 @@ const AUTH_STORAGE_KEY = "azure-auth-storage";
 // 型定義
 // ================================================================================
 
-/**
- * 認証ストア用のユーザー型
- *
- * Azure Entra ID (MSAL) からの認証情報を保持するフロントエンド専用の型。
- * バックエンドAPIのUser型（src/types/models/user.ts）とは異なり、
- * セッションストレージに永続化する最小限の情報のみを含む。
- *
- * @see {@link src/types/models/user.ts} - バックエンドAPI用のグローバルUser型
- */
-export type AuthUser = {
+export type User = {
   id: string;
   email: string;
   name: string;
@@ -40,16 +33,59 @@ export type AuthStore = {
   // ================================================================================
   // State
   // ================================================================================
-  user: AuthUser | null;
+  user: User | null;
   isAuthenticated: boolean;
   account: AccountInfo | null;
 
   // ================================================================================
   // Actions
   // ================================================================================
-  setUser: (user: AuthUser | null) => void;
+  setUser: (user: User | null) => void;
   setAccount: (account: AccountInfo | null) => void;
   logout: () => void;
+};
+
+// ================================================================================
+// カスタムストレージ（バリデーション付き）
+// ================================================================================
+
+/**
+ * sessionStorageから読み込む際にZodスキーマでバリデーションを行うカスタムストレージ
+ *
+ * 不正なデータや改ざんされたデータをロードしないことで、セキュリティとデータ整合性を保証
+ */
+const validatedSessionStorage = {
+  getItem: (name: string): StorageValue<Pick<AuthStore, "user" | "isAuthenticated" | "account">> | null => {
+    const item = sessionStorage.getItem(name);
+    if (!item) return null;
+
+    try {
+      const parsed = JSON.parse(item);
+      const result = AuthStorageSchema.safeParse(parsed.state);
+
+      if (!result.success) {
+        // バリデーション失敗時は不正なデータを削除してnullを返す
+        console.warn("[AuthStore] セッションストレージの認証データが不正です。データを削除します:", result.error);
+        sessionStorage.removeItem(name);
+
+        return null;
+      }
+
+      return parsed;
+    } catch (error) {
+      // JSON.parse エラー時も削除
+      console.warn("[AuthStore] セッションストレージのデータが破損しています。データを削除します:", error);
+      sessionStorage.removeItem(name);
+
+      return null;
+    }
+  },
+  setItem: (name: string, value: StorageValue<Pick<AuthStore, "user" | "isAuthenticated" | "account">>) => {
+    sessionStorage.setItem(name, JSON.stringify(value));
+  },
+  removeItem: (name: string) => {
+    sessionStorage.removeItem(name);
+  },
 };
 
 // ================================================================================
@@ -59,8 +95,9 @@ export type AuthStore = {
 /**
  * 認証状態を管理するZustandストア
  *
- * - セッションストレージに永続化
+ * - セッションストレージに永続化（Zodバリデーション付き）
  * - ユーザー情報、認証状態、アカウント情報を管理
+ * - ストレージからの読み込み時に不正なデータを自動的に除外
  */
 export const useAuthStore = create<AuthStore>()(
   persist(
@@ -71,7 +108,7 @@ export const useAuthStore = create<AuthStore>()(
       account: null,
 
       // Actions
-      setUser: (user: AuthUser | null) => {
+      setUser: (user: User | null) => {
         set({
           user,
           isAuthenticated: !!user,
@@ -92,7 +129,7 @@ export const useAuthStore = create<AuthStore>()(
     }),
     {
       name: AUTH_STORAGE_KEY,
-      storage: createJSONStorage(() => sessionStorage),
+      storage: validatedSessionStorage,
       partialize: (state) => ({
         user: state.user,
         isAuthenticated: state.isAuthenticated,
@@ -106,7 +143,7 @@ export const useAuthStore = create<AuthStore>()(
 // セレクター関数（実際に使用する場合のみ定義）
 // ================================================================================
 
-export const selectUser = (state: AuthStore): AuthUser | null => state.user;
+export const selectUser = (state: AuthStore): User | null => state.user;
 
 export const selectIsAuthenticated = (state: AuthStore): boolean => state.isAuthenticated;
 
