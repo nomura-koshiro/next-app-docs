@@ -1,7 +1,8 @@
-import { useMutation, type UseMutationOptions,useQueryClient } from "@tanstack/react-query";
+import type { UseMutationOptions } from "@tanstack/react-query";
 
 import { api } from "@/lib/api-client";
-import { logger } from "@/utils/logger";
+
+import { useProjectMemberMutation } from "./helpers";
 
 // ================================================================================
 // API関数
@@ -16,19 +17,10 @@ import { logger } from "@/utils/logger";
  *
  * @example
  * ```tsx
- * await removeProjectMember({
- *   projectId: 'project-123',
- *   memberId: 'member-456'
- * });
+ * await removeProjectMember('project-123', 'member-456');
  * ```
  */
-export const removeProjectMember = ({
-  projectId,
-  memberId,
-}: {
-  projectId: string;
-  memberId: string;
-}): Promise<void> => {
+export const removeProjectMember = (projectId: string, memberId: string): Promise<void> => {
   return api.delete(`/projects/${projectId}/members/${memberId}`);
 };
 
@@ -38,10 +30,7 @@ export const removeProjectMember = ({
 
 type UseRemoveProjectMemberOptions = {
   projectId: string;
-  mutationConfig?: Omit<
-    UseMutationOptions<void, Error, { memberId: string }, unknown>,
-    "mutationFn"
-  >;
+  mutationConfig?: Omit<UseMutationOptions<void, Error, { memberId: string }, unknown>, "mutationFn">;
 };
 
 /**
@@ -69,18 +58,9 @@ type UseRemoveProjectMemberOptions = {
  * ```
  */
 export const useRemoveProjectMember = ({ projectId, mutationConfig }: UseRemoveProjectMemberOptions) => {
-  const queryClient = useQueryClient();
-
-  const { onSuccess, ...restConfig } = mutationConfig || {};
-
-  return useMutation({
-    onSuccess: (...args) => {
-      queryClient.invalidateQueries({ queryKey: ["projects", projectId, "members"] }).catch((error) => {
-        logger.error("プロジェクトメンバークエリの無効化に失敗しました", error);
-      });
-      onSuccess?.(...args);
-    },
-    ...restConfig,
-    mutationFn: ({ memberId }: { memberId: string }) => removeProjectMember({ projectId, memberId }),
+  return useProjectMemberMutation({
+    mutationFn: ({ memberId }: { memberId: string }) => removeProjectMember(projectId, memberId),
+    projectId,
+    mutationConfig,
   });
 };

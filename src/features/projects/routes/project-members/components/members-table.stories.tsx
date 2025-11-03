@@ -1,7 +1,6 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 
-import { ProjectRole, SystemRole, type ProjectMember } from "../../../types";
-
+import { PROJECT_ROLES, type ProjectMember, type ProjectRole, SYSTEM_ROLES } from "../../../types";
 import { MembersTable } from "./members-table";
 
 const mockMembers: ProjectMember[] = [
@@ -9,7 +8,7 @@ const mockMembers: ProjectMember[] = [
     id: "member-1",
     project_id: "project-1",
     user_id: "user-1",
-    role: ProjectRole.PROJECT_MANAGER,
+    role: PROJECT_ROLES.PROJECT_MANAGER,
     joined_at: "2024-01-01T00:00:00Z",
     updated_at: "2024-01-01T00:00:00Z",
     user: {
@@ -17,7 +16,7 @@ const mockMembers: ProjectMember[] = [
       azure_oid: "azure-oid-1",
       email: "manager@example.com",
       display_name: "田中 太郎",
-      roles: [SystemRole.USER],
+      roles: [SYSTEM_ROLES.USER],
       is_active: true,
       created_at: "2024-01-15T00:00:00Z",
       updated_at: "2024-01-15T00:00:00Z",
@@ -28,7 +27,7 @@ const mockMembers: ProjectMember[] = [
     id: "member-2",
     project_id: "project-1",
     user_id: "user-2",
-    role: ProjectRole.PROJECT_MODERATOR,
+    role: PROJECT_ROLES.PROJECT_MODERATOR,
     joined_at: "2024-02-01T00:00:00Z",
     updated_at: "2024-02-01T00:00:00Z",
     user: {
@@ -36,7 +35,7 @@ const mockMembers: ProjectMember[] = [
       azure_oid: "azure-oid-2",
       email: "moderator@example.com",
       display_name: "鈴木 花子",
-      roles: [SystemRole.USER],
+      roles: [SYSTEM_ROLES.USER],
       is_active: true,
       created_at: "2024-02-01T00:00:00Z",
       updated_at: "2024-02-01T00:00:00Z",
@@ -47,7 +46,7 @@ const mockMembers: ProjectMember[] = [
     id: "member-3",
     project_id: "project-1",
     user_id: "user-3",
-    role: ProjectRole.MEMBER,
+    role: PROJECT_ROLES.MEMBER,
     joined_at: "2024-03-01T00:00:00Z",
     updated_at: "2024-03-01T00:00:00Z",
     user: {
@@ -55,7 +54,7 @@ const mockMembers: ProjectMember[] = [
       azure_oid: "azure-oid-3",
       email: "member@example.com",
       display_name: "佐藤 次郎",
-      roles: [SystemRole.USER],
+      roles: [SYSTEM_ROLES.USER],
       is_active: true,
       created_at: "2024-03-01T00:00:00Z",
       updated_at: "2024-03-01T00:00:00Z",
@@ -66,7 +65,7 @@ const mockMembers: ProjectMember[] = [
     id: "member-4",
     project_id: "project-1",
     user_id: "user-4",
-    role: ProjectRole.VIEWER,
+    role: PROJECT_ROLES.VIEWER,
     joined_at: "2024-04-01T00:00:00Z",
     updated_at: "2024-04-01T00:00:00Z",
     user: {
@@ -74,7 +73,7 @@ const mockMembers: ProjectMember[] = [
       azure_oid: "azure-oid-4",
       email: "viewer@example.com",
       display_name: "高橋 三郎",
-      roles: [SystemRole.USER],
+      roles: [SYSTEM_ROLES.USER],
       is_active: true,
       created_at: "2024-04-01T00:00:00Z",
       updated_at: "2024-04-01T00:00:00Z",
@@ -103,26 +102,6 @@ export const Default: Story = {
     members: mockMembers,
     onRoleChange: (memberId: string, role: ProjectRole) => console.log("Role changed:", memberId, role),
     onRemoveMember: (memberId: string) => console.log("Member removed:", memberId),
-  },
-};
-
-/**
- * ローディング状態
- */
-export const Loading: Story = {
-  args: {
-    members: [],
-    isLoading: true,
-  },
-};
-
-/**
- * メンバーなし
- */
-export const Empty: Story = {
-  args: {
-    members: [],
-    isLoading: false,
   },
 };
 

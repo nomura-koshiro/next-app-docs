@@ -1,9 +1,9 @@
-import { useMutation, type UseMutationOptions,useQueryClient } from "@tanstack/react-query";
+import type { UseMutationOptions } from "@tanstack/react-query";
 
 import { api } from "@/lib/api-client";
-import { logger } from "@/utils/logger";
 
-import type { BulkUpdateRolesDTO, ProjectMembersResponse } from "../types";
+import type { BulkUpdateMembersInput, ProjectMember } from "../types";
+import { useProjectMemberMutation } from "./helpers";
 
 // ================================================================================
 // API関数
@@ -13,31 +13,25 @@ import type { BulkUpdateRolesDTO, ProjectMembersResponse } from "../types";
  * プロジェクトメンバーのロールを一括更新
  *
  * @param projectId プロジェクトID
- * @param data 一括更新データ
- * @returns 更新されたプロジェクトメンバー一覧
+ * @param input 一括更新の入力データ
+ * @returns 更新されたプロジェクトメンバー一覧（ドメインモデルの配列）
  *
  * @example
  * ```tsx
- * await bulkUpdateRoles({
- *   projectId: 'project-123',
- *   data: {
+ * const updatedMembers = await bulkUpdateRoles(
+ *   'project-123',
+ *   {
  *     updates: [
- *       { member_id: 'member-456', role: ProjectRole.PROJECT_MODERATOR },
- *       { member_id: 'member-789', role: ProjectRole.MEMBER }
+ *       { member_id: 'member-456', role: PROJECT_ROLES.PROJECT_MODERATOR },
+ *       { member_id: 'member-789', role: PROJECT_ROLES.MEMBER }
  *     ]
  *   }
- * });
+ * );
  * ```
  */
-export const bulkUpdateRoles = ({
-  projectId,
-  data,
-}: {
-  projectId: string;
-  data: BulkUpdateRolesDTO;
-}): Promise<ProjectMembersResponse> => {
+export const bulkUpdateRoles = (projectId: string, input: BulkUpdateMembersInput): Promise<ProjectMember[]> => {
   // 重要: エンドポイントは /members/bulk で、/roles サフィックスなし
-  return api.patch(`/projects/${projectId}/members/bulk`, data);
+  return api.patch(`/projects/${projectId}/members/bulk`, input);
 };
 
 // ================================================================================
@@ -46,10 +40,7 @@ export const bulkUpdateRoles = ({
 
 type UseBulkUpdateRolesOptions = {
   projectId: string;
-  mutationConfig?: Omit<
-    UseMutationOptions<ProjectMembersResponse, Error, BulkUpdateRolesDTO, unknown>,
-    "mutationFn"
-  >;
+  mutationConfig?: Omit<UseMutationOptions<ProjectMember[], Error, BulkUpdateMembersInput, unknown>, "mutationFn">;
 };
 
 /**
@@ -74,26 +65,17 @@ type UseBulkUpdateRolesOptions = {
  * const handleBulkUpdate = () => {
  *   bulkUpdateMutation.mutate({
  *     updates: [
- *       { member_id: 'member-456', role: ProjectRole.PROJECT_MODERATOR },
- *       { member_id: 'member-789', role: ProjectRole.MEMBER }
+ *       { member_id: 'member-456', role: PROJECT_ROLES.PROJECT_MODERATOR },
+ *       { member_id: 'member-789', role: PROJECT_ROLES.MEMBER }
  *     ]
  *   });
  * };
  * ```
  */
 export const useBulkUpdateRoles = ({ projectId, mutationConfig }: UseBulkUpdateRolesOptions) => {
-  const queryClient = useQueryClient();
-
-  const { onSuccess, ...restConfig } = mutationConfig || {};
-
-  return useMutation({
-    onSuccess: (...args) => {
-      queryClient.invalidateQueries({ queryKey: ["projects", projectId, "members"] }).catch((error) => {
-        logger.error("プロジェクトメンバークエリの無効化に失敗しました", error);
-      });
-      onSuccess?.(...args);
-    },
-    ...restConfig,
-    mutationFn: (data: BulkUpdateRolesDTO) => bulkUpdateRoles({ projectId, data }),
+  return useProjectMemberMutation({
+    mutationFn: (input: BulkUpdateMembersInput) => bulkUpdateRoles(projectId, input),
+    projectId,
+    mutationConfig,
   });
 };

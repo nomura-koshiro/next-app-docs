@@ -6,6 +6,8 @@
 
 import { http, HttpResponse } from "msw";
 
+import { unauthorizedResponse } from "@/mocks/utils/problem-details";
+
 export const authHandlers = [
   /**
    * POST /api/v1/sample/auth/login
@@ -37,12 +39,7 @@ export const authHandlers = [
     }
 
     // エラーレスポンス
-    return HttpResponse.json(
-      {
-        message: "Invalid credentials",
-      },
-      { status: 401 }
-    );
+    return unauthorizedResponse("Invalid email or password", "/api/v1/sample/auth/login");
   }),
 
   /**
@@ -86,11 +83,6 @@ export const authHandlers = [
     }
 
     // 認証エラー
-    return HttpResponse.json(
-      {
-        message: "Unauthorized",
-      },
-      { status: 401 }
-    );
+    return unauthorizedResponse("Valid Bearer token is required", "/api/v1/sample/auth/me");
   }),
 ];

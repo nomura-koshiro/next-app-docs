@@ -4,16 +4,17 @@
 
 import { http, HttpResponse } from "msw";
 
-import { SystemRole } from "@/features/projects/types";
 import type {
-  AddProjectMemberDTO,
-  BulkUpdateRolesDTO,
+  AddProjectMemberInput,
+  BulkUpdateMembersInput,
   Project,
   ProjectMember,
   ProjectRole,
-  UpdateMemberRoleDTO,
+  UpdateMemberRoleInput,
   User,
 } from "@/features/projects/types";
+import { SYSTEM_ROLES } from "@/features/projects/types";
+import { conflictResponse, notFoundResponse } from "@/mocks/utils/problem-details";
 
 // ================================================================================
 // モックデータ
@@ -26,7 +27,7 @@ const mockUsers: User[] = [
     azure_oid: "azure-oid-1",
     email: "manager@example.com",
     display_name: "田中 太郎",
-    roles: [SystemRole.USER],
+    roles: [SYSTEM_ROLES.USER],
     is_active: true,
     created_at: "2024-01-15T00:00:00Z",
     updated_at: "2024-01-15T00:00:00Z",
@@ -37,7 +38,7 @@ const mockUsers: User[] = [
     azure_oid: "azure-oid-2",
     email: "moderator@example.com",
     display_name: "鈴木 花子",
-    roles: [SystemRole.USER],
+    roles: [SYSTEM_ROLES.USER],
     is_active: true,
     created_at: "2024-02-01T00:00:00Z",
     updated_at: "2024-02-01T00:00:00Z",
@@ -48,7 +49,7 @@ const mockUsers: User[] = [
     azure_oid: "azure-oid-3",
     email: "member@example.com",
     display_name: "佐藤 次郎",
-    roles: [SystemRole.USER],
+    roles: [SYSTEM_ROLES.USER],
     is_active: true,
     created_at: "2024-03-01T00:00:00Z",
     updated_at: "2024-03-01T00:00:00Z",
@@ -59,7 +60,7 @@ const mockUsers: User[] = [
     azure_oid: "azure-oid-4",
     email: "viewer@example.com",
     display_name: "高橋 三郎",
-    roles: [SystemRole.USER],
+    roles: [SYSTEM_ROLES.USER],
     is_active: true,
     created_at: "2024-04-01T00:00:00Z",
     updated_at: "2024-04-01T00:00:00Z",
@@ -70,7 +71,7 @@ const mockUsers: User[] = [
     azure_oid: "azure-oid-5",
     email: "admin@example.com",
     display_name: "山田 管理者",
-    roles: [SystemRole.SYSTEM_ADMIN],
+    roles: [SYSTEM_ROLES.SYSTEM_ADMIN],
     is_active: true,
     created_at: "2024-01-01T00:00:00Z",
     updated_at: "2024-01-01T00:00:00Z",
@@ -160,29 +161,20 @@ export const projectMemberHandlers = [
    */
   http.post("*/api/v1/projects/:projectId/members", async ({ params, request }) => {
     const { projectId } = params;
-    const body = (await request.json()) as AddProjectMemberDTO;
+    const body = (await request.json()) as AddProjectMemberInput;
 
     // ユーザーの存在確認
     const user = mockUsers.find((u) => u.id === body.user_id);
     if (!user) {
-      return HttpResponse.json(
-        {
-          message: "User not found",
-        },
-        { status: 404 }
-      );
+      return notFoundResponse("User", body.user_id, `/api/v1/projects/${projectId}/members`);
     }
 
     // 既にメンバーかチェック
-    const existingMember = mockProjectMembers.find(
-      (m) => m.project_id === projectId && m.user_id === body.user_id
-    );
+    const existingMember = mockProjectMembers.find((m) => m.project_id === projectId && m.user_id === body.user_id);
     if (existingMember) {
-      return HttpResponse.json(
-        {
-          message: "User is already a member of this project",
-        },
-        { status: 409 }
+      return conflictResponse(
+        `User with id '${body.user_id}' is already a member of this project`,
+        `/api/v1/projects/${projectId}/members`
       );
     }
 
@@ -213,19 +205,12 @@ export const projectMemberHandlers = [
    */
   http.patch("*/api/v1/projects/:projectId/members/:memberId", async ({ params, request }) => {
     const { projectId, memberId } = params;
-    const body = (await request.json()) as UpdateMemberRoleDTO;
+    const body = (await request.json()) as UpdateMemberRoleInput;
 
-    const memberIndex = mockProjectMembers.findIndex(
-      (m) => m.id === memberId && m.project_id === projectId
-    );
+    const memberIndex = mockProjectMembers.findIndex((m) => m.id === memberId && m.project_id === projectId);
 
     if (memberIndex === -1) {
-      return HttpResponse.json(
-        {
-          message: "Project member not found",
-        },
-        { status: 404 }
-      );
+      return notFoundResponse("Project member", memberId as string, `/api/v1/projects/${projectId}/members/${memberId}`);
     }
 
     mockProjectMembers[memberIndex] = {
@@ -246,17 +231,10 @@ export const projectMemberHandlers = [
   http.delete("*/api/v1/projects/:projectId/members/:memberId", ({ params }) => {
     const { projectId, memberId } = params;
 
-    const memberIndex = mockProjectMembers.findIndex(
-      (m) => m.id === memberId && m.project_id === projectId
-    );
+    const memberIndex = mockProjectMembers.findIndex((m) => m.id === memberId && m.project_id === projectId);
 
     if (memberIndex === -1) {
-      return HttpResponse.json(
-        {
-          message: "Project member not found",
-        },
-        { status: 404 }
-      );
+      return notFoundResponse("Project member", memberId as string, `/api/v1/projects/${projectId}/members/${memberId}`);
     }
 
     mockProjectMembers.splice(memberIndex, 1);
@@ -270,14 +248,12 @@ export const projectMemberHandlers = [
    */
   http.patch("*/api/v1/projects/:projectId/members/bulk", async ({ params, request }) => {
     const { projectId } = params;
-    const body = (await request.json()) as BulkUpdateRolesDTO;
+    const body = (await request.json()) as BulkUpdateMembersInput;
 
     const updatedMembers: ProjectMember[] = [];
 
     for (const update of body.updates) {
-      const memberIndex = mockProjectMembers.findIndex(
-        (m) => m.id === update.member_id && m.project_id === projectId
-      );
+      const memberIndex = mockProjectMembers.findIndex((m) => m.id === update.member_id && m.project_id === projectId);
 
       if (memberIndex !== -1) {
         mockProjectMembers[memberIndex] = {

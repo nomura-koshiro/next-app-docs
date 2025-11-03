@@ -19,7 +19,16 @@ const AUTH_STORAGE_KEY = "azure-auth-storage";
 // 型定義
 // ================================================================================
 
-export type User = {
+/**
+ * 認証ストア用のユーザー型
+ *
+ * Azure Entra ID (MSAL) からの認証情報を保持するフロントエンド専用の型。
+ * バックエンドAPIのUser型（src/types/models/user.ts）とは異なり、
+ * セッションストレージに永続化する最小限の情報のみを含む。
+ *
+ * @see {@link src/types/models/user.ts} - バックエンドAPI用のグローバルUser型
+ */
+export type AuthUser = {
   id: string;
   email: string;
   name: string;
@@ -31,14 +40,14 @@ export type AuthStore = {
   // ================================================================================
   // State
   // ================================================================================
-  user: User | null;
+  user: AuthUser | null;
   isAuthenticated: boolean;
   account: AccountInfo | null;
 
   // ================================================================================
   // Actions
   // ================================================================================
-  setUser: (user: User | null) => void;
+  setUser: (user: AuthUser | null) => void;
   setAccount: (account: AccountInfo | null) => void;
   logout: () => void;
 };
@@ -62,7 +71,7 @@ export const useAuthStore = create<AuthStore>()(
       account: null,
 
       // Actions
-      setUser: (user: User | null) => {
+      setUser: (user: AuthUser | null) => {
         set({
           user,
           isAuthenticated: !!user,
@@ -97,7 +106,7 @@ export const useAuthStore = create<AuthStore>()(
 // セレクター関数（実際に使用する場合のみ定義）
 // ================================================================================
 
-export const selectUser = (state: AuthStore): User | null => state.user;
+export const selectUser = (state: AuthStore): AuthUser | null => state.user;
 
 export const selectIsAuthenticated = (state: AuthStore): boolean => state.isAuthenticated;
 

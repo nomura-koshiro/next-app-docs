@@ -83,6 +83,203 @@ export const UserList = ({ users, onDelete }: UserListProps) => {
 
 ---
 
+## 型安全性のベストプラクティス
+
+### Props型は必ずエクスポート
+
+コンポーネントのProps型は必ずエクスポートし、テストやStorybookで再利用できるようにします。
+
+```typescript
+// ❌ Bad: Props型がエクスポートされていない
+type Props = {
+  user: User
+  onDelete: (userId: string) => void
+}
+
+export const UserCard = ({ user, onDelete }: Props) => {
+  return <div>...</div>
+}
+
+// ✅ Good: Props型をエクスポート
+export type UserCardProps = {
+  user: User
+  onDelete: (userId: string) => void
+}
+
+export const UserCard = ({ user, onDelete }: UserCardProps) => {
+  return <div>...</div>
+}
+```
+
+**メリット:**
+
+- Storybookで型を再利用できる
+- テストで型を参照できる
+- 他のコンポーネントで同じ型を使える
+- 型の変更が追跡しやすい
+
+### イベントハンドラー型の明示的な定義
+
+イベントハンドラーには`Handler`サフィックスを付けた明示的な型を定義します。
+
+```typescript
+// ❌ Bad: インライン型定義
+export type MembersTableProps = {
+  members: ProjectMember[]
+  onRoleChange: (memberId: string, newRole: ProjectRole) => void
+  onRemove: (memberId: string) => void
+}
+
+// ✅ Good: 明示的なHandler型
+export type MemberRoleChangeHandler = (
+  memberId: string,
+  newRole: ProjectRole
+) => void
+
+export type MemberRemoveHandler = (memberId: string) => void
+
+export type MembersTableProps = {
+  members: ProjectMember[]
+  onRoleChange: MemberRoleChangeHandler
+  onRemove: MemberRemoveHandler
+}
+```
+
+**メリット:**
+
+- 型の再利用性が向上
+- 型の意図が明確になる
+- 複数のコンポーネントで同じイベント型を共有できる
+- 型の変更が1箇所で済む
+
+**完全な実装例:**
+
+```typescript
+// types/index.ts
+export type MemberRoleChangeHandler = (
+  memberId: string,
+  newRole: ProjectRole
+) => void
+
+export type MemberRemoveHandler = (memberId: string) => void
+
+export type RoleSaveHandler = (newRole: ProjectRole) => void
+
+// components/members-table.tsx
+export type MembersTableProps = {
+  members: ProjectMember[]
+  onRoleChange: MemberRoleChangeHandler
+  onRemove: MemberRemoveHandler
+}
+
+export const MembersTable = ({
+  members,
+  onRoleChange,
+  onRemove,
+}: MembersTableProps) => {
+  // ...
+}
+
+// components/members-container.tsx
+export const MembersContainer = ({ projectId }: { projectId: string }) => {
+  const { data: members } = useProjectMembers(projectId)
+  const updateRole = useUpdateMemberRole({ projectId })
+  const removeMember = useRemoveMember({ projectId })
+
+  const handleRoleChange: MemberRoleChangeHandler = (memberId, newRole) => {
+    updateRole.mutate({ memberId, data: { role: newRole } })
+  }
+
+  const handleRemove: MemberRemoveHandler = (memberId) => {
+    removeMember.mutate({ memberId })
+  }
+
+  return (
+    <MembersTable
+      members={members ?? []}
+      onRoleChange={handleRoleChange}
+      onRemove={handleRemove}
+    />
+  )
+}
+```
+
+### UI選択肢の定数化
+
+UIで使用する選択肢（ドロップダウン、ラジオボタンなど）は、型と定数のペアとして定義します。
+
+```typescript
+// ❌ Bad: コンポーネント内にハードコード
+export const RoleSelect = ({ value, onChange }: RoleSelectProps) => {
+  return (
+    <select value={value} onChange={onChange}>
+      <option value="project_manager">プロジェクトマネージャー</option>
+      <option value="developer">開発者</option>
+      <option value="viewer">閲覧者</option>
+    </select>
+  )
+}
+
+// ✅ Good: 型と定数で定義
+// types/index.ts
+export const PROJECT_ROLES = {
+  PROJECT_MANAGER: 'project_manager',
+  DEVELOPER: 'developer',
+  VIEWER: 'viewer',
+} as const
+
+export type ProjectRole = (typeof PROJECT_ROLES)[keyof typeof PROJECT_ROLES]
+
+export type ProjectRoleOption = {
+  value: ProjectRole
+  label: string
+  description: string
+}
+
+export const PROJECT_ROLE_OPTIONS: readonly ProjectRoleOption[] = [
+  {
+    value: PROJECT_ROLES.PROJECT_MANAGER,
+    label: 'プロジェクトマネージャー',
+    description: 'プロジェクトの全権限を持つ',
+  },
+  {
+    value: PROJECT_ROLES.DEVELOPER,
+    label: '開発者',
+    description: '読み書き権限を持つ',
+  },
+  {
+    value: PROJECT_ROLES.VIEWER,
+    label: '閲覧者',
+    description: '読み取り専用',
+  },
+] as const
+
+// components/role-select.tsx
+import { PROJECT_ROLE_OPTIONS } from '../types'
+
+export const RoleSelect = ({ value, onChange }: RoleSelectProps) => {
+  return (
+    <select value={value} onChange={onChange}>
+      {PROJECT_ROLE_OPTIONS.map((option) => (
+        <option key={option.value} value={option.value}>
+          {option.label}
+        </option>
+      ))}
+    </select>
+  )
+}
+```
+
+**メリット:**
+
+- 選択肢の定義が1箇所に集約
+- 複数のコンポーネントで再利用可能
+- 型安全性が保証される
+- テストやStorybookで使用しやすい
+- ラベルや説明の変更が容易
+
+---
+
 ## Good/Bad例
 
 ### ❌ Bad: 複数の責任が混在
@@ -457,8 +654,6 @@ features/users/
 | **Container** | `{name}-container.tsx` | `user-list-container.tsx` |
 | **Presentational** | `{name}.tsx` | `user-list.tsx` |
 | **API Hook** | `{action}-{resource}.ts` | `get-users.ts` |
-
----
 
 ## チェックリスト
 

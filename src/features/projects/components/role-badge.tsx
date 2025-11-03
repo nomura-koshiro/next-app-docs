@@ -1,70 +1,77 @@
+import { cva } from "class-variance-authority";
+
+import { cn } from "@/utils/cn";
+
 import type { ProjectRole } from "../types";
 
-type RoleBadgeProps = {
+// ================================================================================
+// 定数
+// ================================================================================
+
+/**
+ * ロール名の表示ラベル
+ */
+const ROLE_LABELS: Record<ProjectRole, string> = {
+  project_manager: "プロジェクトマネージャー",
+  project_moderator: "権限管理者",
+  member: "メンバー",
+  viewer: "閲覧者",
+} as const;
+
+/**
+ * ロールバッジのスタイルバリアント
+ *
+ * CVAを使用してロールごとの色を定義
+ */
+const roleBadgeVariants = cva("inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors", {
+  variants: {
+    role: {
+      project_manager: "bg-purple-100 text-purple-800 border-purple-200",
+      project_moderator: "bg-blue-100 text-blue-800 border-blue-200",
+      member: "bg-green-100 text-green-800 border-green-200",
+      viewer: "bg-gray-100 text-gray-800 border-gray-200",
+    },
+  },
+  defaultVariants: {
+    role: "viewer",
+  },
+});
+
+// ================================================================================
+// 型定義
+// ================================================================================
+
+export type RoleBadgeProps = {
+  /** プロジェクトロール */
   role: ProjectRole;
+  /** 追加のCSSクラス */
   className?: string;
 };
 
+// ================================================================================
+// コンポーネント
+// ================================================================================
+
 /**
  * プロジェクトロールを表示するバッジコンポーネント
+ *
+ * CVAを使用してロールごとの色を管理し、パフォーマンスを最適化。
  *
  * @param role プロジェクトロール
  * @param className 追加のCSSクラス
  *
  * @example
  * ```tsx
- * <RoleBadge role={ProjectRole.PROJECT_MANAGER} />
- * <RoleBadge role={ProjectRole.MEMBER} className="ml-2" />
+ * import { PROJECT_ROLES } from '@/features/projects/types';
+ *
+ * <RoleBadge role={PROJECT_ROLES.PROJECT_MANAGER} />
+ * <RoleBadge role={PROJECT_ROLES.MEMBER} className="ml-2" />
  * ```
  */
-export const RoleBadge = ({ role, className = "" }: RoleBadgeProps) => {
-  const getRoleConfig = (role: ProjectRole) => {
-    switch (role) {
-      case "project_manager":
-        return {
-          label: "プロジェクトマネージャー",
-          bgColor: "bg-purple-100",
-          textColor: "text-purple-800",
-          borderColor: "border-purple-200",
-        };
-      case "project_moderator":
-        return {
-          label: "権限管理者",
-          bgColor: "bg-blue-100",
-          textColor: "text-blue-800",
-          borderColor: "border-blue-200",
-        };
-      case "member":
-        return {
-          label: "メンバー",
-          bgColor: "bg-green-100",
-          textColor: "text-green-800",
-          borderColor: "border-green-200",
-        };
-      case "viewer":
-        return {
-          label: "閲覧者",
-          bgColor: "bg-gray-100",
-          textColor: "text-gray-800",
-          borderColor: "border-gray-200",
-        };
-      default:
-        return {
-          label: role,
-          bgColor: "bg-gray-100",
-          textColor: "text-gray-800",
-          borderColor: "border-gray-200",
-        };
-    }
-  };
-
-  const config = getRoleConfig(role);
-
+export const RoleBadge = ({ role, className }: RoleBadgeProps) => {
   return (
-    <span
-      className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors ${config.bgColor} ${config.textColor} ${config.borderColor} ${className}`}
-    >
-      {config.label}
+    <span className={cn(roleBadgeVariants({ role }), className)} data-testid={`role-badge-${role}`}>
+      {ROLE_LABELS[role]}
     </span>
   );
 };

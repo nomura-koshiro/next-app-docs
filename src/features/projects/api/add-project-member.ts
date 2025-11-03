@@ -1,9 +1,9 @@
-import { useMutation, type UseMutationOptions,useQueryClient } from "@tanstack/react-query";
+import type { UseMutationOptions } from "@tanstack/react-query";
 
 import { api } from "@/lib/api-client";
-import { logger } from "@/utils/logger";
 
-import type { AddProjectMemberDTO, ProjectMemberResponse } from "../types";
+import type { AddProjectMemberInput, ProjectMember } from "../types";
+import { useProjectMemberMutation } from "./helpers";
 
 // ================================================================================
 // API関数
@@ -13,25 +13,19 @@ import type { AddProjectMemberDTO, ProjectMemberResponse } from "../types";
  * プロジェクトメンバーを追加
  *
  * @param projectId プロジェクトID
- * @param data メンバー追加データ
- * @returns 追加されたプロジェクトメンバー
+ * @param input メンバー追加の入力データ
+ * @returns 追加されたプロジェクトメンバー（ドメインモデル）
  *
  * @example
  * ```tsx
- * await addProjectMember({
- *   projectId: 'project-123',
- *   data: { user_id: 'user-456', role: ProjectRole.MEMBER }
- * });
+ * const member = await addProjectMember(
+ *   'project-123',
+ *   { user_id: 'user-456', role: PROJECT_ROLES.MEMBER }
+ * );
  * ```
  */
-export const addProjectMember = ({
-  projectId,
-  data,
-}: {
-  projectId: string;
-  data: AddProjectMemberDTO;
-}): Promise<ProjectMemberResponse> => {
-  return api.post(`/projects/${projectId}/members`, data);
+export const addProjectMember = (projectId: string, input: AddProjectMemberInput): Promise<ProjectMember> => {
+  return api.post(`/projects/${projectId}/members`, input);
 };
 
 // ================================================================================
@@ -40,10 +34,7 @@ export const addProjectMember = ({
 
 type UseAddProjectMemberOptions = {
   projectId: string;
-  mutationConfig?: Omit<
-    UseMutationOptions<ProjectMemberResponse, Error, AddProjectMemberDTO, unknown>,
-    "mutationFn"
-  >;
+  mutationConfig?: Omit<UseMutationOptions<ProjectMember, Error, AddProjectMemberInput, unknown>, "mutationFn">;
 };
 
 /**
@@ -68,24 +59,15 @@ type UseAddProjectMemberOptions = {
  * const handleAdd = () => {
  *   addMemberMutation.mutate({
  *     user_id: 'user-456',
- *     role: ProjectRole.MEMBER
+ *     role: PROJECT_ROLES.MEMBER
  *   });
  * };
  * ```
  */
 export const useAddProjectMember = ({ projectId, mutationConfig }: UseAddProjectMemberOptions) => {
-  const queryClient = useQueryClient();
-
-  const { onSuccess, ...restConfig } = mutationConfig || {};
-
-  return useMutation({
-    onSuccess: (...args) => {
-      queryClient.invalidateQueries({ queryKey: ["projects", projectId, "members"] }).catch((error) => {
-        logger.error("プロジェクトメンバークエリの無効化に失敗しました", error);
-      });
-      onSuccess?.(...args);
-    },
-    ...restConfig,
-    mutationFn: (data: AddProjectMemberDTO) => addProjectMember({ projectId, data }),
+  return useProjectMemberMutation({
+    mutationFn: (input: AddProjectMemberInput) => addProjectMember(projectId, input),
+    projectId,
+    mutationConfig,
   });
 };

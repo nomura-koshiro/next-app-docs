@@ -32,9 +32,9 @@ export type LoginInput = z.infer<typeof loginInputSchema>;
 // ================================================================================
 
 /**
- * ログインレスポンス
+ * ログイン成功時の詳細情報
  */
-export type LoginResponse = {
+export type LoginDetail = {
   user: User;
   token: string; // JWT token
 };
@@ -61,7 +61,7 @@ export type LoginResponse = {
  * console.log(response.user, response.token);
  * ```
  */
-export const login = (data: LoginInput): Promise<LoginResponse> => {
+export const login = (data: LoginInput): Promise<LoginDetail> => {
   // TODO: 実際のAPI呼び出しに置き換える
   return api.post("/api/v1/sample/auth/login", data);
 

@@ -4,7 +4,7 @@
 
 import { delay, http, HttpResponse } from "msw";
 
-import type { Message, SendMessageRequest, SendMessageResponse } from "@/features/sample-chat/types";
+import type { Message, SendMessageDetail, SendMessageInput } from "@/features/sample-chat/types";
 
 /**
  * アシスタントの返信候補
@@ -56,7 +56,7 @@ export const chatHandlers = [
     // 回答生成をシミュレートするため遅延を追加
     await delay(1500);
 
-    const body = (await request.json()) as SendMessageRequest;
+    const body = (await request.json()) as SendMessageInput;
 
     // アシスタントからの返信を生成
     const responseContent = generateResponse(body.message);
@@ -71,7 +71,7 @@ export const chatHandlers = [
       timestamp: new Date(),
     };
 
-    const response: SendMessageResponse = {
+    const response: SendMessageDetail = {
       message: assistantMessage,
       conversationId: body.conversationId ?? conversationId,
     };

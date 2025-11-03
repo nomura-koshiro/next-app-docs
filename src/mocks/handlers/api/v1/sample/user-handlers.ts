@@ -4,7 +4,8 @@
 
 import { http, HttpResponse } from "msw";
 
-import type { CreateUserDTO, UpdateUserDTO, User, UserRole } from "@/types/models/user";
+import type { CreateUserInput, SampleUser as User, UpdateUserInput, UserRole } from "@/types/models/user";
+import { notFoundResponse } from "@/mocks/utils/problem-details";
 
 // モックデータ
 const mockUsers: User[] = [
@@ -51,12 +52,7 @@ export const userHandlers = [
     const user = mockUsers.find((u) => u.id === id);
 
     if (user === undefined) {
-      return HttpResponse.json(
-        {
-          message: "User not found",
-        },
-        { status: 404 }
-      );
+      return notFoundResponse("User", id as string, `/api/v1/sample/users/${id}`);
     }
 
     return HttpResponse.json({
@@ -69,7 +65,7 @@ export const userHandlers = [
    * ユーザー作成
    */
   http.post("*/api/v1/sample/users", async ({ request }) => {
-    const body = (await request.json()) as CreateUserDTO;
+    const body = (await request.json()) as CreateUserInput;
 
     const newUser: User = {
       id: String(mockUsers.length + 1),
@@ -90,17 +86,12 @@ export const userHandlers = [
    */
   http.put("*/api/v1/sample/users/:id", async ({ params, request }) => {
     const { id } = params;
-    const body = (await request.json()) as CreateUserDTO;
+    const body = (await request.json()) as CreateUserInput;
 
     const userIndex = mockUsers.findIndex((u) => u.id === id);
 
     if (userIndex === -1) {
-      return HttpResponse.json(
-        {
-          message: "User not found",
-        },
-        { status: 404 }
-      );
+      return notFoundResponse("User", id as string, `/api/v1/sample/users/${id}`);
     }
 
     mockUsers[userIndex] = {
@@ -119,17 +110,12 @@ export const userHandlers = [
    */
   http.patch("*/api/v1/sample/users/:id", async ({ params, request }) => {
     const { id } = params;
-    const body = (await request.json()) as UpdateUserDTO;
+    const body = (await request.json()) as UpdateUserInput;
 
     const userIndex = mockUsers.findIndex((u) => u.id === id);
 
     if (userIndex === -1) {
-      return HttpResponse.json(
-        {
-          message: "User not found",
-        },
-        { status: 404 }
-      );
+      return notFoundResponse("User", id as string, `/api/v1/sample/users/${id}`);
     }
 
     mockUsers[userIndex] = {
@@ -149,12 +135,7 @@ export const userHandlers = [
     const userIndex = mockUsers.findIndex((u) => u.id === id);
 
     if (userIndex === -1) {
-      return HttpResponse.json(
-        {
-          message: "User not found",
-        },
-        { status: 404 }
-      );
+      return notFoundResponse("User", id as string, `/api/v1/sample/users/${id}`);
     }
 
     mockUsers.splice(userIndex, 1);

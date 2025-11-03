@@ -1,12 +1,7 @@
 import { useCallback } from "react";
 
-import {
-  useAddProjectMember,
-  useProjectMembers,
-  useRemoveProjectMember,
-  useUpdateMemberRole,
-} from "../../api";
-import type { AddProjectMemberDTO, ProjectRole, UpdateMemberRoleDTO } from "../../types";
+import { useAddProjectMember, useProjectMembers, useRemoveProjectMember, useUpdateMemberRole } from "../../api";
+import type { AddProjectMemberInput, ProjectRole, UpdateMemberRoleInput } from "../../types";
 
 type UseProjectMembersOptions = {
   projectId: string;
@@ -31,8 +26,8 @@ type UseProjectMembersOptions = {
  * ```
  */
 export const useProjectMembersLogic = ({ projectId }: UseProjectMembersOptions) => {
-  // メンバー一覧取得
-  const { data, isLoading } = useProjectMembers({ projectId });
+  // メンバー一覧取得（ドメインモデルの配列を直接取得）
+  const { data: members, isLoading } = useProjectMembers({ projectId });
 
   // ミューテーション
   const addMemberMutation = useAddProjectMember({ projectId });
@@ -41,8 +36,8 @@ export const useProjectMembersLogic = ({ projectId }: UseProjectMembersOptions) 
 
   // メンバー追加
   const handleAddMember = useCallback(
-    async (data: AddProjectMemberDTO) => {
-      await addMemberMutation.mutateAsync(data);
+    async (input: AddProjectMemberInput) => {
+      await addMemberMutation.mutateAsync(input);
     },
     [addMemberMutation]
   );
@@ -50,8 +45,8 @@ export const useProjectMembersLogic = ({ projectId }: UseProjectMembersOptions) 
   // ロール更新
   const handleUpdateRole = useCallback(
     async (memberId: string, role: ProjectRole) => {
-      const data: UpdateMemberRoleDTO = { role };
-      await updateRoleMutation.mutateAsync({ memberId, data });
+      const input: UpdateMemberRoleInput = { role };
+      await updateRoleMutation.mutateAsync({ memberId, input });
     },
     [updateRoleMutation]
   );
@@ -65,7 +60,7 @@ export const useProjectMembersLogic = ({ projectId }: UseProjectMembersOptions) 
   );
 
   return {
-    members: data?.data ?? [],
+    members: members ?? [],
     isLoading,
     isAdding: addMemberMutation.isPending,
     isUpdating: updateRoleMutation.isPending,
