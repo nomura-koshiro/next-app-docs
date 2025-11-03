@@ -4,14 +4,17 @@ import { api } from "@/lib/api-client";
 import { MutationConfig } from "@/lib/tanstack-query";
 import { logger } from "@/utils/logger";
 
-import type { SendMessageDetail, SendMessageInput } from "../types";
+import type { SendMessageRequest, SendMessageResponse } from "../types";
+import { SendMessageResponseSchema } from "./schemas/message-response.schema";
 
 // ================================================================================
 // API関数
 // ================================================================================
 
-export const sendMessage = (input: SendMessageInput): Promise<SendMessageDetail> => {
-  return api.post("/api/v1/sample/chat/messages", input);
+export const sendMessage = async (request: SendMessageRequest): Promise<SendMessageResponse> => {
+  const response = await api.post("/api/v1/sample/chat/messages", request);
+
+  return SendMessageResponseSchema.parse(response);
 };
 
 // ================================================================================

@@ -6,10 +6,11 @@
 
 1. [実装](#実装)
 2. [インターセプターの役割](#インターセプターの役割)
-3. [CSRF保護](#csrf保護)
-4. [基本的な使用方法](#基本的な使用方法)
-5. [TanStack Queryとの連携](#tanstack-queryとの連携)
-6. [Cookie認証](#cookie認証)
+3. [RFC 9457: Problem Detailsのサポート](#rfc-9457-problem-detailsのサポート)
+4. [CSRF保護](#csrf保護)
+5. [基本的な使用方法](#基本的な使用方法)
+6. [TanStack Queryとの連携](#tanstack-queryとの連携)
+7. [Cookie認証](#cookie認証)
 
 ---
 
@@ -151,24 +152,225 @@ const users = response.data  // 毎回 .data が必要
 
 ---
 
+## RFC 9457: Problem Detailsのサポート
+
+このプロジェクトは、エラーレスポンスに [RFC 9457 (Problem Details for HTTP APIs)](https://www.rfc-editor.org/rfc/rfc9457.html) を採用しています。APIクライアントは、RFC 9457形式のエラーレスポンスを自動的に処理します。
+
+### ApiErrorクラス
+
+`ApiError`クラスは、RFC 9457のエラーレスポンスをラップし、構造化されたエラー情報を提供します：
+
+```typescript
+import { ApiError, ProblemTypes } from '@/lib/api-client'
+
+try {
+  const user = await api.get(`/users/${userId}`)
+} catch (error) {
+  if (error instanceof ApiError) {
+    // RFC 9457フィールドへのアクセス
+    console.log(error.type)     // "https://api.example.com/problems/resource-not-found"
+    console.log(error.title)    // "Resource Not Found"
+    console.log(error.status)   // 404
+    console.log(error.detail)   // "The requested user does not exist"
+    console.log(error.instance) // "/api/v1/users/123"
+
+    // エラータイプによる分岐
+    if (error.isType(ProblemTypes.RESOURCE_NOT_FOUND)) {
+      // リソースが見つからない場合の処理
+      router.push('/404')
+    }
+
+    // ステータスコードによる分岐
+    if (error.isClientError()) {
+      // 4xxエラーの処理
+    } else if (error.isServerError()) {
+      // 5xxエラーの処理
+    }
+  }
+}
+```
+
+### ProblemTypesの定義
+
+標準的なエラータイプは、`ProblemTypes`で定義されています：
+
+```typescript
+export const ProblemTypes = {
+  // 認証エラー
+  UNAUTHORIZED: "https://api.example.com/problems/unauthorized",
+  FORBIDDEN: "https://api.example.com/problems/forbidden",
+  TOKEN_EXPIRED: "https://api.example.com/problems/token-expired",
+
+  // バリデーションエラー
+  VALIDATION_ERROR: "https://api.example.com/problems/validation-error",
+  INVALID_REQUEST: "https://api.example.com/problems/invalid-request",
+
+  // ビジネスロジックエラー
+  RESOURCE_NOT_FOUND: "https://api.example.com/problems/resource-not-found",
+  DUPLICATE_RESOURCE: "https://api.example.com/problems/duplicate-resource",
+  INSUFFICIENT_CREDIT: "https://api.example.com/problems/insufficient-credit",
+
+  // サーバーエラー
+  INTERNAL_SERVER_ERROR: "https://api.example.com/problems/internal-server-error",
+  SERVICE_UNAVAILABLE: "https://api.example.com/problems/service-unavailable",
+
+  // デフォルト
+  ABOUT_BLANK: "about:blank",
+}
+```
+
+### Accept Header
+
+APIクライアントは、RFC 9457準拠のエラーレスポンスを受け取るために、適切なAcceptヘッダーを自動的に設定します：
+
+```typescript
+config.headers.Accept = "application/problem+json, application/json"
+```
+
+詳しくは [RFC 9457ドキュメント](./07-rfc-9457.md) を参照してください。
+
+---
+
 ## CSRF保護
 
 Cross-Site Request Forgery (CSRF) 攻撃を防ぐため、APIクライアントは自動的にCSRFトークンをリクエストヘッダーに追加します。
 
-### CSRF保護の仕組み
+### CSRF保護の仕組み（Zodバリデーション付き）
+
+このプロジェクトでは、CSRFトークンに対してZodバリデーションを実装し、不正なトークンを自動的に検出・除外します。
+
+#### CSRFトークンスキーマ
+
+**ファイル**: `src/lib/schemas/csrf-token.schema.ts`
 
 ```typescript
-// src/lib/csrf.ts
+import { z } from "zod";
+
+/**
+ * CSRF トークンスキーマ
+ *
+ * 検証内容:
+ * 1. 空文字列でないこと
+ * 2. 前後の空白を削除
+ * 3. 最小長8文字
+ * 4. 英数字、ハイフン、アンダースコアのみ
+ */
+export const CsrfTokenSchema = z
+  .string()
+  .min(1, "CSRFトークンは必須です")
+  .trim() // 前後の空白を削除
+  .min(8, "CSRFトークンは8文字以上である必要があります")
+  .regex(
+    /^[\w-]+$/,
+    "CSRFトークンは英数字、ハイフン、アンダースコアのみを含む必要があります"
+  );
+```
+
+#### CSRF トークン取得時の自動バリデーション
+
+**ファイル**: `src/lib/csrf.ts`
+
+```typescript
+import { CsrfTokenSchema } from "./schemas/csrf-token.schema";
+
 const CSRF_COOKIE_NAME = 'csrftoken'
 const CSRF_HEADER_NAME = 'X-CSRF-Token'
 
+/**
+ * CSRFトークンを取得し、バリデーション実行
+ *
+ * クッキーから取得したCSRFトークンをZodスキーマで検証
+ * 不正なトークンの場合はnullを返す
+ *
+ * @returns 検証済みCSRFトークン、または null（トークンなし/不正な場合）
+ *
+ * @example
+ * ```typescript
+ * const csrfToken = getCsrfToken();
+ * if (csrfToken) {
+ *   // トークンは検証済み、安全に使用可能
+ *   config.headers[getCsrfHeaderName()] = csrfToken;
+ * }
+ * ```
+ */
 export const getCsrfToken = (): string | null => {
-  return getCookie(CSRF_COOKIE_NAME)
-}
+  const rawToken = getCookie(CSRF_COOKIE_NAME);
+  if (!rawToken) return null;
+
+  // ✅ Zodスキーマでバリデーション
+  const result = CsrfTokenSchema.safeParse(rawToken);
+
+  if (!result.success) {
+    console.warn(`[CSRF] 不正なCSRFトークンを検出しました: ${result.error.message}`);
+    return null;
+  }
+
+  return result.data;
+};
 
 export const getCsrfHeaderName = (): string => {
-  return CSRF_HEADER_NAME
-}
+  return CSRF_HEADER_NAME;
+};
+
+/**
+ * クッキーから値を取得する内部ヘルパー関数
+ */
+const getCookie = (name: string): string | null => {
+  if (typeof document === "undefined") {
+    return null;
+  }
+
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+
+  if (parts.length === 2) {
+    return parts.pop()?.split(";").shift() ?? null;
+  }
+
+  return null;
+};
+```
+
+### セキュリティメリット
+
+#### 1. 不正トークンの自動検出
+
+```typescript
+// ❌ 不正なCSRFトークン（8文字未満）
+document.cookie = "csrftoken=abc123"; // 6文字
+
+// ✅ 次回使用時にZodバリデーションが検出
+const csrfToken = getCsrfToken();
+// → バリデーション失敗（最小長チェック）
+// → console.warn: "CSRFトークンは8文字以上である必要があります"
+// → null を返す
+// → リクエストヘッダーに追加されない
+```
+
+#### 2. 不正文字種の検出
+
+```typescript
+// ❌ 不正な文字種を含むトークン
+document.cookie = "csrftoken=abc123!@#$%"; // 特殊文字
+
+// ✅ Zodバリデーションが検出
+const csrfToken = getCsrfToken();
+// → バリデーション失敗（regex チェック）
+// → console.warn: "CSRFトークンは英数字、ハイフン、アンダースコアのみを含む必要があります"
+// → null を返す
+```
+
+#### 3. 空白の自動トリム
+
+```typescript
+// ❌ 前後に空白があるトークン
+document.cookie = "csrftoken=  abc123def456  "; // 前後空白
+
+// ✅ Zodスキーマが自動的にトリム
+const csrfToken = getCsrfToken();
+// → trim() により "abc123def456" に正規化
+// → バリデーション成功
+// → "abc123def456" を返す
 ```
 
 ### CSRFトークンのフロー
@@ -436,6 +638,17 @@ sequenceDiagram
 
 ## 参考リンク
 
+### 外部リソース
 - [Axios公式ドキュメント](https://axios-http.com/)
+- [Zod公式ドキュメント](https://zod.dev/)
+
+### 内部ドキュメント
 - [TanStack Query](./07-tanstack-query.md)
 - [API統合](../04-development/05-api-integration.md)
+- [RFC 9457: Problem Details](./07-rfc-9457.md)
+
+### Zodバリデーション関連
+- [トークンバリデーション](../04-development/06-forms-validation/09-token-validation.md)
+- [APIレスポンスバリデーション](../04-development/06-forms-validation/04-api-response-validation.md)
+- [状態管理とZodバリデーション](./02-state-management.md#永続化とzodバリデーション)
+- [環境変数バリデーション](./05-environment-variables.md)

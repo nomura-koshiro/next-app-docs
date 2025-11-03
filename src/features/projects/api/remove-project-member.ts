@@ -1,8 +1,7 @@
-import type { UseMutationOptions } from "@tanstack/react-query";
+import { useMutation, type UseMutationOptions, useQueryClient } from "@tanstack/react-query";
 
 import { api } from "@/lib/api-client";
-
-import { useProjectMemberMutation } from "./helpers";
+import { logger } from "@/utils/logger";
 
 // ================================================================================
 // API関数
@@ -17,10 +16,13 @@ import { useProjectMemberMutation } from "./helpers";
  *
  * @example
  * ```tsx
- * await removeProjectMember('project-123', 'member-456');
+ * await removeProjectMember({
+ *   projectId: 'project-123',
+ *   memberId: 'member-456'
+ * });
  * ```
  */
-export const removeProjectMember = (projectId: string, memberId: string): Promise<void> => {
+export const removeProjectMember = ({ projectId, memberId }: { projectId: string; memberId: string }): Promise<void> => {
   return api.delete(`/projects/${projectId}/members/${memberId}`);
 };
 
@@ -58,9 +60,18 @@ type UseRemoveProjectMemberOptions = {
  * ```
  */
 export const useRemoveProjectMember = ({ projectId, mutationConfig }: UseRemoveProjectMemberOptions) => {
-  return useProjectMemberMutation({
-    mutationFn: ({ memberId }: { memberId: string }) => removeProjectMember(projectId, memberId),
-    projectId,
-    mutationConfig,
+  const queryClient = useQueryClient();
+
+  const { onSuccess, ...restConfig } = mutationConfig || {};
+
+  return useMutation({
+    onSuccess: (...args) => {
+      queryClient.invalidateQueries({ queryKey: ["projects", projectId, "members"] }).catch((error) => {
+        logger.error("プロジェクトメンバークエリの無効化に失敗しました", error);
+      });
+      onSuccess?.(...args);
+    },
+    ...restConfig,
+    mutationFn: ({ memberId }: { memberId: string }) => removeProjectMember({ projectId, memberId }),
   });
 };

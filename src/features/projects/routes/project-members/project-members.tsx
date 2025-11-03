@@ -2,9 +2,7 @@
 
 import { Suspense } from "react";
 
-import { EmptyState } from "@/components/ui/empty-state";
 import { ErrorBoundary } from "@/components/ui/error-boundary";
-import { LoadingSpinner } from "@/components/ui/loading-spinner";
 
 import { MembersTable } from "./components/members-table";
 import { useProjectMembersLogic } from "./project-members.hook";
@@ -21,10 +19,6 @@ const ProjectMembersContent = ({ projectId }: ProjectMembersProps) => {
     projectId,
   });
 
-  if (isLoading) {
-    return <LoadingSpinner message="メンバーを読み込み中..." fullScreen={false} />;
-  }
-
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -34,11 +28,7 @@ const ProjectMembersContent = ({ projectId }: ProjectMembersProps) => {
         </div>
       </div>
 
-      {members.length === 0 ? (
-        <EmptyState description="プロジェクトメンバーがいません" />
-      ) : (
-        <MembersTable members={members} onRoleChange={handleUpdateRole} onRemoveMember={handleRemoveMember} />
-      )}
+      <MembersTable members={members} isLoading={isLoading} onRoleChange={handleUpdateRole} onRemoveMember={handleRemoveMember} />
     </div>
   );
 };
@@ -59,7 +49,13 @@ const ProjectMembersContent = ({ projectId }: ProjectMembersProps) => {
 export const ProjectMembers = ({ projectId }: ProjectMembersProps) => {
   return (
     <ErrorBoundary>
-      <Suspense fallback={<LoadingSpinner message="プロジェクトメンバーを読み込み中..." fullScreen={false} />}>
+      <Suspense
+        fallback={
+          <div className="flex items-center justify-center py-12">
+            <div className="h-8 w-8 animate-spin rounded-full border-4 border-gray-300 border-t-blue-600"></div>
+          </div>
+        }
+      >
         <ProjectMembersContent projectId={projectId} />
       </Suspense>
     </ErrorBoundary>

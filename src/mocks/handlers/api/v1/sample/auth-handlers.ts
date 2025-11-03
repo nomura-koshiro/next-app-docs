@@ -6,8 +6,6 @@
 
 import { http, HttpResponse } from "msw";
 
-import { unauthorizedResponse } from "@/mocks/utils/problem-details";
-
 export const authHandlers = [
   /**
    * POST /api/v1/sample/auth/login
@@ -39,7 +37,19 @@ export const authHandlers = [
     }
 
     // エラーレスポンス
-    return unauthorizedResponse("Invalid email or password", "/api/v1/sample/auth/login");
+    return HttpResponse.json(
+      {
+        type: "https://api.example.com/problems/unauthorized",
+        title: "Unauthorized",
+        status: 401,
+        detail: "The provided credentials are invalid",
+        instance: "/api/v1/sample/auth/login",
+      },
+      {
+        status: 401,
+        headers: { "Content-Type": "application/problem+json" },
+      }
+    );
   }),
 
   /**
@@ -83,6 +93,18 @@ export const authHandlers = [
     }
 
     // 認証エラー
-    return unauthorizedResponse("Valid Bearer token is required", "/api/v1/sample/auth/me");
+    return HttpResponse.json(
+      {
+        type: "https://api.example.com/problems/unauthorized",
+        title: "Unauthorized",
+        status: 401,
+        detail: "Authentication is required to access this resource",
+        instance: "/api/v1/sample/auth/me",
+      },
+      {
+        status: 401,
+        headers: { "Content-Type": "application/problem+json" },
+      }
+    );
   }),
 ];

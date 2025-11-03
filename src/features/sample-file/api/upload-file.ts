@@ -4,25 +4,14 @@ import { api } from "@/lib/api-client";
 import { MutationConfig } from "@/lib/tanstack-query";
 import { logger } from "@/utils/logger";
 
-// ================================================================================
-// Types
-// ================================================================================
-
-/**
- * アップロードされたファイルの詳細情報
- */
-export type UploadFileDetail = {
-  id: string;
-  filename: string;
-  size: number;
-  uploadedAt: string;
-};
+import type { UploadFileResponse } from "./schemas/upload-response.schema";
+import { UploadFileResponseSchema } from "./schemas/upload-response.schema";
 
 // ================================================================================
 // API関数
 // ================================================================================
 
-export const uploadFile = async (file: File, onProgress?: (progress: number) => void): Promise<UploadFileDetail> => {
+export const uploadFile = async (file: File, onProgress?: (progress: number) => void): Promise<UploadFileResponse> => {
   const formData = new FormData();
   formData.append("file", file);
 
@@ -43,7 +32,7 @@ export const uploadFile = async (file: File, onProgress?: (progress: number) => 
       throw error;
     });
 
-  return response as unknown as UploadFileDetail;
+  return UploadFileResponseSchema.parse(response);
 };
 
 /**
@@ -53,7 +42,7 @@ export const uploadFile = async (file: File, onProgress?: (progress: number) => 
  * console.log(result.id) // アップロードされたファイルのID
  * ```
  */
-export const uploadFileSimple = async (file: File): Promise<UploadFileDetail> => {
+export const uploadFileSimple = async (file: File): Promise<UploadFileResponse> => {
   return uploadFile(file);
 };
 

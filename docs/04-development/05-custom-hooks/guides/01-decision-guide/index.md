@@ -275,7 +275,8 @@ const [isPending, startTransition] = useTransition();
 const onSubmit = async (values: LoginFormValues) => {
   try {
     const data = await loginMutation.mutateAsync(values);
-    localStorage.setItem('token', data.token);
+    // ✅ トークンをlocalStorageに保存（Zodバリデーション付き）
+    setValidatedToken('token', data.token);
     setUser(data.user);
 
     // 🚀 ノンブロッキングなナビゲーション

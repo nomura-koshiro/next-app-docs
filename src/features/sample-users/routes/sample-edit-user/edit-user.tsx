@@ -12,13 +12,15 @@ import { UserForm } from "@/features/sample-users/components/user-form";
 import { useDevTools } from "@/hooks/use-devtools";
 
 import { useEditUser } from "./edit-user.hook";
+import { EditUserParamsSchema } from "./schemas/params.schema";
 
 /**
  * ユーザー編集ページのコンテンツ (Client Component)
  */
 const EditUserPageContent = () => {
   const params = useParams();
-  const userId = params.id as string;
+  // ルートパラメータの検証
+  const { id: userId } = EditUserParamsSchema.parse(params);
 
   const { control, onSubmit, handleCancel, errors, isSubmitting } = useEditUser(userId);
 

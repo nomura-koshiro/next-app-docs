@@ -4,7 +4,7 @@
 
 import { MOCK_AUTH } from "@/mocks/handlers/api/v1/auth-handlers";
 
-import type { AuthUser } from "../stores/auth-store";
+import type { User } from "../stores/auth-store";
 import { useAuthStore } from "../stores/auth-store";
 
 // ================================================================================
@@ -32,7 +32,7 @@ const UNAUTHENTICATED_DATA = {
 
 /** Storybook用の認証状態データ型 */
 type AuthStateData = {
-  user: AuthUser | null;
+  user: User | null;
   isAuthenticated: boolean;
 };
 

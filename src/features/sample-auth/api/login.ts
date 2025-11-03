@@ -11,7 +11,8 @@ import { z } from "zod";
 import { api } from "@/lib/api-client";
 import { MutationConfig } from "@/lib/tanstack-query";
 
-import type { User } from "../types";
+import type { LoginResponse } from "./schemas/auth-response.schema";
+import { LoginResponseSchema } from "./schemas/auth-response.schema";
 
 // ================================================================================
 // Schemas
@@ -26,18 +27,6 @@ export const loginInputSchema = z.object({
 });
 
 export type LoginInput = z.infer<typeof loginInputSchema>;
-
-// ================================================================================
-// Types
-// ================================================================================
-
-/**
- * ログイン成功時の詳細情報
- */
-export type LoginDetail = {
-  user: User;
-  token: string; // JWT token
-};
 
 // ================================================================================
 // API関数
@@ -61,24 +50,10 @@ export type LoginDetail = {
  * console.log(response.user, response.token);
  * ```
  */
-export const login = (data: LoginInput): Promise<LoginDetail> => {
-  // TODO: 実際のAPI呼び出しに置き換える
-  return api.post("/api/v1/sample/auth/login", data);
+export const login = async (data: LoginInput): Promise<LoginResponse> => {
+  const response = await api.post("/api/v1/sample/auth/login", data);
 
-  // モック実装（テスト用）
-  // return new Promise((resolve) => {
-  //   setTimeout(() => {
-  //     resolve({
-  //       user: {
-  //         id: "1",
-  //         email: data.email,
-  //         name: "Sample User",
-  //         role: "user",
-  //       },
-  //       token: "mock-jwt-token",
-  //     });
-  //   }, 1000);
-  // });
+  return LoginResponseSchema.parse(response);
 };
 
 // ================================================================================
@@ -100,16 +75,21 @@ type UseLoginOptions = {
  * ```tsx
  * import { useLogin } from '@/features/sample-auth/api/login'
  * import { useAuthStore } from '@/features/sample-auth/stores/auth-store'
+ * import { setValidatedToken } from '@/features/sample-auth/stores/schemas/token-storage.schema'
+ * import { useRouter } from 'next/navigation'
  *
  * function LoginForm() {
+ *   const router = useRouter()
  *   const setUser = useAuthStore((state) => state.setUser)
  *   const loginMutation = useLogin({
  *     mutationConfig: {
  *       onSuccess: (data) => {
- *         // JWTトークンをLocalStorageに保存
- *         localStorage.setItem('token', data.token)
- *         // ユーザー情報をZustandストアに保存
+ *         // ✅ JWTトークンをLocalStorageに保存（Zodバリデーション付き）
+ *         setValidatedToken('token', data.token)
+ *         // ✅ ユーザー情報をZustandストアに保存（自動的にZodバリデーション付きLocalStorageに永続化）
  *         setUser(data.user)
+ *         // ログイン成功後のリダイレクト
+ *         router.push('/')
  *       },
  *     },
  *   })

@@ -4,8 +4,7 @@
 
 import { http, HttpResponse } from "msw";
 
-import type { CreateUserInput, SampleUser as User, UpdateUserInput, UserRole } from "@/types/models/user";
-import { notFoundResponse } from "@/mocks/utils/problem-details";
+import type { CreateUserDTO, UpdateUserDTO, User, UserRole } from "@/types/models/user";
 
 // モックデータ
 const mockUsers: User[] = [
@@ -52,7 +51,19 @@ export const userHandlers = [
     const user = mockUsers.find((u) => u.id === id);
 
     if (user === undefined) {
-      return notFoundResponse("User", id as string, `/api/v1/sample/users/${id}`);
+      return HttpResponse.json(
+        {
+          type: "https://api.example.com/problems/resource-not-found",
+          title: "Resource Not Found",
+          status: 404,
+          detail: "The requested user does not exist",
+          instance: `/api/v1/sample/users/${id}`,
+        },
+        {
+          status: 404,
+          headers: { "Content-Type": "application/problem+json" },
+        }
+      );
     }
 
     return HttpResponse.json({
@@ -65,7 +76,7 @@ export const userHandlers = [
    * ユーザー作成
    */
   http.post("*/api/v1/sample/users", async ({ request }) => {
-    const body = (await request.json()) as CreateUserInput;
+    const body = (await request.json()) as CreateUserDTO;
 
     const newUser: User = {
       id: String(mockUsers.length + 1),
@@ -86,12 +97,24 @@ export const userHandlers = [
    */
   http.put("*/api/v1/sample/users/:id", async ({ params, request }) => {
     const { id } = params;
-    const body = (await request.json()) as CreateUserInput;
+    const body = (await request.json()) as CreateUserDTO;
 
     const userIndex = mockUsers.findIndex((u) => u.id === id);
 
     if (userIndex === -1) {
-      return notFoundResponse("User", id as string, `/api/v1/sample/users/${id}`);
+      return HttpResponse.json(
+        {
+          type: "https://api.example.com/problems/resource-not-found",
+          title: "Resource Not Found",
+          status: 404,
+          detail: "The requested user does not exist",
+          instance: `/api/v1/sample/users/${id}`,
+        },
+        {
+          status: 404,
+          headers: { "Content-Type": "application/problem+json" },
+        }
+      );
     }
 
     mockUsers[userIndex] = {
@@ -110,12 +133,24 @@ export const userHandlers = [
    */
   http.patch("*/api/v1/sample/users/:id", async ({ params, request }) => {
     const { id } = params;
-    const body = (await request.json()) as UpdateUserInput;
+    const body = (await request.json()) as UpdateUserDTO;
 
     const userIndex = mockUsers.findIndex((u) => u.id === id);
 
     if (userIndex === -1) {
-      return notFoundResponse("User", id as string, `/api/v1/sample/users/${id}`);
+      return HttpResponse.json(
+        {
+          type: "https://api.example.com/problems/resource-not-found",
+          title: "Resource Not Found",
+          status: 404,
+          detail: "The requested user does not exist",
+          instance: `/api/v1/sample/users/${id}`,
+        },
+        {
+          status: 404,
+          headers: { "Content-Type": "application/problem+json" },
+        }
+      );
     }
 
     mockUsers[userIndex] = {
@@ -135,7 +170,19 @@ export const userHandlers = [
     const userIndex = mockUsers.findIndex((u) => u.id === id);
 
     if (userIndex === -1) {
-      return notFoundResponse("User", id as string, `/api/v1/sample/users/${id}`);
+      return HttpResponse.json(
+        {
+          type: "https://api.example.com/problems/resource-not-found",
+          title: "Resource Not Found",
+          status: 404,
+          detail: "The requested user does not exist",
+          instance: `/api/v1/sample/users/${id}`,
+        },
+        {
+          status: 404,
+          headers: { "Content-Type": "application/problem+json" },
+        }
+      );
     }
 
     mockUsers.splice(userIndex, 1);
