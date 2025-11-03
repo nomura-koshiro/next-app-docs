@@ -6,10 +6,11 @@
 
 1. [実装](#実装)
 2. [インターセプターの役割](#インターセプターの役割)
-3. [CSRF保護](#csrf保護)
-4. [基本的な使用方法](#基本的な使用方法)
-5. [TanStack Queryとの連携](#tanstack-queryとの連携)
-6. [Cookie認証](#cookie認証)
+3. [RFC 9457: Problem Detailsのサポート](#rfc-9457-problem-detailsのサポート)
+4. [CSRF保護](#csrf保護)
+5. [基本的な使用方法](#基本的な使用方法)
+6. [TanStack Queryとの連携](#tanstack-queryとの連携)
+7. [Cookie認証](#cookie認証)
 
 ---
 
@@ -148,6 +149,85 @@ const users = await api.get<User[]>('/users')
 const response = await api.get<User[]>('/users')
 const users = response.data  // 毎回 .data が必要
 ```
+
+---
+
+## RFC 9457: Problem Detailsのサポート
+
+このプロジェクトは、エラーレスポンスに [RFC 9457 (Problem Details for HTTP APIs)](https://www.rfc-editor.org/rfc/rfc9457.html) を採用しています。APIクライアントは、RFC 9457形式のエラーレスポンスを自動的に処理します。
+
+### ApiErrorクラス
+
+`ApiError`クラスは、RFC 9457のエラーレスポンスをラップし、構造化されたエラー情報を提供します：
+
+```typescript
+import { ApiError, ProblemTypes } from '@/lib/api-client'
+
+try {
+  const user = await api.get(`/users/${userId}`)
+} catch (error) {
+  if (error instanceof ApiError) {
+    // RFC 9457フィールドへのアクセス
+    console.log(error.type)     // "https://api.example.com/problems/resource-not-found"
+    console.log(error.title)    // "Resource Not Found"
+    console.log(error.status)   // 404
+    console.log(error.detail)   // "The requested user does not exist"
+    console.log(error.instance) // "/api/v1/users/123"
+
+    // エラータイプによる分岐
+    if (error.isType(ProblemTypes.RESOURCE_NOT_FOUND)) {
+      // リソースが見つからない場合の処理
+      router.push('/404')
+    }
+
+    // ステータスコードによる分岐
+    if (error.isClientError()) {
+      // 4xxエラーの処理
+    } else if (error.isServerError()) {
+      // 5xxエラーの処理
+    }
+  }
+}
+```
+
+### ProblemTypesの定義
+
+標準的なエラータイプは、`ProblemTypes`で定義されています：
+
+```typescript
+export const ProblemTypes = {
+  // 認証エラー
+  UNAUTHORIZED: "https://api.example.com/problems/unauthorized",
+  FORBIDDEN: "https://api.example.com/problems/forbidden",
+  TOKEN_EXPIRED: "https://api.example.com/problems/token-expired",
+
+  // バリデーションエラー
+  VALIDATION_ERROR: "https://api.example.com/problems/validation-error",
+  INVALID_REQUEST: "https://api.example.com/problems/invalid-request",
+
+  // ビジネスロジックエラー
+  RESOURCE_NOT_FOUND: "https://api.example.com/problems/resource-not-found",
+  DUPLICATE_RESOURCE: "https://api.example.com/problems/duplicate-resource",
+  INSUFFICIENT_CREDIT: "https://api.example.com/problems/insufficient-credit",
+
+  // サーバーエラー
+  INTERNAL_SERVER_ERROR: "https://api.example.com/problems/internal-server-error",
+  SERVICE_UNAVAILABLE: "https://api.example.com/problems/service-unavailable",
+
+  // デフォルト
+  ABOUT_BLANK: "about:blank",
+}
+```
+
+### Accept Header
+
+APIクライアントは、RFC 9457準拠のエラーレスポンスを受け取るために、適切なAcceptヘッダーを自動的に設定します：
+
+```typescript
+config.headers.Accept = "application/problem+json, application/json"
+```
+
+詳しくは [RFC 9457ドキュメント](./07-rfc-9457.md) を参照してください。
 
 ---
 

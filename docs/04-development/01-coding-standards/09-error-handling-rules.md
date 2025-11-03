@@ -5,6 +5,7 @@
 ## 目次
 
 - [基本方針](#基本方針)
+- [RFC 9457: Problem Details](#rfc-9457-problem-details)
 - [推奨パターン](#推奨パターン)
 - [禁止パターン](#禁止パターン)
 - [例外ケース](#例外ケース)
@@ -24,6 +25,112 @@
 2. **一貫性**: Promiseベースの非同期処理で統一される
 3. **チェーン可能**: エラーハンドリングを含めて処理をチェーンできる
 4. **型安全性**: TypeScriptの型推論がより効果的に機能する
+
+---
+
+## RFC 9457: Problem Details
+
+このプロジェクトは、エラーレスポンスに [RFC 9457 (Problem Details for HTTP APIs)](https://www.rfc-editor.org/rfc/rfc9457.html) を採用しています。
+
+### ApiErrorクラスの使用
+
+APIエラーは、`ApiError`クラスとしてラップされ、RFC 9457の構造化されたエラー情報を提供します：
+
+```typescript
+import { ApiError, ProblemTypes } from '@/lib/api-client';
+
+// ✅ 推奨: ApiErrorクラスでエラーを処理
+const handleSubmit = async (data: FormData) => {
+  await createUser(data).catch((error) => {
+    if (error instanceof ApiError) {
+      // RFC 9457フィールドへのアクセス
+      console.log('エラータイプ:', error.type);
+      console.log('ステータス:', error.status);
+      console.log('詳細:', error.detail);
+
+      // エラータイプによる分岐処理
+      if (error.isType(ProblemTypes.VALIDATION_ERROR)) {
+        const validationErrors = error.getExtension('errors');
+        // バリデーションエラーの処理
+        Object.entries(validationErrors).forEach(([field, messages]) => {
+          setError(field, { message: messages[0] });
+        });
+      } else if (error.isType(ProblemTypes.DUPLICATE_RESOURCE)) {
+        setError('root', { message: 'すでに登録されています' });
+      } else {
+        setError('root', { message: error.detail });
+      }
+    }
+  });
+};
+```
+
+### エラータイプによる処理の分岐
+
+```typescript
+import { ApiError, ProblemTypes } from '@/lib/api-client';
+import { useRouter } from 'next/navigation';
+
+export const useApiErrorHandler = () => {
+  const router = useRouter();
+
+  return (error: unknown) => {
+    if (!(error instanceof ApiError)) {
+      console.error('予期しないエラー:', error);
+      return;
+    }
+
+    // ✅ 推奨: エラータイプで分岐
+    switch (error.type) {
+      case ProblemTypes.UNAUTHORIZED:
+        // 認証エラー → ログインページへ
+        router.push('/login');
+        break;
+
+      case ProblemTypes.FORBIDDEN:
+        // 権限エラー
+        toast.error('アクセス権限がありません');
+        break;
+
+      case ProblemTypes.RESOURCE_NOT_FOUND:
+        // リソースが見つからない
+        router.push('/404');
+        break;
+
+      case ProblemTypes.VALIDATION_ERROR:
+        // バリデーションエラー
+        const errors = error.getExtension('errors');
+        // フォームにエラーを表示
+        break;
+
+      default:
+        // その他のエラー
+        toast.error(error.detail || 'エラーが発生しました');
+    }
+  };
+};
+```
+
+### ステータスコードによる処理
+
+```typescript
+// ✅ 推奨: ステータスコードで分岐
+await fetchData().catch((error) => {
+  if (error instanceof ApiError) {
+    if (error.isClientError()) {
+      // 4xxエラー: クライアント側の問題
+      console.log('クライアントエラー:', error.detail);
+    } else if (error.isServerError()) {
+      // 5xxエラー: サーバー側の問題
+      console.log('サーバーエラー:', error.detail);
+      // エラーログをサーバーに送信
+      logErrorToServer(error.toJSON());
+    }
+  }
+});
+```
+
+詳しくは [RFC 9457ドキュメント](../../../03-core-concepts/07-rfc-9457.md) を参照してください。
 
 ---
 

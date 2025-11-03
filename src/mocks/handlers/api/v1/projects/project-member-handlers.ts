@@ -167,9 +167,16 @@ export const projectMemberHandlers = [
     if (!user) {
       return HttpResponse.json(
         {
-          message: "User not found",
+          type: "https://api.example.com/problems/resource-not-found",
+          title: "Resource Not Found",
+          status: 404,
+          detail: "The specified user does not exist",
+          instance: `/api/v1/projects/${projectId}/members`,
         },
-        { status: 404 }
+        {
+          status: 404,
+          headers: { "Content-Type": "application/problem+json" },
+        }
       );
     }
 
@@ -180,9 +187,16 @@ export const projectMemberHandlers = [
     if (existingMember) {
       return HttpResponse.json(
         {
-          message: "User is already a member of this project",
+          type: "https://api.example.com/problems/duplicate-resource",
+          title: "Duplicate Resource",
+          status: 409,
+          detail: "User is already a member of this project",
+          instance: `/api/v1/projects/${projectId}/members`,
         },
-        { status: 409 }
+        {
+          status: 409,
+          headers: { "Content-Type": "application/problem+json" },
+        }
       );
     }
 
@@ -222,9 +236,16 @@ export const projectMemberHandlers = [
     if (memberIndex === -1) {
       return HttpResponse.json(
         {
-          message: "Project member not found",
+          type: "https://api.example.com/problems/resource-not-found",
+          title: "Resource Not Found",
+          status: 404,
+          detail: "The specified project member does not exist",
+          instance: `/api/v1/projects/${projectId}/members/${memberId}`,
         },
-        { status: 404 }
+        {
+          status: 404,
+          headers: { "Content-Type": "application/problem+json" },
+        }
       );
     }
 
@@ -253,9 +274,16 @@ export const projectMemberHandlers = [
     if (memberIndex === -1) {
       return HttpResponse.json(
         {
-          message: "Project member not found",
+          type: "https://api.example.com/problems/resource-not-found",
+          title: "Resource Not Found",
+          status: 404,
+          detail: "The specified project member does not exist",
+          instance: `/api/v1/projects/${projectId}/members/${memberId}`,
         },
-        { status: 404 }
+        {
+          status: 404,
+          headers: { "Content-Type": "application/problem+json" },
+        }
       );
     }
 

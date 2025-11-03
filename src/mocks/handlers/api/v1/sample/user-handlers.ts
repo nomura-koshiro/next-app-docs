@@ -53,9 +53,16 @@ export const userHandlers = [
     if (user === undefined) {
       return HttpResponse.json(
         {
-          message: "User not found",
+          type: "https://api.example.com/problems/resource-not-found",
+          title: "Resource Not Found",
+          status: 404,
+          detail: "The requested user does not exist",
+          instance: `/api/v1/sample/users/${id}`,
         },
-        { status: 404 }
+        {
+          status: 404,
+          headers: { "Content-Type": "application/problem+json" },
+        }
       );
     }
 
@@ -97,9 +104,16 @@ export const userHandlers = [
     if (userIndex === -1) {
       return HttpResponse.json(
         {
-          message: "User not found",
+          type: "https://api.example.com/problems/resource-not-found",
+          title: "Resource Not Found",
+          status: 404,
+          detail: "The requested user does not exist",
+          instance: `/api/v1/sample/users/${id}`,
         },
-        { status: 404 }
+        {
+          status: 404,
+          headers: { "Content-Type": "application/problem+json" },
+        }
       );
     }
 
@@ -126,9 +140,16 @@ export const userHandlers = [
     if (userIndex === -1) {
       return HttpResponse.json(
         {
-          message: "User not found",
+          type: "https://api.example.com/problems/resource-not-found",
+          title: "Resource Not Found",
+          status: 404,
+          detail: "The requested user does not exist",
+          instance: `/api/v1/sample/users/${id}`,
         },
-        { status: 404 }
+        {
+          status: 404,
+          headers: { "Content-Type": "application/problem+json" },
+        }
       );
     }
 
@@ -151,9 +172,16 @@ export const userHandlers = [
     if (userIndex === -1) {
       return HttpResponse.json(
         {
-          message: "User not found",
+          type: "https://api.example.com/problems/resource-not-found",
+          title: "Resource Not Found",
+          status: 404,
+          detail: "The requested user does not exist",
+          instance: `/api/v1/sample/users/${id}`,
         },
-        { status: 404 }
+        {
+          status: 404,
+          headers: { "Content-Type": "application/problem+json" },
+        }
       );
     }
 

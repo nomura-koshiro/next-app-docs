@@ -12,6 +12,7 @@ APIから返されるエラーをフォームに反映させる方法を説明�
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { ApiError, ProblemTypes } from '@/lib/api-client'
 import { userFormSchema, type UserFormValues } from './user-form.schema'
 import { useCreateUser } from '@/features/users/api/create-user'
 
@@ -32,16 +33,21 @@ export const CreateUserForm = () => {
     setServerError(null)
 
     await createUser.mutateAsync(data)
-      .catch((error: any) => {
-        // サーバーからのエラーをフィールドにセット
-        if (error.data?.errors) {
-          Object.entries(error.data.errors).forEach(([field, messages]) => {
-            setError(field as keyof UserFormValues, {
-              message: Array.isArray(messages) ? messages[0] : String(messages),
+      .catch((error) => {
+        // RFC 9457準拠のエラーハンドリング
+        if (error instanceof ApiError) {
+          if (error.isType(ProblemTypes.VALIDATION_ERROR)) {
+            const validationErrors = error.getExtension('errors')
+            Object.entries(validationErrors).forEach(([field, messages]) => {
+              setError(field as keyof UserFormValues, {
+                message: Array.isArray(messages) ? messages[0] : String(messages),
+              })
             })
-          })
+          } else {
+            setServerError(error.detail || 'エラーが発生しました')
+          }
         } else {
-          setServerError(error.message || 'エラーが発生しました')
+          setServerError('エラーが発生しました')
         }
       })
   }
@@ -78,11 +84,19 @@ export const CreateUserForm = () => {
 
 ## エラーレスポンスの形式
 
-### Laravel形式（422 Unprocessable Entity）
+このプロジェクトは、エラーレスポンスに [RFC 9457 (Problem Details for HTTP APIs)](https://www.rfc-editor.org/rfc/rfc9457.html) を採用しています。
+
+### RFC 9457形式（422 Unprocessable Entity）
+
+バリデーションエラーは、RFC 9457の拡張フィールドとして`errors`を含みます：
 
 ```json
 {
-  "message": "The given data was invalid.",
+  "type": "https://api.example.com/problems/validation-error",
+  "title": "Validation Failed",
+  "status": 422,
+  "detail": "The request data failed validation",
+  "instance": "/api/v1/users",
   "errors": {
     "email": ["メールアドレスはすでに使用されています"],
     "name": ["名前は必須です"]
@@ -90,20 +104,37 @@ export const CreateUserForm = () => {
 }
 ```
 
-### 処理例
+### ApiErrorクラスでの処理
 
 ```typescript
-const handleServerError = (error: any, setError: UseFormSetError<UserFormValues>) => {
-  if (error.status === 422 && error.data?.errors) {
-    // Laravelのバリデーションエラー
-    Object.entries(error.data.errors).forEach(([field, messages]) => {
-      setError(field as keyof UserFormValues, {
-        type: 'server',
-        message: Array.isArray(messages) ? messages[0] : String(messages),
-      })
-    })
+import { ApiError, ProblemTypes } from '@/lib/api-client';
+
+const handleServerError = (error: unknown, setError: UseFormSetError<UserFormValues>) => {
+  if (!(error instanceof ApiError)) {
+    setError('root', { message: 'エラーが発生しました' });
+    return;
   }
-}
+
+  // RFC 9457: バリデーションエラー
+  if (error.isType(ProblemTypes.VALIDATION_ERROR)) {
+    const validationErrors = error.getExtension<Record<string, string[]>>('errors');
+
+    if (validationErrors) {
+      Object.entries(validationErrors).forEach(([field, messages]) => {
+        setError(field as keyof UserFormValues, {
+          type: 'server',
+          message: Array.isArray(messages) ? messages[0] : String(messages),
+        });
+      });
+    }
+  } else {
+    // その他のエラー
+    setError('root', {
+      type: 'server',
+      message: error.detail || 'エラーが発生しました',
+    });
+  }
+};
 ```
 
 ---
@@ -151,43 +182,48 @@ setError('root.serverError', {
 
 ## 再利用可能なエラーハンドラー
 
-### ユーティリティ関数
+### ユーティリティ関数（RFC 9457対応）
 
 ```typescript
 // src/utils/form-error-handler.ts
 import type { UseFormSetError, FieldValues, Path } from 'react-hook-form'
-
-type ServerError = {
-  status?: number
-  data?: {
-    message?: string
-    errors?: Record<string, string | string[]>
-  }
-  message?: string
-}
+import { ApiError, ProblemTypes } from '@/lib/api-client'
 
 /**
- * サーバーエラーをフォームエラーにマッピング
+ * RFC 9457準拠のサーバーエラーをフォームエラーにマッピング
  */
 export const handleServerError = <T extends FieldValues>(
-  error: ServerError,
+  error: unknown,
   setError: UseFormSetError<T>
 ): void => {
-  // バリデーションエラー（422）
-  if (error.status === 422 && error.data?.errors) {
-    Object.entries(error.data.errors).forEach(([field, messages]) => {
-      setError(field as Path<T>, {
-        type: 'server',
-        message: Array.isArray(messages) ? messages[0] : String(messages),
-      })
+  // ApiErrorでない場合は汎用エラー
+  if (!(error instanceof ApiError)) {
+    setError('root.serverError' as Path<T>, {
+      type: 'server',
+      message: 'エラーが発生しました',
     })
     return
   }
 
-  // その他のサーバーエラー
+  // RFC 9457: バリデーションエラー（422）
+  if (error.isType(ProblemTypes.VALIDATION_ERROR)) {
+    const validationErrors = error.getExtension<Record<string, string[]>>('errors')
+
+    if (validationErrors) {
+      Object.entries(validationErrors).forEach(([field, messages]) => {
+        setError(field as Path<T>, {
+          type: 'server',
+          message: Array.isArray(messages) ? messages[0] : String(messages),
+        })
+      })
+      return
+    }
+  }
+
+  // その他のRFC 9457エラー
   setError('root.serverError' as Path<T>, {
     type: 'server',
-    message: error.data?.message || error.message || 'エラーが発生しました',
+    message: error.detail || error.title || 'エラーが発生しました',
   })
 }
 ```
@@ -199,7 +235,7 @@ import { handleServerError } from '@/utils/form-error-handler'
 
 const onSubmit = async (data: UserFormValues) => {
   await createUser.mutateAsync(data)
-    .catch((error: any) => {
+    .catch((error) => {
       handleServerError(error, setError)
     })
 }
@@ -242,20 +278,25 @@ clearErrors()
 
 ## グローバルエラー通知
 
-### Toastとの連携
+### Toastとの連携（RFC 9457対応）
 
 ```typescript
 import { toast } from 'sonner'
+import { ApiError, ProblemTypes } from '@/lib/api-client'
 
 const onSubmit = async (data: UserFormValues) => {
   await createUser.mutateAsync(data)
     .then(() => {
       toast.success('ユーザーを作成しました')
     })
-    .catch((error: any) => {
-      if (error.status === 422) {
-        handleServerError(error, setError)
-        toast.error('入力内容を確認してください')
+    .catch((error) => {
+      if (error instanceof ApiError) {
+        if (error.isType(ProblemTypes.VALIDATION_ERROR)) {
+          handleServerError(error, setError)
+          toast.error('入力内容を確認してください')
+        } else {
+          toast.error(error.detail || 'エラーが発生しました')
+        }
       } else {
         toast.error('エラーが発生しました')
       }

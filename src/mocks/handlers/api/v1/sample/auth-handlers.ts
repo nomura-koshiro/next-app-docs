@@ -39,9 +39,16 @@ export const authHandlers = [
     // エラーレスポンス
     return HttpResponse.json(
       {
-        message: "Invalid credentials",
+        type: "https://api.example.com/problems/unauthorized",
+        title: "Unauthorized",
+        status: 401,
+        detail: "The provided credentials are invalid",
+        instance: "/api/v1/sample/auth/login",
       },
-      { status: 401 }
+      {
+        status: 401,
+        headers: { "Content-Type": "application/problem+json" },
+      }
     );
   }),
 
@@ -88,9 +95,16 @@ export const authHandlers = [
     // 認証エラー
     return HttpResponse.json(
       {
-        message: "Unauthorized",
+        type: "https://api.example.com/problems/unauthorized",
+        title: "Unauthorized",
+        status: 401,
+        detail: "Authentication is required to access this resource",
+        instance: "/api/v1/sample/auth/me",
       },
-      { status: 401 }
+      {
+        status: 401,
+        headers: { "Content-Type": "application/problem+json" },
+      }
     );
   }),
 ];

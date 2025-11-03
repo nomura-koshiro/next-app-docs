@@ -30,9 +30,16 @@ export const fileHandlers = [
     if (!file) {
       return HttpResponse.json(
         {
-          message: "No file provided",
+          type: "https://api.example.com/problems/invalid-request",
+          title: "Invalid Request",
+          status: 400,
+          detail: "No file was provided in the request",
+          instance: "/api/v1/sample/files/upload",
         },
-        { status: 400 }
+        {
+          status: 400,
+          headers: { "Content-Type": "application/problem+json" },
+        }
       );
     }
 
@@ -72,9 +79,16 @@ export const fileHandlers = [
     if (!file) {
       return HttpResponse.json(
         {
-          message: "File not found",
+          type: "https://api.example.com/problems/resource-not-found",
+          title: "Resource Not Found",
+          status: 404,
+          detail: "The requested file does not exist",
+          instance: `/api/v1/sample/files/${id}`,
         },
-        { status: 404 }
+        {
+          status: 404,
+          headers: { "Content-Type": "application/problem+json" },
+        }
       );
     }
 
