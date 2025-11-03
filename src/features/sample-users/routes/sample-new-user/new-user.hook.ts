@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 
 import { useCreateUser } from "@/features/sample-users";
-import { userFormSchema, type UserFormValues } from "@/features/sample-users/schemas/user-form.schema";
+import { userFormSchema, type UserFormValues } from "@/features/sample-users/types/forms";
 
 /**
  * 新規ユーザー作成ページのロジックを管理するカスタムフック

@@ -482,7 +482,7 @@ const users: User[] = response.data;
 
 ```typescript
 // ✅ スキーマファイルで一元管理
-// src/features/auth/schemas/user.schema.ts
+// src/features/auth/lib/validationsuser.ts
 export const UserSchema = z.object({
   id: z.string(),
   email: z.string().email(),

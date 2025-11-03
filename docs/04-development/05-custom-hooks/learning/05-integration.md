@@ -132,7 +132,7 @@ import { useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useCreateUser } from '@/features/sample-users/api/create-user';
-import { userFormSchema, type UserFormValues } from '../../schemas/user-form.schema';
+import { userFormSchema, type UserFormValues } from '../../types/forms.schema';
 
 /**
  * 新規ユーザー作成ページのカスタムフック
@@ -365,7 +365,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useUser } from '@/features/sample-users/api/get-user';
 import { useUpdateUser } from '@/features/sample-users/api/update-user';
-import { userFormSchema, type UserFormValues } from '../../schemas/user-form.schema';
+import { userFormSchema, type UserFormValues } from '../../types/forms.schema';
 
 /**
  * ユーザー編集ページのカスタムフック

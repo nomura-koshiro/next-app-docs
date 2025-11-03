@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { fn } from "@storybook/test";
 import { Control, useForm } from "react-hook-form";
 
-import { loginFormSchema, type LoginFormValues } from "@/features/sample-auth/schemas/login-form.schema";
+import { loginFormSchema, type LoginFormValues } from "@/features/sample-auth/types/forms";
 
 import { LoginForm } from "./login";
 

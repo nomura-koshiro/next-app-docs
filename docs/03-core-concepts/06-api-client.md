@@ -241,7 +241,7 @@ Cross-Site Request Forgery (CSRF) 攻撃を防ぐため、APIクライアント�
 
 #### CSRFトークンスキーマ
 
-**ファイル**: `src/lib/schemas/csrf-token.schema.ts`
+**ファイル**: `src/lib/lib/validationscsrf-token.ts`
 
 ```typescript
 import { z } from "zod";
@@ -271,7 +271,7 @@ export const CsrfTokenSchema = z
 **ファイル**: `src/lib/csrf.ts`
 
 ```typescript
-import { CsrfTokenSchema } from "./schemas/csrf-token.schema";
+import { CsrfTokenSchema } from "./lib/validationscsrf-token.schema";
 
 const CSRF_COOKIE_NAME = 'csrftoken'
 const CSRF_HEADER_NAME = 'X-CSRF-Token'

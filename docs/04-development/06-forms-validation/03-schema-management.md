@@ -2,21 +2,23 @@
 
 アプリケーションが成長するにつれて、同じフィールド（例：email、password）が複数のフォームで使われるようになります。これらを個別に定義すると、バリデーションルールが不一致になったり、重複コードが増えたりする問題が発生します。
 
-このプロジェクトでは、共通のバリデーションスキーマを `src/schemas/` ディレクトリで集中管理しています。
+このプロジェクトでは、共通のバリデーションスキーマを `src/lib/validations/` ディレクトリで集中管理しています。
 
 ---
 
 ## ディレクトリ構造
 
 ```
-src/schemas/
+src/lib/validations/
 ├── index.ts              # 全スキーマのバレルエクスポート
-└── fields/               # フィールド単位のスキーマ
-    ├── index.ts
-    ├── email.schema.ts
-    ├── password.schema.ts
-    ├── username.schema.ts
-    └── ...
+├── fields/               # フィールド単位のスキーマ
+│   ├── index.ts
+│   ├── email.ts
+│   ├── password.ts
+│   ├── username.ts
+│   └── ...
+└── models/               # モデル単位のスキーマ
+    └── csrf-token.ts
 ```
 
 ---
@@ -27,7 +29,7 @@ src/schemas/
 
 ```typescript
 import { z } from "zod";
-import { emailSchema, passwordSchema } from "@/schemas/fields/email.schema";
+import { emailSchema, passwordSchema } from "@/lib/validations/fields";
 
 // フォームスキーマの作成
 export const loginFormSchema = z.object({
@@ -45,7 +47,7 @@ import {
   emailSchema,
   passwordSchema,
   usernameSchema,
-} from "@/schemas/fields";
+} from "@/lib/validations/fields";
 ```
 
 ---
@@ -99,7 +101,7 @@ email: emailSchema
 バリデーションルールの変更が1箇所で済みます。
 
 ```typescript
-// src/schemas/fields/email.schema.ts を編集するだけで
+// src/lib/validations/fields/email.ts を編集するだけで
 // アプリケーション全体のメールバリデーションが更新される
 ```
 
@@ -121,7 +123,7 @@ export const signupFormSchema = z.object({
 共通の型定義により、型の不一致を防ぎます。
 
 ```typescript
-import { Gender, Role } from "@/schemas/fields";
+import { Gender, Role } from "@/lib/validations/fields";
 
 // 型が自動的に推論される
 const user: { gender: Gender; role: Role } = {
@@ -136,10 +138,10 @@ const user: { gender: Gender; role: Role } = {
 
 ### 1. スキーマファイルを作成
 
-`src/schemas/fields/` に新しいスキーマファイルを作成します。
+`src/lib/validations/fields/` に新しいスキーマファイルを作成します。
 
 ```typescript
-// src/schemas/fields/phone.schema.ts
+// src/lib/validations/fields/phone.ts
 import { z } from "zod";
 
 export const phoneSchema = z
@@ -150,25 +152,25 @@ export const phoneSchema = z
 
 ### 2. エクスポートを追加
 
-`src/schemas/fields/index.ts` にエクスポートを追加します。
+`src/lib/validations/fields/index.ts` にエクスポートを追加します。
 
 ```typescript
-export * from "./phone.schema";
+export * from "./phone";
 ```
 
 ### 3. 各featureで使用
 
 ```typescript
-import { phoneSchema } from "@/schemas/fields/phone.schema";
+import { phoneSchema } from "@/lib/validations/fields/phone";
 // または
-import { phoneSchema } from "@/schemas/fields";
+import { phoneSchema } from "@/lib/validations/fields";
 ```
 
 ---
 
 ## スキーマの例
 
-### email.schema.ts
+### email.ts
 
 ```typescript
 import { z } from "zod";
@@ -182,7 +184,7 @@ export const emailSchema = z
   .email({ message: "有効なメールアドレスを入力してください" });
 ```
 
-### password.schema.ts
+### password.ts
 
 ```typescript
 import { z } from "zod";
@@ -205,7 +207,7 @@ export const strongPasswordSchema = z
   .regex(/[0-9]/, { message: "数字を1文字以上含めてください" });
 ```
 
-### username.schema.ts
+### username.ts
 
 ```typescript
 import { z } from "zod";
@@ -222,7 +224,7 @@ export const usernameSchema = z
   });
 ```
 
-### name.schema.ts
+### name.ts
 
 ```typescript
 import { z } from "zod";
@@ -236,7 +238,7 @@ export const nameSchema = z
   .max(100, { message: "名前は100文字以内で入力してください" });
 ```
 
-### role.schema.ts
+### role.ts
 
 ```typescript
 import { z } from "zod";
@@ -251,7 +253,7 @@ export const roleSchema = z.enum(["user", "admin"], {
 export type Role = z.infer<typeof roleSchema>;
 ```
 
-### gender.schema.ts
+### gender.ts
 
 ```typescript
 import { z } from "zod";
@@ -266,7 +268,7 @@ export const genderSchema = z.enum(["male", "female", "other"], {
 export type Gender = z.infer<typeof genderSchema>;
 ```
 
-### terms.schema.ts
+### terms.ts
 
 ```typescript
 import { z } from "zod";
@@ -284,7 +286,7 @@ export const termsSchema = z.literal(true, {
 export const optionalCheckboxSchema = z.boolean().default(false);
 ```
 
-### age.schema.ts
+### age.ts
 
 ```typescript
 import { z } from "zod";
@@ -297,7 +299,7 @@ export const ageSchema = z
   .nonnegative({ message: "年齢は0以上で入力してください" });
 ```
 
-### bio.schema.ts
+### bio.ts
 
 ```typescript
 import { z } from "zod";
@@ -324,7 +326,7 @@ import {
   emailSchema,
   strongPasswordSchema,
   termsSchema,
-} from "@/schemas/fields";
+} from "@/lib/validations/fields";
 
 export const signupFormSchema = z.object({
   username: usernameSchema,
@@ -345,7 +347,7 @@ import {
   bioSchema,
   genderSchema,
   ageSchema,
-} from "@/schemas/fields";
+} from "@/lib/validations/fields";
 
 export const profileFormSchema = z.object({
   name: nameSchema,
@@ -363,12 +365,14 @@ export type ProfileFormValues = z.infer<typeof profileFormSchema>;
 
 ### feature固有のバリデーション
 
-**共通性の高いフィールド**は`src/schemas/fields/`に配置しますが、**feature固有のバリデーション**は各featureのschemasディレクトリに配置してもOKです。
+**共通性の高いフィールド**は`src/lib/validations/fields/`に配置しますが、**feature固有のバリデーション**は各featureの`types/`ディレクトリに配置します。
 
 ```
 src/features/orders/
-└── schemas/
-    └── order-form.schema.ts   # 注文フォーム固有のスキーマ
+└── types/
+    ├── index.ts      # 型定義
+    ├── api.ts        # APIレスポンススキーマ
+    └── forms.ts      # フォームバリデーションスキーマ（注文フォーム固有）
 ```
 
 ### スキーマ変更時の注意

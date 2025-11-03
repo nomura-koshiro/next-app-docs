@@ -113,7 +113,7 @@ export default UsersPage;
 
 ### バリデーションスキーマ
 
-**ファイル**: `src/features/sample-users/schemas/user-form.schema.ts`
+**ファイル**: `src/features/sample-users/types/forms.ts`
 
 ```typescript
 import { z } from "zod";
@@ -167,7 +167,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { useCreateUser } from "../../api/create-user";
-import { userFormSchema, type UserFormValues } from "../../schemas/user-form.schema";
+import { userFormSchema, type UserFormValues } from "../../types/forms.schema";
 
 export const useNewUser = () => {
   const router = useRouter();
@@ -292,7 +292,7 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { useUser } from "../../api/get-user";
 import { useUpdateUser } from "../../api/update-user";
-import { userFormSchema, type UserFormValues } from "../../schemas/user-form.schema";
+import { userFormSchema, type UserFormValues } from "../../types/forms.schema";
 
 /**
  * ユーザー編集ページのカスタムフック

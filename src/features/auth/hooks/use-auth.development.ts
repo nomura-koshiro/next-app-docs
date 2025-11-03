@@ -2,7 +2,7 @@
 // Imports
 // ================================================================================
 
-import { MOCK_AUTH } from "@/mocks/handlers/api/v1/auth-handlers";
+import { MOCK_AUTH } from "@/mocks/handlers/api/v1/auth/auth-handlers";
 
 import { useAuthStore } from "../stores/auth-store";
 

@@ -73,7 +73,7 @@ src/
 │       ├── components/    # UIコンポーネント
 │       ├── hooks/         # カスタムフック
 │       ├── routes/        # ルート（ページ）
-│       ├── schemas/       # バリデーションスキーマ
+│       ├── types/         # 型定義・バリデーションスキーマ
 │       └── stores/        # ローカルストア
 │
 ├── components/            # 共通コンポーネント
@@ -82,8 +82,8 @@ src/
 │   ├── errors/            # エラー表示
 │   └── layout/            # レイアウト
 │
-├── lib/                   # 外部ライブラリ設定
-├── schemas/               # 共通バリデーションスキーマ
+├── lib/                   # 外部ライブラリ設定・共通ユーティリティ
+│   └── validations/       # 共通バリデーションスキーマ
 ├── mocks/                 # MSWモックハンドラー
 ├── config/                # 設定ファイル（env, msal, paths等）
 ├── hooks/                 # 共通カスタムフック

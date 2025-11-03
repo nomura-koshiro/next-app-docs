@@ -3,7 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
-import { sampleFormSchema, type SampleFormValues } from "../../schemas/sample-form.schema";
+import { sampleFormSchema, type SampleFormValues } from "../../types/forms";
 
 /**
  * サンプルフォームページのカスタムフック

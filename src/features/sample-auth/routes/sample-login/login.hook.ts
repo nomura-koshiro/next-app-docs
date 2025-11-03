@@ -5,9 +5,9 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 
 import { useLogin as useLoginMutation } from "@/features/sample-auth/api/login";
-import { loginFormSchema, type LoginFormValues } from "@/features/sample-auth/schemas/login-form.schema";
 import { useAuthStore } from "@/features/sample-auth/stores/auth-store";
 import { setValidatedToken } from "@/features/sample-auth/stores/schemas/token-storage.schema";
+import { loginFormSchema, type LoginFormValues } from "@/features/sample-auth/types/forms";
 
 /**
  * ログインページのロジックを管理するカスタムフック

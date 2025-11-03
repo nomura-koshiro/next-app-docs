@@ -3,9 +3,9 @@ import { useMutation, type UseMutationOptions, useQueryClient } from "@tanstack/
 import { api } from "@/lib/api-client";
 import { logger } from "@/utils/logger";
 
-import type { AddProjectMemberDTO } from "../types";
-import type { ProjectMemberResponse } from "./schemas/project-member-response.schema";
-import { ProjectMemberResponseSchema } from "./schemas/project-member-response.schema";
+import type { AddProjectMemberInput } from "../types";
+import type { ProjectMemberOutput } from "../types/api";
+import { projectMemberOutputSchema } from "../types/api";
 
 // ================================================================================
 // API関数
@@ -22,7 +22,7 @@ import { ProjectMemberResponseSchema } from "./schemas/project-member-response.s
  * ```tsx
  * await addProjectMember({
  *   projectId: 'project-123',
- *   data: { user_id: 'user-456', role: ProjectRole.MEMBER }
+ *   data: { user_id: 'user-456', role: 'member' }
  * });
  * ```
  */
@@ -31,11 +31,11 @@ export const addProjectMember = async ({
   data,
 }: {
   projectId: string;
-  data: AddProjectMemberDTO;
-}): Promise<ProjectMemberResponse> => {
+  data: AddProjectMemberInput;
+}): Promise<ProjectMemberOutput> => {
   const response = await api.post(`/projects/${projectId}/members`, data);
 
-  return ProjectMemberResponseSchema.parse(response);
+  return projectMemberOutputSchema.parse(response);
 };
 
 // ================================================================================
@@ -44,7 +44,7 @@ export const addProjectMember = async ({
 
 type UseAddProjectMemberOptions = {
   projectId: string;
-  mutationConfig?: Omit<UseMutationOptions<ProjectMemberResponse, Error, AddProjectMemberDTO, unknown>, "mutationFn">;
+  mutationConfig?: Omit<UseMutationOptions<ProjectMemberOutput, Error, AddProjectMemberInput, unknown>, "mutationFn">;
 };
 
 /**
@@ -69,7 +69,7 @@ type UseAddProjectMemberOptions = {
  * const handleAdd = () => {
  *   addMemberMutation.mutate({
  *     user_id: 'user-456',
- *     role: ProjectRole.MEMBER
+ *     role: 'member'
  *   });
  * };
  * ```
@@ -87,6 +87,6 @@ export const useAddProjectMember = ({ projectId, mutationConfig }: UseAddProject
       onSuccess?.(...args);
     },
     ...restConfig,
-    mutationFn: (data: AddProjectMemberDTO) => addProjectMember({ projectId, data }),
+    mutationFn: (data: AddProjectMemberInput) => addProjectMember({ projectId, data }),
   });
 };

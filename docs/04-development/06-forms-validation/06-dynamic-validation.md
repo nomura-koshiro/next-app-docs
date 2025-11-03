@@ -11,7 +11,7 @@
 ### スキーマ定義
 
 ```typescript
-// src/schemas/fields/user-type.schema.ts
+// src/lib/validations/fields/user-type.ts
 import { z } from 'zod';
 
 /**
@@ -70,7 +70,7 @@ export const userTypeFormSchema = z
 ### スキーマ定義
 
 ```typescript
-// src/features/users/schemas/user-advanced.schema.ts
+// src/features/users/lib/validationsuser-advanced.ts
 import { z } from 'zod';
 
 export const userAdvancedSchema = z
@@ -144,7 +144,7 @@ export type UserAdvancedFormValues = z.infer<typeof userAdvancedSchema>;
 ### スキーマ定義
 
 ```typescript
-// src/schemas/fields/payment.schema.ts
+// src/lib/validations/fields/payment.ts
 import { z } from 'zod';
 
 /**
@@ -183,7 +183,7 @@ export const createPaymentSchema = (paymentMethod: 'card' | 'bank' | 'cash') => 
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useState, useEffect } from 'react';
-import { createPaymentSchema } from '@/schemas/fields/payment.schema';
+import { createPaymentSchema } from '@/lib/validations/fields/payment.schema';
 
 export const useNewPayment = () => {
   const [paymentMethod, setPaymentMethod] = useState<'card' | 'bank' | 'cash'>('card');
@@ -239,7 +239,7 @@ export const useNewPayment = () => {
 ### スキーマ定義
 
 ```typescript
-// src/schemas/fields/user-discriminated.schema.ts
+// src/lib/validations/fields/user-discriminated.ts
 import { z } from 'zod';
 import { emailSchema } from './email.schema';
 

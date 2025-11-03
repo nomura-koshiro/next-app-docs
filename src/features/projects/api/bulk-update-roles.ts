@@ -3,9 +3,9 @@ import { useMutation, type UseMutationOptions, useQueryClient } from "@tanstack/
 import { api } from "@/lib/api-client";
 import { logger } from "@/utils/logger";
 
-import type { BulkUpdateRolesDTO } from "../types";
-import type { ProjectMembersResponse } from "./schemas/project-member-response.schema";
-import { ProjectMembersResponseSchema } from "./schemas/project-member-response.schema";
+import type { BulkUpdateRolesInput } from "../types";
+import type { ProjectMembersOutput } from "../types/api";
+import { projectMembersOutputSchema } from "../types/api";
 
 // ================================================================================
 // API関数
@@ -24,8 +24,8 @@ import { ProjectMembersResponseSchema } from "./schemas/project-member-response.
  *   projectId: 'project-123',
  *   data: {
  *     updates: [
- *       { member_id: 'member-456', role: ProjectRole.PROJECT_MODERATOR },
- *       { member_id: 'member-789', role: ProjectRole.MEMBER }
+ *       { member_id: 'member-456', role: 'project_moderator' },
+ *       { member_id: 'member-789', role: 'member' }
  *     ]
  *   }
  * });
@@ -36,12 +36,12 @@ export const bulkUpdateRoles = async ({
   data,
 }: {
   projectId: string;
-  data: BulkUpdateRolesDTO;
-}): Promise<ProjectMembersResponse> => {
+  data: BulkUpdateRolesInput;
+}): Promise<ProjectMembersOutput> => {
   // 重要: エンドポイントは /members/bulk で、/roles サフィックスなし
   const response = await api.patch(`/projects/${projectId}/members/bulk`, data);
 
-  return ProjectMembersResponseSchema.parse(response);
+  return projectMembersOutputSchema.parse(response);
 };
 
 // ================================================================================
@@ -50,7 +50,7 @@ export const bulkUpdateRoles = async ({
 
 type UseBulkUpdateRolesOptions = {
   projectId: string;
-  mutationConfig?: Omit<UseMutationOptions<ProjectMembersResponse, Error, BulkUpdateRolesDTO, unknown>, "mutationFn">;
+  mutationConfig?: Omit<UseMutationOptions<ProjectMembersOutput, Error, BulkUpdateRolesInput, unknown>, "mutationFn">;
 };
 
 /**
@@ -75,8 +75,8 @@ type UseBulkUpdateRolesOptions = {
  * const handleBulkUpdate = () => {
  *   bulkUpdateMutation.mutate({
  *     updates: [
- *       { member_id: 'member-456', role: ProjectRole.PROJECT_MODERATOR },
- *       { member_id: 'member-789', role: ProjectRole.MEMBER }
+ *       { member_id: 'member-456', role: 'project_moderator' },
+ *       { member_id: 'member-789', role: 'member' }
  *     ]
  *   });
  * };
@@ -95,6 +95,6 @@ export const useBulkUpdateRoles = ({ projectId, mutationConfig }: UseBulkUpdateR
       onSuccess?.(...args);
     },
     ...restConfig,
-    mutationFn: (data: BulkUpdateRolesDTO) => bulkUpdateRoles({ projectId, data }),
+    mutationFn: (data: BulkUpdateRolesInput) => bulkUpdateRoles({ projectId, data }),
   });
 };

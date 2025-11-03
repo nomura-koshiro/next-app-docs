@@ -7,7 +7,7 @@ Zodを使用した様々なバリデーションルールとカスタムバリ�
 ## 基本的なスキーマ
 
 ```typescript
-// src/features/users/schemas/user-form.schema.ts
+// src/features/users/types/forms.ts
 import { z } from 'zod';
 
 /**

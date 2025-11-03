@@ -424,7 +424,7 @@ const onSubmit = async (data: UserFormValues) => {
 
 ```typescript
 import { ZodError } from 'zod';
-import { setValidatedToken } from '@/features/auth/stores/schemas/token-storage.schema';
+import { setValidatedToken } from '@/features/auth/stores/lib/validationstoken-storage.schema';
 
 const onSubmit = async (data: LoginFormValues) => {
   try {

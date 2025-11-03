@@ -86,7 +86,7 @@ export type User = z.infer<typeof UserSchema>; // TypeScript型を自動生成
 
 ### ステップ1: レスポンススキーマの定義
 
-**ファイルパス**: `src/features/sample-users/api/schemas/user-response.schema.ts`
+**ファイルパス**: `src/features/sample-users/api/lib/validationsuser-response.ts`
 
 ```typescript
 import { z } from "zod";
@@ -132,8 +132,8 @@ export type UsersResponse = z.infer<typeof UsersResponseSchema>;
 
 ```typescript
 import { api } from "@/lib/api-client";
-import type { User } from "./schemas/user-response.schema";
-import { UsersResponseSchema } from "./schemas/user-response.schema";
+import type { User } from "./lib/validationsuser-response.schema";
+import { UsersResponseSchema } from "./lib/validationsuser-response.schema";
 
 /**
  * ユーザー一覧取得
@@ -332,7 +332,7 @@ export const ProjectRoleSchema = z.enum([
 
 ### POST リクエスト（ログイン例）
 
-**スキーマファイル**: `src/features/sample-auth/api/schemas/auth-response.schema.ts`
+**スキーマファイル**: `src/features/sample-auth/api/lib/validationsauth-response.ts`
 
 ```typescript
 export const LoginResponseSchema = z.object({
@@ -349,8 +349,8 @@ export type LoginResponse = z.infer<typeof LoginResponseSchema>;
 import { useMutation } from "@tanstack/react-query";
 import { z } from "zod";
 import { api } from "@/lib/api-client";
-import { LoginResponseSchema } from "./schemas/auth-response.schema";
-import type { LoginResponse } from "./schemas/auth-response.schema";
+import { LoginResponseSchema } from "./lib/validationsauth-response.schema";
+import type { LoginResponse } from "./lib/validationsauth-response.schema";
 
 export const loginInputSchema = z.object({
   email: z.string().email(),
@@ -454,7 +454,7 @@ export const useUsers = ({ queryConfig }: UseUsersOptions = {}) => {
 ### 共通スキーマの分離
 
 ```typescript
-// src/lib/schemas/common.schema.ts
+// src/lib/lib/validationscommon.ts
 export const PaginationSchema = z.object({
   page: z.number().int().min(1),
   limit: z.number().int().min(1),
@@ -470,8 +470,8 @@ export const TimestampsSchema = z.object({
 ### 共通スキーマの利用
 
 ```typescript
-// src/features/sample-users/api/schemas/user-response.schema.ts
-import { TimestampsSchema } from "@/lib/schemas/common.schema";
+// src/features/sample-users/api/lib/validationsuser-response.ts
+import { TimestampsSchema } from "@/lib/lib/validationscommon.schema";
 
 export const UserSchema = z
   .object({
@@ -495,14 +495,14 @@ export const UserSchema = z
 
 ## ベストプラクティス
 
-### ✅ DO: スキーマファイルを feature/api/schemas/ に配置
+### ✅ DO: スキーマファイルを feature/api/lib/validations に配置
 
 ```
 src/features/
   sample-users/
     api/
       schemas/
-        user-response.schema.ts   ✅ レスポンススキーマ
+        user-response.ts   ✅ レスポンススキーマ
       get-users.ts                ✅ API関数
       create-user.ts
 ```

@@ -444,7 +444,7 @@ LocalStorageやSessionStorageに保存されたデータは、以下のリスク
 
 #### ステップ1: バリデーションスキーマの定義
 
-**ファイルパス**: `src/features/sample-auth/stores/schemas/auth-storage.schema.ts`
+**ファイルパス**: `src/features/sample-auth/stores/lib/validationsauth-storage.ts`
 
 ```typescript
 import { z } from "zod";
@@ -491,7 +491,7 @@ export type AuthStorage = z.infer<typeof AuthStorageSchema>;
 ```typescript
 import { create } from "zustand";
 import { createJSONStorage, persist, type StorageValue } from "zustand/middleware";
-import { AuthStorageSchema } from "./schemas/auth-storage.schema";
+import { AuthStorageSchema } from "./lib/validationsauth-storage.schema";
 import type { AuthStore } from "../types";
 
 /**
@@ -883,7 +883,7 @@ export const useAuthStore = create<AuthStore>()(
 
 ```typescript
 // ✅ スキーマファイルで一元管理
-// src/features/auth/stores/schemas/auth-storage.schema.ts
+// src/features/auth/stores/lib/validationsauth-storage.ts
 export const AuthStorageSchema = z.object({
   user: UserSchema.nullable(),
   isAuthenticated: z.boolean(),

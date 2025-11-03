@@ -4,7 +4,7 @@ import { fn } from "@storybook/test";
 import { useEffect } from "react";
 import { type Control, useForm } from "react-hook-form";
 
-import { userFormSchema, type UserFormValues } from "@/features/sample-users/schemas/user-form.schema";
+import { userFormSchema, type UserFormValues } from "@/features/sample-users/types/forms";
 
 import { UserForm } from "./user-form";
 

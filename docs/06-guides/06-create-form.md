@@ -18,7 +18,7 @@
 
 ## 📋 作成するもの
 
-- バリデーションスキーマ(`{resource}-form.schema.ts`)
+- バリデーションスキーマ(`{resource}-form.ts`)
 - ルートコンポーネント(`routes/new-{resource}/new-{resource}.tsx` など)
 - カスタムフック(`routes/new-{resource}/new-{resource}.hook.ts`)
 - API Mutation(`create-{resource}.ts` など)
@@ -28,12 +28,12 @@
 ## ステップ1: バリデーションスキーマを作成
 
 ```bash
-# スキーマファイルを作成
-mkdir -p src/features/sample-users/schemas
+# typesディレクトリを作成（まだ存在しない場合）
+mkdir -p src/features/sample-users/types
 ```
 
 ```typescript
-// src/features/sample-users/schemas/user-form.schema.ts
+// src/features/sample-users/types/forms.ts
 import { z } from 'zod'
 
 /**
@@ -164,7 +164,7 @@ import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useCreateUser } from '@/features/sample-users/api/create-user'
-import { userFormSchema, type UserFormValues } from '@/features/sample-users/schemas/user-form.schema'
+import { userFormSchema, type UserFormValues } from '@/features/sample-users/types/forms.schema'
 
 export const useNewUser = () => {
   const router = useRouter()
@@ -492,7 +492,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useUser } from '@/features/sample-users/api/get-user'
 import { useUpdateUser } from '@/features/sample-users/api/update-user'
-import { userFormSchema, type UserFormValues } from '@/features/sample-users/schemas/user-form.schema'
+import { userFormSchema, type UserFormValues } from '@/features/sample-users/types/forms.schema'
 
 export const useEditUser = (userId: string) => {
   const router = useRouter()
@@ -731,8 +731,8 @@ const onSubmit = async (data: FormValues) => {
 
 ### バリデーションスキーマ
 
-- [ ] `schemas/` ディレクトリを作成
-- [ ] Zodスキーマを定義(`{resource}-form.schema.ts`)
+- [ ] `types/` ディレクトリを作成（まだ存在しない場合）
+- [ ] Zodスキーマを定義(`types/forms.ts`)
 - [ ] 型を `z.infer` で生成
 - [ ] エラーメッセージを日本語化
 

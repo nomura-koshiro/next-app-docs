@@ -134,19 +134,19 @@ Feature層は、ビジネスロジックの中核です。
    │       ├── login.hook.ts   # カスタムフック
    │       ├── components/     # ページ固有コンポーネント
    │       └── index.ts
-   ├── schemas/                # Zodバリデーションスキーマ
-   │   └── login-form.schema.ts
    ├── stores/                 # Zustandストア
    │   └── auth-store.ts
    ├── types/                  # 型定義
-   │   └── index.ts
+   │   ├── index.ts            # 型のre-export
+   │   ├── api.ts              # APIレスポンススキーマ
+   │   └── forms.ts            # フォームバリデーションスキーマ
    └── index.ts
    ```
 
    - 読み方:
      1. `routes/sample-login/login.tsx` - ページコンポーネント
      2. `routes/sample-login/login.hook.ts` - ビジネスロジック
-     3. `schemas/login-form.schema.ts` - バリデーション定義
+     3. `types/forms.ts` - バリデーション定義
      4. `api/login.ts` - API通信
      5. `stores/auth-store.ts` - クライアントステート管理
 
@@ -170,10 +170,10 @@ Feature層は、ビジネスロジックの中核です。
    │   └── sample-delete-user/ # 削除ページ
    ├── components/             # 共有コンポーネント
    │   └── user-form.tsx
-   ├── schemas/                # Zodバリデーションスキーマ
-   │   └── user-form.schema.ts
    ├── types/                  # 型定義
-   │   └── index.ts
+   │   ├── index.ts            # 型のre-export
+   │   ├── api.ts              # APIレスポンススキーマ
+   │   └── forms.ts            # フォームバリデーションスキーマ
    └── index.ts
    ```
 
@@ -343,7 +343,7 @@ app/layout.tsx
    ↓
 2. React Hook Form（制御されたフォーム）
    ↓
-3. Zodバリデーション（schemas/user-form.schema.ts）
+3. Zodバリデーション（types/forms.ts）
    ↓ validation success
 4. onSubmit handler
    ↓ useMutation
@@ -454,9 +454,9 @@ export const createUser = async (input: CreateUserInput): Promise<User> => {
 ### 4. Zodバリデーションパターン
 
 ```typescript
-// features/sample-users/schemas/user-form.schema.ts
+// features/sample-users/types/forms.ts
 import { z } from 'zod'
-import { emailSchema, nameSchema } from '@/schemas/fields'
+import { emailSchema, nameSchema } from '@/lib/validations/fields'
 
 export const userFormSchema = z.object({
   name: nameSchema,
@@ -587,8 +587,8 @@ export const useNewUserPage = () => {
 
 **A**:
 
-- 共通フィールド: `src/schemas/fields/`
-- Feature固有: `src/features/*/schemas/`
+- 共通フィールド: `src/lib/validations/fields/`
+- Feature固有: `src/features/*/types`
 
 ### Q6: テストコードはどこにありますか？
 

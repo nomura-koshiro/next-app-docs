@@ -14,7 +14,7 @@ import {
   ControlledTextareaField,
 } from "@/components/sample-ui/form-field/controlled-form-field";
 
-import type { SampleFormValues } from "../../../schemas/sample-form.schema";
+import type { SampleFormValues } from "../../../types/forms";
 
 type SampleFormProps = {
   /** React Hook Formのcontrolオブジェクト */

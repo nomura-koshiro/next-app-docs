@@ -50,7 +50,7 @@ sequenceDiagram
 
 ### 1. バリデーションスキーマ
 
-**ファイル**: `src/features/sample-auth/schemas/login-form.schema.ts`
+**ファイル**: `src/features/sample-auth/lib/validationslogin-form.ts`
 
 ```typescript
 import { z } from 'zod';
@@ -75,7 +75,7 @@ export type LoginFormValues = z.infer<typeof loginFormSchema>;
 
 ```typescript
 import { api } from '@/lib/api-client';
-import type { LoginFormValues } from '../schemas/login-form.schema';
+import type { LoginFormValues } from '../lib/validationslogin-form.schema';
 
 /**
  * ユーザー型定義
@@ -205,7 +205,7 @@ import { useForm } from 'react-hook-form';
 
 import { useLoginMutation } from '../../api/login';
 import { useAuthStore } from '../../stores/auth.store';
-import { loginFormSchema, type LoginFormValues } from '../../schemas/login-form.schema';
+import { loginFormSchema, type LoginFormValues } from '../../lib/validationslogin-form.schema';
 
 /**
  * ログインページのカスタムフック
@@ -376,7 +376,7 @@ LocalStorageに保存されたJWTトークンは、以下のリスクにさら�
 
 ### 1. JWT トークンスキーマの定義
 
-**ファイル**: `src/features/sample-auth/stores/schemas/token-storage.schema.ts`
+**ファイル**: `src/features/sample-auth/stores/lib/validationstoken-storage.ts`
 
 ```typescript
 import { z } from "zod";
@@ -411,7 +411,7 @@ export type JWTToken = z.infer<typeof JWTTokenSchema>;
 
 ### 2. トークン管理ヘルパー関数
 
-**ファイル**: `src/features/sample-auth/stores/schemas/token-storage.schema.ts`（続き）
+**ファイル**: `src/features/sample-auth/stores/lib/validationstoken-storage.ts`（続き）
 
 ```typescript
 /**
@@ -514,8 +514,8 @@ import { useForm } from 'react-hook-form';
 
 import { useLoginMutation } from '../../api/login';
 import { useAuthStore } from '../../stores/auth.store';
-import { loginFormSchema, type LoginFormValues } from '../../schemas/login-form.schema';
-import { setValidatedToken } from '../../stores/schemas/token-storage.schema'; // ✅ 追加
+import { loginFormSchema, type LoginFormValues } from '../../lib/validationslogin-form.schema';
+import { setValidatedToken } from '../../stores/lib/validationstoken-storage.schema'; // ✅ 追加
 
 export const useLogin = () => {
   const router = useRouter();
@@ -586,7 +586,7 @@ export const useLogin = () => {
 **ファイル**: `src/lib/api-client.ts`（一部抜粋）
 
 ```typescript
-import { getValidatedToken } from '@/features/sample-auth/stores/schemas/token-storage.schema';
+import { getValidatedToken } from '@/features/sample-auth/stores/lib/validationstoken-storage.schema';
 
 const authRequestInterceptor = async (config: InternalAxiosRequestConfig) => {
   if (config.headers !== undefined) {
@@ -753,7 +753,7 @@ import { useMutation } from '@tanstack/react-query';
 
 import { logoutUser } from '../api/auth.api';
 import { useAuthStore } from '../stores/auth.store';
-import { removeToken } from '../stores/schemas/token-storage.schema'; // ✅ 追加
+import { removeToken } from '../stores/lib/validationstoken-storage.schema'; // ✅ 追加
 
 /**
  * ログアウト機能のカスタムフック
@@ -940,7 +940,7 @@ src/
           login.hook.ts      # ログインフック
           login.tsx          # ログインページ
       schemas/
-        login-form.schema.ts # バリデーションスキーマ
+        login-form.ts # バリデーションスキーマ
       stores/
         auth.store.ts        # 認証ストア
 ```

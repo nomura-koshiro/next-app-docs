@@ -25,7 +25,7 @@ Plopは、一貫性のあるコードを素早く生成するためのツール�
   - `delete-{feature-name}.ts` - 削除API + フック
   - `index.ts` - APIエクスポート
 - `src/features/{feature-name}/types/index.ts` - 型定義
-- `src/features/{feature-name}/schemas/{feature-name}.schema.ts` - Zodバリデーションスキーマ
+- `src/features/{feature-name}/lib/validations{feature-name}.ts` - Zodバリデーションスキーマ
 - `src/features/{feature-name}/components/` - Feature共有コンポーネント
   - `{feature-name}-form.tsx` - 共有フォームコンポーネント
   - `{feature-name}-form.stories.tsx` - フォームのストーリー
@@ -68,7 +68,7 @@ src/features/blog/
 ├── types/
 │   └── index.ts
 ├── schemas/
-│   └── blog.schema.ts
+│   └── blog.ts
 ├── components/
 │   ├── blog-form.tsx
 │   └── blog-form.stories.tsx
@@ -221,7 +221,7 @@ Plopは入力された名前を自動的に以下の形式に変換します：
    - 必要なフィールドを追加
    - 型定義を完成させる
 
-3. **Schema ファイル** (`schemas/*.schema.ts`)
+3. **Schema ファイル** (`schemas/*.ts`)
    - 必要なフィールドを追加
    - バリデーションルールを設定
 

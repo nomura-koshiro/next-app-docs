@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 
-import { ProjectRole } from "../types";
 import { RoleBadge } from "./role-badge";
 
 const meta = {
@@ -20,7 +19,7 @@ type Story = StoryObj<typeof meta>;
  */
 export const ProjectManager: Story = {
   args: {
-    role: ProjectRole.PROJECT_MANAGER,
+    role: "project_manager",
   },
 };
 
@@ -29,7 +28,7 @@ export const ProjectManager: Story = {
  */
 export const ProjectModerator: Story = {
   args: {
-    role: ProjectRole.PROJECT_MODERATOR,
+    role: "project_moderator",
   },
 };
 
@@ -38,7 +37,7 @@ export const ProjectModerator: Story = {
  */
 export const Member: Story = {
   args: {
-    role: ProjectRole.MEMBER,
+    role: "member",
   },
 };
 
@@ -47,7 +46,7 @@ export const Member: Story = {
  */
 export const Viewer: Story = {
   args: {
-    role: ProjectRole.VIEWER,
+    role: "viewer",
   },
 };
 
@@ -56,25 +55,25 @@ export const Viewer: Story = {
  */
 export const AllRoles: Story = {
   args: {
-    role: ProjectRole.PROJECT_MANAGER, // Dummy value for type satisfaction
+    role: "project_manager", // Dummy value for type satisfaction
   },
   render: () => (
     <div className="flex flex-col gap-4">
       <div className="flex items-center gap-2">
         <span className="w-40">プロジェクトマネージャー:</span>
-        <RoleBadge role={ProjectRole.PROJECT_MANAGER} />
+        <RoleBadge role="project_manager" />
       </div>
       <div className="flex items-center gap-2">
         <span className="w-40">権限管理者:</span>
-        <RoleBadge role={ProjectRole.PROJECT_MODERATOR} />
+        <RoleBadge role="project_moderator" />
       </div>
       <div className="flex items-center gap-2">
         <span className="w-40">メンバー:</span>
-        <RoleBadge role={ProjectRole.MEMBER} />
+        <RoleBadge role="member" />
       </div>
       <div className="flex items-center gap-2">
         <span className="w-40">閲覧者:</span>
-        <RoleBadge role={ProjectRole.VIEWER} />
+        <RoleBadge role="viewer" />
       </div>
     </div>
   ),

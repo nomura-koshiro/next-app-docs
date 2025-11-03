@@ -6,8 +6,8 @@ import { useForm } from "react-hook-form";
 
 import { useUpdateUser } from "@/features/sample-users";
 import { useUser } from "@/features/sample-users/api/get-user";
-import { userFormSchema, type UserFormValues } from "@/features/sample-users/schemas/user-form.schema";
-import type { Role } from "@/schemas/fields/role.schema";
+import { userFormSchema, type UserFormValues } from "@/features/sample-users/types/forms";
+import type { Role } from "@/lib/validations/fields/role";
 
 /**
  * ユーザー編集ページのロジックを管理するカスタムフック

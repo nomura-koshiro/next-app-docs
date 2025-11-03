@@ -176,7 +176,7 @@ import { ControlledInputField } from '@/components/sample-ui/form-field/controll
 ```typescript
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { userFormSchema, type UserFormValues } from '@/features/users/schemas/user-form.schema'
+import { userFormSchema, type UserFormValues } from '@/features/users/types/forms.schema'
 import {
   ControlledInputField,
   ControlledSelectField,
@@ -254,7 +254,7 @@ import {
   ControlledInputField,
   ControlledCheckboxField,
 } from '@/components/sample-ui/form-field/controlled-form-field'
-import { emailSchema, strongPasswordSchema, termsSchema } from '@/schemas/fields'
+import { emailSchema, strongPasswordSchema, termsSchema } from '@/lib/validations/fields'
 
 const signupSchema = z.object({
   email: emailSchema,

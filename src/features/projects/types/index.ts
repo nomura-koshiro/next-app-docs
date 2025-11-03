@@ -4,141 +4,188 @@
  * @module features/projects/types
  */
 
-/**
- * システムレベルのロール
- */
-export enum SystemRole {
-  SYSTEM_ADMIN = "system_admin",
-  USER = "user",
-}
+import { z } from "zod";
 
 /**
- * プロジェクトレベルのロール（4段階）
+ * システムレベルのロールスキーマ
  */
-export enum ProjectRole {
-  /** プロジェクトマネージャー（最高権限） */
-  PROJECT_MANAGER = "project_manager",
-
-  /** 権限管理者（メンバー管理担当） */
-  PROJECT_MODERATOR = "project_moderator",
-
-  /** メンバー（編集権限） */
-  MEMBER = "member",
-
-  /** 閲覧者（閲覧のみ） */
-  VIEWER = "viewer",
-}
+export const systemRoleSchema = z.enum(["system_admin", "user"]);
 
 /**
- * 権限の種類
+ * システムレベルのロール型
  */
-export type Permission =
+export type SystemRole = z.infer<typeof systemRoleSchema>;
+
+/**
+ * プロジェクトレベルのロールスキーマ（4段階）
+ */
+export const projectRoleSchema = z.enum([
+  "project_manager", // プロジェクトマネージャー（最高権限）
+  "project_moderator", // 権限管理者（メンバー管理担当）
+  "member", // メンバー（編集権限）
+  "viewer", // 閲覧者（閲覧のみ）
+]);
+
+/**
+ * プロジェクトレベルのロール型
+ */
+export type ProjectRole = z.infer<typeof projectRoleSchema>;
+
+/**
+ * 権限の種類スキーマ
+ */
+export const permissionSchema = z.enum([
   // プロジェクトレベル権限
-  | "project:view"
-  | "project:edit"
-  | "project:delete"
-  | "project:manage_members"
-  | "project:manage_settings"
+  "project:view",
+  "project:edit",
+  "project:delete",
+  "project:manage_members",
+  "project:manage_settings",
   // システムレベル権限
-  | "system:admin"
-  | "system:manage_users"
-  | "system:view_audit_logs";
+  "system:admin",
+  "system:manage_users",
+  "system:view_audit_logs",
+]);
 
 /**
- * ユーザー情報
+ * 権限の種類型
  */
-export type User = {
-  id: string;
-  azure_oid: string;
-  email: string;
-  display_name: string | null;
-  roles: SystemRole[];
-  is_active: boolean;
-  created_at: string;
-  updated_at: string;
-  last_login: string | null;
-};
+export type Permission = z.infer<typeof permissionSchema>;
 
 /**
- * プロジェクト情報
+ * ユーザー情報スキーマ
  */
-export type Project = {
-  id: string;
-  name: string;
-  description: string | null;
-  is_active: boolean;
-  created_at: string;
-  updated_at: string;
-  created_by: string;
-};
+export const userSchema = z.object({
+  id: z.string(),
+  azure_oid: z.string(),
+  email: z.string().email(),
+  display_name: z.string().nullable(),
+  roles: z.array(systemRoleSchema),
+  is_active: z.boolean(),
+  created_at: z.string().datetime(),
+  updated_at: z.string().datetime(),
+  last_login: z.string().datetime().nullable(),
+});
 
 /**
- * プロジェクトメンバー情報
+ * ユーザー情報型
  */
-export type ProjectMember = {
-  id: string;
-  project_id: string;
-  user_id: string;
-  role: ProjectRole;
-  joined_at: string;
-  updated_at: string;
-  user?: User;
-  project?: Project;
-};
+export type User = z.infer<typeof userSchema>;
 
 /**
- * プロジェクトメンバー一覧のレスポンス
+ * プロジェクト情報スキーマ
  */
-export type ProjectMembersResponse = {
+export const projectSchema = z.object({
+  id: z.string(),
+  name: z.string().min(1, "プロジェクト名は必須です"),
+  description: z.string().nullable(),
+  is_active: z.boolean(),
+  created_at: z.string().datetime(),
+  updated_at: z.string().datetime(),
+  created_by: z.string(),
+});
+
+/**
+ * プロジェクト情報型
+ */
+export type Project = z.infer<typeof projectSchema>;
+
+/**
+ * プロジェクトメンバー情報スキーマ
+ */
+export const projectMemberSchema = z.object({
+  id: z.string(),
+  project_id: z.string(),
+  user_id: z.string(),
+  role: projectRoleSchema,
+  joined_at: z.string().datetime(),
+  updated_at: z.string().datetime(),
+  user: userSchema.optional(),
+  project: projectSchema.optional(),
+});
+
+/**
+ * プロジェクトメンバー情報型
+ */
+export type ProjectMember = z.infer<typeof projectMemberSchema>;
+
+/**
+ * プロジェクトメンバー一覧の出力型
+ */
+export type ProjectMembersOutput = {
   data: ProjectMember[];
 };
 
 /**
- * プロジェクトメンバー詳細のレスポンス
+ * プロジェクトメンバー詳細の出力型
  */
-export type ProjectMemberResponse = {
+export type ProjectMemberOutput = {
   data: ProjectMember;
 };
 
 /**
- * プロジェクトメンバー追加DTO
+ * プロジェクトメンバー追加入力スキーマ
  */
-export type AddProjectMemberDTO = {
-  user_id: string;
-  role: ProjectRole;
-};
+export const addProjectMemberSchema = z.object({
+  user_id: z.string(),
+  role: projectRoleSchema,
+});
 
 /**
- * プロジェクトメンバー複数追加DTO
+ * プロジェクトメンバー追加入力型
  */
-export type BulkAddMembersDTO = {
-  members: Array<{
-    user_id: string;
-    role: ProjectRole;
-  }>;
-};
+export type AddProjectMemberInput = z.infer<typeof addProjectMemberSchema>;
 
 /**
- * プロジェクトメンバーロール更新DTO
+ * プロジェクトメンバー複数追加入力スキーマ
  */
-export type UpdateMemberRoleDTO = {
-  role: ProjectRole;
-};
+export const bulkAddMembersSchema = z.object({
+  members: z.array(
+    z.object({
+      user_id: z.string(),
+      role: projectRoleSchema,
+    })
+  ),
+});
 
 /**
- * プロジェクトメンバー複数ロール更新DTO
+ * プロジェクトメンバー複数追加入力型
  */
-export type BulkUpdateRolesDTO = {
-  updates: Array<{
-    member_id: string;
-    role: ProjectRole;
-  }>;
-};
+export type BulkAddMembersInput = z.infer<typeof bulkAddMembersSchema>;
 
 /**
- * エラーレスポンス
+ * プロジェクトメンバーロール更新入力スキーマ
  */
-export type ErrorResponse = {
+export const updateMemberRoleSchema = z.object({
+  role: projectRoleSchema,
+});
+
+/**
+ * プロジェクトメンバーロール更新入力型
+ */
+export type UpdateMemberRoleInput = z.infer<typeof updateMemberRoleSchema>;
+
+/**
+ * プロジェクトメンバー複数ロール更新入力スキーマ
+ */
+export const bulkUpdateRolesSchema = z.object({
+  updates: z.array(
+    z.object({
+      member_id: z.string(),
+      role: projectRoleSchema,
+    })
+  ),
+});
+
+/**
+ * プロジェクトメンバー複数ロール更新入力型
+ */
+export type BulkUpdateRolesInput = z.infer<typeof bulkUpdateRolesSchema>;
+
+/**
+ * エラー出力型
+ */
+export type ErrorOutput = {
   message: string;
   detail?: string;
 };

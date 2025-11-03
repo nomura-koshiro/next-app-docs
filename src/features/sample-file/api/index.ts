@@ -28,7 +28,8 @@ export * from "./download-file";
 export * from "./upload-file";
 
 // ================================================================================
-// Schema Exports
+// Type Exports
 // ================================================================================
 
-export * from "./schemas/upload-response.schema";
+export type { UploadFileOutput } from "../types/api";
+export { uploadFileOutputSchema } from "../types/api";

@@ -3,9 +3,9 @@ import { useMutation, type UseMutationOptions, useQueryClient } from "@tanstack/
 import { api } from "@/lib/api-client";
 import { logger } from "@/utils/logger";
 
-import type { UpdateMemberRoleDTO } from "../types";
-import type { ProjectMemberResponse } from "./schemas/project-member-response.schema";
-import { ProjectMemberResponseSchema } from "./schemas/project-member-response.schema";
+import type { UpdateMemberRoleInput } from "../types";
+import type { ProjectMemberOutput } from "../types/api";
+import { projectMemberOutputSchema } from "../types/api";
 
 // ================================================================================
 // API関数
@@ -24,7 +24,7 @@ import { ProjectMemberResponseSchema } from "./schemas/project-member-response.s
  * await updateMemberRole({
  *   projectId: 'project-123',
  *   memberId: 'member-456',
- *   data: { role: ProjectRole.PROJECT_MODERATOR }
+ *   data: { role: 'project_moderator' }
  * });
  * ```
  */
@@ -35,12 +35,12 @@ export const updateMemberRole = async ({
 }: {
   projectId: string;
   memberId: string;
-  data: UpdateMemberRoleDTO;
-}): Promise<ProjectMemberResponse> => {
+  data: UpdateMemberRoleInput;
+}): Promise<ProjectMemberOutput> => {
   // 重要: エンドポイントは /members/{member_id} で、/role サフィックスなし
   const response = await api.patch(`/projects/${projectId}/members/${memberId}`, data);
 
-  return ProjectMemberResponseSchema.parse(response);
+  return projectMemberOutputSchema.parse(response);
 };
 
 // ================================================================================
@@ -50,7 +50,7 @@ export const updateMemberRole = async ({
 type UseUpdateMemberRoleOptions = {
   projectId: string;
   mutationConfig?: Omit<
-    UseMutationOptions<ProjectMemberResponse, Error, { memberId: string; data: UpdateMemberRoleDTO }, unknown>,
+    UseMutationOptions<ProjectMemberOutput, Error, { memberId: string; data: UpdateMemberRoleInput }, unknown>,
     "mutationFn"
   >;
 };
@@ -77,7 +77,7 @@ type UseUpdateMemberRoleOptions = {
  * const handleUpdate = () => {
  *   updateRoleMutation.mutate({
  *     memberId: 'member-456',
- *     data: { role: ProjectRole.PROJECT_MODERATOR }
+ *     data: { role: 'project_moderator' }
  *   });
  * };
  * ```
@@ -95,6 +95,6 @@ export const useUpdateMemberRole = ({ projectId, mutationConfig }: UseUpdateMemb
       onSuccess?.(...args);
     },
     ...restConfig,
-    mutationFn: ({ memberId, data }: { memberId: string; data: UpdateMemberRoleDTO }) => updateMemberRole({ projectId, memberId, data }),
+    mutationFn: ({ memberId, data }: { memberId: string; data: UpdateMemberRoleInput }) => updateMemberRole({ projectId, memberId, data }),
   });
 };

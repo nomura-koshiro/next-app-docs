@@ -69,7 +69,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useUser } from '../../api/get-user';
 import { useUpdateUser } from '../../api/update-user';
-import { userFormSchema, type UserFormValues } from '../../schemas/user-form.schema';
+import { userFormSchema, type UserFormValues } from '../../types/forms.schema';
 
 /**
  * ユーザー編集の完全な統合フック

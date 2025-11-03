@@ -195,7 +195,7 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4
 
 ### JWT トークンスキーマ
 
-**ファイルパス**: `src/features/sample-auth/stores/schemas/token-storage.schema.ts`
+**ファイルパス**: `src/features/sample-auth/stores/lib/validationstoken-storage.ts`
 
 ```typescript
 import { z } from "zod";
@@ -232,7 +232,7 @@ export const JWTTokenSchema = z
 #### トークンを安全に保存
 
 ```typescript
-import { setValidatedToken } from "@/features/sample-auth/stores/schemas/token-storage.schema";
+import { setValidatedToken } from "@/features/sample-auth/stores/lib/validationstoken-storage.schema";
 
 // ログイン成功時
 try {
@@ -250,7 +250,7 @@ try {
 #### トークンを安全に取得
 
 ```typescript
-import { getValidatedToken } from "@/features/sample-auth/stores/schemas/token-storage.schema";
+import { getValidatedToken } from "@/features/sample-auth/stores/lib/validationstoken-storage.schema";
 
 // APIリクエスト前
 const token = getValidatedToken("token");
@@ -266,7 +266,7 @@ if (token) {
 #### トークンを削除
 
 ```typescript
-import { removeToken } from "@/features/sample-auth/stores/schemas/token-storage.schema";
+import { removeToken } from "@/features/sample-auth/stores/lib/validationstoken-storage.schema";
 
 // ログアウト時
 removeToken("token");
@@ -278,7 +278,7 @@ console.log("トークンを削除しました");
 **ファイルパス**: `src/features/sample-auth/routes/sample-login/login.hook.ts`
 
 ```typescript
-import { setValidatedToken } from "@/features/sample-auth/stores/schemas/token-storage.schema";
+import { setValidatedToken } from "@/features/sample-auth/stores/lib/validationstoken-storage.schema";
 
 const onSubmit = handleSubmit(async (values: LoginFormValues) => {
   await loginMutation
@@ -329,7 +329,7 @@ a1b2-c3d4-e5f6-g7h8
 
 ### CSRF トークンスキーマ
 
-**ファイルパス**: `src/lib/schemas/csrf-token.schema.ts`
+**ファイルパス**: `src/lib/lib/validationscsrf-token.ts`
 
 ```typescript
 import { z } from "zod";
@@ -359,7 +359,7 @@ export const CsrfTokenSchema = z
 **ファイルパス**: `src/lib/csrf.ts`
 
 ```typescript
-import { CsrfTokenSchema } from "./schemas/csrf-token.schema";
+import { CsrfTokenSchema } from "./lib/validationscsrf-token.schema";
 
 /**
  * CSRFトークンを取得し、バリデーション実行

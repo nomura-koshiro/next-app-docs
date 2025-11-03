@@ -73,7 +73,7 @@ Zodスキーマは、フォームの構造とバリデーションルールを�
 
 ### 基本的なスキーマの作成
 
-**ファイル**: `src/features/sample-auth/schemas/login-form.schema.ts`
+**ファイル**: `src/features/sample-auth/lib/validationslogin-form.ts`
 
 ```typescript
 import { z } from 'zod';
@@ -103,7 +103,7 @@ export type LoginFormValues = z.infer<typeof loginFormSchema>;
 
 ### 複雑なスキーマの例
 
-**ファイル**: `src/features/sample-user/schemas/user-form.schema.ts`
+**ファイル**: `src/features/sample-user/types/forms.ts`
 
 ```typescript
 import { z } from 'zod';
@@ -182,7 +182,7 @@ flowchart TD
 ```typescript
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { loginFormSchema, type LoginFormValues } from '../../schemas/login-form.schema';
+import { loginFormSchema, type LoginFormValues } from '../../lib/validationslogin-form.schema';
 
 /**
  * ログインページのカスタムフック
@@ -358,7 +358,7 @@ export default function LoginPage() {
 
 ### 例1: 新規ユーザー作成フォーム
 
-**スキーマ**: `src/features/sample-user/schemas/user-form.schema.ts`
+**スキーマ**: `src/features/sample-user/types/forms.ts`
 
 ```typescript
 import { z } from 'zod';
@@ -379,7 +379,7 @@ export type UserFormValues = z.infer<typeof userFormSchema>;
 ```typescript
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { userFormSchema, type UserFormValues } from '../../schemas/user-form.schema';
+import { userFormSchema, type UserFormValues } from '../../types/forms.schema';
 
 /**
  * 新規ユーザー作成ページのカスタムフック

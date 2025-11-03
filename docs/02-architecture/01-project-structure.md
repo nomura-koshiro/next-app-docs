@@ -96,18 +96,23 @@ src/
 │   ├── env.d.ts            # 環境変数の型定義
 │   ├── global.d.ts         # グローバル型定義
 │   └── models/             # ドメインモデル型定義
-│       └── user.ts         # User, UserRole, CreateUserDTO, UpdateUserDTO
+│       └── user.ts         # User, UserRole, CreateUserInput, UpdateUserInput
+│
+├── lib/                   # 外部ライブラリ設定・共通ユーティリティ
+│   ├── validations/        # 共通バリデーションスキーマ
+│   │   ├── index.ts        # バレルエクスポート
+│   │   ├── fields/         # フィールド単位のスキーマ
+│   │   │   ├── index.ts
+│   │   │   ├── email.ts
+│   │   │   ├── password.ts
+│   │   │   ├── name.ts
+│   │   │   └── ...
+│   │   └── models/         # モデルバリデーションスキーマ
+│   │       └── csrf-token.ts
+│   └── ...（その他のlib設定ファイル）
 │
 ├── hooks/                 # 共通カスタムフック
 │   └── use-devtools.tsx    # React Query Devtools表示制御
-│
-├── schemas/               # 共通バリデーションスキーマ
-│   ├── index.ts            # バレルエクスポート
-│   └── fields/             # フィールド単位のスキーマ
-│       ├── index.ts
-│       ├── email.schema.ts
-│       ├── password.schema.ts
-│       └── ...
 │
 └── mocks/                 # MSW設定
     ├── browser.ts          # ブラウザ用worker
@@ -201,11 +206,10 @@ features/sample-users/
 │   ├── user-form.tsx           # ユーザーフォーム
 │   └── user-form.stories.tsx
 │
-├── schemas/                    # Zodバリデーションスキーマ
-│   └── user-form.schema.ts     # ユーザーフォームスキーマ
-│
-├── types/                      # 型定義（共通型のre-export）
-│   └── index.ts                # User型などをre-export
+├── types/                      # 型定義
+│   ├── index.ts                # User型などをre-export
+│   ├── api.ts                  # APIレスポンススキーマ
+│   └── forms.ts                # フォームバリデーションスキーマ
 │
 └── index.ts                    # エクスポート
 ```
@@ -265,24 +269,27 @@ features/sample-auth/
 │       │   └── login.stories.tsx
 │       └── index.ts
 │
-├── schemas/                    # Zodバリデーションスキーマ
-│   └── login-form.schema.ts    # ログインフォームスキーマ
-│
 ├── stores/                     # Zustandストア
 │   └── auth-store.ts
 │
 ├── types/                      # 型定義
-│   └── index.ts
+│   ├── index.ts                # 型のre-export
+│   ├── api.ts                  # APIレスポンススキーマ
+│   └── forms.ts                # フォームバリデーションスキーマ
 │
 └── index.ts
 ```
 
 ### ディレクトリ作成の方針
 
-- **必要なディレクトリのみ作成** - hooks, schemas, utils, constantsは必要になったら追加
+- **必要なディレクトリのみ作成** - hooks, utils, constantsは必要になったら追加
 - **routesディレクトリ** - 各ルート（ページ）ごとにディレクトリを作成し、ページコンポーネント、フック、Storybookを一緒に管理
 - **ページ固有コンポーネント** - ルート内でのみ使用するコンポーネントは`routes/*/components/`に配置
 - **共有コンポーネント** - 複数のルートで使用するコンポーネントは`components/`に配置
+- **型定義とスキーマ** - feature内の型定義は`types/`ディレクトリに集約
+  - `types/index.ts` - 型のre-exportやビジネスモデル型定義
+  - `types/api.ts` - APIレスポンスのZodスキーマ（ランタイムバリデーション）
+  - `types/forms.ts` - フォームバリデーションのZodスキーマ
 - **feature内のutils/constants** - 必要に応じてfeature内にutils/やconstants/ディレクトリも作成可能
 - **storesは認証など必要な場合のみ** - サーバーステートはTanStack Queryで管理
 

@@ -1,12 +1,12 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { userFormSchema } from "@/features/sample-users/schemas/user-form.schema";
+import { userFormSchema } from "@/features/sample-users/types/forms";
 import { api } from "@/lib/api-client";
 import { MutationConfig } from "@/lib/tanstack-query";
 import { logger } from "@/utils/logger";
 
-import type { CreateUserDTO, User } from "../types";
-import { CreateUserResponseSchema } from "./schemas/user-response.schema";
+import type { CreateUserInput, User } from "../types";
+import { createUserOutputSchema } from "../types/api";
 
 // ================================================================================
 // API関数
@@ -28,10 +28,10 @@ import { CreateUserResponseSchema } from "./schemas/user-response.schema";
  * })
  * ```
  */
-export const createUser = async (data: CreateUserDTO): Promise<User> => {
+export const createUser = async (data: CreateUserInput): Promise<User> => {
   const response = await api.post("/sample/users", data);
 
-  return CreateUserResponseSchema.parse(response);
+  return createUserOutputSchema.parse(response);
 };
 
 // ================================================================================

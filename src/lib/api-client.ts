@@ -4,7 +4,7 @@ import { msalInstance } from "@/app/provider";
 import { env } from "@/config/env";
 import { loginRequest } from "@/config/msal";
 import { getCsrfHeaderName, getCsrfToken } from "@/lib/csrf";
-import { MOCK_AUTH } from "@/mocks/handlers/api/v1/auth-handlers";
+import { MOCK_AUTH } from "@/mocks/handlers/api/v1/auth/auth-handlers";
 
 // ================================================================================
 // RFC 9457: Problem Details for HTTP APIs

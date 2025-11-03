@@ -1,9 +1,9 @@
-import { authHandlers as azureAuthHandlers } from "./handlers/api/v1/auth-handlers";
+import { azureAuthHandlers } from "./handlers/api/v1/auth/auth-handlers";
 import { projectMemberHandlers } from "./handlers/api/v1/projects/project-member-handlers";
-import { authHandlers } from "./handlers/api/v1/sample/auth-handlers";
-import { chatHandlers } from "./handlers/api/v1/sample/chat-handlers";
-import { fileHandlers } from "./handlers/api/v1/sample/file-handlers";
-import { userHandlers } from "./handlers/api/v1/sample/user-handlers";
+import { sampleAuthHandlers } from "./handlers/api/v1/sample-auth/sample-auth-handlers";
+import { sampleChatHandlers } from "./handlers/api/v1/sample-chat/sample-chat-handlers";
+import { sampleFileHandlers } from "./handlers/api/v1/sample-file/sample-file-handlers";
+import { sampleUserHandlers } from "./handlers/api/v1/sample-users/sample-user-handlers";
 
 /**
  * MSW (Mock Service Worker) リクエストハンドラー
@@ -31,8 +31,8 @@ import { userHandlers } from "./handlers/api/v1/sample/user-handlers";
 export const handlers = [
   ...azureAuthHandlers, // Azure AD認証関連 (/auth/*)
   ...projectMemberHandlers, // プロジェクトメンバー管理 (/api/v1/projects/*/members/*)
-  ...authHandlers, // サンプル認証関連 (/api/v1/sample/auth/*)
-  ...userHandlers, // サンプルユーザー管理 (/api/v1/sample/users/*)
-  ...fileHandlers, // サンプルファイル操作 (/api/v1/sample/files/*)
-  ...chatHandlers, // サンプルチャット (/api/v1/sample/chat/*)
+  ...sampleAuthHandlers, // サンプル認証関連 (/api/v1/sample/auth/*)
+  ...sampleUserHandlers, // サンプルユーザー管理 (/api/v1/sample/users/*)
+  ...sampleFileHandlers, // サンプルファイル操作 (/api/v1/sample/files/*)
+  ...sampleChatHandlers, // サンプルチャット (/api/v1/sample/chat/*)
 ];

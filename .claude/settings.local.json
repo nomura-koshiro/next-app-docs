@@ -131,7 +131,8 @@
       "Bash(npm run format:*)",
       "Bash(npx prettier:*)",
       "Bash(npm run lint:fix:*)",
-      "Bash(test:*)"
+      "Bash(test:*)",
+      "Bash(do mv \"$file\" \"$file%.schema.ts.ts\")"
     ],
     "deny": [],
     "ask": []

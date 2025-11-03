@@ -327,7 +327,7 @@ pnpm generate:feature
 ```text
 src/features/product/
 ├── schemas/
-│   └── product.schema.ts
+│   └── product.ts
 ├── routes/
 │   └── product/
 │       ├── product.tsx

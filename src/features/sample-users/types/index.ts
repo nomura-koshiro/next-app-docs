@@ -5,27 +5,32 @@
  */
 
 /**
- * 共通User型をre-export
+ * 共通User型とスキーマをre-export
  *
- * アプリケーション全体で統一されたUser型を使用。
- * 実際の型定義は @/types/models/user を参照。
+ * アプリケーション全体で統一されたUser型とZodスキーマを使用。
+ * 実際の型定義とスキーマは @/types/models/user を参照。
  *
  * @example
  * ```typescript
- * import { User, CreateUserDTO, UpdateUserDTO, UserRole } from '@/features/sample-users/types'
+ * import { User, CreateUserInput, UpdateUserInput, UserRole, createUserSchema } from '@/features/sample-users/types'
  *
+ * // 型の使用
  * const user: User = {
  *   id: '123',
  *   name: '山田太郎',
  *   email: 'yamada@example.com',
- *   role: 'user'
+ *   role: 'user',
+ *   createdAt: '2024-01-01T00:00:00Z'
  * }
  *
- * const createDTO: CreateUserDTO = {
+ * // スキーマでバリデーション
+ * const input: CreateUserInput = {
  *   name: '田中花子',
  *   email: 'tanaka@example.com',
  *   role: 'admin'
  * }
+ * const result = createUserSchema.safeParse(input)
  * ```
  */
-export type { CreateUserDTO, UpdateUserDTO, User, UserRole } from "@/types/models/user";
+export type { CreateUserInput, UpdateUserInput, User, UserRole } from "@/types/models/user";
+export { createUserSchema, updateUserSchema, userRoleSchema, userSchema } from "@/types/models/user";

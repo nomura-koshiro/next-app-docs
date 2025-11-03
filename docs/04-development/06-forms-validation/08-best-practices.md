@@ -6,12 +6,12 @@
 
 ## 1. 共通スキーマを再利用
 
-複数のフォームで使われるフィールドは `src/schemas/fields/` の共通スキーマを使用します。
+複数のフォームで使われるフィールドは `src/lib/validations/fields/` の共通スキーマを使用します。
 
 ### ✅ Good: 共通スキーマを使用
 
 ```typescript
-import { emailSchema, passwordSchema } from '@/schemas/fields';
+import { emailSchema, passwordSchema } from '@/lib/validations/fields';
 
 export const loginSchema = z.object({
   email: emailSchema,
@@ -41,7 +41,7 @@ export const loginSchema = z.object({
 ### ✅ Good: 別ファイルで管理
 
 ```typescript
-// src/features/users/schemas/user-form.schema.ts
+// src/features/users/types/forms.ts
 export const userFormSchema = z.object({
   name: nameSchema,
   email: emailSchema,
@@ -51,7 +51,7 @@ export const userFormSchema = z.object({
 export type UserFormValues = z.infer<typeof userFormSchema>;
 
 // src/features/users/components/user-form.tsx
-import { userFormSchema, type UserFormValues } from '../schemas/user-form.schema';
+import { userFormSchema, type UserFormValues } from '../types/forms.schema';
 ```
 
 ### ❌ Bad: コンポーネント内で定義
@@ -351,7 +351,7 @@ const schema = z
 
 フォーム実装時に確認すべき項目:
 
-- [ ] 共通スキーマ（`src/schemas/fields/`）を使用しているか
+- [ ] 共通スキーマ（`src/lib/validations/fields/`）を使用しているか
 - [ ] スキーマを別ファイルに分離しているか
 - [ ] `z.infer`で型を推論しているか
 - [ ] `defaultValues`を設定しているか

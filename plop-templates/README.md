@@ -55,7 +55,8 @@ pnpm generate:feature
 - `api/delete-{{featureName}}.ts` - 削除API
 - `api/index.ts` - APIエクスポート
 - `types/index.ts` - 型定義
-- `schemas/{{featureName}}.schema.ts` - Zodバリデーションスキーマ
+- `types/api.ts` - APIレスポンスバリデーションスキーマ
+- `types/forms.ts` - フォームバリデーションスキーマ
 - `components/{{featureName}}-form.tsx` - Feature共有フォームコンポーネント
 - `components/{{featureName}}-form.stories.tsx` - Feature共有フォームのストーリー
 - `routes/{{routeName}}/{{routeName}}.tsx` - ページコンポーネント

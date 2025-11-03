@@ -5,7 +5,7 @@ import { Button } from "@/components/sample-ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/sample-ui/card";
 import { ErrorMessage } from "@/components/sample-ui/error-message";
 import { ControlledInputField } from "@/components/sample-ui/form-field/controlled-form-field";
-import { LoginFormValues } from "@/features/sample-auth/schemas/login-form.schema";
+import { LoginFormValues } from "@/features/sample-auth/types/forms";
 
 type LoginFormProps = {
   /** React Hook Formのcontrolオブジェクト */

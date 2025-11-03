@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 
 import { useAddProjectMember, useProjectMembers, useRemoveProjectMember, useUpdateMemberRole } from "../../api";
-import type { AddProjectMemberDTO, ProjectRole, UpdateMemberRoleDTO } from "../../types";
+import type { AddProjectMemberInput, ProjectRole, UpdateMemberRoleInput } from "../../types";
 
 type UseProjectMembersOptions = {
   projectId: string;
@@ -36,7 +36,7 @@ export const useProjectMembersLogic = ({ projectId }: UseProjectMembersOptions) 
 
   // メンバー追加
   const handleAddMember = useCallback(
-    async (data: AddProjectMemberDTO) => {
+    async (data: AddProjectMemberInput) => {
       await addMemberMutation.mutateAsync(data);
     },
     [addMemberMutation]
@@ -45,7 +45,7 @@ export const useProjectMembersLogic = ({ projectId }: UseProjectMembersOptions) 
   // ロール更新
   const handleUpdateRole = useCallback(
     async (memberId: string, role: ProjectRole) => {
-      const data: UpdateMemberRoleDTO = { role };
+      const data: UpdateMemberRoleInput = { role };
       await updateRoleMutation.mutateAsync({ memberId, data });
     },
     [updateRoleMutation]

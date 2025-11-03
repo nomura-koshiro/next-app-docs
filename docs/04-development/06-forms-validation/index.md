@@ -57,7 +57,7 @@ export const LoginForm = () => {
 ### 共通スキーマを使ったフォーム
 
 ```typescript
-import { emailSchema, passwordSchema } from '@/schemas/fields'
+import { emailSchema, passwordSchema } from '@/lib/validations/fields'
 
 const loginSchema = z.object({
   email: emailSchema,

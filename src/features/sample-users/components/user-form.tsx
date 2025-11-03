@@ -4,7 +4,7 @@ import { Button } from "@/components/sample-ui/button";
 import { Card, CardContent } from "@/components/sample-ui/card";
 import { ErrorMessage } from "@/components/sample-ui/error-message";
 import { ControlledInputField, ControlledSelectField } from "@/components/sample-ui/form-field/controlled-form-field";
-import { UserFormValues } from "@/features/sample-users/schemas/user-form.schema";
+import { UserFormValues } from "@/features/sample-users/types/forms";
 
 type UserFormProps = {
   /** React Hook Formのcontrolオブジェクト */

@@ -4,7 +4,7 @@ import { api } from "@/lib/api-client";
 import { QueryConfig } from "@/lib/tanstack-query";
 
 import type { User } from "../types";
-import { UserResponseSchema } from "./schemas/user-response.schema";
+import { userOutputSchema } from "../types/api";
 
 // ================================================================================
 // API関数
@@ -26,7 +26,7 @@ import { UserResponseSchema } from "./schemas/user-response.schema";
 export const getUser = async (userId: string): Promise<{ data: User }> => {
   const response = await api.get(`/sample/users/${userId}`);
 
-  return UserResponseSchema.parse(response);
+  return userOutputSchema.parse(response);
 };
 
 export const getUserQueryOptions = (userId: string) => {

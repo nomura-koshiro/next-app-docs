@@ -7,7 +7,7 @@
  * @see https://fastapi.tiangolo.com/tutorial/security/
  */
 
-import { CsrfTokenSchema } from "./schemas/csrf-token.schema";
+import { csrfTokenSchema } from "@/lib/validations/models/csrf-token";
 
 const CSRF_COOKIE_NAME = "csrftoken";
 const CSRF_HEADER_NAME = "X-CSRF-Token";
@@ -55,7 +55,7 @@ export const getCsrfToken = (): string | null => {
   if (!rawToken) return null;
 
   // ✅ Zodスキーマでバリデーション
-  const result = CsrfTokenSchema.safeParse(rawToken);
+  const result = csrfTokenSchema.safeParse(rawToken);
 
   if (!result.success) {
     console.warn(`[CSRF] 不正なCSRFトークンを検出しました: ${result.error.message}`);

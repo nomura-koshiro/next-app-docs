@@ -7,7 +7,7 @@ import { expect, userEvent, within } from "@storybook/test";
 import { delay, http, HttpResponse } from "msw";
 import React from "react";
 
-import { MOCK_AUTH } from "@/mocks/handlers/api/v1/auth-handlers";
+import { MOCK_AUTH } from "@/mocks/handlers/api/v1/auth/auth-handlers";
 
 import { AuthDemo } from "./auth-demo";
 import {

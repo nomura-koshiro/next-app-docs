@@ -363,7 +363,7 @@ import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useCreateUser } from '@/features/sample-users/api/create-user';
-import { userFormSchema, type UserFormValues } from '../../schemas/user-form.schema';
+import { userFormSchema, type UserFormValues } from '../../types/forms.schema';
 
 /**
  * 新規ユーザー作成ページのカスタムフック
