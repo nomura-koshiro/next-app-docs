@@ -11,7 +11,8 @@ import { z } from "zod";
 import { api } from "@/lib/api-client";
 import { MutationConfig } from "@/lib/tanstack-query";
 
-import type { User } from "../types";
+import { LoginResponseSchema } from "./schemas/auth-response.schema";
+import type { LoginResponse } from "./schemas/auth-response.schema";
 
 // ================================================================================
 // Schemas
@@ -26,18 +27,6 @@ export const loginInputSchema = z.object({
 });
 
 export type LoginInput = z.infer<typeof loginInputSchema>;
-
-// ================================================================================
-// Types
-// ================================================================================
-
-/**
- * ログインレスポンス
- */
-export type LoginResponse = {
-  user: User;
-  token: string; // JWT token
-};
 
 // ================================================================================
 // API関数
@@ -61,24 +50,9 @@ export type LoginResponse = {
  * console.log(response.user, response.token);
  * ```
  */
-export const login = (data: LoginInput): Promise<LoginResponse> => {
-  // TODO: 実際のAPI呼び出しに置き換える
-  return api.post("/api/v1/sample/auth/login", data);
-
-  // モック実装（テスト用）
-  // return new Promise((resolve) => {
-  //   setTimeout(() => {
-  //     resolve({
-  //       user: {
-  //         id: "1",
-  //         email: data.email,
-  //         name: "Sample User",
-  //         role: "user",
-  //       },
-  //       token: "mock-jwt-token",
-  //     });
-  //   }, 1000);
-  // });
+export const login = async (data: LoginInput): Promise<LoginResponse> => {
+  const response = await api.post("/api/v1/sample/auth/login", data);
+  return LoginResponseSchema.parse(response);
 };
 
 // ================================================================================
