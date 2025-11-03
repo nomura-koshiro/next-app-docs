@@ -12,6 +12,172 @@ JWTトークンとCSRFトークンのZodバリデーション実装ガイド
 
 ---
 
+## なぜトークンバリデーションが必要か
+
+### トークンのセキュリティリスク
+
+トークンは以下のような**外部から注入される値**であり、多くのセキュリティリスクにさらされています:
+
+| リスク | 説明 | 影響 |
+|--------|------|------|
+| **サーバーからの不正トークン** | APIバグやネットワークエラーで不正な形式のトークンが返される | アプリケーションクラッシュ、予期しない動作 |
+| **ユーザーによる改ざん** | ブラウザDevToolsからlocalStorage/Cookieを直接編集 | 権限昇格、不正アクセス |
+| **マルウェアによる注入** | 悪意のあるスクリプトがトークンを書き換え | データ漏洩、セッションハイジャック |
+| **不正な形式** | 3パート構成でないJWT、短すぎるCSRF | 認証バイパス、CSRF攻撃 |
+
+### TypeScriptの型チェックの限界
+
+TypeScriptの型チェックは**コンパイル時のみ**有効で、実行時のトークンは検証されません:
+
+```typescript
+// ❌ TypeScriptの型は実行時には存在しない
+const token = localStorage.getItem("token"); // string | null
+// - 不正な形式でもエラーにならない
+// - 改ざんされたトークンも使用される
+// - アプリケーションがクラッシュする可能性
+
+api.defaults.headers.Authorization = `Bearer ${token}`;
+// → 不正なトークンでAPIリクエスト送信
+// → 401エラーまたは予期しない動作
+```
+
+```typescript
+// ✅ Zodは実行時にバリデーション
+import { JWTTokenSchema } from './token-storage.schema';
+
+const rawToken = localStorage.getItem("token");
+if (!rawToken) {
+  // トークンなし → ログイン画面へ
+  router.push("/login");
+  return;
+}
+
+const result = JWTTokenSchema.safeParse(rawToken);
+if (!result.success) {
+  // ✅ 不正なトークンを検出
+  console.warn("不正なトークン:", result.error);
+  localStorage.removeItem("token"); // ✅ 自動削除
+  router.push("/login");
+  return;
+}
+
+// ✅ 検証済みトークンのみ使用
+const token = result.data;
+api.defaults.headers.Authorization = `Bearer ${token}`;
+```
+
+### Zodバリデーションによる防御
+
+| 防御機能 | 効果 |
+|---------|------|
+| **形式検証** | JWT 3パート構造、CSRF最小長・文字種を検証 |
+| **自動削除** | 不正なトークンをlocalStorage/Cookieから自動削除 |
+| **早期検出** | アプリケーション使用前にトークンを検証 |
+| **型安全性** | 検証済みトークンのみが型安全に使用可能 |
+
+### 攻撃シナリオと防御
+
+#### シナリオ1: 権限昇格攻撃
+
+**攻撃：**
+```javascript
+// 攻撃者がDevToolsでJWTトークンのペイロードを改ざん
+// 元のトークン: eyJhbGci...（role: "user"）
+// 改ざん後: eyJhbGci...（role: "admin"） ← ❌ 署名が無効
+localStorage.setItem("token", "eyJhbGci.TAMPERED_PAYLOAD.invalid_signature");
+```
+
+**結果（バリデーションなし）：**
+```typescript
+const token = localStorage.getItem("token");
+// → 改ざんされたトークンがそのまま使用される
+// → バックエンドで署名検証失敗 → 401エラー
+// → ユーザーには原因不明のエラー
+```
+
+**防御（Zodバリデーション）：**
+```typescript
+const token = getValidatedToken("token");
+// → JWTTokenSchema.safeParse() で形式検証
+// → 3パート構造であることを確認
+// → 不正な形式なら自動削除 + nullを返す
+// → フロントエンドで早期に検出
+```
+
+#### シナリオ2: CSRF攻撃
+
+**攻撃：**
+```javascript
+// 攻撃者が短いCSRFトークンを設定
+document.cookie = "csrftoken=abc"; // ❌ 3文字（脆弱）
+```
+
+**結果（バリデーションなし）：**
+```typescript
+const csrfToken = getCookie("csrftoken");
+// → "abc" がそのまま使用される
+// → 短いトークンは推測可能 → CSRF攻撃成功
+```
+
+**防御（Zodバリデーション）：**
+```typescript
+const csrfToken = getCsrfToken();
+// → CsrfTokenSchema.safeParse() で最小長検証
+// → 8文字未満は拒否
+// → nullを返す → リクエストヘッダーに追加されない
+// → バックエンドでCSRF検証失敗 → 403エラー
+// → 攻撃を防御
+```
+
+#### シナリオ3: サーバーバグによる不正トークン
+
+**攻撃：**
+```json
+// バックエンドのバグで不正な形式のトークンを返す
+{
+  "token": "invalid-token-format"
+}
+```
+
+**結果（バリデーションなし）：**
+```typescript
+const response = await api.post("/login", { email, password });
+localStorage.setItem("token", response.token);
+// → "invalid-token-format" が保存される
+// → 次回使用時に401エラー
+// → ユーザーは原因不明のエラーに遭遇
+```
+
+**防御（Zodバリデーション）：**
+```typescript
+try {
+  const response = await api.post("/login", { email, password });
+  setValidatedToken("token", response.token);
+  // → JWTTokenSchema.parse() でバリデーション
+  // → 不正な形式ならZodErrorをスロー
+} catch (error) {
+  if (error instanceof ZodError) {
+    // ✅ サーバーバグを即座に検出
+    console.error("サーバーから不正なトークン:", error);
+    setError("root", {
+      message: "サーバーから不正なトークンが返されました。管理者に連絡してください。",
+    });
+    return;
+  }
+}
+```
+
+### セキュリティメリットのまとめ
+
+✅ **形式検証**: JWT 3パート構造、CSRF最小長・文字種
+✅ **改ざん検出**: 不正なトークンを自動検出・削除
+✅ **早期エラー検出**: アプリケーション使用前に検証
+✅ **型安全性**: 検証済みトークンのみ使用可能
+✅ **サーバーバグ検出**: 不正なAPIレスポンスを即座に検出
+✅ **ユーザー保護**: 不正なトークンによる予期しないエラーを防止
+
+---
+
 ## JWT トークンバリデーション
 
 ### JWT形式とは
