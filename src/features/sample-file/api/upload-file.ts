@@ -4,16 +4,8 @@ import { api } from "@/lib/api-client";
 import { MutationConfig } from "@/lib/tanstack-query";
 import { logger } from "@/utils/logger";
 
-// ================================================================================
-// Types
-// ================================================================================
-
-export type UploadFileResponse = {
-  id: string;
-  filename: string;
-  size: number;
-  uploadedAt: string;
-};
+import { UploadFileResponseSchema } from "./schemas/upload-response.schema";
+import type { UploadFileResponse } from "./schemas/upload-response.schema";
 
 // ================================================================================
 // API関数
@@ -40,7 +32,7 @@ export const uploadFile = async (file: File, onProgress?: (progress: number) => 
       throw error;
     });
 
-  return response as unknown as UploadFileResponse;
+  return UploadFileResponseSchema.parse(response);
 };
 
 /**

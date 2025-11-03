@@ -7,7 +7,8 @@ import { queryOptions, useQuery } from "@tanstack/react-query";
 import { api } from "@/lib/api-client";
 import { QueryConfig } from "@/lib/tanstack-query";
 
-import type { User } from "../stores/auth-store";
+import { UserSchema } from "./schemas/user-response.schema";
+import type { User } from "./schemas/user-response.schema";
 
 // ================================================================================
 // 型定義
@@ -22,8 +23,9 @@ type UseGetMeOptions = {
 // API関数
 // ================================================================================
 
-export const getMe = (): Promise<User> => {
-  return api.get("/auth/me");
+export const getMe = async (): Promise<User> => {
+  const response = await api.get("/auth/me");
+  return UserSchema.parse(response);
 };
 
 export const getMeQueryOptions = () => {

@@ -3,7 +3,9 @@ import { useMutation, type UseMutationOptions,useQueryClient } from "@tanstack/r
 import { api } from "@/lib/api-client";
 import { logger } from "@/utils/logger";
 
-import type { AddProjectMemberDTO, ProjectMemberResponse } from "../types";
+import { ProjectMemberResponseSchema } from "./schemas/project-member-response.schema";
+import type { ProjectMemberResponse } from "./schemas/project-member-response.schema";
+import type { AddProjectMemberDTO } from "../types";
 
 // ================================================================================
 // API関数
@@ -24,14 +26,15 @@ import type { AddProjectMemberDTO, ProjectMemberResponse } from "../types";
  * });
  * ```
  */
-export const addProjectMember = ({
+export const addProjectMember = async ({
   projectId,
   data,
 }: {
   projectId: string;
   data: AddProjectMemberDTO;
 }): Promise<ProjectMemberResponse> => {
-  return api.post(`/projects/${projectId}/members`, data);
+  const response = await api.post(`/projects/${projectId}/members`, data);
+  return ProjectMemberResponseSchema.parse(response);
 };
 
 // ================================================================================

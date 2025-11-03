@@ -11,6 +11,7 @@ import { LoadingSpinner } from "@/components/sample-ui/loading-spinner";
 import { UserForm } from "@/features/sample-users/components/user-form";
 import { useDevTools } from "@/hooks/use-devtools";
 
+import { EditUserParamsSchema } from "./schemas/params.schema";
 import { useEditUser } from "./edit-user.hook";
 
 /**
@@ -18,7 +19,8 @@ import { useEditUser } from "./edit-user.hook";
  */
 const EditUserPageContent = () => {
   const params = useParams();
-  const userId = params.id as string;
+  // ルートパラメータの検証
+  const { id: userId } = EditUserParamsSchema.parse(params);
 
   const { control, onSubmit, handleCancel, errors, isSubmitting } = useEditUser(userId);
 

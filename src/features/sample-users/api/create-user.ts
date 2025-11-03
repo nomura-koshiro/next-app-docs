@@ -6,12 +6,19 @@ import { MutationConfig } from "@/lib/tanstack-query";
 import { logger } from "@/utils/logger";
 
 import type { CreateUserDTO, User } from "../types";
+import { CreateUserResponseSchema } from "./schemas/user-response.schema";
 
 // ================================================================================
 // API関数
 // ================================================================================
 
 /**
+ * ユーザー作成
+ *
+ * @param data - ユーザー作成データ
+ * @returns 作成されたユーザー（ランタイムバリデーション済み）
+ * @throws {z.ZodError} レスポンスが期待する形式でない場合
+ *
  * @example
  * ```tsx
  * const newUser = await createUser({
@@ -21,8 +28,9 @@ import type { CreateUserDTO, User } from "../types";
  * })
  * ```
  */
-export const createUser = (data: CreateUserDTO): Promise<User> => {
-  return api.post("/sample/users", data);
+export const createUser = async (data: CreateUserDTO): Promise<User> => {
+  const response = await api.post("/sample/users", data);
+  return CreateUserResponseSchema.parse(response);
 };
 
 // ================================================================================

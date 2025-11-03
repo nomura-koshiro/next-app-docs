@@ -3,7 +3,9 @@ import { useMutation, type UseMutationOptions,useQueryClient } from "@tanstack/r
 import { api } from "@/lib/api-client";
 import { logger } from "@/utils/logger";
 
-import type { BulkUpdateRolesDTO, ProjectMembersResponse } from "../types";
+import { ProjectMembersResponseSchema } from "./schemas/project-member-response.schema";
+import type { ProjectMembersResponse } from "./schemas/project-member-response.schema";
+import type { BulkUpdateRolesDTO } from "../types";
 
 // ================================================================================
 // API関数
@@ -29,7 +31,7 @@ import type { BulkUpdateRolesDTO, ProjectMembersResponse } from "../types";
  * });
  * ```
  */
-export const bulkUpdateRoles = ({
+export const bulkUpdateRoles = async ({
   projectId,
   data,
 }: {
@@ -37,7 +39,8 @@ export const bulkUpdateRoles = ({
   data: BulkUpdateRolesDTO;
 }): Promise<ProjectMembersResponse> => {
   // 重要: エンドポイントは /members/bulk で、/roles サフィックスなし
-  return api.patch(`/projects/${projectId}/members/bulk`, data);
+  const response = await api.patch(`/projects/${projectId}/members/bulk`, data);
+  return ProjectMembersResponseSchema.parse(response);
 };
 
 // ================================================================================

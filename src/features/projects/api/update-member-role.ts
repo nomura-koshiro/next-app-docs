@@ -3,7 +3,9 @@ import { useMutation, type UseMutationOptions,useQueryClient } from "@tanstack/r
 import { api } from "@/lib/api-client";
 import { logger } from "@/utils/logger";
 
-import type { ProjectMemberResponse, UpdateMemberRoleDTO } from "../types";
+import { ProjectMemberResponseSchema } from "./schemas/project-member-response.schema";
+import type { ProjectMemberResponse } from "./schemas/project-member-response.schema";
+import type { UpdateMemberRoleDTO } from "../types";
 
 // ================================================================================
 // API関数
@@ -26,7 +28,7 @@ import type { ProjectMemberResponse, UpdateMemberRoleDTO } from "../types";
  * });
  * ```
  */
-export const updateMemberRole = ({
+export const updateMemberRole = async ({
   projectId,
   memberId,
   data,
@@ -36,7 +38,8 @@ export const updateMemberRole = ({
   data: UpdateMemberRoleDTO;
 }): Promise<ProjectMemberResponse> => {
   // 重要: エンドポイントは /members/{member_id} で、/role サフィックスなし
-  return api.patch(`/projects/${projectId}/members/${memberId}`, data);
+  const response = await api.patch(`/projects/${projectId}/members/${memberId}`, data);
+  return ProjectMemberResponseSchema.parse(response);
 };
 
 // ================================================================================

@@ -1,5 +1,6 @@
 "use client";
 
+import { ProjectRoleInputSchema } from "../schemas/role-input.schema";
 import type { ProjectMember, ProjectRole } from "../../../types";
 import { RoleBadge } from "../../../components/role-badge";
 
@@ -110,9 +111,19 @@ export const MembersTable = ({
                     <button
                       type="button"
                       onClick={() => {
-                        const newRole = prompt("新しいロールを選択してください");
-                        if (newRole) {
-                          onRoleChange(member.id, newRole as ProjectRole);
+                        const userInput = prompt(
+                          "新しいロールを選択してください\n(project_manager, project_moderator, member, viewer)"
+                        );
+                        if (userInput) {
+                          // ✅ Zodスキーマでバリデーション（危険なユーザー入力を検証）
+                          const result = ProjectRoleInputSchema.safeParse(userInput);
+                          if (result.success) {
+                            onRoleChange(member.id, result.data as ProjectRole);
+                          } else {
+                            alert(
+                              "無効なロールです。以下のいずれかを入力してください:\nproject_manager, project_moderator, member, viewer"
+                            );
+                          }
                         }
                       }}
                       className="text-blue-600 hover:text-blue-900"
