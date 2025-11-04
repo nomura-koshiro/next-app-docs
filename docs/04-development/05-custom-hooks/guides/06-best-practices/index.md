@@ -19,20 +19,16 @@
 
 ```typescript
 // ✅ Good: フォームエラーとして管理
-await createUserMutation
-  .mutateAsync(data)
-  .catch((error) => {
-    setError("root", {
-      message: "ユーザーの作成に失敗しました。もう一度お試しください。",
-    });
+await createUserMutation.mutateAsync(data).catch((error) => {
+  setError("root", {
+    message: "ユーザーの作成に失敗しました。もう一度お試しください。",
   });
+});
 
 // ❌ Bad: console.errorのみ
-await createUserMutation
-  .mutateAsync(data)
-  .catch((error) => {
-    console.error(error);
-  });
+await createUserMutation.mutateAsync(data).catch((error) => {
+  console.error(error);
+});
 ```
 
 ### 2. エラーメッセージは日本語でユーザーフレンドリーに
@@ -53,21 +49,19 @@ setError("root", {
 
 ```typescript
 // ✅ Good: エラー型で適切なメッセージ
-await mutation
-  .mutateAsync(data)
-  .catch((error) => {
-    if (error instanceof ApiError) {
-      if (error.status === 401) {
-        setError("root", { message: "認証に失敗しました" });
-      } else if (error.status === 400) {
-        setError("root", { message: "入力内容に誤りがあります" });
-      } else {
-        setError("root", { message: "サーバーエラーが発生しました" });
-      }
+await mutation.mutateAsync(data).catch((error) => {
+  if (error instanceof ApiError) {
+    if (error.status === 401) {
+      setError("root", { message: "認証に失敗しました" });
+    } else if (error.status === 400) {
+      setError("root", { message: "入力内容に誤りがあります" });
     } else {
-      setError("root", { message: "予期しないエラーが発生しました" });
+      setError("root", { message: "サーバーエラーが発生しました" });
     }
-  });
+  } else {
+    setError("root", { message: "予期しないエラーが発生しました" });
+  }
+});
 ```
 
 ### 4. エラー時のロールバック通知
@@ -271,7 +265,7 @@ const [token, setToken] = useState(localStorage.getItem("token"));
 // ✅ Good: Zodでバリデーション
 export const userFormSchema = z.object({
   name: z.string().min(1).max(100),
-  email: z.string().email(),
+  email: z.email(),
 });
 
 // ✅ Good: DOMPurifyでサニタイズ
@@ -285,15 +279,15 @@ const sanitizedContent = DOMPurify.sanitize(userInput);
 ```typescript
 // ✅ Good: CSRFトークンをヘッダーに追加（自動処理）
 // src/lib/api-client.ts で実装済み
-import { getCsrfHeaderName, getCsrfToken } from '@/lib/csrf'
+import { getCsrfHeaderName, getCsrfToken } from "@/lib/csrf";
 
 api.interceptors.request.use((config) => {
-  const csrfToken = getCsrfToken()  // Cookieから取得
+  const csrfToken = getCsrfToken(); // Cookieから取得
   if (csrfToken) {
-    config.headers[getCsrfHeaderName()] = csrfToken  // X-CSRF-Token
+    config.headers[getCsrfHeaderName()] = csrfToken; // X-CSRF-Token
   }
-  return config
-})
+  return config;
+});
 
 // 📝 開発者が意識する必要なし
 // api-client.tsで自動的にCSRFトークンが送信される
@@ -307,11 +301,13 @@ api.interceptors.request.use((config) => {
 
 ```tsx
 // ✅ Good: スクリーンリーダー対応
-{errors.root && (
-  <div role="alert" aria-live="polite" className="error-message">
-    {errors.root.message}
-  </div>
-)}
+{
+  errors.root && (
+    <div role="alert" aria-live="polite" className="error-message">
+      {errors.root.message}
+    </div>
+  );
+}
 ```
 
 ### 2. ローディング状態の通知
@@ -447,11 +443,11 @@ useEffect(() => {
 
 ### 優先度
 
-| 優先度 | 項目 |
-|-------|------|
+| 優先度    | 項目                             |
+| --------- | -------------------------------- |
 | 🔴 **高** | エラーハンドリング、セキュリティ |
 | 🟡 **中** | パフォーマンス、アクセシビリティ |
-| 🟢 **低** | コメント、命名規則 |
+| 🟢 **低** | コメント、命名規則               |
 
 ---
 

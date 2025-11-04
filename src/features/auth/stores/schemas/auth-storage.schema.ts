@@ -11,7 +11,7 @@ import { z } from "zod";
  */
 export const UserStorageSchema = z.object({
   id: z.string().min(1),
-  email: z.string().email(),
+  email: z.email(),
   name: z.string().min(1),
   azureOid: z.string().min(1),
   roles: z.array(z.string()),

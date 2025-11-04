@@ -17,17 +17,17 @@
 
 ### 型定義
 
-| タイプ                     | 形式                         | 例                                          |
-| -------------------------- | ---------------------------- | ------------------------------------------- |
-| **Zodスキーマ**            | camelCase + `Schema`         | `createUserSchema`、`userSchema`            |
-| **基本型/モデル**          | PascalCase                   | `User`、`Project`、`Message`                |
-| **入力型（フォーム等）**   | PascalCase + `Input`         | `CreateUserInput`、`UpdateUserInput`        |
-| **出力型（API等）**        | PascalCase + `Output`        | `UserOutput`、`UsersOutput`                 |
-| **状態型**                 | PascalCase + `State`         | `AuthState`、`FormState`                    |
-| **アクション型**           | PascalCase + `Actions`       | `AuthActions`、`UserActions`                |
-| **ストア型**               | PascalCase + `Store`         | `AuthStore`、`UserStore`                    |
-| **その他のビジネス型**     | PascalCase                   | `UploadedFile`、`DownloadProgress`          |
-| **ユニオン型/列挙型的**   | PascalCase                   | `UserRole`、`MessageRole`、`FileType`       |
+| タイプ                   | 形式                   | 例                                    |
+| ------------------------ | ---------------------- | ------------------------------------- |
+| **Zodスキーマ**          | camelCase + `Schema`   | `createUserSchema`、`userSchema`      |
+| **基本型/モデル**        | PascalCase             | `User`、`Project`、`Message`          |
+| **入力型（フォーム等）** | PascalCase + `Input`   | `CreateUserInput`、`UpdateUserInput`  |
+| **出力型（API等）**      | PascalCase + `Output`  | `UserOutput`、`UsersOutput`           |
+| **状態型**               | PascalCase + `State`   | `AuthState`、`FormState`              |
+| **アクション型**         | PascalCase + `Actions` | `AuthActions`、`UserActions`          |
+| **ストア型**             | PascalCase + `Store`   | `AuthStore`、`UserStore`              |
+| **その他のビジネス型**   | PascalCase             | `UploadedFile`、`DownloadProgress`    |
+| **ユニオン型/列挙型的**  | PascalCase             | `UserRole`、`MessageRole`、`FileType` |
 
 ## 実例
 
@@ -78,19 +78,19 @@ import { z } from "zod";
 export const userSchema = z.object({
   id: z.string(),
   name: z.string().min(1),
-  email: z.string().email(),
+  email: z.email(),
   role: z.enum(["admin", "user", "guest"]),
 });
 
 export const createUserSchema = z.object({
   name: z.string().min(1),
-  email: z.string().email(),
+  email: z.email(),
   role: z.enum(["admin", "user", "guest"]),
 });
 
 export const updateUserSchema = z.object({
   name: z.string().min(1).optional(),
-  email: z.string().email().optional(),
+  email: z.email().optional(),
 });
 
 // 2. スキーマから型を推論（PascalCase）
@@ -126,7 +126,7 @@ export type AuthStore = AuthState & AuthActions;
 ```typescript
 // UPPER_SNAKE_CASEで定義
 const MAX_RETRY_COUNT = 3;
-const API_BASE_URL = 'https://api.example.com';
+const API_BASE_URL = "https://api.example.com";
 const DEFAULT_PAGE_SIZE = 20;
 ```
 
@@ -136,7 +136,7 @@ const DEFAULT_PAGE_SIZE = 20;
 // is/has/can/shouldプレフィックスを使用
 const isActive = true;
 const hasPermission = checkPermission();
-const canEdit = user.role === 'admin';
+const canEdit = user.role === "admin";
 const shouldShowWarning = errors.length > 0;
 
 // Boolean返り値の関数
@@ -197,7 +197,7 @@ type UsersOutput = { data: User[]; total: number }; // リスト出力
 // ベーススキーマ
 const userBaseSchema = z.object({
   name: z.string().min(1),
-  email: z.string().email(),
+  email: z.email(),
 });
 
 // 作成用（ベース + パスワード）
@@ -211,7 +211,7 @@ export const updateUserSchema = userBaseSchema.partial();
 // 完全なユーザー（ベース + ID）
 export const userSchema = userBaseSchema.extend({
   id: z.string(),
-  createdAt: z.string().datetime(),
+  createdAt: z.iso.datetime(),
 });
 
 export type CreateUserInput = z.infer<typeof createUserSchema>;
@@ -241,8 +241,12 @@ type AuthStore = AuthState & AuthActions;
 const useAuthStore = create<AuthStore>((set) => ({
   user: null,
   isAuthenticated: false,
-  login: async (email, password) => { /* ... */ },
-  logout: () => { /* ... */ },
+  login: async (email, password) => {
+    /* ... */
+  },
+  logout: () => {
+    /* ... */
+  },
 }));
 ```
 
@@ -271,7 +275,7 @@ import { z } from "zod";
 // スキーマ定義
 export const createUserSchema = z.object({
   name: z.string().min(1),
-  email: z.string().email(),
+  email: z.email(),
   password: z.string().min(8),
 });
 
@@ -343,24 +347,32 @@ type Config = {
 
 ```typescript
 // ❌ Bad: 動詞がない
-const user = (id: string) => { /* ... */ };
-const total = (items: Item[]) => { /* ... */ };
+const user = (id: string) => {
+  /* ... */
+};
+const total = (items: Item[]) => {
+  /* ... */
+};
 
 // ✅ Good: 動詞で始まる
-const getUser = (id: string) => { /* ... */ };
-const calculateTotal = (items: Item[]) => { /* ... */ };
+const getUser = (id: string) => {
+  /* ... */
+};
+const calculateTotal = (items: Item[]) => {
+  /* ... */
+};
 ```
 
 ### 4. 複数形・単数形を正確に
 
 ```typescript
 // ❌ Bad: 複数形・単数形が不正確
-const user = ['Alice', 'Bob']; // 配列なのに単数形
-const users = 'Alice'; // 単数なのに複数形
+const user = ["Alice", "Bob"]; // 配列なのに単数形
+const users = "Alice"; // 単数なのに複数形
 
 // ✅ Good: 複数形・単数形が正確
-const users = ['Alice', 'Bob']; // 配列は複数形
-const user = 'Alice'; // 単数は単数形
+const users = ["Alice", "Bob"]; // 配列は複数形
+const user = "Alice"; // 単数は単数形
 ```
 
 ### 5. 略語は避ける
@@ -369,17 +381,17 @@ const user = 'Alice'; // 単数は単数形
 // ❌ Bad: 不明確な略語
 const usrMgr = new UserManager();
 const btnClk = handleClick();
-const msg = 'Hello';
+const msg = "Hello";
 
 // ✅ Good: 完全な単語
 const userManager = new UserManager();
 const buttonClick = handleClick();
-const message = 'Hello';
+const message = "Hello";
 
 // ✅ 例外: 広く知られている略語はOK
-const apiUrl = 'https://api.example.com';
-const htmlContent = '<div>...</div>';
-const userId = '123';
+const apiUrl = "https://api.example.com";
+const htmlContent = "<div>...</div>";
+const userId = "123";
 ```
 
 ## ディレクトリ・ファイル構造
@@ -457,12 +469,12 @@ import { z } from "zod";
 // Zodスキーマ
 export const createUserSchema = z.object({
   name: z.string().min(1),
-  email: z.string().email(),
+  email: z.email(),
 });
 
 export const userSchema = createUserSchema.extend({
   id: z.string(),
-  createdAt: z.string().datetime(),
+  createdAt: z.iso.datetime(),
 });
 
 // 推論された型

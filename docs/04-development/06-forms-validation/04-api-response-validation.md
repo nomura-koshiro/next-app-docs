@@ -35,7 +35,7 @@ console.log(response.name.toUpperCase()); // ランタイムエラーの可能�
 const UserSchema = z.object({
   id: z.string(),
   name: z.string(),
-  email: z.string().email(),
+  email: z.email(),
 });
 
 const response = await api.get("/users/1");
@@ -73,7 +73,7 @@ Zodスキーマから TypeScript 型を自動生成できます。
 export const UserSchema = z.object({
   id: z.string(),
   name: z.string(),
-  email: z.string().email(),
+  email: z.email(),
   role: z.enum(["user", "admin"]),
 });
 
@@ -348,7 +348,7 @@ import { LoginResponseSchema } from "./lib/validationsauth-response.schema";
 import type { LoginResponse } from "./lib/validationsauth-response.schema";
 
 export const loginInputSchema = z.object({
-  email: z.string().email(),
+  email: z.email(),
   password: z.string().min(1),
 });
 
@@ -472,7 +472,7 @@ export const UserSchema = z
   .object({
     id: z.string(),
     name: z.string(),
-    email: z.string().email(),
+    email: z.email(),
   })
   .merge(TimestampsSchema); // ✅ 共通スキーマをマージ
 
@@ -546,7 +546,7 @@ export const UserSchema = z.object({
 // ❌ デフォルトメッセージのみ（デバッグが困難）
 export const UserSchema = z.object({
   id: z.string(),
-  email: z.string().email(),
+  email: z.email(),
 });
 ```
 

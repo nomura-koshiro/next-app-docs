@@ -70,8 +70,8 @@ const userBaseSchema = z.object({
  */
 export const userSchema = userBaseSchema.extend({
   id: z.string(),
-  createdAt: z.string().datetime(),
-  updatedAt: z.string().datetime().optional(),
+  createdAt: z.iso.datetime(),
+  updatedAt: z.iso.datetime().optional(),
 });
 
 /**

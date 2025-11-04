@@ -170,7 +170,7 @@ export const UserResponseSchema = z.object({
   data: z.array(
     z.object({
       id: z.string(),
-      email: z.string().email(),
+      email: z.email(),
       role: z.enum(["user", "admin"]),
     })
   ),
@@ -491,7 +491,7 @@ const users: User[] = response.data;
 // src/features/auth/lib/validationsuser.ts
 export const UserSchema = z.object({
   id: z.string(),
-  email: z.string().email(),
+  email: z.email(),
   role: z.enum(["user", "admin"]),
 });
 
@@ -512,7 +512,7 @@ export type User = {
 // schema.ts
 export const UserSchema = z.object({
   id: z.string(),
-  email: z.string().email(),
+  email: z.email(),
   role: z.enum(["user", "admin"]), // ✅ enumだが型と不一致
 });
 ```
@@ -536,7 +536,7 @@ const UserSchema = z.object({
 ```typescript
 // ❌ デバッグが困難
 const UserSchema = z.object({
-  email: z.string().email(),
+  email: z.email(),
   password: z.string().min(8),
 });
 ```
@@ -645,7 +645,7 @@ const RoleSchema = z.enum(["user", "admin", "moderator"]).catch("user"); // バ�
 // ❌ 問題のあるコード
 const UserSchema = z.object({
   id: z.string(),
-  email: z.string().email(),
+  email: z.email(),
   profile: z.object({
     avatar: z.string().url(), // profileが存在しないとエラー
   }),
@@ -654,7 +654,7 @@ const UserSchema = z.object({
 // ✅ 解決策: optional()またはnullable()
 const UserSchema = z.object({
   id: z.string(),
-  email: z.string().email(),
+  email: z.email(),
   profile: z
     .object({
       avatar: z.string().url(),

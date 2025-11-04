@@ -8,17 +8,17 @@ Zodを使用した様々なバリデーションルールとカスタムバリ�
 
 ```typescript
 // src/features/users/types/forms.ts
-import { z } from 'zod';
+import { z } from "zod";
 
 /**
  * ユーザーフォームのバリデーションスキーマ
  * 新規作成・編集フォームで使用
  */
 export const userFormSchema = z.object({
-  name: z.string().min(1, { message: '名前は必須です' }).max(100, { message: '名前は100文字以内で入力してください' }),
-  email: z.string().min(1, { message: 'メールアドレスは必須です' }).email({ message: '有効なメールアドレスを入力してください' }),
-  role: z.enum(['user', 'admin'], {
-    message: 'ロールを選択してください',
+  name: z.string().min(1, { message: "名前は必須です" }).max(100, { message: "名前は100文字以内で入力してください" }),
+  email: z.string().min(1, { message: "メールアドレスは必須です" }).email({ message: "有効なメールアドレスを入力してください" }),
+  role: z.enum(["user", "admin"], {
+    message: "ロールを選択してください",
   }),
 });
 
@@ -36,41 +36,41 @@ export type UserFormValues = z.infer<typeof userFormSchema>;
 
 ```typescript
 // 必須
-z.string().min(1, '必須項目です');
+z.string().min(1, "必須項目です");
 
 // 最小・最大文字数
-z.string().min(3, '3文字以上').max(20, '20文字以内');
+z.string().min(3, "3文字以上").max(20, "20文字以内");
 
 // 正確な文字数
-z.string().length(10, '10文字で入力してください');
+z.string().length(10, "10文字で入力してください");
 
 // 空文字を許可しない
-z.string().nonempty('空欄は許可されません');
+z.string().nonempty("空欄は許可されません");
 ```
 
 ### メールアドレス
 
 ```typescript
-z.string().email('正しいメールアドレスを入力してください');
+z.string().email("正しいメールアドレスを入力してください");
 ```
 
 ### URL
 
 ```typescript
-z.string().url('正しいURLを入力してください');
+z.string().url("正しいURLを入力してください");
 ```
 
 ### 正規表現
 
 ```typescript
 // 電話番号
-z.string().regex(/^0\d{9,10}$/, '正しい電話番号を入力してください');
+z.string().regex(/^0\d{9,10}$/, "正しい電話番号を入力してください");
 
 // 郵便番号
-z.string().regex(/^\d{7}$/, '7桁の郵便番号を入力してください');
+z.string().regex(/^\d{7}$/, "7桁の郵便番号を入力してください");
 
 // 英数字のみ
-z.string().regex(/^[a-zA-Z0-9]+$/, '英数字のみ使用できます');
+z.string().regex(/^[a-zA-Z0-9]+$/, "英数字のみ使用できます");
 ```
 
 ---
@@ -82,7 +82,7 @@ z.string().regex(/^[a-zA-Z0-9]+$/, '英数字のみ使用できます');
 z.number();
 
 // 最小・最大
-z.number().min(0, '0以上').max(100, '100以下');
+z.number().min(0, "0以上").max(100, "100以下");
 
 // 正の整数
 z.number().int().positive();
@@ -97,11 +97,11 @@ z.number().nonnegative();
 
 ```typescript
 // 文字列のenum
-z.enum(['user', 'admin', 'guest']);
+z.enum(["user", "admin", "guest"]);
 
 // カスタムエラーメッセージ
-z.enum(['user', 'admin'], {
-  message: 'userまたはadminを選択してください',
+z.enum(["user", "admin"], {
+  message: "userまたはadminを選択してください",
 });
 ```
 
@@ -114,10 +114,10 @@ z.enum(['user', 'admin'], {
 z.date();
 
 // 最小日付（過去の日付を禁止）
-z.date().min(new Date(), '過去の日付は選択できません');
+z.date().min(new Date(), "過去の日付は選択できません");
 
 // 最大日付（未来の日付を禁止）
-z.date().max(new Date(), '未来の日付は選択できません');
+z.date().max(new Date(), "未来の日付は選択できません");
 
 // 文字列から日付に変換
 z.string().transform((val) => new Date(val));
@@ -130,12 +130,12 @@ z.string().transform((val) => new Date(val));
 ```typescript
 // チェックボックス（必ずtrue）
 z.boolean().refine((val) => val === true, {
-  message: '利用規約に同意してください',
+  message: "利用規約に同意してください",
 });
 
 // またはリテラル型
 z.literal(true, {
-  message: '利用規約に同意してください',
+  message: "利用規約に同意してください",
 });
 ```
 
@@ -154,7 +154,7 @@ z.string().nullable();
 z.string().nullish();
 
 // デフォルト値を設定
-z.string().default('デフォルト値');
+z.string().default("デフォルト値");
 ```
 
 ---
@@ -171,8 +171,8 @@ export const passwordConfirmSchema = z
     passwordConfirm: z.string(),
   })
   .refine((data) => data.password === data.passwordConfirm, {
-    message: 'パスワードが一致しません',
-    path: ['passwordConfirm'], // エラー表示位置
+    message: "パスワードが一致しません",
+    path: ["passwordConfirm"], // エラー表示位置
   });
 ```
 
@@ -182,10 +182,10 @@ export const passwordConfirmSchema = z
 export const imageFileSchema = z
   .instanceof(File)
   .refine((file) => file.size <= 5 * 1024 * 1024, {
-    message: 'ファイルサイズは5MB以下にしてください',
+    message: "ファイルサイズは5MB以下にしてください",
   })
-  .refine((file) => ['image/jpeg', 'image/png', 'image/webp'].includes(file.type), {
-    message: '画像ファイル（JPEG, PNG, WebP）のみアップロードできます',
+  .refine((file) => ["image/jpeg", "image/png", "image/webp"].includes(file.type), {
+    message: "画像ファイル（JPEG, PNG, WebP）のみアップロードできます",
   });
 ```
 
@@ -194,15 +194,15 @@ export const imageFileSchema = z
 ```typescript
 export const strongPasswordSchema = z
   .string()
-  .min(8, 'パスワードは8文字以上必要です')
+  .min(8, "パスワードは8文字以上必要です")
   .refine((val) => /[A-Z]/.test(val), {
-    message: '大文字を1文字以上含める必要があります',
+    message: "大文字を1文字以上含める必要があります",
   })
   .refine((val) => /[a-z]/.test(val), {
-    message: '小文字を1文字以上含める必要があります',
+    message: "小文字を1文字以上含める必要があります",
   })
   .refine((val) => /[0-9]/.test(val), {
-    message: '数字を1文字以上含める必要があります',
+    message: "数字を1文字以上含める必要があります",
   });
 ```
 
@@ -215,7 +215,7 @@ export const strongPasswordSchema = z
 ```typescript
 const baseUserSchema = z.object({
   name: z.string(),
-  email: z.string().email(),
+  email: z.email(),
 });
 
 // Schemasを拡張
@@ -263,7 +263,7 @@ export const userWithoutEmailSchema = userFormSchema.omit({
 // Schemasから型を生成
 export const userSchema = z.object({
   name: z.string(),
-  email: z.string().email(),
+  email: z.email(),
   age: z.number(),
 });
 

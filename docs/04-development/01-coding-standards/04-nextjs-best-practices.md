@@ -155,7 +155,7 @@ export const Dashboard = async () => {
 ```typescript
 // ❌ Bad: キャッシュ設定なし（デフォルトキャッシュに依存）
 export const fetchUsers = async (): Promise<User[]> => {
-  const res = await fetch('https://api.example.com/users');
+  const res = await fetch("https://api.example.com/users");
 
   return res.json();
 };
@@ -163,8 +163,8 @@ export const fetchUsers = async (): Promise<User[]> => {
 // ✅ Good: 明示的なキャッシュ設定
 // 静的データ（変更頻度が低い）
 export const fetchStaticData = async (): Promise<Data[]> => {
-  const res = await fetch('https://api.example.com/static-data', {
-    cache: 'force-cache', // 永続的にキャッシュ
+  const res = await fetch("https://api.example.com/static-data", {
+    cache: "force-cache", // 永続的にキャッシュ
   });
 
   return res.json();
@@ -172,8 +172,8 @@ export const fetchStaticData = async (): Promise<Data[]> => {
 
 // 動的データ（リアルタイム性が重要）
 export const fetchRealtimeData = async (): Promise<Data[]> => {
-  const res = await fetch('https://api.example.com/realtime-data', {
-    cache: 'no-store', // キャッシュしない
+  const res = await fetch("https://api.example.com/realtime-data", {
+    cache: "no-store", // キャッシュしない
   });
 
   return res.json();
@@ -181,7 +181,7 @@ export const fetchRealtimeData = async (): Promise<Data[]> => {
 
 // 定期的に更新されるデータ
 export const fetchPeriodicData = async (): Promise<Data[]> => {
-  const res = await fetch('https://api.example.com/periodic-data', {
+  const res = await fetch("https://api.example.com/periodic-data", {
     next: { revalidate: 3600 }, // 1時間ごとに再検証
   });
 
@@ -448,7 +448,7 @@ export const DataTable = ({ data }: { data: Item[] }) => {
 ```typescript
 // ❌ Bad: any型の使用
 export const fetchUsers = async (): Promise<any> => {
-  const res = await fetch('/api/users');
+  const res = await fetch("/api/users");
 
   return res.json();
 };
@@ -467,25 +467,25 @@ type ApiResponse<T> = {
 };
 
 export const fetchUsers = async (): Promise<ApiResponse<User[]>> => {
-  const res = await fetch('/api/users');
+  const res = await fetch("/api/users");
 
   return res.json();
 };
 
 // ✅ Good: Zodでランタイム検証と型推論
-import { z } from 'zod';
+import { z } from "zod";
 
 const UserSchema = z.object({
   id: z.string(),
   name: z.string(),
-  email: z.string().email(),
-  createdAt: z.string().datetime(),
+  email: z.email(),
+  createdAt: z.iso.datetime(),
 });
 
 type User = z.infer<typeof UserSchema>;
 
 export const fetchUsers = async (): Promise<User[]> => {
-  const res = await fetch('/api/users');
+  const res = await fetch("/api/users");
   const data = await res.json();
 
   return UserSchema.array().parse(data);

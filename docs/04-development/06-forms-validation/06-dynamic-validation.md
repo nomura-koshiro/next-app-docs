@@ -12,17 +12,17 @@
 
 ```typescript
 // src/lib/validations/fields/user-type.ts
-import { z } from 'zod';
+import { z } from "zod";
 
 /**
  * ユーザータイプに応じて必須項目が変わるスキーマ
  */
 export const userTypeFormSchema = z
   .object({
-    userType: z.enum(['individual', 'company']),
+    userType: z.enum(["individual", "company"]),
 
     // 共通フィールド
-    email: z.string().email(),
+    email: z.email(),
 
     // 条件付きで必須になるフィールド（optional）
     firstName: z.string().optional(),
@@ -33,18 +33,18 @@ export const userTypeFormSchema = z
   .refine(
     (data) => {
       // 個人の場合、firstName と lastName が必須
-      if (data.userType === 'individual') {
+      if (data.userType === "individual") {
         return !!data.firstName && !!data.lastName;
       }
       // 法人の場合、companyName と taxId が必須
-      if (data.userType === 'company') {
+      if (data.userType === "company") {
         return !!data.companyName && !!data.taxId;
       }
       return true;
     },
     {
-      message: '必須項目を入力してください',
-      path: ['userType'], // エラー表示位置
+      message: "必須項目を入力してください",
+      path: ["userType"], // エラー表示位置
     }
   );
 ```
@@ -71,12 +71,12 @@ export const userTypeFormSchema = z
 
 ```typescript
 // src/features/users/lib/validationsuser-advanced.ts
-import { z } from 'zod';
+import { z } from "zod";
 
 export const userAdvancedSchema = z
   .object({
-    userType: z.enum(['individual', 'company']),
-    email: z.string().email(),
+    userType: z.enum(["individual", "company"]),
+    email: z.email(),
     firstName: z.string().optional(),
     lastName: z.string().optional(),
     companyName: z.string().optional(),
@@ -84,37 +84,37 @@ export const userAdvancedSchema = z
   })
   .superRefine((data, ctx) => {
     // 個人の場合のバリデーション
-    if (data.userType === 'individual') {
+    if (data.userType === "individual") {
       if (!data.firstName) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
-          path: ['firstName'],
-          message: '個人の場合、名は必須です',
+          path: ["firstName"],
+          message: "個人の場合、名は必須です",
         });
       }
       if (!data.lastName) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
-          path: ['lastName'],
-          message: '個人の場合、姓は必須です',
+          path: ["lastName"],
+          message: "個人の場合、姓は必須です",
         });
       }
     }
 
     // 法人の場合のバリデーション
-    if (data.userType === 'company') {
+    if (data.userType === "company") {
       if (!data.companyName) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
-          path: ['companyName'],
-          message: '法人の場合、会社名は必須です',
+          path: ["companyName"],
+          message: "法人の場合、会社名は必須です",
         });
       }
       if (!data.taxId) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
-          path: ['taxId'],
-          message: '法人の場合、法人番号は必須です',
+          path: ["taxId"],
+          message: "法人の場合、法人番号は必須です",
         });
       }
     }
@@ -145,29 +145,29 @@ export type UserAdvancedFormValues = z.infer<typeof userAdvancedSchema>;
 
 ```typescript
 // src/lib/validations/fields/payment.ts
-import { z } from 'zod';
+import { z } from "zod";
 
 /**
  * 支払い方法に応じて動的にスキーマを生成
  */
-export const createPaymentSchema = (paymentMethod: 'card' | 'bank' | 'cash') => {
+export const createPaymentSchema = (paymentMethod: "card" | "bank" | "cash") => {
   const baseSchema = z.object({
-    amount: z.number().min(1, '金額は1円以上で入力してください'),
+    amount: z.number().min(1, "金額は1円以上で入力してください"),
     paymentMethod: z.literal(paymentMethod),
   });
 
-  if (paymentMethod === 'card') {
+  if (paymentMethod === "card") {
     return baseSchema.extend({
-      cardNumber: z.string().regex(/^\d{16}$/, '16桁のカード番号を入力してください'),
-      cvv: z.string().regex(/^\d{3,4}$/, 'CVVを入力してください'),
-      expiryDate: z.string().regex(/^\d{2}\/\d{2}$/, 'MM/YY形式で入力してください'),
+      cardNumber: z.string().regex(/^\d{16}$/, "16桁のカード番号を入力してください"),
+      cvv: z.string().regex(/^\d{3,4}$/, "CVVを入力してください"),
+      expiryDate: z.string().regex(/^\d{2}\/\d{2}$/, "MM/YY形式で入力してください"),
     });
   }
 
-  if (paymentMethod === 'bank') {
+  if (paymentMethod === "bank") {
     return baseSchema.extend({
-      bankName: z.string().min(1, '銀行名は必須です'),
-      accountNumber: z.string().min(1, '口座番号は必須です'),
+      bankName: z.string().min(1, "銀行名は必須です"),
+      accountNumber: z.string().min(1, "口座番号は必須です"),
     });
   }
 
@@ -180,13 +180,13 @@ export const createPaymentSchema = (paymentMethod: 'card' | 'bank' | 'cash') => 
 
 ```typescript
 // src/features/payment/routes/new-payment/new-payment.hook.ts
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useState, useEffect } from 'react';
-import { createPaymentSchema } from '@/lib/validations/fields/payment.schema';
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useState, useEffect } from "react";
+import { createPaymentSchema } from "@/lib/validations/fields/payment.schema";
 
 export const useNewPayment = () => {
-  const [paymentMethod, setPaymentMethod] = useState<'card' | 'bank' | 'cash'>('card');
+  const [paymentMethod, setPaymentMethod] = useState<"card" | "bank" | "cash">("card");
 
   const schema = createPaymentSchema(paymentMethod);
 
@@ -240,35 +240,35 @@ export const useNewPayment = () => {
 
 ```typescript
 // src/lib/validations/fields/user-discriminated.ts
-import { z } from 'zod';
-import { emailSchema } from './email.schema';
+import { z } from "zod";
+import { emailSchema } from "./email.schema";
 
 /**
  * 個人ユーザースキーマ
  */
 const individualUserSchema = z.object({
-  userType: z.literal('individual'),
+  userType: z.literal("individual"),
   email: emailSchema,
-  firstName: z.string().min(1, '名は必須です'),
-  lastName: z.string().min(1, '姓は必須です'),
-  dateOfBirth: z.string().min(1, '生年月日は必須です'),
+  firstName: z.string().min(1, "名は必須です"),
+  lastName: z.string().min(1, "姓は必須です"),
+  dateOfBirth: z.string().min(1, "生年月日は必須です"),
 });
 
 /**
  * 法人ユーザースキーマ
  */
 const companyUserSchema = z.object({
-  userType: z.literal('company'),
+  userType: z.literal("company"),
   email: emailSchema,
-  companyName: z.string().min(1, '会社名は必須です'),
-  taxId: z.string().min(1, '法人番号は必須です'),
-  representativeName: z.string().min(1, '代表者名は必須です'),
+  companyName: z.string().min(1, "会社名は必須です"),
+  taxId: z.string().min(1, "法人番号は必須です"),
+  representativeName: z.string().min(1, "代表者名は必須です"),
 });
 
 /**
  * ユーザースキーマ（discriminated union）
  */
-export const userDiscriminatedSchema = z.discriminatedUnion('userType', [individualUserSchema, companyUserSchema]);
+export const userDiscriminatedSchema = z.discriminatedUnion("userType", [individualUserSchema, companyUserSchema]);
 
 export type UserDiscriminatedFormValues = z.infer<typeof userDiscriminatedSchema>;
 // 型推論される：
@@ -372,22 +372,22 @@ export const UserDiscriminatedForm = () => {
 ## 実践例：配送先フォーム
 
 ```typescript
-import { z } from 'zod';
+import { z } from "zod";
 
 const homeDeliverySchema = z.object({
-  deliveryType: z.literal('home'),
-  address: z.string().min(1, '住所は必須です'),
-  postalCode: z.string().regex(/^\d{7}$/, '7桁の郵便番号を入力してください'),
-  phoneNumber: z.string().min(1, '電話番号は必須です'),
+  deliveryType: z.literal("home"),
+  address: z.string().min(1, "住所は必須です"),
+  postalCode: z.string().regex(/^\d{7}$/, "7桁の郵便番号を入力してください"),
+  phoneNumber: z.string().min(1, "電話番号は必須です"),
 });
 
 const storePickupSchema = z.object({
-  deliveryType: z.literal('store'),
-  storeId: z.string().min(1, '店舗を選択してください'),
-  pickupDate: z.string().min(1, '受取日を選択してください'),
+  deliveryType: z.literal("store"),
+  storeId: z.string().min(1, "店舗を選択してください"),
+  pickupDate: z.string().min(1, "受取日を選択してください"),
 });
 
-export const deliverySchema = z.discriminatedUnion('deliveryType', [homeDeliverySchema, storePickupSchema]);
+export const deliverySchema = z.discriminatedUnion("deliveryType", [homeDeliverySchema, storePickupSchema]);
 
 export type DeliveryFormValues = z.infer<typeof deliverySchema>;
 ```

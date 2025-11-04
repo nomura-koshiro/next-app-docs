@@ -11,7 +11,7 @@
 ### ✅ Good: 共通スキーマを使用
 
 ```typescript
-import { emailSchema, passwordSchema } from '@/lib/validations/fields';
+import { emailSchema, passwordSchema } from "@/lib/validations/fields";
 
 export const loginSchema = z.object({
   email: emailSchema,
@@ -23,7 +23,7 @@ export const loginSchema = z.object({
 
 ```typescript
 export const loginSchema = z.object({
-  email: z.string().email(),
+  email: z.email(),
   password: z.string().min(1),
 });
 ```
@@ -51,7 +51,7 @@ export const userFormSchema = z.object({
 export type UserFormValues = z.infer<typeof userFormSchema>;
 
 // src/features/users/components/user-form.tsx
-import { userFormSchema, type UserFormValues } from '../types/forms.schema';
+import { userFormSchema, type UserFormValues } from "../types/forms.schema";
 ```
 
 ### ❌ Bad: コンポーネント内で定義
@@ -60,7 +60,7 @@ import { userFormSchema, type UserFormValues } from '../types/forms.schema';
 const UserForm = () => {
   const schema = z.object({
     name: z.string(),
-    email: z.string().email(),
+    email: z.email(),
   });
   // ...
 };
@@ -81,7 +81,7 @@ const UserForm = () => {
 ```typescript
 export const userSchema = z.object({
   name: z.string(),
-  email: z.string().email(),
+  email: z.email(),
 });
 
 export type User = z.infer<typeof userSchema>;
@@ -97,7 +97,7 @@ interface User {
 
 const userSchema = z.object({
   name: z.string(),
-  email: z.string().email(),
+  email: z.email(),
 });
 ```
 
@@ -117,9 +117,9 @@ const userSchema = z.object({
 useForm<UserFormValues>({
   resolver: zodResolver(userFormSchema),
   defaultValues: {
-    name: '',
-    email: '',
-    role: 'user',
+    name: "",
+    email: "",
+    role: "user",
   },
 });
 ```
@@ -145,7 +145,7 @@ useForm<UserFormValues>({
 ### ✅ Good: わかりやすいエラーメッセージ
 
 ```typescript
-z.string().min(1, { message: 'メールアドレスは必須です' }).email({ message: '有効なメールアドレスを入力してください' });
+z.string().min(1, { message: "メールアドレスは必須です" }).email({ message: "有効なメールアドレスを入力してください" });
 ```
 
 ### ❌ Bad: 英語やあいまいなメッセージ
@@ -280,12 +280,12 @@ import { ControlledInputField } from '@/components/sample-ui/form-field/controll
 ```typescript
 // 1. クライアントサイドバリデーション（Zod）
 const schema = z.object({
-  email: z.string().email(),
+  email: z.email(),
 });
 
 // 2. サーバーサイドバリデーション
 const onSubmit = async (data) => {
-  await api.post('/users', data).catch((error) => {
+  await api.post("/users", data).catch((error) => {
     handleServerError(error, setError);
   });
 };
@@ -304,9 +304,9 @@ const onSubmit = async (data) => {
 ### ✅ Good: Discriminated Unions
 
 ```typescript
-const schema = z.discriminatedUnion('userType', [
-  z.object({ userType: z.literal('individual'), firstName: z.string() }),
-  z.object({ userType: z.literal('company'), companyName: z.string() }),
+const schema = z.discriminatedUnion("userType", [
+  z.object({ userType: z.literal("individual"), firstName: z.string() }),
+  z.object({ userType: z.literal("company"), companyName: z.string() }),
 ]);
 ```
 
@@ -315,7 +315,7 @@ const schema = z.discriminatedUnion('userType', [
 ```typescript
 const schema = z
   .object({
-    userType: z.enum(['individual', 'company']),
+    userType: z.enum(["individual", "company"]),
     firstName: z.string().optional(),
     companyName: z.string().optional(),
   })
