@@ -53,14 +53,14 @@ sequenceDiagram
 **ファイル**: `src/features/sample-auth/lib/validationslogin-form.ts`
 
 ```typescript
-import { z } from 'zod';
+import { z } from "zod";
 
 /**
  * ログインフォームのバリデーションスキーマ
  */
 export const loginFormSchema = z.object({
-  email: z.string().min(1, 'メールアドレスを入力してください').email('有効なメールアドレスを入力してください'),
-  password: z.string().min(1, 'パスワードを入力してください').min(8, 'パスワードは8文字以上で入力してください'),
+  email: z.string().min(1, "メールアドレスを入力してください").email("有効なメールアドレスを入力してください"),
+  password: z.string().min(1, "パスワードを入力してください").min(8, "パスワードは8文字以上で入力してください"),
 });
 
 /**
@@ -74,8 +74,8 @@ export type LoginFormValues = z.infer<typeof loginFormSchema>;
 **ファイル**: `src/features/sample-auth/api/auth.api.ts`
 
 ```typescript
-import { api } from '@/lib/api-client';
-import type { LoginFormValues } from '../lib/validationslogin-form.schema';
+import { api } from "@/lib/api-client";
+import type { LoginFormValues } from "../lib/validationslogin-form.schema";
 
 /**
  * ユーザー型定義
@@ -102,7 +102,7 @@ export type LoginResponse = {
  * @returns トークンとユーザー情報
  */
 export const loginUser = async (data: LoginFormValues): Promise<LoginResponse> => {
-  return api.post('/auth/login', data);
+  return api.post("/auth/login", data);
 };
 ```
 
@@ -111,9 +111,9 @@ export const loginUser = async (data: LoginFormValues): Promise<LoginResponse> =
 **ファイル**: `src/features/sample-auth/api/login.ts`
 
 ```typescript
-import { useMutation } from '@tanstack/react-query';
-import { MutationConfig } from '@/lib/tanstack-query';
-import { loginUser } from './auth.api';
+import { useMutation } from "@tanstack/react-query";
+import { MutationConfig } from "@/lib/tanstack-query";
+import { loginUser } from "./auth.api";
 
 /**
  * ログインミューテーションのオプション型
@@ -140,9 +140,9 @@ export const useLoginMutation = ({ mutationConfig }: UseLoginOptions = {}) => {
 **ファイル**: `src/features/sample-auth/stores/auth.store.ts`
 
 ```typescript
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
-import type { User } from '../api/auth.api';
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
+import type { User } from "../api/auth.api";
 
 /**
  * 認証ストアの状態型定義
@@ -186,7 +186,7 @@ export const useAuthStore = create<AuthState & AuthActions>()(
         }),
     }),
     {
-      name: 'auth-storage', // localStorageのキー名
+      name: "auth-storage", // localStorageのキー名
     }
   )
 );
@@ -197,15 +197,15 @@ export const useAuthStore = create<AuthState & AuthActions>()(
 **ファイル**: `src/features/sample-auth/routes/sample-login/login.hook.ts`
 
 ````typescript
-'use client';
+"use client";
 
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useRouter } from 'next/navigation';
-import { useForm } from 'react-hook-form';
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
 
-import { useLoginMutation } from '../../api/login';
-import { useAuthStore } from '../../stores/auth.store';
-import { loginFormSchema, type LoginFormValues } from '../../lib/validationslogin-form.schema';
+import { useLoginMutation } from "../../api/login";
+import { useAuthStore } from "../../stores/auth.store";
+import { loginFormSchema, type LoginFormValues } from "../../lib/validationslogin-form.schema";
 
 /**
  * ログインページのカスタムフック
@@ -242,8 +242,8 @@ export const useLogin = () => {
   } = useForm<LoginFormValues>({
     resolver: zodResolver(loginFormSchema),
     defaultValues: {
-      email: '',
-      password: '',
+      email: "",
+      password: "",
     },
   });
 
@@ -263,18 +263,18 @@ export const useLogin = () => {
       .mutateAsync(values)
       .then((data) => {
         // ✅ トークンをlocalStorageに保存（Zodバリデーション付き）
-        setValidatedToken('token', data.token);
+        setValidatedToken("token", data.token);
 
         // ユーザー情報をストアに保存
         setUser(data.user);
 
         // ユーザー一覧ページに遷移
-        router.push('/sample-users');
+        router.push("/sample-users");
       })
       .catch((error) => {
         // ログイン失敗時のエラーメッセージ
-        setError('root', {
-          message: 'ログインに失敗しました。メールアドレスとパスワードを確認してください。',
+        setError("root", {
+          message: "ログインに失敗しました。メールアドレスとパスワードを確認してください。",
         });
       });
   });
@@ -370,6 +370,7 @@ LocalStorageに保存されたJWTトークンは、以下のリスクにさら�
 3. **マルウェアによる注入**: 悪意のあるスクリプトがlocalStorageを操作
 
 **Zodバリデーションを実装することで**:
+
 - ✅ 不正な形式のトークンを検出・拒否
 - ✅ アプリケーションのクラッシュを防止
 - ✅ セキュリティリスクを軽減
@@ -392,10 +393,7 @@ import { z } from "zod";
 export const JWTTokenSchema = z
   .string()
   .min(1, "トークンは必須です")
-  .regex(
-    /^[\w-]+\.[\w-]+\.[\w-]+$/,
-    "不正なJWTトークン形式です。正しい形式: header.payload.signature"
-  )
+  .regex(/^[\w-]+\.[\w-]+\.[\w-]+$/, "不正なJWTトークン形式です。正しい形式: header.payload.signature")
   .refine(
     (token) => {
       const parts = token.split(".");
@@ -413,7 +411,7 @@ export type JWTToken = z.infer<typeof JWTTokenSchema>;
 
 **ファイル**: `src/features/sample-auth/stores/lib/validationstoken-storage.ts`（続き）
 
-```typescript
+````typescript
 /**
  * トークンを安全に取得
  *
@@ -499,23 +497,23 @@ export const removeToken = (key: string): void => {
   if (typeof window === "undefined") return;
   localStorage.removeItem(key);
 };
-```
+````
 
 ### 3. ログインフックの更新（トークンバリデーション追加）
 
 **ファイル**: `src/features/sample-auth/routes/sample-login/login.hook.ts`（更新版）
 
 ```typescript
-'use client';
+"use client";
 
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useRouter } from 'next/navigation';
-import { useForm } from 'react-hook-form';
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
 
-import { useLoginMutation } from '../../api/login';
-import { useAuthStore } from '../../stores/auth.store';
-import { loginFormSchema, type LoginFormValues } from '../../lib/validationslogin-form.schema';
-import { setValidatedToken } from '../../stores/lib/validationstoken-storage.schema'; // ✅ 追加
+import { useLoginMutation } from "../../api/login";
+import { useAuthStore } from "../../stores/auth.store";
+import { loginFormSchema, type LoginFormValues } from "../../lib/validationslogin-form.schema";
+import { setValidatedToken } from "../../stores/lib/validationstoken-storage.schema"; // ✅ 追加
 
 export const useLogin = () => {
   const router = useRouter();
@@ -530,8 +528,8 @@ export const useLogin = () => {
   } = useForm<LoginFormValues>({
     resolver: zodResolver(loginFormSchema),
     defaultValues: {
-      email: '',
-      password: '',
+      email: "",
+      password: "",
     },
   });
 
@@ -555,19 +553,19 @@ export const useLogin = () => {
           setUser(data.user);
 
           // ユーザー一覧ページに遷移
-          router.push('/sample-users');
+          router.push("/sample-users");
         } catch (error) {
           // トークン形式が不正な場合
           console.error("トークンバリデーションエラー:", error);
-          setError('root', {
-            message: 'サーバーから不正なトークンが返されました。管理者に連絡してください。',
+          setError("root", {
+            message: "サーバーから不正なトークンが返されました。管理者に連絡してください。",
           });
         }
       })
       .catch((error) => {
         // ログイン失敗時のエラーメッセージ
-        setError('root', {
-          message: 'ログインに失敗しました。メールアドレスとパスワードを確認してください。',
+        setError("root", {
+          message: "ログインに失敗しました。メールアドレスとパスワードを確認してください。",
         });
       });
   });
@@ -586,7 +584,7 @@ export const useLogin = () => {
 **ファイル**: `src/lib/api-client.ts`（一部抜粋）
 
 ```typescript
-import { getValidatedToken } from '@/features/sample-auth/stores/lib/validationstoken-storage.schema';
+import { getValidatedToken } from "@/features/sample-auth/stores/lib/validationstoken-storage.schema";
 
 const authRequestInterceptor = async (config: InternalAxiosRequestConfig) => {
   if (config.headers !== undefined) {
@@ -648,11 +646,11 @@ sequenceDiagram
 ```typescript
 // ❌ サーバーが不正な形式のトークンを返した
 {
-  token: "invalid-token-format" // 3パート構成ではない
+  token: "invalid-token-format"; // 3パート構成ではない
 }
 
 // ✅ Zodバリデーションが検出
-setValidatedToken("token", "invalid-token-format")
+setValidatedToken("token", "invalid-token-format");
 // → ZodError: "不正なJWTトークン形式です"
 // → エラーメッセージをユーザーに表示
 ```
@@ -661,7 +659,7 @@ setValidatedToken("token", "invalid-token-format")
 
 ```typescript
 // ❌ ユーザーがDevToolsで改ざん
-localStorage.setItem("token", "tampered.token") // 不正な形式
+localStorage.setItem("token", "tampered.token"); // 不正な形式
 
 // ✅ 次回使用時にZodバリデーションが検出
 const token = getValidatedToken("token");
@@ -675,7 +673,7 @@ const token = getValidatedToken("token");
 
 ```typescript
 // ❌ 空のトークン
-localStorage.setItem("token", "")
+localStorage.setItem("token", "");
 
 // ✅ Zodバリデーションが検出
 const token = getValidatedToken("token");
@@ -737,7 +735,7 @@ localStorage.removeItem("token");
  * サーバー側でセッションを無効化します。
  */
 export const logoutUser = async (): Promise<void> => {
-  return api.post('/auth/logout');
+  return api.post("/auth/logout");
 };
 ```
 
@@ -746,14 +744,14 @@ export const logoutUser = async (): Promise<void> => {
 **ファイル**: `src/features/sample-auth/hooks/use-logout.ts`
 
 ````typescript
-'use client';
+"use client";
 
-import { useRouter } from 'next/navigation';
-import { useMutation } from '@tanstack/react-query';
+import { useRouter } from "next/navigation";
+import { useMutation } from "@tanstack/react-query";
 
-import { logoutUser } from '../api/auth.api';
-import { useAuthStore } from '../stores/auth.store';
-import { removeToken } from '../stores/lib/validationstoken-storage.schema'; // ✅ 追加
+import { logoutUser } from "../api/auth.api";
+import { useAuthStore } from "../stores/auth.store";
+import { removeToken } from "../stores/lib/validationstoken-storage.schema"; // ✅ 追加
 
 /**
  * ログアウト機能のカスタムフック
@@ -798,17 +796,17 @@ export const useLogout = () => {
       .mutateAsync()
       .catch((error) => {
         // ログアウト失敗時もクライアント側はクリア
-        console.error('Logout failed:', error);
+        console.error("Logout failed:", error);
       })
       .finally(() => {
         // ✅ トークンを安全に削除（ヘルパー関数を使用）
-        removeToken('token');
+        removeToken("token");
 
         // Storesをクリア
         clearUser();
 
         // ログインページに遷移
-        router.push('/sample-login');
+        router.push("/sample-login");
       });
   };
 
@@ -1002,8 +1000,8 @@ async def logout():
 
 ```typescript
 // エラーをフォームに表示
-setError('root', {
-  message: 'ログインに失敗しました。メールアドレスとパスワードを確認してください。',
+setError("root", {
+  message: "ログインに失敗しました。メールアドレスとパスワードを確認してください。",
 });
 ```
 
@@ -1016,9 +1014,9 @@ api.interceptors.response.use(
   (error) => {
     if (error.response?.status === 401) {
       // トークン期限切れ
-      localStorage.removeItem('token');
+      localStorage.removeItem("token");
       useAuthStore.getState().clearUser();
-      window.location.href = '/sample-login';
+      window.location.href = "/sample-login";
     }
     return Promise.reject(error);
   }
@@ -1032,13 +1030,13 @@ try {
   await loginMutation.mutateAsync(values);
 } catch (error) {
   if (error instanceof Error) {
-    if (error.message.includes('network')) {
-      setError('root', {
-        message: 'ネットワークエラーが発生しました。接続を確認してください。',
+    if (error.message.includes("network")) {
+      setError("root", {
+        message: "ネットワークエラーが発生しました。接続を確認してください。",
       });
     } else {
-      setError('root', {
-        message: 'ログインに失敗しました。もう一度お試しください。',
+      setError("root", {
+        message: "ログインに失敗しました。もう一度お試しください。",
       });
     }
   }
@@ -1052,31 +1050,31 @@ try {
 ### ログインフックのテスト
 
 ```typescript
-import { renderHook, waitFor } from '@testing-library/react';
-import { useLogin } from './login.hook';
+import { renderHook, waitFor } from "@testing-library/react";
+import { useLogin } from "./login.hook";
 
-describe('useLogin', () => {
-  it('ログイン成功時にユーザー一覧ページに遷移する', async () => {
+describe("useLogin", () => {
+  it("ログイン成功時にユーザー一覧ページに遷移する", async () => {
     const { result } = renderHook(() => useLogin());
 
     // ログイン実行
     await result.current.onSubmit({
-      email: 'test@example.com',
-      password: 'password123',
+      email: "test@example.com",
+      password: "password123",
     });
 
     await waitFor(() => {
-      expect(mockRouter.push).toHaveBeenCalledWith('/sample-users');
+      expect(mockRouter.push).toHaveBeenCalledWith("/sample-users");
     });
   });
 
-  it('ログイン失敗時にエラーメッセージを表示する', async () => {
+  it("ログイン失敗時にエラーメッセージを表示する", async () => {
     const { result } = renderHook(() => useLogin());
 
     // 失敗するログイン
     await result.current.onSubmit({
-      email: 'wrong@example.com',
-      password: 'wrongpassword',
+      email: "wrong@example.com",
+      password: "wrongpassword",
     });
 
     await waitFor(() => {
@@ -1112,15 +1110,18 @@ describe('useLogin', () => {
 ## 関連ドキュメント
 
 ### カスタムフック関連
+
 - [実装パターン](../03-patterns/)
 - [React 19機能 - useTransition](../04-react19-features.md#usetransition)
 - [ベストプラクティス](../06-best-practices/)
 
 ### Zodバリデーション関連
+
 - [トークンバリデーション](../../06-forms-validation/09-token-validation.md)
 - [APIレスポンスバリデーション](../../06-forms-validation/04-api-response-validation.md)
 - [状態管理とZodバリデーション](../../../03-core-concepts/02-state-management.md#永続化とzodバリデーション)
 
 ### セキュリティ関連
+
 - [APIクライアント](../../../03-core-concepts/06-api-client.md)
 - [環境変数バリデーション](../../../03-core-concepts/05-environment-variables.md)

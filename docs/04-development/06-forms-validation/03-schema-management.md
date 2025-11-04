@@ -8,7 +8,7 @@
 
 ## ディレクトリ構造
 
-```
+```text
 src/lib/validations/
 ├── index.ts              # 全スキーマのバレルエクスポート
 ├── fields/               # フィールド単位のスキーマ
@@ -367,7 +367,7 @@ export type ProfileFormValues = z.infer<typeof profileFormSchema>;
 
 **共通性の高いフィールド**は`src/lib/validations/fields/`に配置しますが、**feature固有のバリデーション**は各featureの`types/`ディレクトリに配置します。
 
-```
+```text
 src/features/orders/
 └── types/
     ├── index.ts      # 型定義

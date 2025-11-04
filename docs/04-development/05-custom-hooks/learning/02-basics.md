@@ -472,7 +472,7 @@ export const useCounter = (initialValue: number = 0): UseCounterReturn => {
 
 カスタムフックは機能ごとに配置します：
 
-```
+```text
 src/
   features/
     sample-auth/
@@ -489,7 +489,7 @@ src/
 
 ### ファイル命名
 
-```
+```text
 {feature-name}.hook.ts
 
 例:

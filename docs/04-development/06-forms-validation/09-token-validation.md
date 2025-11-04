@@ -18,12 +18,12 @@ JWTトークンとCSRFトークンのZodバリデーション実装ガイド
 
 トークンは以下のような**外部から注入される値**であり、多くのセキュリティリスクにさらされています:
 
-| リスク | 説明 | 影響 |
-|--------|------|------|
+| リスク                         | 説明                                                        | 影響                                       |
+| ------------------------------ | ----------------------------------------------------------- | ------------------------------------------ |
 | **サーバーからの不正トークン** | APIバグやネットワークエラーで不正な形式のトークンが返される | アプリケーションクラッシュ、予期しない動作 |
-| **ユーザーによる改ざん** | ブラウザDevToolsからlocalStorage/Cookieを直接編集 | 権限昇格、不正アクセス |
-| **マルウェアによる注入** | 悪意のあるスクリプトがトークンを書き換え | データ漏洩、セッションハイジャック |
-| **不正な形式** | 3パート構成でないJWT、短すぎるCSRF | 認証バイパス、CSRF攻撃 |
+| **ユーザーによる改ざん**       | ブラウザDevToolsからlocalStorage/Cookieを直接編集           | 権限昇格、不正アクセス                     |
+| **マルウェアによる注入**       | 悪意のあるスクリプトがトークンを書き換え                    | データ漏洩、セッションハイジャック         |
+| **不正な形式**                 | 3パート構成でないJWT、短すぎるCSRF                          | 認証バイパス、CSRF攻撃                     |
 
 ### TypeScriptの型チェックの限界
 
@@ -43,7 +43,7 @@ api.defaults.headers.Authorization = `Bearer ${token}`;
 
 ```typescript
 // ✅ Zodは実行時にバリデーション
-import { JWTTokenSchema } from './token-storage.schema';
+import { JWTTokenSchema } from "./token-storage.schema";
 
 const rawToken = localStorage.getItem("token");
 if (!rawToken) {
@@ -68,18 +68,19 @@ api.defaults.headers.Authorization = `Bearer ${token}`;
 
 ### Zodバリデーションによる防御
 
-| 防御機能 | 効果 |
-|---------|------|
-| **形式検証** | JWT 3パート構造、CSRF最小長・文字種を検証 |
+| 防御機能     | 効果                                            |
+| ------------ | ----------------------------------------------- |
+| **形式検証** | JWT 3パート構造、CSRF最小長・文字種を検証       |
 | **自動削除** | 不正なトークンをlocalStorage/Cookieから自動削除 |
-| **早期検出** | アプリケーション使用前にトークンを検証 |
-| **型安全性** | 検証済みトークンのみが型安全に使用可能 |
+| **早期検出** | アプリケーション使用前にトークンを検証          |
+| **型安全性** | 検証済みトークンのみが型安全に使用可能          |
 
 ### 攻撃シナリオと防御
 
 #### シナリオ1: 権限昇格攻撃
 
 **攻撃：**
+
 ```javascript
 // 攻撃者がDevToolsでJWTトークンのペイロードを改ざん
 // 元のトークン: eyJhbGci...（role: "user"）
@@ -88,6 +89,7 @@ localStorage.setItem("token", "eyJhbGci.TAMPERED_PAYLOAD.invalid_signature");
 ```
 
 **結果（バリデーションなし）：**
+
 ```typescript
 const token = localStorage.getItem("token");
 // → 改ざんされたトークンがそのまま使用される
@@ -96,6 +98,7 @@ const token = localStorage.getItem("token");
 ```
 
 **防御（Zodバリデーション）：**
+
 ```typescript
 const token = getValidatedToken("token");
 // → JWTTokenSchema.safeParse() で形式検証
@@ -107,12 +110,14 @@ const token = getValidatedToken("token");
 #### シナリオ2: CSRF攻撃
 
 **攻撃：**
+
 ```javascript
 // 攻撃者が短いCSRFトークンを設定
 document.cookie = "csrftoken=abc"; // ❌ 3文字（脆弱）
 ```
 
 **結果（バリデーションなし）：**
+
 ```typescript
 const csrfToken = getCookie("csrftoken");
 // → "abc" がそのまま使用される
@@ -120,6 +125,7 @@ const csrfToken = getCookie("csrftoken");
 ```
 
 **防御（Zodバリデーション）：**
+
 ```typescript
 const csrfToken = getCsrfToken();
 // → CsrfTokenSchema.safeParse() で最小長検証
@@ -132,6 +138,7 @@ const csrfToken = getCsrfToken();
 #### シナリオ3: サーバーバグによる不正トークン
 
 **攻撃：**
+
 ```json
 // バックエンドのバグで不正な形式のトークンを返す
 {
@@ -140,6 +147,7 @@ const csrfToken = getCsrfToken();
 ```
 
 **結果（バリデーションなし）：**
+
 ```typescript
 const response = await api.post("/login", { email, password });
 localStorage.setItem("token", response.token);
@@ -149,6 +157,7 @@ localStorage.setItem("token", response.token);
 ```
 
 **防御（Zodバリデーション）：**
+
 ```typescript
 try {
   const response = await api.post("/login", { email, password });
@@ -184,12 +193,13 @@ try {
 
 JWTトークンは3つのパート（ヘッダー、ペイロード、署名）から構成されます:
 
-```
+```text
 header.payload.signature
 ```
 
 **正しいJWTトークンの例**:
-```
+
+```text
 eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
 ```
 
@@ -211,10 +221,7 @@ import { z } from "zod";
 export const JWTTokenSchema = z
   .string()
   .min(1, "トークンは必須です")
-  .regex(
-    /^[\w-]+\.[\w-]+\.[\w-]+$/,
-    "不正なJWTトークン形式です。正しい形式: header.payload.signature"
-  )
+  .regex(/^[\w-]+\.[\w-]+\.[\w-]+$/, "不正なJWTトークン形式です。正しい形式: header.payload.signature")
   .refine(
     (token) => {
       // 3つのパートに分割できることを確認
@@ -321,7 +328,8 @@ CSRFトークンは、Cross-Site Request Forgery攻撃を防ぐためのラン�
 - 許可文字: 英数字、ハイフン (`-`)、アンダースコア (`_`)
 
 **正しいCSRFトークンの例**:
-```
+
+```text
 abc123def456ghi789
 csrf_token_1234567890
 a1b2-c3d4-e5f6-g7h8
@@ -348,10 +356,7 @@ export const CsrfTokenSchema = z
   .min(1, "CSRFトークンは必須です")
   .trim() // 前後の空白を削除
   .min(8, "CSRFトークンは8文字以上である必要があります")
-  .regex(
-    /^[\w-]+$/,
-    "CSRFトークンは英数字、ハイフン、アンダースコアのみを含む必要があります"
-  );
+  .regex(/^[\w-]+$/, "CSRFトークンは英数字、ハイフン、アンダースコアのみを含む必要があります");
 ```
 
 ### CSRF トークン取得時の自動バリデーション
@@ -408,11 +413,13 @@ const authRequestInterceptor = async (config: InternalAxiosRequestConfig) => {
 ### 1. 不正トークンの自動検出
 
 **JWT の場合**:
+
 - 形式不正（3パート未満・超過）
 - 空のパート
 - 不正な文字列
 
 **CSRF の場合**:
+
 - 長さ不足（8文字未満）
 - 不正な文字種
 
@@ -492,6 +499,7 @@ console.log(`トークン内容: ${token}`); // セキュリティリスク
 **原因**: トークンが3パート構成ではない
 
 **解決策**:
+
 1. サーバーからのレスポンスを確認
 2. トークンが正しくBase64URLエンコードされているか確認
 3. ネットワークエラーでトークンが破損していないか確認
@@ -501,6 +509,7 @@ console.log(`トークン内容: ${token}`); // セキュリティリスク
 **原因**: トークンの長さが不足
 
 **解決策**:
+
 1. サーバー側のCSRFトークン生成ロジックを確認
 2. 最小32文字以上を推奨
 3. セキュアなランダム文字列生成を使用

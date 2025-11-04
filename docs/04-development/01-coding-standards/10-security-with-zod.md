@@ -127,12 +127,12 @@ if (user.role === "admin") {
 
 ### セキュリティリスクの種類
 
-| リスク | 説明 | Zodによる対策 |
-|--------|------|---------------|
-| **改ざん** | LocalStorageやCookieのデータを直接編集 | スキーマ検証により不正データを検出・削除 |
-| **インジェクション** | 悪意のあるコードやスクリプトの注入 | 厳格な型・形式検証により不正入力を拒否 |
-| **型不一致** | 期待する型と異なるデータによるクラッシュ | ランタイム型検証により事前に検出 |
-| **不正API応答** | サーバーバグによる不正なレスポンス | APIレスポンススキーマで検証 |
+| リスク               | 説明                                     | Zodによる対策                            |
+| -------------------- | ---------------------------------------- | ---------------------------------------- |
+| **改ざん**           | LocalStorageやCookieのデータを直接編集   | スキーマ検証により不正データを検出・削除 |
+| **インジェクション** | 悪意のあるコードやスクリプトの注入       | 厳格な型・形式検証により不正入力を拒否   |
+| **型不一致**         | 期待する型と異なるデータによるクラッシュ | ランタイム型検証により事前に検出         |
+| **不正API応答**      | サーバーバグによる不正なレスポンス       | APIレスポンススキーマで検証              |
 
 ---
 
@@ -189,10 +189,12 @@ export const getUsers = async (): Promise<UsersResponse> => {
 ```typescript
 // ✅ ストレージバリデーション
 const AuthStorageSchema = z.object({
-  user: z.object({
-    id: z.string(),
-    role: z.enum(["user", "admin"]),
-  }).nullable(),
+  user: z
+    .object({
+      id: z.string(),
+      role: z.enum(["user", "admin"]),
+    })
+    .nullable(),
   isAuthenticated: z.boolean(),
 });
 
@@ -345,6 +347,7 @@ const user = result.data;
 ```
 
 **メリット**:
+
 - ✅ エラーをキャッチして適切に処理
 - ✅ アプリケーションのクラッシュを防止
 - ✅ ユーザー体験を損なわない
@@ -371,6 +374,7 @@ try {
 ```
 
 **メリット**:
+
 - ✅ エラーを明示的に処理
 - ✅ try-catchでエラーハンドリング
 - ✅ ユーザーに適切なエラー通知
@@ -409,6 +413,7 @@ const validatedLocalStorage = {
 ```
 
 **メリット**:
+
 - ✅ 不正データを自動削除
 - ✅ 次回アクセス時はクリーンな状態
 - ✅ 手動クリーンアップ不要
@@ -442,6 +447,7 @@ const UserInputSchema = z.object({
 ```
 
 **メリット**:
+
 - ✅ データの一貫性を保証
 - ✅ 型変換を自動化
 - ✅ バリデーションと変換を一箇所で管理
@@ -516,18 +522,12 @@ export const UserSchema = z.object({
 ```typescript
 // ✅ ユーザーフレンドリーなメッセージ
 const UserSchema = z.object({
-  email: z
-    .string()
-    .min(1, "メールアドレスを入力してください")
-    .email("有効なメールアドレスを入力してください"),
+  email: z.string().min(1, "メールアドレスを入力してください").email("有効なメールアドレスを入力してください"),
 
   password: z
     .string()
     .min(8, "パスワードは8文字以上で入力してください")
-    .regex(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/,
-      "パスワードは大文字、小文字、数字を含む必要があります"
-    ),
+    .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/, "パスワードは大文字、小文字、数字を含む必要があります"),
 });
 ```
 
@@ -569,9 +569,7 @@ if (!result.success) {
 const UserRoleSchema = z.enum(["user", "admin"]);
 
 // ✅ 厳格な形式制限
-const JWTTokenSchema = z
-  .string()
-  .regex(/^[\w-]+\.[\w-]+\.[\w-]+$/);
+const JWTTokenSchema = z.string().regex(/^[\w-]+\.[\w-]+\.[\w-]+$/);
 ```
 
 ### ❌ DON'T: 緩い検証
@@ -634,9 +632,7 @@ const RoleSchema = z.enum(["user", "admin", "moderator"]);
 const RoleSchema = z.string();
 
 // ✅ 解決策3: デフォルト値にフォールバック
-const RoleSchema = z
-  .enum(["user", "admin", "moderator"])
-  .catch("user"); // バリデーション失敗時は "user"
+const RoleSchema = z.enum(["user", "admin", "moderator"]).catch("user"); // バリデーション失敗時は "user"
 ```
 
 ### エラー: "Required field missing"
@@ -693,16 +689,19 @@ if (result.success) {
 ## 関連ドキュメント
 
 ### バリデーション実装
+
 - [トークンバリデーション](../06-forms-validation/09-token-validation.md)
 - [APIレスポンスバリデーション](../06-forms-validation/04-api-response-validation.md)
 - [フォームバリデーション](../06-forms-validation/)
 
 ### アーキテクチャ
+
 - [状態管理とZodバリデーション](../../03-core-concepts/02-state-management.md#永続化とzodバリデーション)
 - [APIクライアント](../../03-core-concepts/06-api-client.md)
 - [環境変数バリデーション](../../03-core-concepts/05-environment-variables.md)
 
 ### 開発ガイド
+
 - [認証機能実装](../05-custom-hooks/guides/04-use-cases/01-authentication.md#jwtトークン管理)
 - [エラーハンドリング](./09-error-handling-rules.md)
 - [サーバーエラー処理](../06-forms-validation/07-server-errors.md)
@@ -725,12 +724,12 @@ if (result.success) {
 
 ### セキュリティ効果
 
-| 実装項目 | セキュリティ効果 |
-|---------|-----------------|
+| 実装項目                        | セキュリティ効果                             |
+| ------------------------------- | -------------------------------------------- |
 | **APIレスポンスバリデーション** | 不正なサーバーレスポンスによるクラッシュ防止 |
-| **ストレージバリデーション** | LocalStorage改ざん検出と自動削除 |
-| **トークンバリデーション** | 不正トークンによる認証バイパス防止 |
-| **パラメータバリデーション** | URLインジェクション攻撃の防止 |
-| **フォームバリデーション** | 不正入力によるXSS/SQLインジェクション防止 |
+| **ストレージバリデーション**    | LocalStorage改ざん検出と自動削除             |
+| **トークンバリデーション**      | 不正トークンによる認証バイパス防止           |
+| **パラメータバリデーション**    | URLインジェクション攻撃の防止                |
+| **フォームバリデーション**      | 不正入力によるXSS/SQLインジェクション防止    |
 
 **結論**: Zodランタイムバリデーションにより、TypeScriptの型安全性を実行時にも拡張し、包括的なセキュリティ防御を実現できます。

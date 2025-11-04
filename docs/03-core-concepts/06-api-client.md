@@ -18,50 +18,48 @@
 
 ```typescript
 // src/lib/api-client.ts
-import Axios, { InternalAxiosRequestConfig } from 'axios'
-import { env } from '@/config/env'
-import { getCsrfHeaderName, getCsrfToken } from '@/lib/csrf'
+import Axios, { InternalAxiosRequestConfig } from "axios";
+import { env } from "@/config/env";
+import { getCsrfHeaderName, getCsrfToken } from "@/lib/csrf";
 
 // リクエストインターセプター
-const authRequestInterceptor = (
-  config: InternalAxiosRequestConfig
-): InternalAxiosRequestConfig => {
+const authRequestInterceptor = (config: InternalAxiosRequestConfig): InternalAxiosRequestConfig => {
   if (config.headers) {
-    config.headers.Accept = 'application/json'
+    config.headers.Accept = "application/json";
 
     // CSRFトークンをヘッダーに追加
-    const csrfToken = getCsrfToken()
+    const csrfToken = getCsrfToken();
     if (csrfToken) {
-      config.headers[getCsrfHeaderName()] = csrfToken
+      config.headers[getCsrfHeaderName()] = csrfToken;
     }
   }
-  config.withCredentials = true  // Cookie認証を有効化
-  return config
-}
+  config.withCredentials = true; // Cookie認証を有効化
+  return config;
+};
 
 // Axiosインスタンス作成
 export const api = Axios.create({
   baseURL: env.API_URL,
-})
+});
 
 // リクエストインターセプター適用
-api.interceptors.request.use(authRequestInterceptor)
+api.interceptors.request.use(authRequestInterceptor);
 
 // レスポンスインターセプター適用
 api.interceptors.response.use(
   (response) => {
-    return response.data  // response.dataのみを返す
+    return response.data; // response.dataのみを返す
   },
   (error) => {
-    const message = error.response?.data?.message || error.message
+    const message = error.response?.data?.message || error.message;
 
-    if (typeof window !== 'undefined') {
-      console.error(`[API Error] ${message}`)
+    if (typeof window !== "undefined") {
+      console.error(`[API Error] ${message}`);
     }
 
-    return Promise.reject(error)
+    return Promise.reject(error);
   }
-)
+);
 ```
 
 ---
@@ -101,23 +99,23 @@ sequenceDiagram
 すべてのリクエストに共通処理を追加します。
 
 ```typescript
-import { getCsrfHeaderName, getCsrfToken } from '@/lib/csrf'
+import { getCsrfHeaderName, getCsrfToken } from "@/lib/csrf";
 
 const authRequestInterceptor = (config: InternalAxiosRequestConfig) => {
   // 1. Acceptヘッダーを設定
-  config.headers.Accept = 'application/json'
+  config.headers.Accept = "application/json";
 
   // 2. CSRFトークンをヘッダーに追加
-  const csrfToken = getCsrfToken()
+  const csrfToken = getCsrfToken();
   if (csrfToken) {
-    config.headers[getCsrfHeaderName()] = csrfToken
+    config.headers[getCsrfHeaderName()] = csrfToken;
   }
 
   // 3. Cookie認証を有効化
-  config.withCredentials = true
+  config.withCredentials = true;
 
-  return config
-}
+  return config;
+};
 ```
 
 ### レスポンスインターセプター
@@ -131,23 +129,23 @@ api.interceptors.response.use(
 
   // エラー時: エラーログを出力
   (error) => {
-    const message = error.response?.data?.message || error.message
-    console.error(`[API Error] ${message}`)
-    return Promise.reject(error)
+    const message = error.response?.data?.message || error.message;
+    console.error(`[API Error] ${message}`);
+    return Promise.reject(error);
   }
-)
+);
 ```
 
 **メリット:**
 
 ```typescript
 // ✅ インターセプター適用後
-const users = await api.get<User[]>('/users')
+const users = await api.get<User[]>("/users");
 // users は User[] 型
 
 // ❌ インターセプターなし
-const response = await api.get<User[]>('/users')
-const users = response.data  // 毎回 .data が必要
+const response = await api.get<User[]>("/users");
+const users = response.data; // 毎回 .data が必要
 ```
 
 ---
@@ -161,23 +159,23 @@ const users = response.data  // 毎回 .data が必要
 `ApiError`クラスは、RFC 9457のエラーレスポンスをラップし、構造化されたエラー情報を提供します：
 
 ```typescript
-import { ApiError, ProblemTypes } from '@/lib/api-client'
+import { ApiError, ProblemTypes } from "@/lib/api-client";
 
 try {
-  const user = await api.get(`/users/${userId}`)
+  const user = await api.get(`/users/${userId}`);
 } catch (error) {
   if (error instanceof ApiError) {
     // RFC 9457フィールドへのアクセス
-    console.log(error.type)     // "https://api.example.com/problems/resource-not-found"
-    console.log(error.title)    // "Resource Not Found"
-    console.log(error.status)   // 404
-    console.log(error.detail)   // "The requested user does not exist"
-    console.log(error.instance) // "/api/v1/users/123"
+    console.log(error.type); // "https://api.example.com/problems/resource-not-found"
+    console.log(error.title); // "Resource Not Found"
+    console.log(error.status); // 404
+    console.log(error.detail); // "The requested user does not exist"
+    console.log(error.instance); // "/api/v1/users/123"
 
     // エラータイプによる分岐
     if (error.isType(ProblemTypes.RESOURCE_NOT_FOUND)) {
       // リソースが見つからない場合の処理
-      router.push('/404')
+      router.push("/404");
     }
 
     // ステータスコードによる分岐
@@ -216,7 +214,7 @@ export const ProblemTypes = {
 
   // デフォルト
   ABOUT_BLANK: "about:blank",
-}
+};
 ```
 
 ### Accept Header
@@ -224,7 +222,7 @@ export const ProblemTypes = {
 APIクライアントは、RFC 9457準拠のエラーレスポンスを受け取るために、適切なAcceptヘッダーを自動的に設定します：
 
 ```typescript
-config.headers.Accept = "application/problem+json, application/json"
+config.headers.Accept = "application/problem+json, application/json";
 ```
 
 詳しくは [RFC 9457ドキュメント](./07-rfc-9457.md) を参照してください。
@@ -260,21 +258,18 @@ export const CsrfTokenSchema = z
   .min(1, "CSRFトークンは必須です")
   .trim() // 前後の空白を削除
   .min(8, "CSRFトークンは8文字以上である必要があります")
-  .regex(
-    /^[\w-]+$/,
-    "CSRFトークンは英数字、ハイフン、アンダースコアのみを含む必要があります"
-  );
+  .regex(/^[\w-]+$/, "CSRFトークンは英数字、ハイフン、アンダースコアのみを含む必要があります");
 ```
 
 #### CSRF トークン取得時の自動バリデーション
 
 **ファイル**: `src/lib/csrf.ts`
 
-```typescript
+````typescript
 import { CsrfTokenSchema } from "./lib/validationscsrf-token.schema";
 
-const CSRF_COOKIE_NAME = 'csrftoken'
-const CSRF_HEADER_NAME = 'X-CSRF-Token'
+const CSRF_COOKIE_NAME = "csrftoken";
+const CSRF_HEADER_NAME = "X-CSRF-Token";
 
 /**
  * CSRFトークンを取得し、バリデーション実行
@@ -329,7 +324,7 @@ const getCookie = (name: string): string | null => {
 
   return null;
 };
-```
+````
 
 ### セキュリティメリット
 
@@ -441,75 +436,72 @@ async def csrf_protect(request: Request, call_next):
 ### GET
 
 ```typescript
-import { api } from '@/lib/api-client'
+import { api } from "@/lib/api-client";
 
 type User = {
-  id: string
-  name: string
-  email: string
-}
+  id: string;
+  name: string;
+  email: string;
+};
 
 export const getUsers = (): Promise<User[]> => {
-  return api.get('/sample/users')
-}
+  return api.get("/sample/users");
+};
 
 export const getUser = (userId: string): Promise<User> => {
-  return api.get(`/sample/users/${userId}`)
-}
+  return api.get(`/sample/users/${userId}`);
+};
 ```
 
 ### POST
 
 ```typescript
 type CreateUserInput = {
-  name: string
-  email: string
-}
+  name: string;
+  email: string;
+};
 
 export const createUser = (data: CreateUserInput): Promise<User> => {
-  return api.post('/sample/users', data)
-}
+  return api.post("/sample/users", data);
+};
 ```
 
 ### PATCH
 
 ```typescript
 type UpdateUserInput = {
-  name?: string
-  email?: string
-}
+  name?: string;
+  email?: string;
+};
 
-export const updateUser = (
-  userId: string,
-  data: UpdateUserInput
-): Promise<User> => {
-  return api.patch(`/sample/users/${userId}`, data)
-}
+export const updateUser = (userId: string, data: UpdateUserInput): Promise<User> => {
+  return api.patch(`/sample/users/${userId}`, data);
+};
 ```
 
 ### DELETE
 
 ```typescript
 export const deleteUser = (userId: string): Promise<void> => {
-  return api.delete(`/sample/users/${userId}`)
-}
+  return api.delete(`/sample/users/${userId}`);
+};
 ```
 
 ### クエリパラメータ
 
 ```typescript
 type GetUsersParams = {
-  page?: number
-  limit?: number
-  search?: string
-}
+  page?: number;
+  limit?: number;
+  search?: string;
+};
 
 export const getUsers = (params: GetUsersParams): Promise<User[]> => {
-  return api.get('/sample/users', { params })
-}
+  return api.get("/sample/users", { params });
+};
 
 // 使用例
-const users = await getUsers({ page: 1, limit: 10, search: 'John' })
+const users = await getUsers({ page: 1, limit: 10, search: "John" });
 // GET /sample/users?page=1&limit=10&search=John
 ```
 
@@ -524,34 +516,34 @@ bulletproof-reactの構造に従い、React QueryのカスタムフックもAPI�
 
 ```typescript
 // src/features/sample-users/api/get-users.ts
-import { queryOptions, useSuspenseQuery } from '@tanstack/react-query'
-import { api } from '@/lib/api-client'
-import { QueryConfig } from '@/lib/tanstack-query'
+import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
+import { api } from "@/lib/api-client";
+import { QueryConfig } from "@/lib/tanstack-query";
 
 // 1. API関数
 export const getUsers = (): Promise<{ data: User[] }> => {
-  return api.get('/sample/users')
-}
+  return api.get("/sample/users");
+};
 
 // 2. クエリオプション
 export const getUsersQueryOptions = () => {
   return queryOptions({
-    queryKey: ['users'],
+    queryKey: ["users"],
     queryFn: getUsers,
-  })
-}
+  });
+};
 
 // 3. カスタムフック
 type UseUsersOptions = {
-  queryConfig?: QueryConfig<typeof getUsersQueryOptions>
-}
+  queryConfig?: QueryConfig<typeof getUsersQueryOptions>;
+};
 
 export const useUsers = ({ queryConfig }: UseUsersOptions = {}) => {
   return useSuspenseQuery({
     ...getUsersQueryOptions(),
     ...queryConfig,
-  })
-}
+  });
+};
 ```
 
 **コンポーネントでの使用（Suspenseパターン）:**
@@ -598,7 +590,7 @@ export const UserList = () => {
 ## Cookie認証
 
 ```typescript
-config.withCredentials = true
+config.withCredentials = true;
 ```
 
 この設定により、リクエスト時に自動的にCookieを送信し、レスポンスの`Set-Cookie`ヘッダーを自動的に保存します。
@@ -639,15 +631,18 @@ sequenceDiagram
 ## 参考リンク
 
 ### 外部リソース
+
 - [Axios公式ドキュメント](https://axios-http.com/)
 - [Zod公式ドキュメント](https://zod.dev/)
 
 ### 内部ドキュメント
+
 - [TanStack Query](./07-tanstack-query.md)
 - [API統合](../04-development/05-api-integration.md)
 - [RFC 9457: Problem Details](./07-rfc-9457.md)
 
 ### Zodバリデーション関連
+
 - [トークンバリデーション](../04-development/06-forms-validation/09-token-validation.md)
 - [APIレスポンスバリデーション](../04-development/06-forms-validation/04-api-response-validation.md)
 - [状態管理とZodバリデーション](./02-state-management.md#永続化とzodバリデーション)

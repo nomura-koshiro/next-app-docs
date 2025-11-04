@@ -18,9 +18,9 @@ export default function UserPage() {
 
   useEffect(() => {
     setLoading(true);
-    fetch('/api/users')
-      .then(res => res.json())
-      .then(data => setUsers(data))
+    fetch("/api/users")
+      .then((res) => res.json())
+      .then((data) => setUsers(data))
       .finally(() => setLoading(false));
   }, []);
 
@@ -35,6 +35,7 @@ export default function UserPage() {
 ```
 
 **メリット:**
+
 - コンポーネントが読みやすくなる
 - ロジックを再利用できる
 - テストしやすくなる
@@ -100,6 +101,7 @@ graph TD
 - Zodによるバリデーション
 
 初めての方は、まず公式ドキュメントで基礎を学ぶことをお勧めします：
+
 - [React 公式チュートリアル](https://react.dev/learn)
 - [Next.js 公式ドキュメント](https://nextjs.org/docs)
 
@@ -142,7 +144,11 @@ React Hook Formを使用したフォームの状態管理とバリデーショ�
 
 ```tsx
 export const useLogin = () => {
-  const { control, handleSubmit, formState: { errors } } = useForm({
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
     resolver: zodResolver(loginSchema),
   });
 
@@ -200,10 +206,7 @@ React 19で導入された新しいフックを活用してUXを向上。
 ```tsx
 export const useOptimisticUsers = () => {
   const [users, setUsers] = useState([]);
-  const [optimisticUsers, addOptimisticUser] = useOptimistic(
-    users,
-    (state, newUser) => [...state, newUser]
-  );
+  const [optimisticUsers, addOptimisticUser] = useOptimistic(users, (state, newUser) => [...state, newUser]);
 
   return { optimisticUsers, addOptimisticUser };
 };
@@ -223,12 +226,20 @@ Reactのカスタムフックには、従うべきルールがあります：
 
 ```tsx
 // ✅ 良い例
-export const useLogin = () => { /* ... */ };
-export const useUsers = () => { /* ... */ };
+export const useLogin = () => {
+  /* ... */
+};
+export const useUsers = () => {
+  /* ... */
+};
 
 // ❌ 悪い例
-export const login = () => { /* ... */ };
-export const getUsers = () => { /* ... */ };
+export const login = () => {
+  /* ... */
+};
+export const getUsers = () => {
+  /* ... */
+};
 ```
 
 ### 2. フックのルール
@@ -253,14 +264,14 @@ export const useUserData = (userId: string) => {
 ```tsx
 // ✅ 良い例: トップレベル
 export const Component = () => {
-  const data = useUserData('123');
+  const data = useUserData("123");
   return <div>{data}</div>;
 };
 
 // ❌ 悪い例: 条件内
 export const Component = () => {
   if (condition) {
-    const data = useUserData('123'); // エラー！
+    const data = useUserData("123"); // エラー！
   }
 };
 ```
@@ -310,10 +321,12 @@ src/
 ## 参考リソース
 
 ### React 公式
+
 - [カスタムフックの作成](https://react.dev/learn/reusing-logic-with-custom-hooks)
 - [フックのルール](https://react.dev/reference/rules/rules-of-hooks)
 
 ### このプロジェクト
+
 - [React/Next.js規約](../../01-coding-standards/07-react-nextjs-rules.md)
 - [TypeScript規約](../../01-coding-standards/02-typescript.md)
 - [ディレクトリ構成](../../02-project-structure/01-directory-structure.md)

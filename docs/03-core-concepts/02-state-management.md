@@ -16,11 +16,11 @@
 
 ## 状態の分類
 
-| 状態の種類 | ツール | 用途 |
-|-----------|--------|------|
-| **ローカルステート** | useState | コンポーネント内部の一時的な状態 |
-| **グローバルステート** | Zustand | アプリ全体で共有するクライアント側の状態 |
-| **サーバーステート** | TanStack Query | APIから取得するデータ |
+| 状態の種類             | ツール         | 用途                                     |
+| ---------------------- | -------------- | ---------------------------------------- |
+| **ローカルステート**   | useState       | コンポーネント内部の一時的な状態         |
+| **グローバルステート** | Zustand        | アプリ全体で共有するクライアント側の状態 |
+| **サーバーステート**   | TanStack Query | APIから取得するデータ                    |
 
 ## 使い分けフローチャート
 
@@ -111,13 +111,13 @@ graph TB
 
 ```typescript
 // モーダルの開閉
-const [isOpen, setIsOpen] = useState(false)
+const [isOpen, setIsOpen] = useState(false);
 
 // フォーム入力中の値
-const [query, setQuery] = useState('')
+const [query, setQuery] = useState("");
 
 // タブの選択状態
-const [activeTab, setActiveTab] = useState<'profile' | 'settings'>('profile')
+const [activeTab, setActiveTab] = useState<"profile" | "settings">("profile");
 ```
 
 ---
@@ -140,24 +140,24 @@ const [activeTab, setActiveTab] = useState<'profile' | 'settings'>('profile')
 
 ```typescript
 // src/features/auth/stores/auth-store.ts
-import { create } from 'zustand'
-import { persist, createJSONStorage } from 'zustand/middleware'
+import { create } from "zustand";
+import { persist, createJSONStorage } from "zustand/middleware";
 
 type User = {
-  id: string
-  email: string
-  name: string
-  role: string
-}
+  id: string;
+  email: string;
+  name: string;
+  role: string;
+};
 
 type AuthStore = {
-  user: User | null
-  isAuthenticated: boolean
-  isLoading: boolean
-  login: (email: string, password: string) => Promise<void>
-  logout: () => void
-  setUser: (user: User) => void
-}
+  user: User | null;
+  isAuthenticated: boolean;
+  isLoading: boolean;
+  login: (email: string, password: string) => Promise<void>;
+  logout: () => void;
+  setUser: (user: User) => void;
+};
 
 export const useAuthStore = create<AuthStore>()(
   persist(
@@ -167,22 +167,23 @@ export const useAuthStore = create<AuthStore>()(
       isLoading: false,
 
       login: async (email: string, password: string) => {
-        set({ isLoading: true })
+        set({ isLoading: true });
 
-        await api.post('/auth/login', { email, password })
+        await api
+          .post("/auth/login", { email, password })
           .then((response) => {
-            const user = response.data
+            const user = response.data;
 
             set({
               user,
               isAuthenticated: true,
               isLoading: false,
-            })
+            });
           })
           .catch((error) => {
-            set({ isLoading: false })
-            throw error
-          })
+            set({ isLoading: false });
+            throw error;
+          });
       },
 
       logout: () => {
@@ -190,18 +191,18 @@ export const useAuthStore = create<AuthStore>()(
           user: null,
           isAuthenticated: false,
           isLoading: false,
-        })
+        });
       },
 
       setUser: (user) => {
         set({
           user,
           isAuthenticated: true,
-        })
+        });
       },
     }),
     {
-      name: 'auth-storage', // LocalStorageのキー名
+      name: "auth-storage", // LocalStorageのキー名
       storage: createJSONStorage(() => localStorage),
 
       // 永続化する状態を選択（isLoadingは除外）
@@ -211,11 +212,11 @@ export const useAuthStore = create<AuthStore>()(
       }),
     }
   )
-)
+);
 
 // セレクター（パフォーマンス最適化用）
-export const selectUser = (state: AuthStore) => state.user
-export const selectIsAuthenticated = (state: AuthStore) => state.isAuthenticated
+export const selectUser = (state: AuthStore) => state.user;
+export const selectIsAuthenticated = (state: AuthStore) => state.isAuthenticated;
 ```
 
 ### Zustandの永続化とデータフロー
@@ -315,31 +316,31 @@ stateDiagram-v2
 
 ```typescript
 // src/features/sample-users/api/get-users.ts
-import { queryOptions, useSuspenseQuery } from '@tanstack/react-query'
-import { api } from '@/lib/api-client'
-import { QueryConfig } from '@/lib/tanstack-query'
+import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
+import { api } from "@/lib/api-client";
+import { QueryConfig } from "@/lib/tanstack-query";
 
 export const getUsers = (): Promise<{ data: User[] }> => {
-  return api.get('/sample/users')
-}
+  return api.get("/sample/users");
+};
 
 export const getUsersQueryOptions = () => {
   return queryOptions({
-    queryKey: ['users'],
+    queryKey: ["users"],
     queryFn: getUsers,
-  })
-}
+  });
+};
 
 type UseUsersOptions = {
-  queryConfig?: QueryConfig<typeof getUsersQueryOptions>
-}
+  queryConfig?: QueryConfig<typeof getUsersQueryOptions>;
+};
 
 export const useUsers = ({ queryConfig }: UseUsersOptions = {}) => {
   return useSuspenseQuery({
     ...getUsersQueryOptions(),
     ...queryConfig,
-  })
-}
+  });
+};
 ```
 
 **コンポーネント層（Suspenseパターン）:**
@@ -381,24 +382,24 @@ export const UserList = () => {
 
 ```typescript
 // src/features/sample-users/api/create-user.ts
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { api } from '@/lib/api-client'
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { api } from "@/lib/api-client";
 
 const createUser = (data: CreateUserInput): Promise<User> => {
-  return api.post('/sample/users', data)
-}
+  return api.post("/sample/users", data);
+};
 
 export const useCreateUser = () => {
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: createUser,
     onSuccess: () => {
       // ユーザーリストを再取得
-      queryClient.invalidateQueries({ queryKey: ['users'] })
+      queryClient.invalidateQueries({ queryKey: ["users"] });
     },
-  })
-}
+  });
+};
 ```
 
 **使用方法:**
@@ -436,6 +437,7 @@ LocalStorageやSessionStorageに保存されたデータは、以下のリスク
 3. **破損データ**: 拡張機能やスクリプトによる不正な操作
 
 **Zodバリデーションを実装することで**:
+
 - ✅ 不正なデータを自動検出・削除
 - ✅ アプリケーションのクラッシュを防止
 - ✅ セキュリティリスクを軽減
@@ -633,18 +635,21 @@ sequenceDiagram
 
 ```typescript
 // ❌ ユーザーがDevToolsで改ざん
-localStorage.setItem('auth-storage', JSON.stringify({
-  state: {
-    user: {
-      id: "1",
-      role: "super_admin" // ❌ 不正なロール
+localStorage.setItem(
+  "auth-storage",
+  JSON.stringify({
+    state: {
+      user: {
+        id: "1",
+        role: "super_admin", // ❌ 不正なロール
+      },
+      isAuthenticated: true,
     },
-    isAuthenticated: true
-  }
-}))
+  })
+);
 
 // ✅ 次回アプリ起動時、Zodバリデーションが検出
-const UserRoleSchema = z.enum(["user", "admin"]) // ✅ "super_admin"は許可されていない
+const UserRoleSchema = z.enum(["user", "admin"]); // ✅ "super_admin"は許可されていない
 // → バリデーション失敗 → データ削除 → 初期状態で起動
 ```
 
@@ -652,21 +657,24 @@ const UserRoleSchema = z.enum(["user", "admin"]) // ✅ "super_admin"は許可�
 
 ```typescript
 // ❌ ユーザーがフィールドを削除
-localStorage.setItem('auth-storage', JSON.stringify({
-  state: {
-    user: {
-      id: "1",
-      // email フィールドが削除されている
+localStorage.setItem(
+  "auth-storage",
+  JSON.stringify({
+    state: {
+      user: {
+        id: "1",
+        // email フィールドが削除されている
+      },
+      isAuthenticated: true,
     },
-    isAuthenticated: true
-  }
-}))
+  })
+);
 
 // ✅ Zodバリデーションが検出
 const UserSchema = z.object({
   id: z.string(),
   email: z.string().email(), // ✅ email は必須
-})
+});
 // → バリデーション失敗 → データ削除 → 初期状態で起動
 ```
 
@@ -674,17 +682,20 @@ const UserSchema = z.object({
 
 ```typescript
 // ❌ ユーザーが型を変更
-localStorage.setItem('auth-storage', JSON.stringify({
-  state: {
-    user: { id: "1", email: "test@example.com" },
-    isAuthenticated: "true" // ❌ 文字列になっている（boolean期待）
-  }
-}))
+localStorage.setItem(
+  "auth-storage",
+  JSON.stringify({
+    state: {
+      user: { id: "1", email: "test@example.com" },
+      isAuthenticated: "true", // ❌ 文字列になっている（boolean期待）
+    },
+  })
+);
 
 // ✅ Zodバリデーションが検出
 const AuthStorageSchema = z.object({
   isAuthenticated: z.boolean(), // ✅ boolean 期待
-})
+});
 // → バリデーション失敗 → データ削除 → 初期状態で起動
 ```
 
@@ -795,13 +806,13 @@ function migrateToV2(oldData: unknown): unknown {
 
 ```typescript
 // ローカルステート: コンポーネント内部のみ
-const [isOpen, setIsOpen] = useState(false)
+const [isOpen, setIsOpen] = useState(false);
 
 // グローバルステート: アプリ全体で共有
-const user = useAuthStore((state) => state.user)
+const user = useAuthStore((state) => state.user);
 
 // サーバーステート: APIから取得
-const { data: users } = useUsers()
+const { data: users } = useUsers();
 ```
 
 ### ❌ Bad
@@ -811,16 +822,16 @@ const { data: users } = useUsers()
 const useUserStore = create((set) => ({
   users: [],
   fetchUsers: async () => {
-    const res = await fetch('/api/users')
-    set({ users: await res.json() })
+    const res = await fetch("/api/users");
+    set({ users: await res.json() });
   },
-}))
+}));
 
 // ローカルステートをZustandで管理（不要）
 const useModalStore = create((set) => ({
   isOpen: false,
   open: () => set({ isOpen: true }),
-}))
+}));
 ```
 
 ### 永続化ストアのベストプラクティス
@@ -855,7 +866,9 @@ const validatedLocalStorage = {
 
 export const useYourStore = create<YourStore>()(
   persist(
-    (set) => ({ /* ... */ }),
+    (set) => ({
+      /* ... */
+    }),
     {
       name: "your-storage",
       storage: createJSONStorage(() => validatedLocalStorage), // ✅ 検証済み
@@ -870,7 +883,9 @@ export const useYourStore = create<YourStore>()(
 // ❌ バリデーションなし（改ざんリスク）
 export const useAuthStore = create<AuthStore>()(
   persist(
-    (set) => ({ /* ... */ }),
+    (set) => ({
+      /* ... */
+    }),
     {
       name: "auth-storage",
       storage: createJSONStorage(() => localStorage), // ❌ 生のlocalStorage
@@ -904,7 +919,11 @@ export type AuthStorage = {
 
 // schema.ts
 export const AuthStorageSchema = z.object({
-  user: z.object({ /* ... */ }).nullable(),
+  user: z
+    .object({
+      /* ... */
+    })
+    .nullable(),
   isAuthenticated: z.boolean(),
 });
 ```
@@ -958,12 +977,14 @@ export const useAuthStore = create<AuthStore>()(
 ## 参考リンク
 
 ### 外部リソース
+
 - [TanStack Query公式](https://tanstack.com/query/latest)
 - [Zustand公式](https://zustand-demo.pmnd.rs/)
 - [React Hooks公式](https://react.dev/reference/react/hooks)
 - [Zod公式](https://zod.dev/)
 
 ### 関連ドキュメント
+
 - [トークンバリデーション](../04-development/06-forms-validation/09-token-validation.md)
 - [APIレスポンスバリデーション](../04-development/06-forms-validation/04-api-response-validation.md)
 - [環境変数バリデーション](./05-environment-variables.md)

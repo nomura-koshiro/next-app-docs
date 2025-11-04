@@ -33,12 +33,12 @@
 
 環境変数は**外部から注入される設定値**であり、以下のセキュリティリスクがあります:
 
-| リスク | 説明 | 影響 |
-|--------|------|------|
-| **不正なAPI URL** | 攻撃者が悪意のあるAPIエンドポイントを設定 | データ漏洩、認証情報の窃取 |
-| **型不一致** | boolean期待の変数に任意文字列が設定 | アプリケーションクラッシュ |
-| **必須変数の欠落** | 重要な設定が未定義のまま起動 | 予期しない動作、セキュリティ機能の無効化 |
-| **不正な形式** | URLや数値に不正な形式の値が設定 | インジェクション攻撃、予期しない動作 |
+| リスク             | 説明                                      | 影響                                     |
+| ------------------ | ----------------------------------------- | ---------------------------------------- |
+| **不正なAPI URL**  | 攻撃者が悪意のあるAPIエンドポイントを設定 | データ漏洩、認証情報の窃取               |
+| **型不一致**       | boolean期待の変数に任意文字列が設定       | アプリケーションクラッシュ               |
+| **必須変数の欠落** | 重要な設定が未定義のまま起動              | 予期しない動作、セキュリティ機能の無効化 |
+| **不正な形式**     | URLや数値に不正な形式の値が設定           | インジェクション攻撃、予期しない動作     |
 
 ### Zodバリデーションによる防御
 
@@ -67,12 +67,14 @@ const env = EnvSchema.parse({
 #### シナリオ1: 悪意のあるAPI URL注入
 
 **攻撃**:
+
 ```bash
 # 攻撃者が環境変数を操作
 NEXT_PUBLIC_API_URL=https://attacker.com/api/v1
 ```
 
 **結果 (バリデーションなし)**:
+
 ```typescript
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 // → "https://attacker.com/api/v1"
@@ -81,6 +83,7 @@ const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 ```
 
 **防御 (Zodバリデーション)**:
+
 ```typescript
 const EnvSchema = z.object({
   API_URL: z
@@ -98,12 +101,14 @@ const EnvSchema = z.object({
 #### シナリオ2: boolean型の改ざん
 
 **攻撃**:
+
 ```bash
 # 攻撃者がセキュリティ機能を無効化
 NEXT_PUBLIC_ENABLE_CSRF_PROTECTION=false
 ```
 
 **結果 (バリデーションなし)**:
+
 ```typescript
 const csrfEnabled = process.env.NEXT_PUBLIC_ENABLE_CSRF_PROTECTION === "true";
 // → false
@@ -112,6 +117,7 @@ const csrfEnabled = process.env.NEXT_PUBLIC_ENABLE_CSRF_PROTECTION === "true";
 ```
 
 **防御 (デフォルト値 + Zodバリデーション)**:
+
 ```typescript
 const EnvSchema = z.object({
   ENABLE_CSRF_PROTECTION: z
@@ -128,12 +134,14 @@ const EnvSchema = z.object({
 #### シナリオ3: 数値の不正設定
 
 **攻撃**:
+
 ```bash
 # 攻撃者が不正なポート番号を設定
 NEXT_PUBLIC_PORT=99999999
 ```
 
 **結果 (バリデーションなし)**:
+
 ```typescript
 const port = parseInt(process.env.NEXT_PUBLIC_PORT!);
 // → 99999999 (有効なポート範囲外)
@@ -141,6 +149,7 @@ const port = parseInt(process.env.NEXT_PUBLIC_PORT!);
 ```
 
 **防御 (Zodバリデーション)**:
+
 ```typescript
 const EnvSchema = z.object({
   PORT: z
@@ -154,14 +163,14 @@ const EnvSchema = z.object({
 
 ### セキュリティメリットのまとめ
 
-| セキュリティ機能 | 効果 |
-|-----------------|------|
-| **起動時バリデーション** | 不正な設定でアプリが起動しない |
-| **URL形式検証** | 悪意のあるエンドポイントへの接続を防止 |
-| **ドメインホワイトリスト** | 許可されたドメインのみ使用可能 |
-| **型検証** | 型不一致によるクラッシュを防止 |
-| **デフォルト値** | セキュリティ機能のデフォルト有効化 |
-| **範囲検証** | 不正な数値範囲を拒否 |
+| セキュリティ機能           | 効果                                   |
+| -------------------------- | -------------------------------------- |
+| **起動時バリデーション**   | 不正な設定でアプリが起動しない         |
+| **URL形式検証**            | 悪意のあるエンドポイントへの接続を防止 |
+| **ドメインホワイトリスト** | 許可されたドメインのみ使用可能         |
+| **型検証**                 | 型不一致によるクラッシュを防止         |
+| **デフォルト値**           | セキュリティ機能のデフォルト有効化     |
+| **範囲検証**               | 不正な数値範囲を拒否                   |
 
 ---
 
@@ -169,7 +178,7 @@ const EnvSchema = z.object({
 
 ```typescript
 // src/config/env.ts
-import * as z from 'zod';
+import * as z from "zod";
 
 const createEnv = () => {
   // Storybookポート番号を取得（Storybook環境でのみ設定される）
@@ -179,8 +188,8 @@ const createEnv = () => {
   const apiUrl = storybookPort ? `http://localhost:${storybookPort}/api/v1` : process.env.NEXT_PUBLIC_API_URL;
 
   if (storybookPort) {
-    console.log('[env] Storybook port detected:', storybookPort);
-    console.log('[env] API_URL overridden to:', apiUrl);
+    console.log("[env] Storybook port detected:", storybookPort);
+    console.log("[env] API_URL overridden to:", apiUrl);
   }
 
   // Schemas定義
@@ -191,13 +200,13 @@ const createEnv = () => {
     // オプションのboolean（自動変換）
     ENABLE_API_MOCKING: z
       .string()
-      .refine((s) => s === 'true' || s === 'false')
-      .transform((s) => s === 'true')
+      .refine((s) => s === "true" || s === "false")
+      .transform((s) => s === "true")
       .optional(),
 
     // デフォルト値付き
-    APP_URL: z.string().optional().default('http://localhost:3000'),
-    APP_MOCK_API_PORT: z.string().optional().default('8080'),
+    APP_URL: z.string().optional().default("http://localhost:3000"),
+    APP_MOCK_API_PORT: z.string().optional().default("8080"),
 
     // Storybookポート番号（オプション、Storybook環境でのみ設定される）
     STORYBOOK_PORT: z.string().optional(),
@@ -221,7 +230,7 @@ const createEnv = () => {
   The following variables are missing or invalid:
   ${Object.entries(parsedEnv.error.flatten().fieldErrors)
     .map(([k, v]) => `- ${k}: ${v}`)
-    .join('\n')}
+    .join("\n")}
   `
     );
   }
@@ -262,7 +271,7 @@ NEXT_PUBLIC_STORYBOOK_PORT=6006
 ### APIクライアントで使用
 
 ```typescript
-import { env } from '@/config/env';
+import { env } from "@/config/env";
 
 export const api = Axios.create({
   baseURL: env.API_URL, // 型安全: string
@@ -272,11 +281,11 @@ export const api = Axios.create({
 ### boolean値の使用
 
 ```typescript
-import { env } from '@/config/env';
+import { env } from "@/config/env";
 
 if (env.ENABLE_API_MOCKING) {
   // boolean | undefined
-  const { worker } = await import('@/mocks/browser');
+  const { worker } = await import("@/mocks/browser");
   await worker.start();
 }
 ```
@@ -286,7 +295,7 @@ if (env.ENABLE_API_MOCKING) {
 Storybook環境では、`NEXT_PUBLIC_STORYBOOK_PORT`を設定することでAPI URLが自動的に上書きされます。
 
 ```typescript
-import { env } from '@/config/env';
+import { env } from "@/config/env";
 
 // NEXT_PUBLIC_STORYBOOK_PORT=6006 の場合
 // env.API_URL は "http://localhost:6006/api/v1" に自動変更される
@@ -356,8 +365,8 @@ const EnvSchema = z.object({
   // 新規追加
   NEW_FEATURE_ENABLED: z
     .string()
-    .refine((s) => s === 'true' || s === 'false')
-    .transform((s) => s === 'true')
+    .refine((s) => s === "true" || s === "false")
+    .transform((s) => s === "true")
     .optional(),
 });
 ```
@@ -380,7 +389,7 @@ NEXT_PUBLIC_NEW_FEATURE_ENABLED=true
 ### 4. 使用
 
 ```typescript
-import { env } from '@/config/env';
+import { env } from "@/config/env";
 
 if (env.NEW_FEATURE_ENABLED) {
   // 新機能を有効化
@@ -400,10 +409,7 @@ const EnvSchema = z.object({
     .string()
     .url("有効なURL形式である必要があります")
     .refine(
-      (url) =>
-        url.startsWith("https://api.example.com") ||
-        url.startsWith("http://localhost") ||
-        url.startsWith("http://127.0.0.1"),
+      (url) => url.startsWith("https://api.example.com") || url.startsWith("http://localhost") || url.startsWith("http://127.0.0.1"),
       "API URLは許可されたドメインのみ設定可能です"
     ),
 });
@@ -436,10 +442,7 @@ const EnvSchema = z.object({
 ```typescript
 // ❌ デフォルトで無効（セキュリティリスク）
 const EnvSchema = z.object({
-  ENABLE_CSRF_PROTECTION: z
-    .string()
-    .optional()
-    .default("false"), // ❌ デフォルトで無効
+  ENABLE_CSRF_PROTECTION: z.string().optional().default("false"), // ❌ デフォルトで無効
 });
 ```
 
@@ -451,17 +454,14 @@ const EnvSchema = z.object({
   API_URL: z
     .string()
     .url()
-    .refine(
-      (url) => {
-        // 本番環境ではHTTPSのみ許可
-        if (process.env.NODE_ENV === "production") {
-          return url.startsWith("https://");
-        }
-        // 開発環境ではlocalhostのHTTPも許可
-        return url.startsWith("https://") || url.startsWith("http://localhost");
-      },
-      "本番環境ではHTTPS URLが必須です"
-    ),
+    .refine((url) => {
+      // 本番環境ではHTTPSのみ許可
+      if (process.env.NODE_ENV === "production") {
+        return url.startsWith("https://");
+      }
+      // 開発環境ではlocalhostのHTTPも許可
+      return url.startsWith("https://") || url.startsWith("http://localhost");
+    }, "本番環境ではHTTPS URLが必須です"),
 });
 ```
 
@@ -474,7 +474,7 @@ const EnvSchema = z.object({
 });
 ```
 
-### ✅ DO: 機密情報は NEXT_PUBLIC_ プレフィックスなし
+### ✅ DO: 機密情報は NEXT*PUBLIC* プレフィックスなし
 
 ```typescript
 // ✅ サーバーサイド専用（ブラウザに公開されない）
@@ -485,11 +485,11 @@ const EnvSchema = z.object({
 
 // サーバーサイドのみで使用
 // src/lib/db.ts (Server Component)
-import { env } from '@/config/env';
+import { env } from "@/config/env";
 const db = new Database(env.DATABASE_URL);
 ```
 
-### ❌ DON'T: 機密情報を NEXT_PUBLIC_ プレフィックス付きで公開
+### ❌ DON'T: 機密情報を NEXT*PUBLIC* プレフィックス付きで公開
 
 ```typescript
 // ❌ ブラウザに機密情報が公開される（重大なセキュリティリスク）
@@ -566,7 +566,7 @@ const EnvSchema = z.object({
 
 ```typescript
 // 型安全で、バリデーション済み
-import { env } from '@/config/env';
+import { env } from "@/config/env";
 const apiUrl = env.API_URL;
 ```
 
@@ -582,10 +582,12 @@ const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 ## 参考リンク
 
 ### 外部リソース
+
 - [Next.js - Environment Variables](https://nextjs.org/docs/app/building-your-application/configuring/environment-variables)
 - [Zod公式ドキュメント](https://zod.dev/)
 
 ### 関連ドキュメント
+
 - [Zodによるセキュリティ強化ガイド](../04-development/01-coding-standards/10-security-with-zod.md)
 - [トークンバリデーション](../04-development/06-forms-validation/09-token-validation.md)
 - [APIレスポンスバリデーション](../04-development/06-forms-validation/04-api-response-validation.md)

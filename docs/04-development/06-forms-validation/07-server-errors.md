@@ -107,31 +107,31 @@ export const CreateUserForm = () => {
 ### ApiErrorクラスでの処理
 
 ```typescript
-import { ApiError, ProblemTypes } from '@/lib/api-client';
+import { ApiError, ProblemTypes } from "@/lib/api-client";
 
 const handleServerError = (error: unknown, setError: UseFormSetError<UserFormValues>) => {
   if (!(error instanceof ApiError)) {
-    setError('root', { message: 'エラーが発生しました' });
+    setError("root", { message: "エラーが発生しました" });
     return;
   }
 
   // RFC 9457: バリデーションエラー
   if (error.isType(ProblemTypes.VALIDATION_ERROR)) {
-    const validationErrors = error.getExtension<Record<string, string[]>>('errors');
+    const validationErrors = error.getExtension<Record<string, string[]>>("errors");
 
     if (validationErrors) {
       Object.entries(validationErrors).forEach(([field, messages]) => {
         setError(field as keyof UserFormValues, {
-          type: 'server',
+          type: "server",
           message: Array.isArray(messages) ? messages[0] : String(messages),
         });
       });
     }
   } else {
     // その他のエラー
-    setError('root', {
-      type: 'server',
-      message: error.detail || 'エラーが発生しました',
+    setError("root", {
+      type: "server",
+      message: error.detail || "エラーが発生しました",
     });
   }
 };
@@ -146,10 +146,10 @@ const handleServerError = (error: unknown, setError: UseFormSetError<UserFormVal
 特定のフィールドにエラーをセットします。
 
 ```typescript
-setError('email', {
-  type: 'server',
-  message: 'このメールアドレスはすでに使用されています',
-})
+setError("email", {
+  type: "server",
+  message: "このメールアドレスはすでに使用されています",
+});
 ```
 
 ### 2. ルートレベルのエラー
@@ -186,59 +186,55 @@ setError('root.serverError', {
 
 ```typescript
 // src/utils/form-error-handler.ts
-import type { UseFormSetError, FieldValues, Path } from 'react-hook-form'
-import { ApiError, ProblemTypes } from '@/lib/api-client'
+import type { UseFormSetError, FieldValues, Path } from "react-hook-form";
+import { ApiError, ProblemTypes } from "@/lib/api-client";
 
 /**
  * RFC 9457準拠のサーバーエラーをフォームエラーにマッピング
  */
-export const handleServerError = <T extends FieldValues>(
-  error: unknown,
-  setError: UseFormSetError<T>
-): void => {
+export const handleServerError = <T extends FieldValues>(error: unknown, setError: UseFormSetError<T>): void => {
   // ApiErrorでない場合は汎用エラー
   if (!(error instanceof ApiError)) {
-    setError('root.serverError' as Path<T>, {
-      type: 'server',
-      message: 'エラーが発生しました',
-    })
-    return
+    setError("root.serverError" as Path<T>, {
+      type: "server",
+      message: "エラーが発生しました",
+    });
+    return;
   }
 
   // RFC 9457: バリデーションエラー（422）
   if (error.isType(ProblemTypes.VALIDATION_ERROR)) {
-    const validationErrors = error.getExtension<Record<string, string[]>>('errors')
+    const validationErrors = error.getExtension<Record<string, string[]>>("errors");
 
     if (validationErrors) {
       Object.entries(validationErrors).forEach(([field, messages]) => {
         setError(field as Path<T>, {
-          type: 'server',
+          type: "server",
           message: Array.isArray(messages) ? messages[0] : String(messages),
-        })
-      })
-      return
+        });
+      });
+      return;
     }
   }
 
   // その他のRFC 9457エラー
-  setError('root.serverError' as Path<T>, {
-    type: 'server',
-    message: error.detail || error.title || 'エラーが発生しました',
-  })
-}
+  setError("root.serverError" as Path<T>, {
+    type: "server",
+    message: error.detail || error.title || "エラーが発生しました",
+  });
+};
 ```
 
 ### 使用例
 
 ```typescript
-import { handleServerError } from '@/utils/form-error-handler'
+import { handleServerError } from "@/utils/form-error-handler";
 
 const onSubmit = async (data: UserFormValues) => {
-  await createUser.mutateAsync(data)
-    .catch((error) => {
-      handleServerError(error, setError)
-    })
-}
+  await createUser.mutateAsync(data).catch((error) => {
+    handleServerError(error, setError);
+  });
+};
 ```
 
 ---
@@ -248,18 +244,18 @@ const onSubmit = async (data: UserFormValues) => {
 ### フィールド単位でクリア
 
 ```typescript
-import { useForm } from 'react-hook-form'
+import { useForm } from "react-hook-form";
 
-const { clearErrors } = useForm()
+const { clearErrors } = useForm();
 
 // 特定のフィールドのエラーをクリア
-clearErrors('email')
+clearErrors("email");
 
 // 複数のフィールドのエラーをクリア
-clearErrors(['email', 'password'])
+clearErrors(["email", "password"]);
 
 // 全てのエラーをクリア
-clearErrors()
+clearErrors();
 ```
 
 ### 入力時に自動クリア
@@ -281,27 +277,28 @@ clearErrors()
 ### Toastとの連携（RFC 9457対応）
 
 ```typescript
-import { toast } from 'sonner'
-import { ApiError, ProblemTypes } from '@/lib/api-client'
+import { toast } from "sonner";
+import { ApiError, ProblemTypes } from "@/lib/api-client";
 
 const onSubmit = async (data: UserFormValues) => {
-  await createUser.mutateAsync(data)
+  await createUser
+    .mutateAsync(data)
     .then(() => {
-      toast.success('ユーザーを作成しました')
+      toast.success("ユーザーを作成しました");
     })
     .catch((error) => {
       if (error instanceof ApiError) {
         if (error.isType(ProblemTypes.VALIDATION_ERROR)) {
-          handleServerError(error, setError)
-          toast.error('入力内容を確認してください')
+          handleServerError(error, setError);
+          toast.error("入力内容を確認してください");
         } else {
-          toast.error(error.detail || 'エラーが発生しました')
+          toast.error(error.detail || "エラーが発生しました");
         }
       } else {
-        toast.error('エラーが発生しました')
+        toast.error("エラーが発生しました");
       }
-    })
-}
+    });
+};
 ```
 
 ---
@@ -386,21 +383,21 @@ APIレスポンスがスキーマに一致しない場合、適切なエラー�
 #### パターン1: Zodバリデーションエラーをフォームエラーに変換
 
 ```typescript
-import { ZodError } from 'zod';
-import { ApiError } from '@/lib/api-client';
+import { ZodError } from "zod";
+import { ApiError } from "@/lib/api-client";
 
 const onSubmit = async (data: UserFormValues) => {
   try {
     await createUser.mutateAsync(data);
-    toast.success('ユーザーを作成しました');
+    toast.success("ユーザーを作成しました");
   } catch (error) {
     // Zodバリデーションエラー
     if (error instanceof ZodError) {
       // ✅ APIレスポンスが期待する形式ではない
-      console.error('APIレスポンスバリデーション失敗:', error);
-      setError('root', {
-        type: 'server',
-        message: 'サーバーから不正なデータが返されました。管理者に連絡してください。',
+      console.error("APIレスポンスバリデーション失敗:", error);
+      setError("root", {
+        type: "server",
+        message: "サーバーから不正なデータが返されました。管理者に連絡してください。",
       });
       return;
     }
@@ -412,9 +409,9 @@ const onSubmit = async (data: UserFormValues) => {
     }
 
     // その他のエラー
-    setError('root', {
-      type: 'server',
-      message: 'エラーが発生しました',
+    setError("root", {
+      type: "server",
+      message: "エラーが発生しました",
     });
   }
 };
@@ -423,8 +420,8 @@ const onSubmit = async (data: UserFormValues) => {
 #### パターン2: トークンバリデーション失敗時のエラー処理
 
 ```typescript
-import { ZodError } from 'zod';
-import { setValidatedToken } from '@/features/auth/stores/lib/validationstoken-storage.schema';
+import { ZodError } from "zod";
+import { setValidatedToken } from "@/features/auth/stores/lib/validationstoken-storage.schema";
 
 const onSubmit = async (data: LoginFormValues) => {
   try {
@@ -432,14 +429,14 @@ const onSubmit = async (data: LoginFormValues) => {
 
     // ✅ トークンをZodバリデーション
     try {
-      setValidatedToken('token', response.token);
+      setValidatedToken("token", response.token);
     } catch (tokenError) {
       if (tokenError instanceof ZodError) {
         // ✅ トークン形式が不正
-        console.error('トークンバリデーション失敗:', tokenError);
-        setError('root', {
-          type: 'server',
-          message: 'サーバーから不正なトークンが返されました。管理者に連絡してください。',
+        console.error("トークンバリデーション失敗:", tokenError);
+        setError("root", {
+          type: "server",
+          message: "サーバーから不正なトークンが返されました。管理者に連絡してください。",
         });
         return;
       }
@@ -448,15 +445,14 @@ const onSubmit = async (data: LoginFormValues) => {
 
     // ユーザー情報を保存
     setUser(response.user);
-    router.push('/dashboard');
-
+    router.push("/dashboard");
   } catch (error) {
     if (error instanceof ApiError) {
       handleServerError(error, setError);
     } else {
-      setError('root', {
-        type: 'server',
-        message: 'ログインに失敗しました',
+      setError("root", {
+        type: "server",
+        message: "ログインに失敗しました",
       });
     }
   }
@@ -469,25 +465,22 @@ const onSubmit = async (data: LoginFormValues) => {
 
 ```typescript
 // src/utils/comprehensive-error-handler.ts
-import type { UseFormSetError, FieldValues, Path } from 'react-hook-form';
-import { ZodError } from 'zod';
-import { ApiError, ProblemTypes } from '@/lib/api-client';
+import type { UseFormSetError, FieldValues, Path } from "react-hook-form";
+import { ZodError } from "zod";
+import { ApiError, ProblemTypes } from "@/lib/api-client";
 
 /**
  * Zodバリデーションエラー、RFC 9457エラー、その他のエラーを包括的に処理
  */
-export const handleComprehensiveError = <T extends FieldValues>(
-  error: unknown,
-  setError: UseFormSetError<T>
-): void => {
+export const handleComprehensiveError = <T extends FieldValues>(error: unknown, setError: UseFormSetError<T>): void => {
   // ✅ Zodバリデーションエラー
   if (error instanceof ZodError) {
-    console.error('[Zod Validation Error]', error.errors);
+    console.error("[Zod Validation Error]", error.errors);
 
     // APIレスポンス形式不正
-    setError('root.serverError' as Path<T>, {
-      type: 'validation',
-      message: 'サーバーから不正なデータが返されました。管理者に連絡してください。',
+    setError("root.serverError" as Path<T>, {
+      type: "validation",
+      message: "サーバーから不正なデータが返されました。管理者に連絡してください。",
     });
     return;
   }
@@ -496,12 +489,12 @@ export const handleComprehensiveError = <T extends FieldValues>(
   if (error instanceof ApiError) {
     // バリデーションエラー（422）
     if (error.isType(ProblemTypes.VALIDATION_ERROR)) {
-      const validationErrors = error.getExtension<Record<string, string[]>>('errors');
+      const validationErrors = error.getExtension<Record<string, string[]>>("errors");
 
       if (validationErrors) {
         Object.entries(validationErrors).forEach(([field, messages]) => {
           setError(field as Path<T>, {
-            type: 'server',
+            type: "server",
             message: Array.isArray(messages) ? messages[0] : String(messages),
           });
         });
@@ -511,43 +504,43 @@ export const handleComprehensiveError = <T extends FieldValues>(
 
     // 認証エラー（401）
     if (error.isStatus(401)) {
-      setError('root.serverError' as Path<T>, {
-        type: 'auth',
-        message: '認証に失敗しました。ログインし直してください。',
+      setError("root.serverError" as Path<T>, {
+        type: "auth",
+        message: "認証に失敗しました。ログインし直してください。",
       });
       return;
     }
 
     // 権限エラー（403）
     if (error.isStatus(403)) {
-      setError('root.serverError' as Path<T>, {
-        type: 'auth',
-        message: 'この操作を実行する権限がありません。',
+      setError("root.serverError" as Path<T>, {
+        type: "auth",
+        message: "この操作を実行する権限がありません。",
       });
       return;
     }
 
     // その他のRFC 9457エラー
-    setError('root.serverError' as Path<T>, {
-      type: 'server',
-      message: error.detail || error.title || 'エラーが発生しました',
+    setError("root.serverError" as Path<T>, {
+      type: "server",
+      message: error.detail || error.title || "エラーが発生しました",
     });
     return;
   }
 
   // ✅ ネットワークエラー
-  if (error instanceof Error && error.message.includes('network')) {
-    setError('root.serverError' as Path<T>, {
-      type: 'network',
-      message: 'ネットワークエラーが発生しました。接続を確認してください。',
+  if (error instanceof Error && error.message.includes("network")) {
+    setError("root.serverError" as Path<T>, {
+      type: "network",
+      message: "ネットワークエラーが発生しました。接続を確認してください。",
     });
     return;
   }
 
   // ✅ その他のエラー
-  setError('root.serverError' as Path<T>, {
-    type: 'unknown',
-    message: 'エラーが発生しました',
+  setError("root.serverError" as Path<T>, {
+    type: "unknown",
+    message: "エラーが発生しました",
   });
 };
 ```
@@ -555,14 +548,13 @@ export const handleComprehensiveError = <T extends FieldValues>(
 ### 使用例
 
 ```typescript
-import { handleComprehensiveError } from '@/utils/comprehensive-error-handler';
+import { handleComprehensiveError } from "@/utils/comprehensive-error-handler";
 
 const onSubmit = async (data: UserFormValues) => {
-  await createUser.mutateAsync(data)
-    .catch((error) => {
-      // ✅ すべてのエラータイプを包括的に処理
-      handleComprehensiveError(error, setError);
-    });
+  await createUser.mutateAsync(data).catch((error) => {
+    // ✅ すべてのエラータイプを包括的に処理
+    handleComprehensiveError(error, setError);
+  });
 };
 ```
 
@@ -686,10 +678,10 @@ flowchart TB
 
 ```typescript
 // ❌ Bad
-setError('email', { message: 'エラー' })
+setError("email", { message: "エラー" });
 
 // ✅ Good
-setError('email', { message: 'このメールアドレスはすでに使用されています' })
+setError("email", { message: "このメールアドレスはすでに使用されています" });
 ```
 
 ### 3. ローディング状態を管理
@@ -705,15 +697,18 @@ setError('email', { message: 'このメールアドレスはすでに使用さ�
 ## 関連リンク
 
 ### フォームバリデーション
+
 - [基本パターン](./01-basic-patterns.md) - フォームの基本実装
 - [ベストプラクティス](./08-best-practices.md) - フォーム開発のまとめ
 
 ### Zodバリデーション
+
 - [APIレスポンスバリデーション](./04-api-response-validation.md) - APIレスポンスのZodバリデーション
 - [トークンバリデーション](./09-token-validation.md) - JWT/CSRFトークンバリデーション
 - [Zodによるセキュリティ強化](../01-coding-standards/10-security-with-zod.md) - セキュリティ包括ガイド
 
 ### アーキテクチャ
+
 - [APIクライアント](../../03-core-concepts/06-api-client.md) - RFC 9457エラーハンドリング
 - [API統合](../05-api-integration/) - TanStack Queryとの連携
 - [状態管理](../../03-core-concepts/02-state-management.md) - Zustand + Zodバリデーション

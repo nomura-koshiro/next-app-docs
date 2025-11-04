@@ -151,7 +151,7 @@ export const getUsers = async (): Promise<{ data: User[] }> => {
 
 **ファイルパス**: `src/features/sample-users/api/get-users.ts`（続き）
 
-```typescript
+````typescript
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { QueryConfig } from "@/lib/tanstack-query";
 
@@ -179,7 +179,7 @@ export const useUsers = ({ queryConfig }: UseUsersOptions = {}) => {
     ...queryConfig,
   });
 };
-```
+````
 
 ---
 
@@ -314,12 +314,7 @@ export const SystemRoleSchema = z.enum(["system_admin", "user"]);
 /**
  * プロジェクトレベルのロールスキーマ
  */
-export const ProjectRoleSchema = z.enum([
-  "project_manager",
-  "project_moderator",
-  "member",
-  "viewer",
-]);
+export const ProjectRoleSchema = z.enum(["project_manager", "project_moderator", "member", "viewer"]);
 
 // 型推論結果:
 // type SystemRole = "system_admin" | "user";
@@ -497,7 +492,7 @@ export const UserSchema = z
 
 ### ✅ DO: スキーマファイルを feature/api/lib/validations に配置
 
-```
+```text
 src/features/
   sample-users/
     api/
@@ -564,6 +559,7 @@ export const UserSchema = z.object({
 **原因**: APIレスポンスのデータ型が期待と異なる
 
 **解決策**:
+
 1. バックエンドAPIのレスポンス形式を確認
 2. スキーマをAPIの実際のレスポンスに合わせて修正
 3. transform() で型変換
@@ -580,6 +576,7 @@ export const UserSchema = z.object({
 **原因**: APIレスポンスに必須フィールドが存在しない
 
 **解決策**:
+
 1. バックエンドAPIの実装を確認
 2. フィールドを optional() にするか nullable() にする
 
@@ -597,6 +594,7 @@ export const UserSchema = z.object({
 **原因**: APIレスポンスのenum値がスキーマの定義と一致しない
 
 **解決策**:
+
 1. バックエンドAPIのenum定義を確認
 2. フロントエンドのenumをバックエンドに合わせる
 
