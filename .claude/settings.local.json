@@ -132,7 +132,8 @@
       "Bash(npx prettier:*)",
       "Bash(npm run lint:fix:*)",
       "Bash(test:*)",
-      "Bash(do mv \"$file\" \"$file%.schema.ts.ts\")"
+      "Bash(do mv \"$file\" \"$file%.schema.ts.ts\")",
+      "Bash(touch:*)"
     ],
     "deny": [],
     "ask": []

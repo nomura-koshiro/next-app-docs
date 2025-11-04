@@ -3,9 +3,9 @@ import { useMutation, type UseMutationOptions, useQueryClient } from "@tanstack/
 import { api } from "@/lib/api-client";
 import { logger } from "@/utils/logger";
 
-import type { UpdateMemberRoleInput } from "../types";
 import type { ProjectMemberOutput } from "../types/api";
 import { projectMemberOutputSchema } from "../types/api";
+import type { UpdateMemberRoleInput } from "../types/forms";
 
 // ================================================================================
 // API関数

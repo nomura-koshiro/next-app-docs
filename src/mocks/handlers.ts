@@ -1,4 +1,5 @@
 import { azureAuthHandlers } from "./handlers/api/v1/auth/auth-handlers";
+import { projectHandlers } from "./handlers/api/v1/projects/project-handlers";
 import { projectMemberHandlers } from "./handlers/api/v1/projects/project-member-handlers";
 import { sampleAuthHandlers } from "./handlers/api/v1/sample-auth/sample-auth-handlers";
 import { sampleChatHandlers } from "./handlers/api/v1/sample-chat/sample-chat-handlers";
@@ -30,6 +31,7 @@ import { sampleUserHandlers } from "./handlers/api/v1/sample-users/sample-user-h
  */
 export const handlers = [
   ...azureAuthHandlers, // Azure AD認証関連 (/auth/*)
+  ...projectHandlers, // プロジェクト管理 (/api/v1/projects/*)
   ...projectMemberHandlers, // プロジェクトメンバー管理 (/api/v1/projects/*/members/*)
   ...sampleAuthHandlers, // サンプル認証関連 (/api/v1/sample/auth/*)
   ...sampleUserHandlers, // サンプルユーザー管理 (/api/v1/sample/users/*)

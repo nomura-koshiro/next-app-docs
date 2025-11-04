@@ -78,7 +78,7 @@ const mockUsers: User[] = [
 ];
 
 // モックプロジェクト
-const mockProjects: Project[] = [
+export const mockProjects: Project[] = [
   {
     id: "project-1",
     name: "サンプルプロジェクト",
@@ -87,6 +87,33 @@ const mockProjects: Project[] = [
     created_at: "2024-01-01T00:00:00Z",
     updated_at: "2024-01-01T00:00:00Z",
     created_by: "user-1",
+  },
+  {
+    id: "project-2",
+    name: "Webサイトリニューアル",
+    description: "コーポレートサイトの全面リニューアルプロジェクト",
+    is_active: true,
+    created_at: "2024-02-15T00:00:00Z",
+    updated_at: "2024-03-01T00:00:00Z",
+    created_by: "user-2",
+  },
+  {
+    id: "project-3",
+    name: "モバイルアプリ開発",
+    description: "新規モバイルアプリケーションの開発",
+    is_active: true,
+    created_at: "2024-03-10T00:00:00Z",
+    updated_at: "2024-03-10T00:00:00Z",
+    created_by: "user-1",
+  },
+  {
+    id: "project-4",
+    name: "データ基盤構築",
+    description: null,
+    is_active: false,
+    created_at: "2024-01-05T00:00:00Z",
+    updated_at: "2024-04-20T00:00:00Z",
+    created_by: "user-5",
   },
 ];
 

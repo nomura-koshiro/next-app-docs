@@ -1,10 +1,18 @@
 /**
  * プロジェクト管理機能の型定義
  *
+ * ドメインモデル（エンティティ、値オブジェクト、ロール）の定義。
+ * - API レスポンススキーマ: api.ts を参照
+ * - 入力スキーマ: forms.ts を参照
+ *
  * @module features/projects/types
  */
 
 import { z } from "zod";
+
+// ================================================================================
+// ロール関連
+// ================================================================================
 
 /**
  * システムレベルのロールスキーマ
@@ -109,83 +117,24 @@ export const projectMemberSchema = z.object({
  */
 export type ProjectMember = z.infer<typeof projectMemberSchema>;
 
-/**
- * プロジェクトメンバー一覧の出力型
- */
-export type ProjectMembersOutput = {
-  data: ProjectMember[];
-};
+// ================================================================================
+// Re-export
+// ================================================================================
 
 /**
- * プロジェクトメンバー詳細の出力型
+ * API レスポンス型とスキーマをre-export
  */
-export type ProjectMemberOutput = {
-  data: ProjectMember;
-};
+export type { CreateProjectOutput, ErrorOutput, ProjectMemberOutput, ProjectMembersOutput, ProjectOutput, ProjectsOutput } from "./api";
+export {
+  createProjectOutputSchema,
+  projectMemberOutputSchema,
+  projectMembersOutputSchema,
+  projectOutputSchema,
+  projectsOutputSchema,
+} from "./api";
 
 /**
- * プロジェクトメンバー追加入力スキーマ
+ * 入力型とスキーマをre-export
  */
-export const addProjectMemberSchema = z.object({
-  user_id: z.string(),
-  role: projectRoleSchema,
-});
-
-/**
- * プロジェクトメンバー追加入力型
- */
-export type AddProjectMemberInput = z.infer<typeof addProjectMemberSchema>;
-
-/**
- * プロジェクトメンバー複数追加入力スキーマ
- */
-export const bulkAddMembersSchema = z.object({
-  members: z.array(
-    z.object({
-      user_id: z.string(),
-      role: projectRoleSchema,
-    })
-  ),
-});
-
-/**
- * プロジェクトメンバー複数追加入力型
- */
-export type BulkAddMembersInput = z.infer<typeof bulkAddMembersSchema>;
-
-/**
- * プロジェクトメンバーロール更新入力スキーマ
- */
-export const updateMemberRoleSchema = z.object({
-  role: projectRoleSchema,
-});
-
-/**
- * プロジェクトメンバーロール更新入力型
- */
-export type UpdateMemberRoleInput = z.infer<typeof updateMemberRoleSchema>;
-
-/**
- * プロジェクトメンバー複数ロール更新入力スキーマ
- */
-export const bulkUpdateRolesSchema = z.object({
-  updates: z.array(
-    z.object({
-      member_id: z.string(),
-      role: projectRoleSchema,
-    })
-  ),
-});
-
-/**
- * プロジェクトメンバー複数ロール更新入力型
- */
-export type BulkUpdateRolesInput = z.infer<typeof bulkUpdateRolesSchema>;
-
-/**
- * エラー出力型
- */
-export type ErrorOutput = {
-  message: string;
-  detail?: string;
-};
+export type { AddProjectMemberInput, BulkAddMembersInput, BulkUpdateRolesInput, CreateProjectInput, UpdateMemberRoleInput } from "./forms";
+export { addProjectMemberSchema, bulkAddMembersSchema, bulkUpdateRolesSchema, createProjectSchema, updateMemberRoleSchema } from "./forms";

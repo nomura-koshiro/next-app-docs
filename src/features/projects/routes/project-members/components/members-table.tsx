@@ -1,8 +1,7 @@
 "use client";
 
 import { RoleBadge } from "../../../components/role-badge";
-import type { ProjectMember, ProjectRole } from "../../../types";
-import { ProjectRoleInputSchema } from "../schemas/role-input.schema";
+import { type ProjectMember, type ProjectRole, projectRoleSchema } from "../../../types";
 
 type MembersTableProps = {
   members: ProjectMember[];
@@ -95,7 +94,7 @@ export const MembersTable = ({ members, onRoleChange, onRemoveMember, isLoading 
                         const userInput = prompt("新しいロールを選択してください\n(project_manager, project_moderator, member, viewer)");
                         if (userInput) {
                           // ✅ Zodスキーマでバリデーション（危険なユーザー入力を検証）
-                          const result = ProjectRoleInputSchema.safeParse(userInput);
+                          const result = projectRoleSchema.safeParse(userInput);
                           if (result.success) {
                             onRoleChange(member.id, result.data as ProjectRole);
                           } else {
