@@ -133,7 +133,8 @@
       "Bash(npm run lint:fix:*)",
       "Bash(test:*)",
       "Bash(do mv \"$file\" \"$file%.schema.ts.ts\")",
-      "Bash(touch:*)"
+      "Bash(touch:*)",
+      "Bash(git mv:*)"
     ],
     "deny": [],
     "ask": []

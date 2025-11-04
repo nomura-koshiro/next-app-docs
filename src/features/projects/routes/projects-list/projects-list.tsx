@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense } from "react";
+import { Suspense, useState } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 
 import { MainErrorFallback } from "@/components/errors/main";
@@ -9,20 +9,33 @@ import { PageLayout } from "@/components/layout/page-layout";
 import { Button } from "@/components/sample-ui/button";
 import { LoadingSpinner } from "@/components/sample-ui/loading-spinner";
 
-import { ProjectsTable } from "./components/projects-table";
+import { CreateProjectDialog, ProjectsTable } from "./components";
 import { useProjectsListLogic } from "./projects-list.hook";
 
 /**
  * プロジェクト一覧ページのコンテンツ
  */
 const ProjectsListContent = () => {
-  const { projects, handleCreateNew, handleViewProject, handleViewMembers } = useProjectsListLogic();
+  const { projects, handleCreate, handleViewProject, handleViewMembers, isCreating } = useProjectsListLogic();
+
+  // ================================================================================
+  // State
+  // ================================================================================
+  const [showCreateDialog, setShowCreateDialog] = useState(false);
 
   return (
     <PageLayout>
-      <PageHeader title="プロジェクト一覧" action={<Button onClick={handleCreateNew}>新規プロジェクト作成</Button>} />
+      <PageHeader title="プロジェクト一覧" action={<Button onClick={() => setShowCreateDialog(true)}>新規プロジェクト作成</Button>} />
 
       <ProjectsTable projects={projects} onViewProject={handleViewProject} onViewMembers={handleViewMembers} />
+
+      {/* 新規作成ダイアログ */}
+      <CreateProjectDialog
+        isOpen={showCreateDialog}
+        onClose={() => setShowCreateDialog(false)}
+        onCreate={handleCreate}
+        isCreating={isCreating}
+      />
     </PageLayout>
   );
 };

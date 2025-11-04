@@ -12,7 +12,7 @@ import { z } from "zod";
 import { projectMemberSchema, projectSchema } from ".";
 
 // ================================================================================
-// API レスポンススキーマ
+// プロジェクトレスポンススキーマ
 // ================================================================================
 
 /**
@@ -58,6 +58,24 @@ export const createProjectOutputSchema = z.object({
 export type CreateProjectOutput = z.infer<typeof createProjectOutputSchema>;
 
 /**
+ * プロジェクト更新レスポンススキーマ
+ *
+ * PUT /api/v1/projects/:id のレスポンス
+ */
+export const updateProjectOutputSchema = z.object({
+  data: projectSchema,
+});
+
+/**
+ * プロジェクト更新レスポンス型
+ */
+export type UpdateProjectOutput = z.infer<typeof updateProjectOutputSchema>;
+
+// ================================================================================
+// プロジェクトメンバーレスポンススキーマ
+// ================================================================================
+
+/**
  * プロジェクトメンバー一覧レスポンススキーマ
  *
  * GET /api/v1/projects/:projectId/members のレスポンス
@@ -84,6 +102,10 @@ export const projectMemberOutputSchema = z.object({
  * プロジェクトメンバー詳細レスポンス型
  */
 export type ProjectMemberOutput = z.infer<typeof projectMemberOutputSchema>;
+
+// ================================================================================
+// エラーレスポンス
+// ================================================================================
 
 /**
  * エラーレスポンス型

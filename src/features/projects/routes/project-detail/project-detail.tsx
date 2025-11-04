@@ -1,6 +1,7 @@
 "use client";
 
-import { Suspense } from "react";
+import { useParams } from "next/navigation";
+import { Suspense, useState } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 
 import { MainErrorFallback } from "@/components/errors/main";
@@ -9,18 +10,33 @@ import { PageLayout } from "@/components/layout/page-layout";
 import { Button } from "@/components/sample-ui/button";
 import { LoadingSpinner } from "@/components/sample-ui/loading-spinner";
 
-import { ProjectInfo } from "./components/project-info";
+import { ProjectDetailParamsSchema } from "../../types";
+import { DeleteProjectDialog, EditProjectDialog, ProjectInfo } from "./components";
 import { useProjectDetailLogic } from "./project-detail.hook";
-
-type ProjectDetailProps = {
-  projectId: string;
-};
 
 /**
  * プロジェクト詳細ページのコンテンツ
  */
-const ProjectDetailContent = ({ projectId }: ProjectDetailProps) => {
-  const { project, handleBackToList, handleViewMembers } = useProjectDetailLogic({ projectId });
+const ProjectDetailContent = () => {
+  const params = useParams();
+  const { id: projectId } = ProjectDetailParamsSchema.parse(params);
+  const { project, handleBackToList, handleViewMembers, handleUpdate, handleDelete, deleteError, isDeleting, isUpdating } =
+    useProjectDetailLogic({
+      projectId,
+    });
+
+  // ================================================================================
+  // State
+  // ================================================================================
+  const [showEditDialog, setShowEditDialog] = useState(false);
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+
+  // ================================================================================
+  // Handlers
+  // ================================================================================
+  const confirmDelete = () => {
+    handleDelete();
+  };
 
   return (
     <PageLayout>
@@ -31,12 +47,37 @@ const ProjectDetailContent = ({ projectId }: ProjectDetailProps) => {
             <Button variant="outline" onClick={handleBackToList}>
               一覧に戻る
             </Button>
+            <Button variant="outline" onClick={() => setShowEditDialog(true)}>
+              編集
+            </Button>
+            <Button variant="destructive" onClick={() => setShowDeleteDialog(true)} disabled={isDeleting}>
+              削除
+            </Button>
             <Button onClick={handleViewMembers}>メンバー管理</Button>
           </div>
         }
       />
 
       <ProjectInfo project={project} />
+
+      {/* 編集ダイアログ */}
+      <EditProjectDialog
+        isOpen={showEditDialog}
+        onClose={() => setShowEditDialog(false)}
+        project={project}
+        onUpdate={handleUpdate}
+        isUpdating={isUpdating}
+      />
+
+      {/* 削除確認ダイアログ */}
+      <DeleteProjectDialog
+        isOpen={showDeleteDialog}
+        onClose={() => setShowDeleteDialog(false)}
+        project={project}
+        onDelete={confirmDelete}
+        isDeleting={isDeleting}
+        error={deleteError}
+      />
     </PageLayout>
   );
 };
@@ -47,11 +88,11 @@ const ProjectDetailContent = ({ projectId }: ProjectDetailProps) => {
  * TanStack QueryのSuspense機能を使用してデータフェッチを行います。
  * プロジェクトの詳細情報を表示し、メンバー管理ページへの遷移を提供します。
  */
-const ProjectDetail = ({ projectId }: ProjectDetailProps) => {
+const ProjectDetail = () => {
   return (
     <ErrorBoundary FallbackComponent={MainErrorFallback}>
       <Suspense fallback={<LoadingSpinner fullScreen />}>
-        <ProjectDetailContent projectId={projectId} />
+        <ProjectDetailContent />
       </Suspense>
     </ErrorBoundary>
   );

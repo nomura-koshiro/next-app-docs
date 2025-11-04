@@ -28,6 +28,20 @@ export const createProjectSchema = z.object({
  */
 export type CreateProjectInput = z.infer<typeof createProjectSchema>;
 
+/**
+ * プロジェクト更新入力スキーマ
+ */
+export const updateProjectSchema = z.object({
+  name: z.string().min(1, "プロジェクト名は必須です").max(100, "プロジェクト名は100文字以内で入力してください"),
+  description: z.string().max(500, "説明は500文字以内で入力してください").nullable().optional(),
+  is_active: z.boolean(),
+});
+
+/**
+ * プロジェクト更新入力型
+ */
+export type UpdateProjectInput = z.infer<typeof updateProjectSchema>;
+
 // ================================================================================
 // プロジェクトメンバー入力スキーマ
 // ================================================================================
@@ -46,6 +60,22 @@ export const addProjectMemberSchema = z.object({
 export type AddProjectMemberInput = z.infer<typeof addProjectMemberSchema>;
 
 /**
+ * メンバーロール更新入力スキーマ
+ */
+export const updateMemberRoleSchema = z.object({
+  role: projectRoleSchema,
+});
+
+/**
+ * メンバーロール更新入力型
+ */
+export type UpdateMemberRoleInput = z.infer<typeof updateMemberRoleSchema>;
+
+// ================================================================================
+// 一括操作入力スキーマ
+// ================================================================================
+
+/**
  * メンバー一括追加入力スキーマ
  */
 export const bulkAddMembersSchema = z.object({
@@ -61,18 +91,6 @@ export const bulkAddMembersSchema = z.object({
  * メンバー一括追加入力型
  */
 export type BulkAddMembersInput = z.infer<typeof bulkAddMembersSchema>;
-
-/**
- * メンバーロール更新入力スキーマ
- */
-export const updateMemberRoleSchema = z.object({
-  role: projectRoleSchema,
-});
-
-/**
- * メンバーロール更新入力型
- */
-export type UpdateMemberRoleInput = z.infer<typeof updateMemberRoleSchema>;
 
 /**
  * ロール一括更新入力スキーマ

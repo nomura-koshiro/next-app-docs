@@ -1,6 +1,9 @@
-import { useCallback } from "react";
+"use client";
+
+import { useRouter } from "next/navigation";
 
 import { useAddProjectMember, useProjectMembers, useRemoveProjectMember, useUpdateMemberRole } from "../../api";
+import { useProject } from "../../api/get-project";
 import type { ProjectRole } from "../../types";
 import type { AddProjectMemberInput, UpdateMemberRoleInput } from "../../types/forms";
 
@@ -20,6 +23,7 @@ type UseProjectMembersOptions = {
  * const {
  *   members,
  *   isLoading,
+ *   handleBackToDetail,
  *   handleAddMember,
  *   handleUpdateRole,
  *   handleRemoveMember
@@ -27,6 +31,15 @@ type UseProjectMembersOptions = {
  * ```
  */
 export const useProjectMembersLogic = ({ projectId }: UseProjectMembersOptions) => {
+  // ================================================================================
+  // Hooks
+  // ================================================================================
+  const router = useRouter();
+
+  // プロジェクト情報取得
+  const { data: projectData } = useProject({ projectId });
+  const project = projectData?.data;
+
   // メンバー一覧取得
   const { data, isLoading } = useProjectMembers({ projectId });
 
@@ -35,34 +48,37 @@ export const useProjectMembersLogic = ({ projectId }: UseProjectMembersOptions) 
   const updateRoleMutation = useUpdateMemberRole({ projectId });
   const removeMemberMutation = useRemoveProjectMember({ projectId });
 
+  // ================================================================================
+  // Handlers
+  // ================================================================================
+  /**
+   * プロジェクト詳細へ戻る
+   */
+  const handleBackToDetail = () => {
+    router.push(`/projects/${projectId}`);
+  };
+
   // メンバー追加
-  const handleAddMember = useCallback(
-    async (data: AddProjectMemberInput) => {
-      await addMemberMutation.mutateAsync(data);
-    },
-    [addMemberMutation]
-  );
+  const handleAddMember = async (data: AddProjectMemberInput) => {
+    await addMemberMutation.mutateAsync(data);
+  };
 
   // ロール更新
-  const handleUpdateRole = useCallback(
-    async (memberId: string, role: ProjectRole) => {
-      const data: UpdateMemberRoleInput = { role };
-      await updateRoleMutation.mutateAsync({ memberId, data });
-    },
-    [updateRoleMutation]
-  );
+  const handleUpdateRole = async (memberId: string, role: ProjectRole) => {
+    const data: UpdateMemberRoleInput = { role };
+    await updateRoleMutation.mutateAsync({ memberId, data });
+  };
 
   // メンバー削除
-  const handleRemoveMember = useCallback(
-    async (memberId: string) => {
-      await removeMemberMutation.mutateAsync({ memberId });
-    },
-    [removeMemberMutation]
-  );
+  const handleRemoveMember = async (memberId: string) => {
+    await removeMemberMutation.mutateAsync({ memberId });
+  };
 
   return {
+    project,
     members: data?.data ?? [],
     isLoading,
+    handleBackToDetail,
     isAdding: addMemberMutation.isPending,
     isUpdating: updateRoleMutation.isPending,
     isRemoving: removeMemberMutation.isPending,

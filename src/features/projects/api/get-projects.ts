@@ -29,7 +29,7 @@ export const getProjects = async (): Promise<ProjectsOutput> => {
 
 export const getProjectsQueryOptions = () => {
   return queryOptions({
-    queryKey: ["projects"],
+    queryKey: ["projects"] as const,
     queryFn: getProjects,
   });
 };

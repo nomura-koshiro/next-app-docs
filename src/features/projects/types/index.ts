@@ -4,6 +4,7 @@
  * ドメインモデル（エンティティ、値オブジェクト、ロール）の定義。
  * - API レスポンススキーマ: api.ts を参照
  * - 入力スキーマ: forms.ts を参照
+ * - ルートパラメータスキーマ: このファイル内で定義
  *
  * @module features/projects/types
  */
@@ -11,7 +12,7 @@
 import { z } from "zod";
 
 // ================================================================================
-// ロール関連
+// ロール・権限関連（値オブジェクト）
 // ================================================================================
 
 /**
@@ -59,6 +60,10 @@ export const permissionSchema = z.enum([
  * 権限の種類型
  */
 export type Permission = z.infer<typeof permissionSchema>;
+
+// ================================================================================
+// エンティティ（ドメインモデル）
+// ================================================================================
 
 /**
  * ユーザー情報スキーマ
@@ -116,3 +121,41 @@ export const projectMemberSchema = z.object({
  * プロジェクトメンバー情報型
  */
 export type ProjectMember = z.infer<typeof projectMemberSchema>;
+
+// ================================================================================
+// ルートパラメータ（パスパラメータ）
+// ================================================================================
+
+/**
+ * プロジェクト詳細ルート パラメータスキーマ
+ *
+ * /projects/[id] のパラメータを検証
+ *
+ * @example
+ * ```tsx
+ * const params = useParams();
+ * const { id: projectId } = ProjectDetailParamsSchema.parse(params);
+ * ```
+ */
+export const ProjectDetailParamsSchema = z.object({
+  id: z.string().min(1, "プロジェクトIDは必須です"),
+});
+
+export type ProjectDetailParams = z.infer<typeof ProjectDetailParamsSchema>;
+
+/**
+ * プロジェクトメンバー管理ルート パラメータスキーマ
+ *
+ * /projects/[id]/members のパラメータを検証
+ *
+ * @example
+ * ```tsx
+ * const params = useParams();
+ * const { id: projectId } = ProjectMembersParamsSchema.parse(params);
+ * ```
+ */
+export const ProjectMembersParamsSchema = z.object({
+  id: z.string().min(1, "プロジェクトIDは必須です"),
+});
+
+export type ProjectMembersParams = z.infer<typeof ProjectMembersParamsSchema>;

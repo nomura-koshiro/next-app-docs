@@ -28,9 +28,9 @@ export const getProject = async ({ projectId }: { projectId: string }): Promise<
   return projectOutputSchema.parse(response);
 };
 
-export const getProjectQueryOptions = (projectId: string) => {
+export const getProjectQueryOptions = ({ projectId }: { projectId: string }) => {
   return queryOptions({
-    queryKey: ["projects", projectId],
+    queryKey: ["projects", projectId] as const,
     queryFn: () => getProject({ projectId }),
   });
 };
@@ -55,7 +55,7 @@ type UseProjectOptions = {
  */
 export const useProject = ({ projectId, queryConfig }: UseProjectOptions) => {
   return useSuspenseQuery({
-    ...getProjectQueryOptions(projectId),
+    ...getProjectQueryOptions({ projectId }),
     ...queryConfig,
   });
 };

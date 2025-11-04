@@ -1,3 +1,1 @@
-export * from "./components";
-export * from "./project-members";
-export * from "./project-members.hook";
+export { default } from "./project-members";

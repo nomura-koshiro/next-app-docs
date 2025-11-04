@@ -7,14 +7,6 @@ export const metadata: Metadata = {
   description: "プロジェクトの詳細情報を表示します。",
 };
 
-type PageProps = {
-  params: Promise<{
-    id: string;
-  }>;
-};
-
-export default async function ProjectDetailPage({ params }: PageProps) {
-  const { id } = await params;
-
-  return <ProjectDetail projectId={id} />;
+export default function ProjectDetailPage() {
+  return <ProjectDetail />;
 }
