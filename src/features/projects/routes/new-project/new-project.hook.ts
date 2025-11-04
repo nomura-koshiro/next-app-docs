@@ -6,7 +6,7 @@ import { useCallback } from "react";
 import { useForm } from "react-hook-form";
 
 import { useCreateProject } from "../../api";
-import { type CreateProjectInput, createProjectSchema } from "../../types";
+import { type CreateProjectInput, createProjectSchema } from "../../types/forms";
 
 /**
  * 新規プロジェクト作成ページのロジックを管理するカスタムフック

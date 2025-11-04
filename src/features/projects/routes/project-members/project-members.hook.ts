@@ -1,7 +1,8 @@
 import { useCallback } from "react";
 
 import { useAddProjectMember, useProjectMembers, useRemoveProjectMember, useUpdateMemberRole } from "../../api";
-import type { AddProjectMemberInput, ProjectRole, UpdateMemberRoleInput } from "../../types";
+import type { ProjectRole } from "../../types";
+import type { AddProjectMemberInput, UpdateMemberRoleInput } from "../../types/forms";
 
 type UseProjectMembersOptions = {
   projectId: string;

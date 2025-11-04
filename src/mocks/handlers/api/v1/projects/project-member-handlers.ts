@@ -4,15 +4,8 @@
 
 import { http, HttpResponse } from "msw";
 
-import type {
-  AddProjectMemberInput,
-  BulkUpdateRolesInput,
-  Project,
-  ProjectMember,
-  ProjectRole,
-  UpdateMemberRoleInput,
-  User,
-} from "@/features/projects/types";
+import type { Project, ProjectMember, ProjectRole, User } from "@/features/projects/types";
+import type { AddProjectMemberInput, BulkUpdateRolesInput, UpdateMemberRoleInput } from "@/features/projects/types/forms";
 
 // ================================================================================
 // モックデータ

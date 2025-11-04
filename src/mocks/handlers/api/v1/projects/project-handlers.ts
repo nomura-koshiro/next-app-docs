@@ -4,7 +4,8 @@
 
 import { http, HttpResponse } from "msw";
 
-import type { CreateProjectInput, Project } from "@/features/projects/types";
+import type { Project } from "@/features/projects/types";
+import type { CreateProjectInput } from "@/features/projects/types/forms";
 
 import { mockProjects } from "./project-member-handlers";
 

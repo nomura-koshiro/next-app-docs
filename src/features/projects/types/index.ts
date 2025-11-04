@@ -66,13 +66,13 @@ export type Permission = z.infer<typeof permissionSchema>;
 export const userSchema = z.object({
   id: z.string(),
   azure_oid: z.string(),
-  email: z.string().email(),
+  email: z.email(),
   display_name: z.string().nullable(),
   roles: z.array(systemRoleSchema),
   is_active: z.boolean(),
-  created_at: z.string().datetime(),
-  updated_at: z.string().datetime(),
-  last_login: z.string().datetime().nullable(),
+  created_at: z.iso.datetime(),
+  updated_at: z.iso.datetime(),
+  last_login: z.iso.datetime().nullable(),
 });
 
 /**
@@ -88,8 +88,8 @@ export const projectSchema = z.object({
   name: z.string().min(1, "プロジェクト名は必須です"),
   description: z.string().nullable(),
   is_active: z.boolean(),
-  created_at: z.string().datetime(),
-  updated_at: z.string().datetime(),
+  created_at: z.iso.datetime(),
+  updated_at: z.iso.datetime(),
   created_by: z.string(),
 });
 
@@ -106,8 +106,8 @@ export const projectMemberSchema = z.object({
   project_id: z.string(),
   user_id: z.string(),
   role: projectRoleSchema,
-  joined_at: z.string().datetime(),
-  updated_at: z.string().datetime(),
+  joined_at: z.iso.datetime(),
+  updated_at: z.iso.datetime(),
   user: userSchema.optional(),
   project: projectSchema.optional(),
 });
@@ -116,25 +116,3 @@ export const projectMemberSchema = z.object({
  * プロジェクトメンバー情報型
  */
 export type ProjectMember = z.infer<typeof projectMemberSchema>;
-
-// ================================================================================
-// Re-export
-// ================================================================================
-
-/**
- * API レスポンス型とスキーマをre-export
- */
-export type { CreateProjectOutput, ErrorOutput, ProjectMemberOutput, ProjectMembersOutput, ProjectOutput, ProjectsOutput } from "./api";
-export {
-  createProjectOutputSchema,
-  projectMemberOutputSchema,
-  projectMembersOutputSchema,
-  projectOutputSchema,
-  projectsOutputSchema,
-} from "./api";
-
-/**
- * 入力型とスキーマをre-export
- */
-export type { AddProjectMemberInput, BulkAddMembersInput, BulkUpdateRolesInput, CreateProjectInput, UpdateMemberRoleInput } from "./forms";
-export { addProjectMemberSchema, bulkAddMembersSchema, bulkUpdateRolesSchema, createProjectSchema, updateMemberRoleSchema } from "./forms";
