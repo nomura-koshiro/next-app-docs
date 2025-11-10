@@ -21,9 +21,11 @@ const config: StorybookConfig = {
   async viteFinal(config) {
     // Storybook用の環境変数を追加
     // NEXT_PUBLIC_STORYBOOK_PORTを設定して、env.tsで検出できるようにする
+    // NEXT_PUBLIC_ENABLE_API_MOCKINGをfalseに設定（MSW Storybook Addonが管理するため）
     config.define = {
       ...config.define,
       'process.env.NEXT_PUBLIC_STORYBOOK_PORT': JSON.stringify('6006'),
+      'process.env.NEXT_PUBLIC_ENABLE_API_MOCKING': JSON.stringify('false'),
     };
 
     return config;

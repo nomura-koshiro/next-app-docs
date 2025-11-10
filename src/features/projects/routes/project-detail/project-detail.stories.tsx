@@ -76,14 +76,34 @@ type Story = StoryObj<typeof meta>;
  */
 export const Default: Story = {
   name: "デフォルト",
-  args: {
-    projectId: "1",
-  },
   parameters: {
+    nextjs: {
+      navigation: {
+        pathname: "/projects/1",
+        segments: [["id", "1"]],
+      },
+    },
     docs: {
       description: {
         story: "プロジェクト詳細ページの初期状態。プロジェクトデータが正常に読み込まれ、詳細情報が表示されます。",
       },
+    },
+    msw: {
+      handlers: [
+        http.get("*/api/v1/projects/:id", () => {
+          return HttpResponse.json({
+            data: {
+              id: "1",
+              name: "サンプルプロジェクト",
+              description: "プロジェクトの説明",
+              is_active: true,
+              created_at: "2024-01-01T00:00:00Z",
+              updated_at: "2024-01-01T00:00:00Z",
+              created_by: "user-1",
+            },
+          });
+        }),
+      ],
     },
   },
 };
@@ -94,10 +114,13 @@ export const Default: Story = {
  */
 export const Loading: Story = {
   name: "ローディング中",
-  args: {
-    projectId: "1",
-  },
   parameters: {
+    nextjs: {
+      navigation: {
+        pathname: "/projects/1",
+        segments: [["id", "1"]],
+      },
+    },
     docs: {
       description: {
         story: "プロジェクトデータの読み込み中の状態。ローディングスピナーが表示されます。",
@@ -138,10 +161,13 @@ export const Loading: Story = {
  */
 export const WithError: Story = {
   name: "エラー",
-  args: {
-    projectId: "999",
-  },
   parameters: {
+    nextjs: {
+      navigation: {
+        pathname: "/projects/999",
+        segments: [["id", "999"]],
+      },
+    },
     docs: {
       description: {
         story: "プロジェクトデータの読み込みに失敗した場合の状態。存在しないIDを指定するとエラーメッセージが表示されます。",
@@ -170,10 +196,13 @@ export const WithError: Story = {
  */
 export const InactiveProject: Story = {
   name: "非アクティブなプロジェクト",
-  args: {
-    projectId: "2",
-  },
   parameters: {
+    nextjs: {
+      navigation: {
+        pathname: "/projects/2",
+        segments: [["id", "2"]],
+      },
+    },
     docs: {
       description: {
         story: "非アクティブなプロジェクトの詳細。is_activeフラグがfalseの場合の表示。",

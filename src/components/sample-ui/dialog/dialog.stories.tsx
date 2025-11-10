@@ -342,8 +342,8 @@ export const WithInteraction: Story = {
     const triggerButton = canvas.getByRole("button", { name: /ダイアログを開く/i });
     await userEvent.click(triggerButton);
 
-    // ダイアログが開いたことを確認
-    const dialog = await canvas.findByRole("dialog");
+    // ダイアログが開いたことを確認（Portalでレンダリングされるためdocument.bodyから検索）
+    const dialog = await within(document.body).findByRole("dialog");
     expect(dialog).toBeInTheDocument();
 
     // タイトルが表示されていることを確認
