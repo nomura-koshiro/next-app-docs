@@ -83,7 +83,7 @@ const mockMembers: ProjectMember[] = [
 ];
 
 const meta = {
-  title: "Features/Projects/Routes/ProjectMembers/MembersTable",
+  title: "features/projects/routes/project-members/components/MembersTable",
   component: MembersTable,
   parameters: {
     layout: "padded",

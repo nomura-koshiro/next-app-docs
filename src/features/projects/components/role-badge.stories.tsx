@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { RoleBadge } from "./role-badge";
 
 const meta = {
-  title: "Features/Projects/Components/RoleBadge",
+  title: "features/projects/components/RoleBadge",
   component: RoleBadge,
   parameters: {
     layout: "centered",
