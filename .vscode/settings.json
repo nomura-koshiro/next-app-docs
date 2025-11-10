@@ -31,7 +31,7 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[css]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": false,
     "editor.codeActionsOnSave": {
       "source.fixAll.stylelint": "explicit"
     }
@@ -59,6 +59,14 @@
   // Prettier設定
   // ========================================
   "prettier.requireConfig": true,
+  "prettier.printWidth": 140,
+  "prettier.semi": true,
+  "prettier.trailingComma": "es5",
+  "prettier.singleQuote": false,
+  "prettier.tabWidth": 2,
+  "prettier.useTabs": false,
+  "prettier.arrowParens": "always",
+  "prettier.endOfLine": "auto",
 
   // ========================================
   // Stylelint設定
