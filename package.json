@@ -10,6 +10,7 @@
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
     "start": "next start",
+    "prepare": "husky",
     "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json,css,scss,md}\"",
     "format:check": "prettier --check \"src/**/*.{ts,tsx,js,jsx,json,css,scss,md}\"",
     "lint": "eslint src",
@@ -95,6 +96,8 @@
     "eslint-plugin-storybook": "9.1.10",
     "eslint-plugin-tailwindcss": "^3.18.2",
     "eslint-plugin-unused-imports": "^4.2.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.6",
     "msw": "^2.11.5",
     "msw-storybook-addon": "^2.0.5",
     "playwright": "^1.56.0",
@@ -112,6 +115,18 @@
   "msw": {
     "workerDirectory": [
       "public"
+    ]
+  },
+  "lint-staged": {
+    "src/**/*.{ts,tsx,js,jsx,json,md}": [
+      "prettier --write",
+      "eslint --fix"
+    ],
+    "src/**/*.css": [
+      "stylelint --fix"
+    ],
+    "src/**/*.{ts,tsx}": [
+      "bash -c 'tsc --noEmit'"
     ]
   }
 }
